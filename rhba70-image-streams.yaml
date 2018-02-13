@@ -1,0 +1,84 @@
+kind: List
+apiVersion: v1
+metadata:
+  name: rhba70-image-streams
+  annotations:
+    description: ImageStream definitions for Red Hat Business Automation 7.0
+    openshift.io/provider-display-name: Red Hat, Inc.
+items:
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhba70-businesscentral-openshift
+    annotations:
+      openshift.io/display-name: Red Hat Business Central 7.0
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Red Hat Business Automation 7.0 - Business Central image.
+        iconClass: icon-jboss
+        tags: rhba,xpaas
+        supports: rhba:7.0,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/rhba70-businesscentral-openshift:1.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhba70-kieserver-openshift
+    annotations:
+      openshift.io/display-name: Red Hat Business Automation KIE Server 7.0
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Red Hat Business Automation 7.0 - KIE Server image.
+        iconClass: icon-jboss
+        tags: rhba,xpaas
+        supports: rhba:7.0,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/rhba70-kieserver-openshift:1.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhba70-controller-openshift
+    annotations:
+      openshift.io/display-name: Red Hat Business Automation Standalone Controller 7.0
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Red Hat Business Automation 7.0 - Standalone Controller image.
+        iconClass: icon-jboss
+        tags: rhba,xpaas
+        supports: rhba:7.0,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/rhba70-controller-openshift:1.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhba70-smartrouter-openshift
+    annotations:
+      openshift.io/display-name: Red Hat Business Automation Smart Router 7.0
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Red Hat Business Automation 7.0 - Smart Router image.
+        iconClass: icon-jboss
+        tags: rhba,xpaas
+        supports: rhba:7.0,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/rhba70-smartrouter-openshift:1.0

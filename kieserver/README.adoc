@@ -1,0 +1,8 @@
+# Red Hat Business Automation 7 - Kie Server OpenShift container image
+
+NOTE: Extends link:https://github.com/jboss-container-images/rhba-7-image/tree/rhba70-dev/kieserver[Red Hat Business Automation Execution Server 7.0 container image]
+
+# License
+
+See link:../LICENSE[LICENSE] file.
+

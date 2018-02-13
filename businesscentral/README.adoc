@@ -1,0 +1,8 @@
+# Red Hat Business Automation 7 - Business Central OpenShift container image
+
+NOTE: Extends link:https://github.com/jboss-container-images/rhba-7-image[Red Hat Business Automation 7.0 container image]
+
+# License
+
+See link:../LICENSE[LICENSE] file.
+
