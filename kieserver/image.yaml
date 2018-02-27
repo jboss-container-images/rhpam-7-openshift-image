@@ -329,8 +329,11 @@ ports:
 modules:
       repositories:
           - git:
-                  url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
+              url: https://github.com/jboss-openshift/cct_module.git
+              ref: master
+          - git:
+              url: https://github.com/jboss-container-images/jboss-kie-modules.git
+              ref: master
       install:
           - name: dynamic-resources
           - name: s2i-common
@@ -361,8 +364,8 @@ modules:
           - name: os-eap-extensions
           - name: openshift-layer
           - name: openshift-passwd
-          - name: os-bpmsuite-common
-          - name: os-bpmsuite-executionserver
+          - name: os.bpmsuite.common
+          - name: os.bpmsuite.executionserver
           - name: jboss-maven
 packages:
       repositories:
