@@ -298,8 +298,8 @@ modules:
           - name: os-eap-extensions
           - name: openshift-layer
           - name: openshift-passwd
-          - name: os-bpmsuite-common
-          - name: os-bpmsuite-businesscentral
+          - name: os.bpmsuite.common
+          - name: os.bpmsuite.businesscentral
           - name: jboss-maven
 packages:
       repositories:

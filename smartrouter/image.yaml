@@ -64,7 +64,7 @@ modules:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
               ref: master
       install:
-          - name: os-bpmsuite-smartrouter
+          - name: os.bpmsuite.smartrouter
           - name: jboss-maven
 artifacts:
     - url: https://maven.repository.redhat.com/ga/org/slf4j/slf4j-simple/1.7.7.redhat-2/slf4j-simple-1.7.7.redhat-2.jar
