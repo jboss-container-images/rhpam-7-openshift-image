@@ -1,23 +1,19 @@
 schema_version: 1
 
-name: "rhba-7/rhba70-kieserver-openshift"
-description: "Red Hat Business Automation Kie Server 7.0 container image"
+name: "rhba-7/rhba70-businesscentral-monitoring-openshift"
+description: "Red Hat Business Central Monitoring 7.0 OpenShift container image"
 version: "1.0"
-from: "rhba-7/rhba70-kieserver:latest"
+from: "rhba-7/rhba70-businesscentral-monitoring:latest"
 labels:
     - name: "io.k8s.description"
-      value: "Platform for running Red Hat Business Automation Execution Server"
+      value: "Platform for running Red Hat Business Central Monitoring"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Automation Execution Server 7.0"
+      value: "Red Hat Business Central Monitoring 7.0"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
-      value: "builder,javaee,eap,eap7,rhba,rhba7"
-    - name: "io.openshift.s2i.scripts-url"
-      value: "image:///usr/local/s2i"
+      value: "javaee,eap,eap7,rhba,rhba7"
 envs:
-    - name: "STI_BUILDER"
-      value: "jee"
     - name: "JBOSS_MODULES_SYSTEM_PKGS"
       value: "org.jboss.logmanager,jdk.nashorn.api"
     - name: "DEFAULT_ADMIN_USERNAME"
@@ -90,42 +86,12 @@ envs:
     - name: "ENABLE_JSON_LOGGING"
       example: "true"
       description: "Enable JSON-formatted logging"
-    - name: "KIE_SERVER_PROTOCOL"
-      example: "http"
-      description: "KIE execution server protocol (Used to set the org.kie.server.location system property)"
-    - name: "KIE_SERVER_HOST"
-      example: "localhost"
-      description: "KIE execution server host (Used to set the org.kie.server.location system property)"
-    - name: "KIE_SERVER_PORT"
-      example: "8080"
-      description: "KIE execution server port (Used to set the org.kie.server.location system property)"
-    - name: "KIE_SERVER_TOKEN"
-      example: "dasd373egds"
-      description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
-    - name: "KIE_SERVER_USER"
-      example: "executionUser"
-      description: "KIE execution server username for basic authentication (Sets the org.kie.server.user system property)"
-    - name: "KIE_SERVER_PWD"
-      example: "execution1!"
-      description: "KIE execution server password for basic authentication (Sets the org.kie.server.pwd system property)"
-    - name: "KIE_SERVER_ID"
-      example: "business-server"
-      description: "Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property)."
-    - name: "KIE_SERVER_DOMAIN"
-      example: "other"
-      description: "KIE execution server security domain (Sets the org.kie.server.domain system property)"
-    - name: "KIE_SERVER_BYPASS_AUTH_USER"
-      example: "false"
-      description: "KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)"
-    - name: "KIE_SERVER_CONTAINER_DEPLOYMENT"
-      example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
-      description: "KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2"
-    - name: "KIE_SERVER_CONTAINER_DEPLOYMENT_OVERRIDE"
-      example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
-      description: "Used to override application template KIE_SERVER_CONTAINER_DEPLOYMENT from .sti/environment. (optional)"
-    - name: "KIE_SERVER_SYNC_DEPLOY"
-      example: "false"
-      description: "KIE execution server sync startup with containers; hold the startup until containers are loaded (Sets the org.kie.server.sync.deploy system property)"
+    - name: "KIE_ADMIN_USER"
+      example: "adminUser"
+      description: "KIE administrator username"
+    - name: "KIE_ADMIN_PWD"
+      example: "admin1!"
+      description: "KIE administrator password"
     - name: "KIE_SERVER_CONTROLLER_PROTOCOL"
       example: "http"
       description: "KIE server controller protocol (Used to set the org.kie.server.controller system property)"
@@ -147,49 +113,18 @@ envs:
     - name: "KIE_SERVER_CONTROLLER_PWD"
       example: "controller1!"
       description: "KIE server controller password for basic authentication (Sets the org.kie.server.controller.pwd system property)"
-    - name: "KIE_SERVER_PERSISTENCE_DIALECT"
-      example: "org.hibernate.dialect.H2Dialect"
-      description: "KIE execution server persistence dialect (Sets the org.kie.server.persistence.dialect system property)"
-    - name: "KIE_SERVER_PERSISTENCE_DS"
-      example: "java:/jboss/datasources/ExampleDS"
-      description: "KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property)"
-    - name: "KIE_SERVER_PERSISTENCE_TM"
-      example: "org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"
-      description: "KIE execution server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)"
-    - name: "KIE_SERVER_PERSISTENCE_SCHEMA"
-      example: ""
-      description: "KIE execution server persistence default schema (Sets the org.kie.server.persistence.schema system property)"
-    - name: "KIE_SERVER_ROUTER_PROTOCOL"
-      example: "http"
-      description: "KIE server router protocol (Used to set the org.kie.server.router system property)"
-    - name: "KIE_SERVER_ROUTER_SERVICE"
-      example: "smartrouter-myapp"
-      description: "KIE server router service (Used to set the org.kie.server.router system property if host and port aren't set)"
-    - name: "KIE_SERVER_ROUTER_HOST"
-      example: "my-app-router.os.mycloud.com"
-      description: "KIE server router host (Used to set the org.kie.server.router system property)"
-    - name: "KIE_SERVER_ROUTER_PORT"
-      example: "9000"
-      description: "KIE server router port (Used to set the org.kie.server.router system property)"
-    - name: "KIE_EXECUTOR_RETRIES"
-      example: "3"
-      description: "KIE execution server default executor number of retries (Sets the org.kie.executor.retry.count system property)"
-    - name: "KIE_MBEANS"
-      example: "enabled"
-      description: "KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)"
-    - name: "JBPM_HT_CALLBACK_METHOD"
-      example: "custom"
-      description: "Method used to resolve the user roles when operating with human tasks (Sets the org.jbpm.ht.callback system property)"
-    - name: "JBPM_HT_CALLBACK_CLASS"
-      example: "com.example.MyUserTaskCallback"
-      description: "Java class that resolves the user roles when operating with human tasks, when method is 'custom' (Sets the org.jbpm.ht.custom.callback system property)"
-    - name: "JBPM_LOOP_LEVEL_DISABLED"
-      value: "true"
-      example: "true"
-      description: "Disable the count of node instance iterations in process instance (Sets the jbpm.loop.level.disabled system property)"
-    - name: "DROOLS_SERVER_FILTER_CLASSES"
-      example: "true"
-      description: "KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)"
+    - name: "KIE_SERVER_TOKEN"
+      example: "dasd373egds"
+      description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
+    - name: "KIE_SERVER_USER"
+      example: "executionUser"
+      description: "KIE execution server username for basic authentication (Sets the org.kie.server.user system property)"
+    - name: "KIE_SERVER_PWD"
+      example: "execution1!"
+      description: "KIE execution server password for basic authentication (Sets the org.kie.server.pwd system property)"
+    - name: "WORKBENCH_MAX_METASPACE_SIZE"
+      example: "512"
+      description: "The maximum metaspace for the Business Central Monitoring, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
 ports:
     - value: 8080
     - value: 8443
@@ -204,9 +139,7 @@ modules:
               ref: master
       install:
           - name: dynamic-resources
-          - name: s2i-common
           - name: java-alternatives
-          - name: os-eap-s2i
           - name: os-java-jolokia
           - name: jolokia
           - name: os-eap7-openshift
@@ -233,7 +166,7 @@ modules:
           - name: openshift-passwd
           - name: os-logging
           - name: os.bpmsuite.common
-          - name: os.bpmsuite.executionserver
+          - name: os.bpmsuite.businesscentral
 packages:
       repositories:
           - jboss-os
@@ -262,13 +195,11 @@ artifacts:
     - path: rh-sso-7.1.2-saml-eap7-adapter.zip
       description: "Artifact is available on Customer Portal: https://access.redhat.com/jbossnetwork/restricted/softwareDetail.html?softwareId=44801&product=core.service.rhsso&version=7.0&downloadType=distributions"
       sha256: f48b2b15ccfd17589f5a424c689697b8cfefbe95a553ba589c14eaba4978a823
-    - url: slf4j-simple-1.7.22.redhat-1.jar
-      md5: 51c319582c16a07c21e41737e45cb03a
 run:
       user: 185
       cmd:
           - "/opt/eap/bin/openshift-launch.sh"
 osbs:
       repository:
-          name: rhba-7-kieserver-openshift-docker
+          name: rhba-7-businesscentral-monitoring-openshift-docker
           branch: ce-1.0-openshift-rhba-7.0-jdk-8-rhel-7

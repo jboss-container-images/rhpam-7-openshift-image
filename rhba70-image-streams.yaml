@@ -28,22 +28,22 @@ items:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhba70-kieserver-openshift
+    name: rhba70-businesscentral-monitoring-openshift
     annotations:
-      openshift.io/display-name: Red Hat Business Automation KIE Server 7.0
+      openshift.io/display-name: Red Hat Business Central Monitoring 7.0
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Business Automation 7.0 - KIE Server image.
+        description: Red Hat Business Automation 7.0 - Business Central Monitoring image.
         iconClass: icon-jboss
         tags: rhba,xpaas
         supports: rhba:7.0,xpaas:1.4
         version: '1.0'
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhba-7/rhba70-kieserver-openshift:1.0
+        name: registry.access.redhat.com/rhba-7/rhba70-businesscentral-monitoring-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -63,6 +63,25 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhba-7/rhba70-controller-openshift:1.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhba70-kieserver-openshift
+    annotations:
+      openshift.io/display-name: Red Hat Business Automation KIE Server 7.0
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Red Hat Business Automation 7.0 - KIE Server image.
+        iconClass: icon-jboss
+        tags: rhba,xpaas
+        supports: rhba:7.0,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/rhba70-kieserver-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
