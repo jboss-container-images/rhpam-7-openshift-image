@@ -58,17 +58,13 @@ ports:
 modules:
       repositories:
           - git:
-              url: https://github.com/jboss-openshift/cct_module.git
-              ref: master
-          - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
               ref: master
       install:
           - name: os.bpmsuite.smartrouter
-          - name: jboss-maven
 artifacts:
-    - url: https://maven.repository.redhat.com/ga/org/slf4j/slf4j-simple/1.7.7.redhat-2/slf4j-simple-1.7.7.redhat-2.jar
-      md5: 892233d3b702492c3a93034e3ee9c986
+    - url: slf4j-simple-1.7.22.redhat-1.jar
+      md5: 51c319582c16a07c21e41737e45cb03a
 run:
       user: 185
       cmd:
