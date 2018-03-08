@@ -5,6 +5,8 @@ description: "Red Hat Business Automation Kie Server 7.0 container image"
 version: "1.0"
 from: "rhba-7/rhba70-kieserver:latest"
 labels:
+    - name: "com.redhat.component"
+      value: "rhba-7-rhba70-kieserver-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Automation Execution Server"
     - name: "io.k8s.display-name"
@@ -270,5 +272,5 @@ run:
           - "/opt/eap/bin/openshift-launch.sh"
 osbs:
       repository:
-          name: rhba-7-kieserver-openshift-docker
-          branch: ce-1.0-openshift-rhba-7.0-jdk-8-rhel-7
+          name: containers/rhba-7-kieserver-openshift
+          branch: jb-rhba-7.0-kieserver-rhel-7
