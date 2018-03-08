@@ -101,3 +101,22 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhba-7/rhba70-smartrouter-openshift:1.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: elasticsearch-openshift
+    annotations:
+      openshift.io/display-name: Elastic Search 5.6.5
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '1.0'
+      annotations:
+        description: Elastic Search 5.6.5 image.
+        iconClass: icon-jboss
+        tags: elasticsearch,xpaas
+        supports: elasticsearch:5.6.5,xpaas:1.4
+        version: '1.0'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhba-7/elasticsearch-openshift:1.0
