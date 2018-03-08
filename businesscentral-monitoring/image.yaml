@@ -5,6 +5,8 @@ description: "Red Hat Business Central Monitoring 7.0 OpenShift container image"
 version: "1.0"
 from: "rhba-7/rhba70-businesscentral-monitoring:latest"
 labels:
+    - name: "com.redhat.component"
+      value: "rhba-7-rhba70-businesscentral-monitoring-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Monitoring"
     - name: "io.k8s.display-name"
@@ -201,5 +203,5 @@ run:
           - "/opt/eap/bin/openshift-launch.sh"
 osbs:
       repository:
-          name: rhba-7-businesscentral-monitoring-openshift-docker
-          branch: ce-1.0-openshift-rhba-7.0-jdk-8-rhel-7
+          name: containers/rhba-7-businesscentral-monitoring-openshift
+          branch: jb-rhba-7.0-businesscentral-monitoring-rhel-7
