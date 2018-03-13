@@ -176,4 +176,4 @@ run:
 osbs:
       repository:
           name: containers/rhba-7-controller-openshift
-          branch: jb-rhba-7.0-controller-rhel-7
+          branch: jb-rhba-7.0-controller-openshift-rhel-7
