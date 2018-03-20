@@ -122,6 +122,11 @@ parameters:
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
+- displayName: ImageStream Tag
+  description: A named pointer to an image in an image stream. Default is "1.0".
+  name: IMAGE_STREAM_TAG
+  value: "1.0"
+  required: false
 - displayName: Maven mirror URL
   description: Maven mirror to use for S2I builds
   name: MAVEN_MIRROR_URL
@@ -208,7 +213,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: rhba70-kieserver-openshift:1.0
+          name: "rhba70-kieserver-openshift:${IMAGE_STREAM_TAG}"
     output:
       to:
         kind: ImageStreamTag
@@ -305,3 +310,7 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
+          - name: MAVEN_REPO_SERVICE
+            value: "${APPLICATION_NAME}-rhbacentr"
+          - name: MAVEN_REPO_PATH
+            value: "/maven2/"

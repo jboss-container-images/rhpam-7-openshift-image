@@ -3,16 +3,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Red Hat Business Automation 7.0 applications with persistent storage.
+    description: Application template for Red Hat Business Automation 7.0 and MySQL applications.
     iconClass: icon-jboss
     tags: rhba,jboss,xpaas
     version: 1.4.0
-    openshift.io/display-name: Red Hat Business Automation 7.0 applications (Persistent with https)
-  name: rhba70-full-persistent
+    openshift.io/display-name: Red Hat Business Automation 7.0 applications (Ephemeral with https)
+  name: rhba70-full-mysql
 labels:
-  template: rhba70-full-persistent
+  template: rhba70-full-mysql
   xpaas: 1.4.0
-message: A new persistent Business Automation applications have been created in your project.
+message: A new Business Automation applications have been created in your project.
   The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
   For accessing the MySQL database "${DB_DATABASE}" use the credentials ${DB_USERNAME}/${DB_PASSWORD}.
   Please be sure to create the "businesscentral-service-account" and "kieserver-service-account" service accounts
@@ -206,11 +206,6 @@ parameters:
   name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
   value: '30000'
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 512Mi
-  required: true
 - displayName: MySQL Lower Case Table Names
   description: Sets how the table names are stored and compared.
   name: MYSQL_LOWER_CASE_TABLE_NAMES
@@ -257,17 +252,11 @@ parameters:
 - displayName: Maven repository username
   description: Username to access the Maven repository. If using Business Central, will have to match KIE_ADMIN_USER. No default specified.
   name: MAVEN_REPO_USERNAME
-  value: adminUser
   required: false
 - displayName: Maven repository password
   description: Password to access the Maven repository. If using Business Central, will have to match KIE_ADMIN_PWD. No default specified.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: Business Central Volume Capacity
-  description: Size of the persistent storage for Business Central's runtime data.
-  name: BUSINESS_CENTRAL_VOLUME_CAPACITY
-  value: 512Mi
-  required: true
 objects:
 - kind: Service
   apiVersion: v1
@@ -435,8 +424,6 @@ objects:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
-          - name: "${APPLICATION_NAME}-rhbacentr-pvol"
-            mountPath: "/opt/eap/standalone/data/bpmsuite"
           livenessProbe:
             exec:
               command:
@@ -494,9 +481,6 @@ objects:
         - name: businesscentral-keystore-volume
           secret:
             secretName: "${BUSINESS_CENTRAL_HTTPS_SECRET}"
-        - name: "${APPLICATION_NAME}-rhbacentr-pvol"
-          persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-rhbacentr-claim"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -674,9 +658,6 @@ objects:
           ports:
           - containerPort: 3306
             protocol: TCP
-          volumeMounts:
-          - mountPath: "/var/lib/mysql/data"
-            name: "${APPLICATION_NAME}-mysql-pvol"
           env:
           - name: MYSQL_USER
             value: "${DB_USERNAME}"
@@ -694,31 +675,3 @@ objects:
             value: "${MYSQL_FT_MAX_WORD_LEN}"
           - name: MYSQL_AIO
             value: "${MYSQL_AIO}"
-        volumes:
-        - name: "${APPLICATION_NAME}-mysql-pvol"
-          persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-mysql-claim"
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: "${APPLICATION_NAME}-rhbacentr-claim"
-    labels:
-      application: "${APPLICATION_NAME}"
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: "${BUSINESS_CENTRAL_VOLUME_CAPACITY}"
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: "${APPLICATION_NAME}-mysql-claim"
-    labels:
-      application: "${APPLICATION_NAME}"
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: "${DB_VOLUME_CAPACITY}"
