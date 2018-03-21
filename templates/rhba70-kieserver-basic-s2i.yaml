@@ -152,6 +152,11 @@ parameters:
   name: ARTIFACT_DIR
   value: ''
   required: false
+- displayName: Execution Server Container Memory Limit
+  description: Execution Server Container memory limit
+  name: EXCECUTION_SERVER_MEMORY_LIMIT
+  value: 1Gi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -262,6 +267,9 @@ objects:
         - name: "${APPLICATION_NAME}-kieserver"
           image: "${APPLICATION_NAME}-kieserver"
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
           livenessProbe:
             exec:
               command:

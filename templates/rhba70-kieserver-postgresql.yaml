@@ -195,7 +195,12 @@ parameters:
   description: KIE execution server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)
   name: KIE_SERVER_PERSISTENCE_TM
   value: org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform
-  required: false  
+  required: false
+- displayName: Execution Server Container Memory Limit
+  description: Execution Server Container memory limit
+  name: EXCECUTION_SERVER_MEMORY_LIMIT
+  value: 1Gi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -274,6 +279,9 @@ objects:
         - name: "${APPLICATION_NAME}-kieserver"
           image: rhba70-kieserver-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
           livenessProbe:
             exec:
               command:

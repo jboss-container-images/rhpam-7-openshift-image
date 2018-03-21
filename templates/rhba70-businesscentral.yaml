@@ -121,6 +121,11 @@ parameters:
   name: MYSQL_IMAGE_STREAM_TAG
   value: '5.7'
   required: true
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -214,6 +219,9 @@ objects:
         - name: "${APPLICATION_NAME}-rhbacentr"
           image: rhba70-businesscentral-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           volumeMounts:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
