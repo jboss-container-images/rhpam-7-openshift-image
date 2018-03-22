@@ -129,6 +129,16 @@ parameters:
 - displayName: KIE Server controller token
   description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
   name: KIE_SERVER_CONTROLLER_TOKEN
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
+  required: false
+- displayName: Smart Router Container Memory Limit
+  description: Smart Router Container memory limit
+  name: SMART_ROUTER_MEMORY_LIMIT
+  value: 512Mi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -219,6 +229,9 @@ objects:
         - name: "${APPLICATION_NAME}-rhbacentrmon"
           image: rhba70-businesscentral-monitoring-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           livenessProbe:
             exec:
               command:
@@ -294,6 +307,9 @@ objects:
         - name: "${APPLICATION_NAME}-smartrouter"
           image: rhba70-smartrouter-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${SMART_ROUTER_MEMORY_LIMIT}"
           ports:
           - name: http
             containerPort: 9000

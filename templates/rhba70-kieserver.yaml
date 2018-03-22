@@ -172,6 +172,11 @@ parameters:
   name: MAVEN_REPO_PASSWORD
   value: ''
   required: false
+- displayName: Execution Server Container Memory Limit
+  description: Execution Server Container memory limit
+  name: EXCECUTION_SERVER_MEMORY_LIMIT
+  value: 1Gi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -265,6 +270,9 @@ objects:
         - name: "${APPLICATION_NAME}-kieserver"
           image: rhba70-kieserver-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"

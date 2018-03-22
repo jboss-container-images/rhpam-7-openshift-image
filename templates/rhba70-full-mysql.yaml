@@ -257,6 +257,16 @@ parameters:
   description: Password to access the Maven repository. If using Business Central, will have to match KIE_ADMIN_PWD. No default specified.
   name: MAVEN_REPO_PASSWORD
   required: false
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
+  required: false
+- displayName: Execution Server Container Memory Limit
+  description: Execution Server Container memory limit
+  name: EXCECUTION_SERVER_MEMORY_LIMIT
+  value: 1Gi
+  required: false
 objects:
 - kind: Service
   apiVersion: v1
@@ -420,6 +430,9 @@ objects:
         - name: "${APPLICATION_NAME}-rhbacentr"
           image: rhba70-businesscentral-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           volumeMounts:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
@@ -517,6 +530,9 @@ objects:
         - name: "${APPLICATION_NAME}-kieserver"
           image: rhba70-kieserver-openshift
           imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
