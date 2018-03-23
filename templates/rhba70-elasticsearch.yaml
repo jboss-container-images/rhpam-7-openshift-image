@@ -2,19 +2,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Elastic Search Server.
+    description: Application template for Red Hat Business Automation Elasticsearch 5.6 Server application built using S2I.
     iconClass: icon-jboss
     tags: elasticsearch,xpaas
     version: 1.4.9
-    openshift.io/display-name: Elastic Search for RHDM/RHBA HA setup
-  name: elasticsearch
+    openshift.io/display-name: Red Hat Business Automation Elasticsearch 5.6
+  name: rhba70-elasticsearch
 labels:
-  template: elasticsearch
+  template: rhba70-elasticsearch
   xpaas: 1.4.9
-message: A new Business Automation Execution Server application has been created in your
-  project. Please be sure to create the "kieserver-service-account" service account and
-  the secret named "${HTTPS_SECRET}" containing the ${HTTPS_KEYSTORE} file used for
-  serving secure content.
+message: A new Business Automation Elasticsearch 5.6 Server application has been created in your project.
 parameters:
 - displayName: Application Name
   description: The name for the application.
