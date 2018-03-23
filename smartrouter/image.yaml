@@ -55,14 +55,20 @@ envs:
     - name: "KIE_SERVER_CONTROLLER_PWD"
       example: "controller1!"
       description: "KIE server controller password for basic authentication (Sets the org.kie.server.controller.pwd system property)"
+    - name: "LAUNCH_DIR"
+      value: /opt/rhba-smartrouter/launch
 ports:
     - value: 9000
 modules:
       repositories:
           - git:
+              url: https://github.com/jboss-openshift/cct_module.git
+              ref: master
+          - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
               ref: master
       install:
+          - name: os-logging
           - name: os.bpmsuite.smartrouter
 artifacts:
     - url: slf4j-simple-1.7.22.redhat-1.jar
