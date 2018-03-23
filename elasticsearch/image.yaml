@@ -62,6 +62,5 @@ run:
           - "/opt/elasticsearch/bin/openshift-launch.sh"
 osbs:
       repository:
-          # just set aleatory names, need to be revisited.
           name: containers/rhba-7-elasticsearch-openshift
-          branch: jb-rhba-7.0-elasticsearch-rhel-7
+          branch: jb-rhba-7.0-elasticsearch-openshift-rhel-7
