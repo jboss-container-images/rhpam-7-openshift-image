@@ -1,0 +1,67 @@
+schema_version: 1
+
+name: "rhba-7/elasticsearch-openshift"
+description: "Elasticsearch image for integration with Red Hat Decision Manager and Red Hat Business Automation."
+version: "1.0"
+from: "rhba-7/elasticsearch:5.6.5"
+labels:
+    - name: "com.redhat.component"
+      value: "rhba-7-rhba70-elasticsearch-openshift-container"
+    - name: "io.k8s.description"
+      value: "Platform for running Elasticsearch"
+    - name: "io.k8s.display-name"
+      value: "Elastisearch 5.6.5"
+    - name: "io.openshift.expose-services"
+      value: "9200:http,9300:tcp"
+    - name: "io.openshift.tags"
+      value: "javaee,elasticsearch,rhba,rhdm,rhba7,rhdm7"
+envs:
+    - name: "ES_CLUSTER_NAME"
+      example: "kie-cluster"
+      description: "Sets the ES cluster.name property. Defaults to kie-cluster."
+    - name: "ES_NODE_NAME"
+      example: "nodeName"
+      description: "Sets the ES node.name property. Defaults to HOSTNAME env value."
+    - name: "ES_TRANSPORT_HOST"
+      example: "10.10.10.10"
+      description: "Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address."
+    - name: "ES_TRANSPORT_TCP_PORT"
+      example: "9300"
+      description: "Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster."
+    - name: "ES_HTTP_HOST"
+      example: "0.0.0.0"
+      description: "Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address"
+    - name: "ES_HTTP_PORT"
+      example: "9200"
+      description: "Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api."
+    - name: "ES_JAVA_OPTS"
+      example: "-Xms1024m -Xmx1024m"
+      description: "Appends custom jvm configurations/properties to ES jvm.options configuration file."
+    - name: "SCRIPT_DEBUG"
+      example: "true"
+      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+ports:
+    - value: 9200
+    - value: 9300
+modules:
+      repositories:
+          - git:
+              url: https://github.com/jboss-openshift/cct_module.git
+              ref: master
+          - git:
+              url: https://github.com/jboss-container-images/jboss-kie-modules.git
+              ref: master
+      install:
+          - name: os.elasticsearch
+          - name: dynamic-resources
+          - name: java-alternatives
+          - name: os-java-run
+run:
+      user: 185
+      cmd:
+          - "/opt/elasticsearch/bin/openshift-launch.sh"
+osbs:
+      repository:
+          # just set aleatory names, need to be revisited.
+          name: containers/rhba-7-elasticsearch-openshift
+          branch: jb-rhba-7.0-elasticsearch-rhel-7
