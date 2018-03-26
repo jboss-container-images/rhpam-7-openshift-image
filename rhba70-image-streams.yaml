@@ -119,4 +119,5 @@ items:
         version: '1.0'
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhba-7/elasticsearch-openshift:1.0
+        name: registry.access.redhat.com/rhba-7/rhba70-elasticsearch-openshift:1.0
+
