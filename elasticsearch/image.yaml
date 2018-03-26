@@ -1,9 +1,9 @@
 schema_version: 1
 
-name: "rhba-7/elasticsearch-openshift"
+name: "rhba-7/rhba70-elasticsearch-openshift"
 description: "Elasticsearch image for integration with Red Hat Decision Manager and Red Hat Business Automation."
 version: "1.0"
-from: "rhba-7/elasticsearch:5.6.5"
+from: "rhba-7/rhba70-elasticsearch:5.6.5"
 labels:
     - name: "com.redhat.component"
       value: "rhba-7-rhba70-elasticsearch-openshift-container"
