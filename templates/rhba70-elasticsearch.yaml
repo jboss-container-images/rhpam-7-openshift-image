@@ -133,7 +133,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: elasticsearch-openshift:1.0
+          name: rhba70-elasticsearch-openshift:1.0
     - type: ConfigChange
     replicas: 1
     selector:
@@ -148,7 +148,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-es"
-          image: elasticsearch-openshift
+          image: rhba70-elasticsearch-openshift
           imagePullPolicy: Always
           volumeMounts:
           - name: "${APPLICATION_NAME}-es-pvol"
