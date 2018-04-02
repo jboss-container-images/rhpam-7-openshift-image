@@ -12,8 +12,7 @@ labels:
   template: rhba70-kieserver-https-s2i
   xpaas: 1.4.0
 message: A new Business Automation Execution Server application has been created in your
-  project. Please be sure to create the "kieserver-service-account" service account and
-  the secret named "${HTTPS_SECRET}" containing the ${HTTPS_KEYSTORE} file used for
+  project. Please be sure to create the secret named "${HTTPS_SECRET}" containing the ${HTTPS_KEYSTORE} file used for
   serving secure content. The username/password for accessing the KIE Server REST interface is ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
 parameters:
 - displayName: Application Name
@@ -186,6 +185,12 @@ parameters:
   value: 1Gi
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -319,7 +324,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: kieserver-service-account
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"

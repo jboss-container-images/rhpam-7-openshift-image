@@ -15,8 +15,7 @@ labels:
 message: A new persistent Business Automation applications have been created in your project.
   The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
   For accessing the MySQL database "${DB_DATABASE}" use the credentials ${DB_USERNAME}/${DB_PASSWORD}.
-  Please be sure to create the "businesscentral-service-account" and "kieserver-service-account" service accounts
-  and the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
+  Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
   ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE}files used for serving secure content.
 parameters:
 - displayName: Application Name
@@ -279,6 +278,18 @@ parameters:
   value: 1Gi
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-rhbacentr"
+    labels:
+      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -435,7 +446,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhbacentr"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: businesscentral-service-account
+        serviceAccountName: "${APPLICATION_NAME}-rhbacentr"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhbacentr"
@@ -540,7 +551,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: kieserver-service-account
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"

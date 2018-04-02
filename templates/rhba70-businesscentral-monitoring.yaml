@@ -12,7 +12,7 @@ metadata:
 labels:
   template: rhba70-businesscentral-monitoring
   xpaas: 1.4.0
-message: A new Business Central Monitoring applications have been created in your project. The username/password for accessing Business Central Monitoring interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}. 
+message: A new Business Central Monitoring applications have been created in your project. The username/password for accessing Business Central Monitoring interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
 parameters:
 - displayName: Application Name
   description: The name for the application.
@@ -88,6 +88,12 @@ parameters:
   value: 2Gi
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-rhbacentrmon"
+    labels:
+      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -145,7 +151,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhbacentrmon"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: businesscentral-service-account
+        serviceAccountName: "${APPLICATION_NAME}-rhbacentrmon"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhbacentrmon"
