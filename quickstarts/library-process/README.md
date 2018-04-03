@@ -1,10 +1,10 @@
-## Red Hat Business Automation Kie Server Quickstart
+## Red Hat Process Automation Manager Kie Server Quickstart
 
-This quickstart is intend to be used with the [RHBA Kie Server](https://github.com/jboss-container-images/rhba-7-openshift-image/tree/rhba70-dev/kieserver) image.
+This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/rhpam70-dev/kieserver) image.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhba70-kieserver-basic-s2i](https://github.com/jboss-container-images/rhba-7-openshift-image/blob/rhba70-dev/templates/rhba70-kieserver-basic-s2i.yaml)
+To deploy the Library Process demo you can use the [rhpam70-kieserver-basic-s2i](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/rhpam70-dev/templates/rhpam70-kieserver-basic-s2i.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -26,13 +26,13 @@ You have access to the following projects and can switch between them with 'oc p
     openshift
     openshift-infra
     openshift-node
-  * rhba
+  * rhpam
 
-Using project "rhba".
+Using project "rhpam".
 ```
 ```bash
-$ oc new-project rhba-kieserver
-Now using project "rhba-kieserver" on server "https://ocp-master.cloud.com:8443".
+$ oc new-project rhpam-kieserver
+Now using project "rhpam-kieserver" on server "https://ocp-master.cloud.com:8443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -41,33 +41,33 @@ You can add applications to this project with the 'new-app' command. For example
 to build a new example application in Ruby.
 ```
 
-Make sure that you have the RHBA template installed in your OpenShift Instance:
+Make sure that you have the RHPAM template installed in your OpenShift Instance:
 ```bash
-$ oc get template rhba70-kieserver-s2i -n openshift
-Error from server (NotFound): templates "rhba70-kieserver-s2i" not found
+$ oc get template rhpam70-kieserver-s2i -n openshift
+Error from server (NotFound): templates "rhpam70-kieserver-s2i" not found
 ```
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhba-7-openshift-image/rhba70-dev/templates/rhba70-kieserver-s2i.yaml -n openshift
-template "rhba70-kieserver-s2i" created
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/rhpam70-dev/templates/rhpam70-kieserver-s2i.yaml -n openshift
+template "rhpam70-kieserver-s2i" created
 ```
 
 For this template, we also need to install the secrets, which contain the certificates to configure https:
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhba-7-openshift-image/rhba70-dev/kieserver-app-secret.yaml
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/rhpam70-dev/kieserver-app-secret.yaml
 ```
 
 
 ```bash
-$ oc new-app rhba70-kieserver-s2i
-  --> Deploying template "openshift/rhba70-kieserver-s2i" to project rhba-kieserver
+$ oc new-app rhpam70-kieserver-s2i
+  --> Deploying template "openshift/rhpam70-kieserver-s2i" to project rhpam-kieserver
   
-       Red Hat Business Automation Execution Server 7.0 S2I (Ephemeral with https)
+       Red Hat Process Automation Manager Execution Server 7.0 S2I (Ephemeral with https)
        ---------
-       Application template for Red Hat Business Automation Execution Server 7.0 application built using S2I.
+       Application template for Red Hat Process Automation Manager Execution Server 7.0 application built using S2I.
   
-       A new Business Automation Execution Server application has been created in your project. Please be sure to create the "kieserver-service-account" service account and the secret named "kieserver-app-secret" containing the keystore.jks file used for serving secure content.
+       A new Process Automation Manager Execution Server application has been created in your project. Please be sure to create the "kieserver-service-account" service account and the secret named "kieserver-app-secret" containing the keystore.jks file used for serving secure content.
   
        * With parameters:
           * Application Name=myapp
@@ -93,9 +93,9 @@ $ oc new-app rhba70-kieserver-s2i
           * Server Keystore Filename=keystore.jks
           * Server Certificate Name=jboss
           * Server Keystore Password=mykeystorepass
-          * KIE Server Container Deployment=rhba-kieserver-library=org.openshift.quickstarts:rhba-kieserver-library:1.4.0.Final
-          * Git Repository URL=https://github.com/jboss-container-images/rhba-7-openshift-image.git
-          * Git Reference=rhba70-dev
+          * KIE Server Container Deployment=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0.Final
+          * Git Repository URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git
+          * Git Reference=rhpam70-dev
           * Context Directory=quickstarts/library-process/library
           * Github Webhook Secret=XK6KW5dB # generated
           * Generic Webhook Secret=MmEl1Rr5 # generated
@@ -119,21 +119,21 @@ $ oc new-app rhba70-kieserver-s2i
       Run 'oc status' to view your app.
 ```
 
-Now you can deploy the [library-client](library-client) in the same or another project and test RHBA Kie Server container.
+Now you can deploy the [library-client](library-client) in the same or another project and test RHPAM Kie Server container.
 
 To deploy the library process client you can use the **eap64-basic-s2i** (It is available in the OpenShift Catalog) template and specify the above quickstart to be deployed.
 To do so, execute the following commands:
 
 ```bash
 oc new-app eap64-basic-s2i \
-    -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhba-7-openshift-image.git \
-    -p SOURCE_REPOSITORY_REF=rhba70-dev \ 
+    -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
+    -p SOURCE_REPOSITORY_REF=rhpam70-dev \ 
     -p CONTEXT_DIR=quickstarts/library-process
 ```
 
 As result you should see something like this:
 ```bash
---> Deploying template "openshift/eap64-basic-s2i" to project rhba-kieserver
+--> Deploying template "openshift/eap64-basic-s2i" to project rhpam-kieserver
 
      JBoss EAP 6.4 (no https)
      ---------
@@ -144,8 +144,8 @@ As result you should see something like this:
      * With parameters:
         * Application Name=eap-app
         * Custom http Route Hostname=
-        * Git Repository URL=https://github.com/jboss-container-images/rhba-7-openshift-image.git
-        * Git Reference=rhba70-dev
+        * Git Repository URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git
+        * Git Reference=rhpam70-dev
         * Context Directory=quickstarts/library-process
         * Queues=
         * Topics=
@@ -175,7 +175,7 @@ After the application is built, access the library process client app through th
 ```bash
 $ oc get routes eap-app
 NAME      HOST/PORT                                         PATH      SERVICES   PORT      TERMINATION   WILDCARD
-eap-app  eap-app-rhba-kieserver.<your_openshift_suffix>               eap-app    <all>                   None
+eap-app  eap-app-rhpam-kieserver.<your_openshift_suffix>               eap-app    <all>                   None
 ```
 
 Note that this route should be resolvable.
@@ -183,10 +183,10 @@ Note that this route should be resolvable.
 And example of request would be something like this:
 
 ```bash
-http://eap-app-rhba-kieserver.<your_openshift_suffix>/library?command=runRemoteRest&protocol=http&host=myapp-kieserver-rhba-kieserver.<your_openshift_suffix>&port=80&username=executionUser&password=<the_generated_kie_password>
+http://eap-app-rhpam-kieserver.<your_openshift_suffix>/library?command=runRemoteRest&protocol=http&host=myapp-kieserver-rhpam-kieserver.<your_openshift_suffix>&port=80&username=executionUser&password=<the_generated_kie_password>
 ```
 
 The password was generated during the app creation in the previous steps, look for **KIE Server Password**.
 
 #### Found an issue?
-Feel free to report it [here](https://github.com/jboss-container-images/rhba-7-openshift-image/issues/new).
+Feel free to report it [here](https://github.com/jboss-container-images/rhpam-7-openshift-image/issues/new).

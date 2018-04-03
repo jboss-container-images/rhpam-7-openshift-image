@@ -7,7 +7,7 @@
     <persistence-unit name="library" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-        <class>org.openshift.quickstarts.rhba.kieserver.library.types.Book</class>
+        <class>org.openshift.quickstarts.rhpam.kieserver.library.types.Book</class>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.id.new_generator_mappings" value="false"/>

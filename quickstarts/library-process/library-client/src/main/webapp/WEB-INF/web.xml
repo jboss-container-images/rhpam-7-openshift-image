@@ -2,7 +2,7 @@
 <web-app>
   <servlet>
     <servlet-name>LibraryServlet</servlet-name>
-    <servlet-class>org.openshift.quickstarts.rhba.kieserver.library.client.LibraryServlet</servlet-class>
+    <servlet-class>org.openshift.quickstarts.rhpam.kieserver.library.client.LibraryServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LibraryServlet</servlet-name>

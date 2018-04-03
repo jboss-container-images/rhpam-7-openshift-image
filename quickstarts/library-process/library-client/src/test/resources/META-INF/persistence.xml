@@ -6,7 +6,7 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="library" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>org.openshift.quickstarts.rhba.kieserver.library.types.Book</class>
+        <class>org.openshift.quickstarts.rhpam.kieserver.library.types.Book</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"/>
