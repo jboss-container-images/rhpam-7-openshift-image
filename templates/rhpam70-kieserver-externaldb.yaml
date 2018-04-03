@@ -11,7 +11,7 @@ metadata:
 labels:
   template: rhpam70-kieserver-externaldb
   xpaas: 1.4.0
-message: A new Process Automation Manager Execution Server application using an external DB has been created in your project. 
+message: A new Process Automation Manager Execution Server application using an external DB has been created in your project.
 parameters:
 - displayName: Application Name
   description: The name for the application.
@@ -158,7 +158,7 @@ parameters:
   description: KIE execution server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)
   name: KIE_SERVER_PERSISTENCE_TM
   value: org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform
-  required: false  
+  required: false
 - description: Database name
   displayName: Database Name
   name: DBE_DATABASE
@@ -175,7 +175,7 @@ parameters:
   displayName: Database driver
   name: DBE_DRIVER
   required: true
-  value: postgresql  
+  value: postgresql
 - description: Database service host name
   displayName: Database service host
   name: DBE_SERVICE_HOST
@@ -194,6 +194,12 @@ parameters:
   value: 1Gi
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -251,7 +257,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: kieserver-service-account
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -323,13 +329,13 @@ objects:
           - name: KIE_SERVER_CONTROLLER_HOST
             value: "${KIE_SERVER_CONTROLLER_HOST}"
           - name: KIE_SERVER_CONTROLLER_PORT
-            value: "${KIE_SERVER_CONTROLLER_PORT}"            
+            value: "${KIE_SERVER_CONTROLLER_PORT}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "${KIE_SERVER_PERSISTENCE_DIALECT}"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_PERSISTENCE_TM
-            value: "${KIE_SERVER_PERSISTENCE_TM}"                
+            value: "${KIE_SERVER_PERSISTENCE_TM}"
           - name: TX_DATABASE_PREFIX_MAPPING
             value: "DBE"
           - name: DB_MIN_POOL_SIZE
@@ -337,7 +343,7 @@ objects:
           - name: DB_MAX_POOL_SIZE
             value: "${DB_MAX_POOL_SIZE}"
           - name: DB_TX_ISOLATION
-            value: "${DB_TX_ISOLATION}"          
+            value: "${DB_TX_ISOLATION}"
           - name: DATASOURCES
             value: "DBE"
           - name: DBE_USERNAME
@@ -354,5 +360,3 @@ objects:
             value: "${DBE_SERVICE_PORT}"
           - name: NON_XA_DATASOURCE
             value: "${NON_XA_DATASOURCE}"
-
-

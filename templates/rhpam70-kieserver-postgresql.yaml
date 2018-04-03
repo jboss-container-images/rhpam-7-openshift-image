@@ -136,7 +136,7 @@ parameters:
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 512Mi
-  required: true  
+  required: true
 - displayName: "Database Username"
   description: "Database user name"
   name: DB_USERNAME
@@ -148,12 +148,12 @@ parameters:
   name: DB_PASSWORD
   from: "[a-zA-Z0-9]{8}"
   generate: expression
-  required: true  
+  required: true
 - displayName: "Database Name"
   description: "Database name"
   name: DB_DATABASE
   value: root
-  required: true  
+  required: true
 - displayName: "Database JNDI Name"
   description: "Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS"
   name: DB_JNDI
@@ -202,6 +202,12 @@ parameters:
   value: 1Gi
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -273,7 +279,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: kieserver-service-account
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -351,7 +357,7 @@ objects:
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_PERSISTENCE_TM
-            value: "${KIE_SERVER_PERSISTENCE_TM}"                
+            value: "${KIE_SERVER_PERSISTENCE_TM}"
           - name: DB_SERVICE_PREFIX_MAPPING
             value: "${APPLICATION_NAME}-postgresql=DB"
           - name: DB_JNDI

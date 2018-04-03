@@ -12,7 +12,7 @@ To deploy it on your OpenShift instance, just execute the following commands:
 $ oc login https://<your_openshift_address>:<port>
 Authentication required for https://ocp-master.cloud.com:8443 (openshift)
 Username: developer
-Password: 
+Password:
 Login successful.
 
 You have access to the following projects and can switch between them with 'oc project <projectname>':
@@ -62,13 +62,13 @@ $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-
 ```bash
 $ oc new-app rhpam70-kieserver-s2i
   --> Deploying template "openshift/rhpam70-kieserver-s2i" to project rhpam-kieserver
-  
+
        Red Hat Process Automation Manager Execution Server 7.0 S2I (Ephemeral with https)
        ---------
        Application template for Red Hat Process Automation Manager Execution Server 7.0 application built using S2I.
-  
+
        A new Process Automation Manager Execution Server application has been created in your project. Please be sure to create the "kieserver-service-account" service account and the secret named "kieserver-app-secret" containing the keystore.jks file used for serving secure content.
-  
+
        * With parameters:
           * Application Name=myapp
           * EAP Admin User=eapadmin
@@ -105,8 +105,9 @@ $ oc new-app rhpam70-kieserver-s2i
           * Maven repository username=
           * Maven repository password=
           * ARTIFACT_DIR=
-  
+
   --> Creating resources ...
+      serviceaccount "kieserver-service-account" created
       service "myapp-kieserver" created
       service "secure-myapp-kieserver" created
       route "myapp-kieserver" created
@@ -127,7 +128,7 @@ To do so, execute the following commands:
 ```bash
 oc new-app eap64-basic-s2i \
     -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
-    -p SOURCE_REPOSITORY_REF=rhpam70-dev \ 
+    -p SOURCE_REPOSITORY_REF=rhpam70-dev \
     -p CONTEXT_DIR=quickstarts/library-process
 ```
 
