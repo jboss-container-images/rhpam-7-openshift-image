@@ -1,7 +1,7 @@
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:urn="urn:openshift-quickstarts:rhba-kieserver-library:1.4"
-  targetNamespace="urn:openshift-quickstarts:rhba-kieserver-library:1.4">
+  xmlns:urn="urn:openshift-quickstarts:rhpam-kieserver-library:1.4"
+  targetNamespace="urn:openshift-quickstarts:rhpam-kieserver-library:1.4">
 
   <xsd:element name="book" type="urn:book"/>
   <xsd:complexType name="book">

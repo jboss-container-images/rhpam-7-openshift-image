@@ -1,0 +1,196 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  annotations:
+    description: Application template for Red Hat Business Central 7.0 which includes just Business Central Monitoring
+    iconClass: icon-jboss
+    tags: rhpam,jboss,xpaas
+    version: 1.4.0
+    openshift.io/display-name: Red Hat Business Central 7.0 Monitoring
+  name: rhpam70-businesscentral-monitoring
+labels:
+  template: rhpam70-businesscentral-monitoring
+  xpaas: 1.4.0
+message: A new Business Central Monitoring applications have been created in your project. The username/password for accessing Business Central Monitoring interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}. 
+parameters:
+- displayName: Application Name
+  description: The name for the application.
+  name: APPLICATION_NAME
+  value: myapp
+  required: true
+- displayName: EAP Admin User
+  description: EAP administrator username
+  name: ADMIN_USERNAME
+  value: eapadmin
+  required: false
+- displayName: EAP Admin Password
+  description: EAP administrator password
+  name: ADMIN_PASSWORD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
+- displayName: KIE Admin User
+  description: KIE administrator username
+  name: KIE_ADMIN_USER
+  value: adminUser
+  required: false
+- displayName: KIE Admin Password
+  description: KIE administrator password
+  name: KIE_ADMIN_PWD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
+- displayName: KIE Server Controller User
+  description: KIE server controller username (Sets the org.kie.server.controller.user system property)
+  name: KIE_SERVER_CONTROLLER_USER
+  value: controllerUser
+  required: false
+- displayName: KIE Server Controller Password
+  description: KIE server controller password (Sets the org.kie.server.controller.pwd system property)
+  name: KIE_SERVER_CONTROLLER_PWD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
+- displayName: KIE Server User
+  description: KIE execution server username (Sets the org.kie.server.user system property)
+  name: KIE_SERVER_USER
+  value: executionUser
+  required: false
+- displayName: KIE Server Password
+  description: KIE execution server password (Sets the org.kie.server.pwd system property)
+  name: KIE_SERVER_PWD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
+- displayName: Business Central Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
+  name: BUSINESS_CENTRAL_HOSTNAME_HTTP
+  value: ''
+  required: false
+- displayName: ImageStream Namespace
+  description: Namespace in which the ImageStreams for Red Hat Middleware images are
+    installed. These ImageStreams are normally installed in the openshift namespace.
+    You should only need to modify this if you've installed the ImageStreams in a
+    different namespace/project.
+  name: IMAGE_STREAM_NAMESPACE
+  value: openshift
+  required: true
+- displayName: ImageStream Tag
+  description: A named pointer to an image in an image stream. Default is "1.0".
+  name: IMAGE_STREAM_TAG
+  value: "1.0"
+  required: false
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
+  required: false
+objects:
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The Business Central web server's http port.
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-rhpamcentrmon-http"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: Route for Business Central's http service.
+  spec:
+    host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}-rhpamcentrmon"
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}-rhpamcentrmon"
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "rhpam70-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}-rhpamcentrmon"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
+          application: "${APPLICATION_NAME}"
+      spec:
+        serviceAccountName: businesscentral-service-account
+        terminationGracePeriodSeconds: 60
+        containers:
+        - name: "${APPLICATION_NAME}-rhpamcentrmon"
+          image: rhpam70-businesscentral-openshift
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
+          livenessProbe:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/eap/bin/livenessProbe.sh"
+          readinessProbe:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/eap/bin/readinessProbe.sh"
+          ports:
+          - name: jolokia
+            containerPort: 8778
+            protocol: TCP
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          env:
+          - name: KIE_ADMIN_PWD
+            value: "${KIE_ADMIN_PWD}"
+          - name: KIE_ADMIN_USER
+            value: "${KIE_ADMIN_USER}"
+          - name: KIE_SERVER_PWD
+            value: "${KIE_SERVER_PWD}"
+          - name: KIE_SERVER_USER
+            value: "${KIE_SERVER_USER}"
+          - name: ADMIN_USERNAME
+            value: "${ADMIN_USERNAME}"
+          - name: ADMIN_PASSWORD
+            value: "${ADMIN_PASSWORD}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: ${KIE_SERVER_CONTROLLER_PWD}
+          - name: KIE_SERVER_CONTROLLER_USER
+            value: ${KIE_SERVER_CONTROLLER_USER}
+          - name: PROBE_IMPL
+            value: probe.eap.jolokia.EapProbe
+          - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
+            value: 'true'

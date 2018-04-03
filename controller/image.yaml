@@ -1,20 +1,20 @@
 schema_version: 1
 
-name: "rhba-7/rhba70-controller-openshift"
-description: "Red Hat Business Automation Standalone Controller 7.0 container image"
+name: "rhpam-7/rhpam70-controller-openshift"
+description: "Red Hat Process Automation Manager Standalone Controller 7.0 container image"
 version: "1.0"
-from: "rhba-7/rhba70-controller:latest"
+from: "rhpam-7/rhpam70-controller:latest"
 labels:
     - name: "com.redhat.component"
-      value: "rhba-7-rhba70-controller-openshift-container"
+      value: "rhpam-7-rhpam70-controller-openshift-container"
     - name: "io.k8s.description"
-      value: "Platform for running Red Hat Business Automation Standalone Controller"
+      value: "Platform for running Red Hat Process Automation Manager Standalone Controller"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Automation Standalone Controller 7.0"
+      value: "Red Hat Process Automation Manager Standalone Controller 7.0"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
-      value: "javaee,eap,eap7,rhba,rhba7"
+      value: "javaee,eap,eap7,rhpam,rhpam7"
 envs:
     - name: "JBOSS_MODULES_SYSTEM_PKGS"
       value: "org.jboss.logmanager,jdk.nashorn.api"
@@ -175,5 +175,5 @@ run:
           - "/opt/eap/bin/openshift-launch.sh"
 osbs:
       repository:
-          name: containers/rhba-7-controller-openshift
-          branch: jb-rhba-7.0-controller-openshift-rhel-7
+          name: containers/rhpam-7-controller-openshift
+          branch: jb-rhpam-7.0-controller-openshift-rhel-7

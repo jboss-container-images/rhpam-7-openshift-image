@@ -1,20 +1,20 @@
 schema_version: 1
 
-name: "rhba-7/rhba70-smartrouter-openshift"
-description: "Red Hat Business Automation Smart Router 7.0 container image"
+name: "rhpam-7/rhpam70-smartrouter-openshift"
+description: "Red Hat Process Automation Manager Smart Router 7.0 container image"
 version: "1.0"
-from: "rhba-7/rhba70-smartrouter:latest"
+from: "rhpam-7/rhpam70-smartrouter:latest"
 labels:
     - name: "com.redhat.component"
-      value: "rhba-7-rhba70-smartrouter-openshift-container"
+      value: "rhpam-7-rhpam70-smartrouter-openshift-container"
     - name: "io.k8s.description"
-      value: "Platform for running Red Hat Business Automation Smart Router"
+      value: "Platform for running Red Hat Process Automation Manager Smart Router"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Automation Smart Router 7.0"
+      value: "Red Hat Process Automation Manager Smart Router 7.0"
     - name: "io.openshift.expose-services"
       value: "9000:http"
     - name: "io.openshift.tags"
-      value: "javaee,rhba,rhba7"
+      value: "javaee,rhpam,rhpam7"
 envs:
     - name: "KIE_SERVER_ROUTER_HOST"
       example: "localhost"
@@ -56,7 +56,7 @@ envs:
       example: "controller1!"
       description: "KIE server controller password for basic authentication (Sets the org.kie.server.controller.pwd system property)"
     - name: "LAUNCH_DIR"
-      value: /opt/rhba-smartrouter/launch
+      value: /opt/rhpam-smartrouter/launch
 ports:
     - value: 9000
 modules:
@@ -76,8 +76,8 @@ artifacts:
 run:
       user: 185
       cmd:
-          - "/opt/rhba-smartrouter/openshift-launch.sh"
+          - "/opt/rhpam-smartrouter/openshift-launch.sh"
 osbs:
       repository:
-          name: containers/rhba-7-smartrouter-openshift
-          branch: jb-rhba-7.0-smartrouter-openshift-rhel-7
+          name: containers/rhpam-7-smartrouter-openshift
+          branch: jb-rhpam-7.0-smartrouter-openshift-rhel-7

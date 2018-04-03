@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.openshift.quickstarts</groupId>
-    <artifactId>rhba-kieserver-library</artifactId>
+    <artifactId>rhpam-kieserver-library</artifactId>
     <version>1.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>OpenShift Quickstarts: RHBA Kie Server: Library</name>
+    <name>OpenShift Quickstarts: RHPAM Kie Server: Library</name>
     <description>A simple example application demonstrating the use of a business process and rules.</description>
 
     <licenses>

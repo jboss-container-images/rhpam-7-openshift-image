@@ -1,0 +1,204 @@
+kind: Template
+apiVersion: v1
+metadata:
+  annotations:
+    description: Application template for Red Hat Process Automation Manager Elasticsearch 5.6 Server application built using S2I.
+    iconClass: icon-jboss
+    tags: elasticsearch,xpaas
+    version: 1.4.9
+    openshift.io/display-name: Red Hat Process Automation Manager Elasticsearch 5.6
+  name: rhpam70-elasticsearch
+labels:
+  template: rhpam70-elasticsearch
+  xpaas: 1.4.9
+message: A new Process Automation Manager Elasticsearch 5.6 Server application has been created in your project.
+parameters:
+- displayName: Application Name
+  description: The name for the application.
+  name: APPLICATION_NAME
+  value: es
+  required: true
+- displayName: Elasticsearch Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+  name: ES_HOSTNAME_HTTP
+  value: ''
+  required: false
+- displayName: Elastic Search Cluster name
+  description: Sets the ES cluster.name property. Defaults to kie-cluster.
+  name: ES_CLUSTER_NAME
+  value: ''
+  required: false
+- displayName: Elastic Search None name
+  description: Sets the ES node.name property. Defaults to HOSTNAME env value.
+  name: ES_NODE_NAME
+  value: ''
+  required: false
+- displayName: Elastic Search Transport Host
+  description: Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address.
+  name: ES_TRANSPORT_HOST
+  value: ''
+  required: false
+- displayName: Elastic Search Transport TCP Port
+  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster.
+  name: ES_TRANSPORT_TCP_PORT
+  value: ''
+  required: false
+- displayName: Elastic Search HTTP Host
+  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address
+  name: ES_HTTP_HOST
+  value: ''
+  required: false
+- displayName: Elastic Search HTTP Port
+  description: Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api.
+  name: ES_HTTP_PORT
+  value: ''
+  required: false
+- displayName: Elastic Search Additional Java Options
+  description: Appends custom jvm configurations/properties to ES jvm.options configuration file.
+  name: ES_JAVA_OPTS
+  value: ''
+  example: "-Xms1024m -Xmx1024m"
+  required: false
+- displayName: ImageStream Namespace
+  description: Namespace in which the ImageStreams for Red Hat Middleware images are
+    installed. These ImageStreams are normally installed in the openshift namespace.
+    You should only need to modify this if you've installed the ImageStreams in a
+    different namespace/project.
+  name: IMAGE_STREAM_NAMESPACE
+  value: openshift
+  required: true
+- displayName: Elastic Search Volume Capacity
+  description: Size of persistent storage for elastic search volume.
+  name: ES_VOLUME_CAPACITY
+  value: 512Mi
+  required: true
+objects:
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 9300
+      targetPort: 9300
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-es"
+  metadata:
+    name: "transport-${APPLICATION_NAME}-es"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The elasticsearch communication port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 9200
+      targetPort: 9200
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-es"
+  metadata:
+    name: "${APPLICATION_NAME}-es"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The elasticsearch's http port for rest calls.
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-es-http"
+  metadata:
+    name: "${APPLICATION_NAME}-es"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: Route for elasticsearch's http service.
+  spec:
+    host: "${ES_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}-es"
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-es"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}-es"
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: rhpam70-elasticsearch-openshift:1.0
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-es"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}-es"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}-es"
+          application: "${APPLICATION_NAME}"
+      spec:
+        terminationGracePeriodSeconds: 60
+        containers:
+        - name: "${APPLICATION_NAME}-es"
+          image: rhpam70-elasticsearch-openshift
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: "${APPLICATION_NAME}-es-pvol"
+            mountPath: "/opt/elasticsearch/data"
+          livenessProbe:
+            tcpSocket:
+              port: 9300
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /_cluster/health
+              port: 9200
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          ports:
+          - name: es
+            containerPort: 9300
+            protocol: TCP
+          - name: http
+            containerPort: 9200
+            protocol: TCP
+          env:
+          - name: ES_CLUSTER_NAME
+            value: "${ES_CLUSTER_NAME}"
+          - name: ES_NODE_NAME
+            value: "${ES_NODE_NAME}"
+          - name: ES_TRANSPORT_HOST
+            value: "${ES_TRANSPORT_HOST}"
+          - name: ES_TRANSPORT_TCP_PORT
+            value: "${ES_TRANSPORT_TCP_PORT}"
+          - name: ES_HTTP_PORT
+            value: "${ES_HTTP_PORT}"
+          - name: ES_HTTP_HOST
+            value: "${ES_HTTP_HOST}"
+          - name: ES_JAVA_OPTS
+            value: "${ES_JAVA_OPTS}"
+        volumes:
+        - name: "${APPLICATION_NAME}-es-pvol"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-es-claim"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-es-claim"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: "${ES_VOLUME_CAPACITY}"
