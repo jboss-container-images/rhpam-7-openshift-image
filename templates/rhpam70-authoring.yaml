@@ -3,16 +3,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Red Hat Process Automation Manager 7.0 applications with persistent storage.
+    description: Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.0
     iconClass: icon-jboss
     tags: rhpam,jboss,xpaas
     version: 1.4.0
-    openshift.io/display-name: Red Hat Process Automation Manager 7.0 applications (Persistent with https)
+    openshift.io/display-name: Red Hat Process Automation Manager 7.0 authoring environment (non-HA, persistent, with https)
   name: rhpam70-full-persistent
 labels:
   template: rhpam70-full-persistent
   xpaas: 1.4.0
-message: A new persistent Process Automation Manager applications have been created in your project.
+message: A new persistent Process Automation Manager application have been created in your project.
   The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
   For accessing the MySQL database "${DB_DATABASE}" use the credentials ${DB_USERNAME}/${DB_PASSWORD}.
   Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
