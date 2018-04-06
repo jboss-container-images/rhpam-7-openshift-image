@@ -3,16 +3,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Red Hat Process Automation Manager 7.0 applications with persistent storage.
+    description: Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.0
     iconClass: icon-jboss
     tags: rhpam,jboss,xpaas
     version: 1.4.0
-    openshift.io/display-name: Red Hat Process Automation Manager 7.0 applications (Persistent with https)
-  name: rhpam70-full-persistent
+    openshift.io/display-name: Red Hat Process Automation Manager 7.0 authoring environment (non-HA, persistent, with https)
+  name: rhpam70-authoring
 labels:
-  template: rhpam70-full-persistent
+  template: rhpam70-authoring
   xpaas: 1.4.0
-message: A new persistent Process Automation Manager applications have been created in your project.
+message: A new persistent Process Automation Manager application have been created in your project.
   The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
   For accessing the MySQL database "${DB_DATABASE}" use the credentials ${DB_USERNAME}/${DB_PASSWORD}.
   Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
@@ -252,15 +252,6 @@ parameters:
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository. If unspecified, will fall back to Business Central service.
   name: MAVEN_REPO_URL
-  required: false
-- displayName: Maven repository username
-  description: Username to access the Maven repository. If using Business Central, will have to match KIE_ADMIN_USER. No default specified.
-  name: MAVEN_REPO_USERNAME
-  value: adminUser
-  required: false
-- displayName: Maven repository password
-  description: Password to access the Maven repository. If using Business Central, will have to match KIE_ADMIN_PWD. No default specified.
-  name: MAVEN_REPO_PASSWORD
   required: false
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
@@ -626,9 +617,9 @@ objects:
           - name: MAVEN_REPO_PATH
             value: "/maven2/"
           - name: MAVEN_REPO_USERNAME
-            value: "${MAVEN_REPO_USERNAME}"
+            value: "${KIE_ADMIN_USER}"
           - name: MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
+            value: "${KIE_ADMIN_PWD}"
           - name: DB_SERVICE_PREFIX_MAPPING
             value: "${APPLICATION_NAME}-mysql=DB"
           - name: DB_JNDI
