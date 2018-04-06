@@ -1,58 +1,43 @@
+---
 kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Red Hat Process Automation Manager Execution Server 7.0 application.
+    description: Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.0
     iconClass: icon-jboss
     tags: rhpam,jboss,xpaas
     version: 1.4.0
-    openshift.io/display-name: Red Hat Process Automation Manager Execution Server 7.0 (Ephemeral with https)
-  name: rhpam70-kieserver
+    openshift.io/display-name: Red Hat Process Automation Manager 7.0 ephemeral trial environment
+  name: rhpam70-trial-ephemeral
 labels:
-  template: rhpam70-kieserver
+  template: rhpam70-trial-ephemeral
   xpaas: 1.4.0
-message: A new Process Automation Manager Execution Server application has been created in your
-  project. Please be sure to create the secret named "${HTTPS_SECRET}" containing the ${HTTPS_KEYSTORE} file used for
-  serving secure content.
+message: "A new Process Automation Manager trial environment has been created. Please remember that this is an ephemeral enviornment and any work will be LOST with a simple pod restart."
 parameters:
 - displayName: Application Name
   description: The name for the application.
   name: APPLICATION_NAME
   value: myapp
   required: true
+- displayName: Default Password
+  description: Default password used for multiple components for user convenience in this trial environment
+  name: DEFAULT_PASSWORD
+  value: RedHat
+  required: true
 - displayName: EAP Admin User
   description: EAP administrator username
   name: ADMIN_USERNAME
   value: eapadmin
-  required: false
-- displayName: EAP Admin Password
-  description: EAP administrator password
-  name: ADMIN_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
   required: false
 - displayName: KIE Admin User
   description: KIE administrator username
   name: KIE_ADMIN_USER
   value: adminUser
   required: false
-- displayName: KIE Admin Password
-  description: KIE administrator password
-  name: KIE_ADMIN_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
 - displayName: KIE Server User
-  description: KIE execution server username (Sets the org.kie.server.user system
-    property)
+  description: KIE execution server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
-  required: false
-- displayName: KIE Server Password
-  description: KIE execution server password (Sets the org.kie.server.pwd system property)
-  name: KIE_SERVER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
   required: false
 - displayName: KIE Server ID
   description: Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property).
@@ -60,8 +45,7 @@ parameters:
   value: ''
   required: false
 - displayName: KIE Server Bypass Auth User
-  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user
-    system property)
+  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
@@ -69,32 +53,6 @@ parameters:
   description: KIE server controller username (Sets the org.kie.server.controller.user system property)
   name: KIE_SERVER_CONTROLLER_USER
   value: controllerUser
-  required: false
-- displayName: KIE Server Controller Password
-  description: KIE server controller password (Sets the org.kie.server.controller.pwd system property)
-  name: KIE_SERVER_CONTROLLER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
-- displayName: KIE server controller protocol
-  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PROTOCOL
-  value: http
-  required: false
-- displayName: KIE server controller service
-  description: KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)
-  name: KIE_SERVER_CONTROLLER_SERVICE
-  value: ''
-  required: false
-- displayName: KIE server controller host
-  description: KIE server controller host (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_HOST
-  example: my-app-controller-ocpuser.os.example.com
-  required: false
-- displayName: KIE server controller port
-  description: KIE server controller port (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PORT
-  example: '8080'
   required: false
 - displayName: KIE MBeans
   description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
@@ -112,31 +70,11 @@ parameters:
   name: EXECUTION_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: Execution Server Custom https Route Hostname
-  description: 'Custom hostname for https service route.  Leave blank for default
-    hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: EXECUTION_SERVER_HOSTNAME_HTTPS
+- displayName: Business Central Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+  name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
-  required: false
-- displayName: Server Keystore Secret Name
-  description: The name of the secret containing the keystore file
-  name: HTTPS_SECRET
-  value: kieserver-app-secret
-  required: false
-- displayName: Server Keystore Filename
-  description: The name of the keystore file within the secret
-  name: HTTPS_KEYSTORE
-  value: keystore.jks
-  required: false
-- displayName: Server Certificate Name
-  description: The name associated with the server certificate
-  name: HTTPS_NAME
-  value: jboss
-  required: false
-- displayName: Server Keystore Password
-  description: The password for the keystore and certificate
-  name: HTTPS_PASSWORD
-  value: mykeystorepass
   required: false
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
@@ -159,17 +97,11 @@ parameters:
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository.
   name: MAVEN_REPO_URL
-  value: ''
   required: false
-- displayName: Maven repository username
-  description: Username to access the Maven repository.
-  name: MAVEN_REPO_USERNAME
-  value: ''
-  required: false
-- displayName: Maven repository password
-  description: Password to access the Maven repository.
-  name: MAVEN_REPO_PASSWORD
-  value: ''
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
   required: false
 - displayName: Execution Server Container Memory Limit
   description: Execution Server Container memory limit
@@ -183,6 +115,26 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The Business Central web server's http port.
 - kind: Service
   apiVersion: v1
   spec:
@@ -197,20 +149,19 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The execution server web server's http port.
-- kind: Service
+- kind: Route
   apiVersion: v1
-  spec:
-    ports:
-    - port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+  id: "${APPLICATION_NAME}-rhpamcentr-http"
   metadata:
-    name: secure-${APPLICATION_NAME}-kieserver
+    name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
     annotations:
-      description: The execution server web server's https port.
+      description: Route for Business Central's http service.
+  spec:
+    host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}-rhpamcentr"
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-http"
@@ -224,21 +175,90 @@ objects:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
-- kind: Route
+- kind: DeploymentConfig
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-https"
   metadata:
-    name: secure-${APPLICATION_NAME}-kieserver
+    name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
-    annotations:
-      description: Route for execution server's https service.
   spec:
-    host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
-    to:
-      name: secure-${APPLICATION_NAME}-kieserver
-    tls:
-      termination: passthrough
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}-rhpamcentr"
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "rhpam70-businesscentral-openshift:${IMAGE_STREAM_TAG}"
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}-rhpamcentr"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+          application: "${APPLICATION_NAME}"
+      spec:
+        serviceAccountName: "${APPLICATION_NAME}-rhpamcentr"
+        terminationGracePeriodSeconds: 60
+        containers:
+        - name: "${APPLICATION_NAME}-rhpamcentr"
+          image: rhpam70-businesscentral-openshift
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
+          livenessProbe:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/eap/bin/livenessProbe.sh"
+          readinessProbe:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/eap/bin/readinessProbe.sh"
+          ports:
+          - name: jolokia
+            containerPort: 8778
+            protocol: TCP
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          - name: https
+            containerPort: 8443
+            protocol: TCP
+          env:
+          - name: KIE_ADMIN_PWD
+            value: "${DEFAULT_PASSWORD}"
+          - name: KIE_ADMIN_USER
+            value: "${KIE_ADMIN_USER}"
+          - name: KIE_MBEANS
+            value: "${KIE_MBEANS}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${DEFAULT_PASSWORD}"
+          - name: KIE_SERVER_CONTROLLER_USER
+            value: "${KIE_SERVER_CONTROLLER_USER}"
+          - name: KIE_SERVER_PWD
+            value: "${DEFAULT_PASSWORD}"
+          - name: KIE_SERVER_USER
+            value: "${KIE_SERVER_USER}"
+          - name: ADMIN_USERNAME
+            value: "${ADMIN_USERNAME}"
+          - name: ADMIN_PASSWORD
+            value: "${DEFAULT_PASSWORD}"
+          - name: PROBE_IMPL
+            value: probe.eap.jolokia.EapProbe
+          - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
+            value: 'true'
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -278,10 +298,6 @@ objects:
           resources:
             limits:
               memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
-          volumeMounts:
-          - name: kieserver-keystore-volume
-            mountPath: "/etc/kieserver-secret-volume"
-            readOnly: true
           livenessProbe:
             exec:
               command:
@@ -308,25 +324,19 @@ objects:
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
+            value: "${DEFAULT_PASSWORD}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${DEFAULT_PASSWORD}"
+          - name: KIE_SERVER_CONTROLLER_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_CONTROLLER_PWD}"
-          - name: KIE_SERVER_CONTROLLER_SERVICE
-            value: "${KIE_SERVER_CONTROLLER_SERVICE}"
-          - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
-          - name: KIE_SERVER_CONTROLLER_HOST
-            value: "${KIE_SERVER_CONTROLLER_HOST}"
-          - name: KIE_SERVER_CONTROLLER_PORT
-            value: "${KIE_SERVER_CONTROLLER_PORT}"
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
@@ -334,7 +344,7 @@ objects:
               fieldRef:
                 fieldPath: status.podIP
           - name: KIE_SERVER_PWD
-            value: "${KIE_SERVER_PWD}"
+            value: "${DEFAULT_PASSWORD}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_CONTAINER_DEPLOYMENT
@@ -346,18 +356,6 @@ objects:
           - name: MAVEN_REPO_PATH
             value: "/maven2/"
           - name: MAVEN_REPO_USERNAME
-            value: "${MAVEN_REPO_USERNAME}"
+            value: "${KIE_ADMIN_USER}"
           - name: MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
-          - name: HTTPS_KEYSTORE_DIR
-            value: "/etc/kieserver-secret-volume"
-          - name: HTTPS_KEYSTORE
-            value: "${HTTPS_KEYSTORE}"
-          - name: HTTPS_NAME
-            value: "${HTTPS_NAME}"
-          - name: HTTPS_PASSWORD
-            value: "${HTTPS_PASSWORD}"
-        volumes:
-        - name: kieserver-keystore-volume
-          secret:
-            secretName: "${HTTPS_SECRET}"
+            value: "${DEFAULT_PASSWORD}"
