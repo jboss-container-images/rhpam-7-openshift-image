@@ -1,23 +1,48 @@
+---
 kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for Red Hat Process Automation Manager Execution Server 7.0 which includes an unmanaged execution server with a PostgreSQL DB.
+    description: Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.0
     iconClass: icon-jboss
     tags: rhpam,jboss,xpaas
     version: 1.4.0
-    openshift.io/display-name: Red Hat Process Automation Manager Execution Server 7.0 unmanaged Execution Server + PostgreSQL (persistent)
+    openshift.io/display-name: Red Hat Process Automation Manager 7.0 managed KIE server with a PostgreSQL database
   name: rhpam70-kieserver-postgresql
 labels:
   template: rhpam70-kieserver-postgresql
   xpaas: 1.4.0
-message: A new Process Automation Manager Execution Server application using PostgreSQL (persistent) has been created in your project. This template does not include HTTPS setup. For accessing the PostgreSQL database \"${DB_DATABASE}\" use the credentials \"${DB_USERNAME}/${DB_PASSWORD}\".
+message: A new environment has been set up for Red Hat Process Automation Manager 7. The username/password for accessing the KIE server is ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
 parameters:
 - displayName: Application Name
   description: The name for the application.
   name: APPLICATION_NAME
   value: myapp
   required: true
+- displayName: Maven repository URL
+  description: Fully qualified URL to a Maven repository or service.
+  name: MAVEN_REPO_URL
+  example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
+  required: true
+- displayName: Maven repository username
+  description: Username to access the Maven repository, if required.
+  name: MAVEN_REPO_USERNAME
+  required: false
+- displayName: Maven repository password
+  description: Password to access the Maven repository, if required.
+  name: MAVEN_REPO_PASSWORD
+  required: false
+- displayName: EAP Admin User
+  description: EAP administrator username
+  name: ADMIN_USERNAME
+  value: eapadmin
+  required: false
+- displayName: EAP Admin Password
+  description: EAP administrator password
+  name: ADMIN_PASSWORD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
 - displayName: KIE Admin User
   description: KIE administrator username
   name: KIE_ADMIN_USER
@@ -29,9 +54,12 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+- displayName: KIE Server ID
+  description: The KIE server ID to use, which defaults to ${APPLICATION_NAME}-kieserver if not specified (Sets the org.kie.server.id system property).
+  name: KIE_SERVER_ID
+  required: false
 - displayName: KIE Server User
-  description: KIE execution server username (Sets the org.kie.server.user system
-    property)
+  description: KIE execution server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
   required: false
@@ -40,64 +68,6 @@ parameters:
   name: KIE_SERVER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
-  required: false
-- displayName: KIE Server ID
-  description: Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property).
-  name: KIE_SERVER_ID
-  value: ''
-  required: false
-- displayName: KIE Server Bypass Auth User
-  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user
-    system property)
-  name: KIE_SERVER_BYPASS_AUTH_USER
-  value: 'false'
-  required: false
-- displayName: KIE Server Controller User
-  description: KIE server controller username (Sets the org.kie.server.controller.user system property)
-  name: KIE_SERVER_CONTROLLER_USER
-  value: controllerUser
-  required: false
-- displayName: KIE Server Controller Password
-  description: KIE server controller password (Sets the org.kie.server.controller.pwd system property)
-  name: KIE_SERVER_CONTROLLER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
-- displayName: KIE server controller protocol
-  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PROTOCOL
-  value: http
-  required: false
-- displayName: KIE server controller service
-  description: KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)
-  name: KIE_SERVER_CONTROLLER_SERVICE
-  value: ''
-  required: false
-- displayName: KIE server controller host
-  description: KIE server controller host (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_HOST
-  example: my-app-controller-ocpuser.os.example.com
-  required: false
-- displayName: KIE server controller port
-  description: KIE server controller port (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PORT
-  example: '8080'
-  required: false
-- displayName: KIE MBeans
-  description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
-  name: KIE_MBEANS
-  value: enabled
-  required: false
-- displayName: Drools Server Filter Classes
-  description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
-  name: DROOLS_SERVER_FILTER_CLASSES
-  value: 'true'
-  required: false
-- displayName: Execution Server Custom http Route Hostname
-  description: 'Custom hostname for http service route.  Leave blank for default hostname,
-    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: EXECUTION_SERVER_HOSTNAME_HTTP
-  value: ''
   required: false
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
@@ -112,95 +82,160 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: false
-- displayName: KIE Server Container Deployment
-  description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
-  name: KIE_SERVER_CONTAINER_DEPLOYMENT
+- displayName: PostgreSQL ImageStream Tag
+  description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
+  name: POSTGRESQL_IMAGE_STREAM_TAG
+  value: "9.6"
+  required: false
+- displayName: Smart Router Service
+  description: The service name for the optional smart router, where it can be reached, to allow smart routing
+  name: KIE_SERVER_ROUTER_SERVICE
+  required: false
+- displayName: Smart Router Host
+  description: "The host name of the smart router, which could be the service name resolved by OpenShift or a globally resolvable domain name"
+  name: KIE_SERVER_ROUTER_HOST
+  example: "myapp-smartrouter"
+  required: false
+- displayName: Smart Router listening port
+  description: Port in which the smart router server listens (router property org.kie.server.router.port)
+  name: KIE_SERVER_ROUTER_PORT
+  example: "9000"
+  required: false
+- displayName: Smart Router protocol
+  description: KIE server router protocol (Used to build the org.kie.server.router.url.external property)
+  name: KIE_SERVER_ROUTER_PROTOCOL
+  example: "http"
+  required: false
+- displayName: KIE Server Controller Service
+  description: The service name for the optional business-central-monitor, where it can be reached and registered with, to allow monitoring console functionality
+  name: KIE_SERVER_CONTROLLER_SERVICE
+  required: false
+- displayName: KIE Server Controller User
+  description: KIE server controller username (Sets the org.kie.server.controller.user system property)
+  name: KIE_SERVER_CONTROLLER_USER
+  value: controllerUser
+  required: false
+- displayName: KIE Server Controller Password
+  description: KIE server controller password (Sets the org.kie.server.controller.pwd system property)
+  name: KIE_SERVER_CONTROLLER_PWD
+  required: false
+- displayName: KIE server controller host
+  description: KIE server controller host (Used to set the org.kie.server.controller system property)
+  name: KIE_SERVER_CONTROLLER_HOST
+  example: my-app-controller-ocpuser.os.example.com
+  required: false
+- displayName: KIE server controller port
+  description: KIE server controller port (Used to set the org.kie.server.controller system property)
+  name: KIE_SERVER_CONTROLLER_PORT
+  example: '8080'
+  required: false
+- displayName: KIE server controller protocol
+  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
+  name: KIE_SERVER_CONTROLLER_PROTOCOL
+  example: http
+  required: false
+- displayName: KIE Server controller token
+  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_CONTROLLER_TOKEN
+  required: false
+- displayName: KIE Server Persistence DS
+  description: KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property)
+  name: KIE_SERVER_PERSISTENCE_DS
+  value: java:/jboss/datasources/rhpam
+  required: false
+- displayName: KIE Server PostgreSQL Database User
+  description: KIE execution server PostgreSQL database username
+  name: KIE_SERVER_POSTGRESQL_USER
+  value: rhpam
+  required: false
+- displayName: KIE Server PostgreSQL Database Password
+  description: KIE execution server PostgreSQL database password
+  name: KIE_SERVER_POSTGRESQL_PWD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
+- displayName: KIE Server PostgreSQL Database Name
+  description: KIE execution server PostgreSQL database name
+  name: KIE_SERVER_POSTGRESQL_DB
+  value: rhpam7
+  required: false
+- displayName: Drools Server Filter Classes
+  description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
+  name: DROOLS_SERVER_FILTER_CLASSES
+  value: 'true'
+  required: false
+- displayName: KIE MBeans
+  description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+  name: KIE_MBEANS
+  value: enabled
+  required: false
+- displayName: Execution Server Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+  name: EXECUTION_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: Maven repository URL
-  description: Fully qualified URL to a Maven repository.
-  name: MAVEN_REPO_URL
+- displayName: Execution Server Custom https Route Hostname
+  description: 'Custom hostname for https service route.  Leave blank for default
+    hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
+  name: EXECUTION_SERVER_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: Maven repository username
-  description: Username to access the Maven repository.
-  name: MAVEN_REPO_USERNAME
-  value: ''
+- displayName: KIE Server Keystore Secret Name
+  description: The name of the secret containing the keystore file
+  name: KIE_SERVER_HTTPS_SECRET
+  value: kieserver-app-secret
   required: false
-- displayName: Maven repository password
-  description: Password to access the Maven repository.
-  name: MAVEN_REPO_PASSWORD
-  value: ''
+- displayName: KIE Server Keystore Filename
+  description: The name of the keystore file within the secret
+  name: KIE_SERVER_HTTPS_KEYSTORE
+  value: keystore.jks
+  required: false
+- displayName: KIE Server Certificate Name
+  description: The name associated with the server certificate
+  name: KIE_SERVER_HTTPS_NAME
+  value: jboss
+  required: false
+- displayName: KIE Server Keystore Password
+  description: The password for the keystore and certificate
+  name: KIE_SERVER_HTTPS_PASSWORD
+  value: mykeystorepass
+  required: false
+- displayName: KIE Server Bypass Auth User
+  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
+  name: KIE_SERVER_BYPASS_AUTH_USER
+  value: 'false'
   required: false
 - displayName: Database Volume Capacity
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 512Mi
   required: true
-- displayName: "Database Username"
-  description: "Database user name"
-  name: DB_USERNAME
-  from: "user[a-zA-Z0-9]{3}"
-  generate: expression
-  required: true
-- displayName: "Database Password"
-  description: "Database user password"
-  name: DB_PASSWORD
-  from: "[a-zA-Z0-9]{8}"
-  generate: expression
-  required: true
-- displayName: "Database Name"
-  description: "Database name"
-  name: DB_DATABASE
-  value: root
-  required: true
-- displayName: "Database JNDI Name"
-  description: "Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS"
-  name: DB_JNDI
-  value: "java:jboss/datasources/ExampleDS"
-  required: false
-- displayName: "Datasource Minimum Pool Size"
-  description: "Sets xa-pool/min-pool-size for the configured datasource."
-  name: DB_MIN_POOL_SIZE
-  required: false
-- displayName: "Datasource Maximum Pool Size"
-  description: "Sets xa-pool/max-pool-size for the configured datasource."
-  name: DB_MAX_POOL_SIZE
-  required: false
-- displayName: "Datasource Transaction Isolation"
-  description: "Sets transaction-isolation for the configured datasource."
-  name: DB_TX_ISOLATION
-  required: false
 - displayName: "Timer service data store refresh interval (in milliseconds)"
-  description: "Sets refresh-interval for the EJB timer service database-data-store."
+  description: "Sets refresh-interval for the EJB timer database data-store service."
   name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
   value: '30000'
   required: false
-- displayName: "PostgreSQL Image Stream Tag"
-  description: "The tag to use for the \"postgresql\" image stream.  Typically, this aligns with the major.minor version of PostgreSQL."
-  name: POSTGRESQL_IMAGE_STREAM_TAG
-  value: latest
-  required: true
-- displayName: KIE Server Persistence Dialect
-  description: KIE execution server persistence dialect (Sets the org.kie.server.persistence.dialect system property)
-  name: KIE_SERVER_PERSISTENCE_DIALECT
-  value: org.hibernate.dialect.PostgreSQLDialect
-  required: false
-- displayName: KIE Server Persistence DS
-  description: KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property)
-  name: KIE_SERVER_PERSISTENCE_DS
-  value: java:/jboss/datasources/ExampleDS
-  required: false
-- displayName: KIE Server Persistence TM
-  description: KIE execution server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)
-  name: KIE_SERVER_PERSISTENCE_TM
-  value: org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform
-  required: false
 - displayName: Execution Server Container Memory Limit
   description: Execution Server Container memory limit
-  name: EXCECUTION_SERVER_MEMORY_LIMIT
+  name: EXECUTION_SERVER_MEMORY_LIMIT
   value: 1Gi
   required: false
+- displayName: KIE Server Container Deployment
+  description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
+  name: KIE_SERVER_CONTAINER_DEPLOYMENT
+  example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT
+  required: false
+- displayName: Disable KIE Server Management
+  description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped"
+  name: KIE_SERVER_MGMT_DISABLED
+  example: "true"
+  required: false  
+- displayName: KIE Server Startup Strategy
+  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
+  name: KIE_SERVER_STARTUP_STRATEGY
+  example: "LocalContainersStartupStrategy"
+  required: false  
 objects:
 - kind: ServiceAccount
   apiVersion: v1
@@ -222,6 +257,20 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The execution server web server's http port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - port: 8443
+      targetPort: 8443
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+  metadata:
+    name: "secure-${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The execution server web server's https port.
 - apiVersion: v1
   kind: Service
   metadata:
@@ -244,11 +293,26 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
     annotations:
-      description: Route for execution server's http service.
+      description: Route for KIE server's http service.
   spec:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-kieserver-https"
+  metadata:
+    name: "secure-${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: Route for KIE server's https service.
+  spec:
+    host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
+    to:
+      name: "secure-${APPLICATION_NAME}-kieserver"
+    tls:
+      termination: passthrough
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -287,7 +351,11 @@ objects:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
+              memory: "${EXECUTION_SERVER_MEMORY_LIMIT}"
+          volumeMounts:
+          - name: kieserver-keystore-volume
+            mountPath: "/etc/kieserver-secret-volume"
+            readOnly: true
           livenessProbe:
             exec:
               command:
@@ -307,6 +375,9 @@ objects:
           - name: http
             containerPort: 8080
             protocol: TCP
+          - name: https
+            containerPort: 8443
+            protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
@@ -324,62 +395,80 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_PWD}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${KIE_SERVER_CONTROLLER_SERVICE}"
-          - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_CONTROLLER_HOST
             value: "${KIE_SERVER_CONTROLLER_HOST}"
           - name: KIE_SERVER_CONTROLLER_PORT
             value: "${KIE_SERVER_CONTROLLER_PORT}"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-          - name: KIE_SERVER_CONTAINER_DEPLOYMENT
-            value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
-          - name: KIE_SERVER_PWD
-            value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
+          - name: KIE_SERVER_PWD
+            value: "${KIE_SERVER_PWD}"
+          - name: KIE_SERVER_CONTAINER_DEPLOYMENT
+            value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
           - name: MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: MAVEN_REPO_SERVICE
-            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: MAVEN_REPO_PATH
             value: "/maven2/"
+          - name: KIE_SERVER_ROUTER_SERVICE
+            value: "${KIE_SERVER_ROUTER_SERVICE}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "${KIE_SERVER_PERSISTENCE_DIALECT}"
+            value: "org.hibernate.dialect.PostgreSQLDialect"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: KIE_SERVER_PERSISTENCE_TM
-            value: "${KIE_SERVER_PERSISTENCE_TM}"
-          - name: DB_SERVICE_PREFIX_MAPPING
-            value: "${APPLICATION_NAME}-postgresql=DB"
-          - name: DB_JNDI
-            value: "${DB_JNDI}"
-          - name: DB_USERNAME
-            value: "${DB_USERNAME}"
-          - name: DB_PASSWORD
-            value: "${DB_PASSWORD}"
-          - name: DB_DATABASE
-            value: "${DB_DATABASE}"
-          - name: TX_DATABASE_PREFIX_MAPPING
-            value: "${APPLICATION_NAME}-postgresql=DB"
-          - name: DB_MIN_POOL_SIZE
-            value: "${DB_MIN_POOL_SIZE}"
-          - name: DB_MAX_POOL_SIZE
-            value: "${DB_MAX_POOL_SIZE}"
-          - name: DB_TX_ISOLATION
-            value: "${DB_TX_ISOLATION}"
+          - name: DATASOURCES
+            value: "RHPAM"
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_POSTGRESQL_DB}"
+          - name: RHPAM_JNDI
+            value: "${KIE_SERVER_PERSISTENCE_DS}"
+          - name: RHPAM_DRIVER
+            value: "postgresql"
+          - name: RHPAM_JTA
+            value: "true"
+          - name: RHPAM_TX_ISOLATION
+            value: "TRANSACTION_READ_COMMITTED"
+          - name: RHPAM_USERNAME
+            value: "${KIE_SERVER_POSTGRESQL_USER}"
+          - name: RHPAM_PASSWORD
+            value: "${KIE_SERVER_POSTGRESQL_PWD}"
+          - name: RHPAM_SERVICE_HOST
+            value: "${APPLICATION_NAME}-postgresql"
+          - name: RHPAM_SERVICE_PORT
+            value: "5432"
           - name: TIMER_SERVICE_DATA_STORE
             value: "${APPLICATION_NAME}-postgresql"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
+          - name: HTTPS_KEYSTORE_DIR
+            value: "/etc/kieserver-secret-volume"
+          - name: HTTPS_KEYSTORE
+            value: "${KIE_SERVER_HTTPS_KEYSTORE}"
+          - name: HTTPS_NAME
+            value: "${KIE_SERVER_HTTPS_NAME}"
+          - name: HTTPS_PASSWORD
+            value: "${KIE_SERVER_HTTPS_PASSWORD}"
+          - name: ADMIN_USERNAME
+            value: "${ADMIN_USERNAME}"
+          - name: ADMIN_PASSWORD
+            value: "${ADMIN_PASSWORD}"
+        volumes:
+        - name: kieserver-keystore-volume
+          secret:
+            secretName: "${KIE_SERVER_HTTPS_SECRET}"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -423,11 +512,11 @@ objects:
             name: "${APPLICATION_NAME}-postgresql-pvol"
           env:
           - name: POSTGRESQL_USER
-            value: "${DB_USERNAME}"
+            value: "${KIE_SERVER_POSTGRESQL_USER}"
           - name: POSTGRESQL_PASSWORD
-            value: "${DB_PASSWORD}"
+            value: "${KIE_SERVER_POSTGRESQL_PWD}"
           - name: POSTGRESQL_DATABASE
-            value: "${DB_DATABASE}"
+            value: "${KIE_SERVER_POSTGRESQL_DB}"
         volumes:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
