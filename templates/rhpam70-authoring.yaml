@@ -185,8 +185,17 @@ parameters:
   value: "1.0"
   required: false
 - displayName: Maven repository URL
-  description: Fully qualified URL to a Maven repository. If unspecified, will fall back to Business Central service.
+  description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
+  example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
+  required: false
+- displayName: Maven repository username
+  description: Username to access the Maven repository, if required.
+  name: MAVEN_REPO_USERNAME
+  required: false
+- displayName: Maven repository password
+  description: Password to access the Maven repository, if required.
+  name: MAVEN_REPO_PASSWORD
   required: false
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
@@ -410,6 +419,12 @@ objects:
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
+          - name: MAVEN_REPO_URL
+            value: "${MAVEN_REPO_URL}"
+          - name: MAVEN_REPO_USERNAME
+            value: "${MAVEN_REPO_USERNAME}"
+          - name: MAVEN_REPO_PASSWORD
+            value: "${MAVEN_REPO_PASSWORD}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
@@ -523,7 +538,6 @@ objects:
             value: "dummy_ignored"
           - name: RHPAM_SERVICE_PORT
             value: "12345"
-
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_PWD
@@ -554,8 +568,6 @@ objects:
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
-          - name: MAVEN_REPO_URL
-            value: "${MAVEN_REPO_URL}"
           - name: MAVEN_REPO_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: MAVEN_REPO_PATH
@@ -564,6 +576,14 @@ objects:
             value: "${KIE_ADMIN_USER}"
           - name: MAVEN_REPO_PASSWORD
             value: "${KIE_ADMIN_PWD}"
+          - name: MAVEN_REPOS
+            value: "EXTERNAL"
+          - name: EXTERNAL_MAVEN_REPO_URL
+            value: "${MAVEN_REPO_URL}"
+          - name: EXTERNAL_MAVEN_REPO_USERNAME
+            value: "${MAVEN_REPO_USERNAME}"
+          - name: EXTERNAL_MAVEN_REPO_PASSWORD
+            value: "${MAVEN_REPO_PASSWORD}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/kieserver-secret-volume"
           - name: HTTPS_KEYSTORE
