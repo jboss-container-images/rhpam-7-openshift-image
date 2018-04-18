@@ -426,7 +426,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "rhpam70-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: 2
     selector:
       deploymentConfig: "${APPLICATION_NAME}-smartrouter"
     template:
@@ -469,3 +469,26 @@ objects:
             value: "${KIE_SERVER_MONITOR_PWD}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_ROUTER_REPO
+            value: "/opt/rhpam-smartrouter/data"
+          - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
+            value: "true"
+          volumeMounts:
+          - name: "${APPLICATION_NAME}-smartrouter"
+            mountPath: "/opt/rhpam-smartrouter/data"
+        volumes:
+        - name: "${APPLICATION_NAME}-smartrouter"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-smartrouter-claim"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-smartrouter-claim"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: "64Mi"

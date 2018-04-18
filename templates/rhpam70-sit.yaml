@@ -659,6 +659,17 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_PWD}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_ROUTER_REPO
+            value: "/opt/rhpam-smartrouter/data"
+          - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
+            value: "true"
+          volumeMounts:
+          - name: "${APPLICATION_NAME}-smartrouter"
+            mountPath: "/opt/rhpam-smartrouter/data"
+        volumes:
+        - name: "${APPLICATION_NAME}-smartrouter"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-smartrouter-claim"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -1075,3 +1086,15 @@ objects:
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-smartrouter-claim"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: "64Mi"
