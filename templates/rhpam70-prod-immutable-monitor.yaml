@@ -327,6 +327,8 @@ objects:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
+          - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
+            mountPath: "/opt/eap/standalone/data/bpmsuite"
           livenessProbe:
             exec:
               command:
@@ -406,6 +408,9 @@ objects:
         - name: businesscentral-keystore-volume
           secret:
             secretName: "${BUSINESS_CENTRAL_HTTPS_SECRET}"
+        - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-rhpamcentr-claim"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -484,6 +489,18 @@ objects:
   kind: PersistentVolumeClaim
   metadata:
     name: "${APPLICATION_NAME}-smartrouter-claim"
+    labels:
+      application: "${APPLICATION_NAME}"
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: "64Mi"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
       application: "${APPLICATION_NAME}"
   spec:
