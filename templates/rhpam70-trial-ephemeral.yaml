@@ -238,17 +238,19 @@ objects:
             limits:
               memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           livenessProbe:
-            exec:
-              command:
-              - "/bin/bash"
-              - "-c"
-              - "/opt/eap/bin/livenessProbe.sh"
+            httpGet:
+              path: /kie-wb.jsp
+              port: 8080
+            initialDelaySeconds: 180
+            timeoutSeconds: 2
+            periodSeconds: 15
           readinessProbe:
-            exec:
-              command:
-              - "/bin/bash"
-              - "-c"
-              - "/opt/eap/bin/readinessProbe.sh"
+            httpGet:
+              path: /kie-wb.jsp
+              port: 8080
+            initialDelaySeconds: 180
+            timeoutSeconds: 2
+            periodSeconds: 15
           ports:
           - name: jolokia
             containerPort: 8778
