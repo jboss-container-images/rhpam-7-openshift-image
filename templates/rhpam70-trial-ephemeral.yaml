@@ -148,6 +148,20 @@ objects:
   apiVersion: v1
   spec:
     ports:
+    - port: 8001
+      targetPort: 8001
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+  metadata:
+    name: ${APPLICATION_NAME}-rhpamcentr-git-ssh
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: The Business Central Git SSH port
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
     - port: 8080
       targetPort: 8080
     selector:
@@ -244,6 +258,9 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
+            protocol: TCP
+          - name: git-ssh
+            containerPort: 8001
             protocol: TCP
           env:
           - name: KIE_ADMIN_PWD
