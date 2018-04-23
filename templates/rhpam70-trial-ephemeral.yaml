@@ -100,13 +100,14 @@ parameters:
   example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
   required: false
 - displayName: Maven repository username
-  description: Username to access the Maven repository, if required.
+  description: Username to access the Maven repository.
   name: MAVEN_REPO_USERNAME
-  required: false
+  required: true
+  value: mavenUser
 - displayName: Maven repository password
-  description: Password to access the Maven repository, if required.
+  description: Password to access the Maven repository.
   name: MAVEN_REPO_PASSWORD
-  required: false
+  from: "[a-zA-Z]{6}[0-9]{1}!"
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
@@ -383,16 +384,16 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_CONTAINER_DEPLOYMENT
             value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
-          - name: MAVEN_REPO_SERVICE
-            value: "${APPLICATION_NAME}-rhpamcentr"
-          - name: MAVEN_REPO_PATH
-            value: "/maven2/"
-          - name: MAVEN_REPO_USERNAME
-            value: "${KIE_ADMIN_USER}"
-          - name: MAVEN_REPO_PASSWORD
-            value: "${DEFAULT_PASSWORD}"
           - name: MAVEN_REPOS
-            value: "EXTERNAL"
+            value: "RHPAMCENTR,EXTERNAL"
+          - name: RHPAMCENTR_MAVEN_REPO_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentr"
+          - name: RHPAMCENTR_MAVEN_REPO_PATH
+            value: "/maven2/"
+          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+            value: "${MAVEN_REPO_USERNAME}"
+          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+            value: "${MAVEN_REPO_PASSWORD}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
