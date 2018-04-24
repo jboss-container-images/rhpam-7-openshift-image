@@ -548,9 +548,10 @@ objects:
             httpGet:
               path: /kie-wb.jsp
               port: 8080
-            initialDelaySeconds: 180
+            initialDelaySeconds: 60
             timeoutSeconds: 2
-            periodSeconds: 15
+            periodSeconds: 30
+            failureThreshold: 6
           ports:
           - name: jolokia
             containerPort: 8778
