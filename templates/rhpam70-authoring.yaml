@@ -198,6 +198,8 @@ parameters:
   description: Password to access the Maven repository.
   name: MAVEN_REPO_PASSWORD
   from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: false
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
   name: BUSINESS_CENTRAL_VOLUME_CAPACITY
