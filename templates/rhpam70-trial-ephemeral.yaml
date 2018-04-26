@@ -104,10 +104,6 @@ parameters:
   name: MAVEN_REPO_USERNAME
   required: true
   value: mavenUser
-- displayName: Maven repository password
-  description: Password to access the Maven repository.
-  name: MAVEN_REPO_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
@@ -286,7 +282,7 @@ objects:
           - name: MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
+            value: "${DEFAULT_PASSWORD}"
           - name: ADMIN_USERNAME
             value: "${ADMIN_USERNAME}"
           - name: ADMIN_PASSWORD
@@ -394,10 +390,10 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
+            value: "${DEFAULT_PASSWORD}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
+            value: "${DEFAULT_PASSWORD}"
