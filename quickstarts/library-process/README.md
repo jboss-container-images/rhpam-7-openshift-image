@@ -107,9 +107,8 @@ $ oc new-app rhpam70-kieserver-s2i
           * ARTIFACT_DIR=
 
   --> Creating resources ...
-      serviceaccount "kieserver-service-account" created
       service "myapp-kieserver" created
-      service "secure-myapp-kieserver" created
+      service "myapp-kieserver-ping" created
       route "myapp-kieserver" created
       route "secure-myapp-kieserver" created
       imagestream "myapp-kieserver" created
