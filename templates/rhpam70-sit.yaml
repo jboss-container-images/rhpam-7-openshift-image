@@ -154,13 +154,13 @@ parameters:
   name: KIE_MBEANS
   value: enabled
   required: false
-- displayName: Business Central Custom http Route Hostname
+- displayName: Business Central Monitoring Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
     e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: Business Central Custom https Route Hostname
+- displayName: Business Central Monitoring Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
@@ -190,22 +190,22 @@ parameters:
   name: EXECUTION_SERVER2_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: Business Central Server Keystore Secret Name
+- displayName: Business Central Monitoring Server Keystore Secret Name
   description: The name of the secret containing the keystore file
   name: BUSINESS_CENTRAL_HTTPS_SECRET
   value: businesscentral-app-secret
   required: false
-- displayName: Business Central Server Keystore Filename
+- displayName: Business Central Monitoring Server Keystore Filename
   description: The name of the keystore file within the secret
   name: BUSINESS_CENTRAL_HTTPS_KEYSTORE
   value: keystore.jks
   required: false
-- displayName: Business Central Server Certificate Name
+- displayName: Business Central Monitoring Server Certificate Name
   description: The name associated with the server certificate
   name: BUSINESS_CENTRAL_HTTPS_NAME
   value: jboss
   required: false
-- displayName: Business Central Server Keystore Password
+- displayName: Business Central Monitoring Server Keystore Password
   description: The password for the keystore and certificate
   name: BUSINESS_CENTRAL_HTTPS_PASSWORD
   value: mykeystorepass
@@ -245,8 +245,8 @@ parameters:
   name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
   value: '30000'
   required: false
-- displayName: Business Central Container Memory Limit
-  description: Business Central Container memory limit
+- displayName: Business Central Monitoring Container Memory Limit
+  description: Business Central Monitoring Container memory limit
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
@@ -260,19 +260,37 @@ parameters:
   name: SMART_ROUTER_MEMORY_LIMIT
   value: 512Mi
   required: false
+- displayName: Business Central Monitoring RH-SSO URL
+  description: Business Central Monitoring RH-SSO URL
+  name: BUSINESS_CENTRAL_SSO_URL
+  example: https://rh-sso.example.com/auth
+  required: false
+- displayName: Business Central Monitoring RH-SSO Realm name
+  description: Business Central Monitoring RH-SSO Realm name
+  name: BUSINESS_CENTRAL_SSO_REALM
+  required: false
+- displayName: Business Central Monitoring RH-SSO Client name
+  description: Business Central Monitoring RH-SSO Client name
+  name: BUSINESS_CENTRAL_SSO_CLIENT
+  required: false
+- displayName: Business Central Monitoring RH-SSO Client Secret
+  description: Business Central Monitoring RH-SSO Client Secret
+  name: BUSINESS_CENTRAL_SSO_SECRET
+  required: false
+- displayName: Business Central Monitoring RH-SSO Realm Admin Username
+  description: Business Central Monitoring RH-SSO Realm Admin Username used to create the Client
+  name: BUSINESS_CENTRAL_SSO_USERNAME
+  required: false
+- displayName: Business Central Monitoring RH-SSO Realm Admin Password
+  description: Business Central Monitoring RH-SSO Realm Admin Password used to create the Client
+  name: BUSINESS_CENTRAL_SSO_PASSWORD
+  required: false
+- displayName: Business Central Monitoring RH-SSO Disable SSL Certificate Validation
+  description: Business Central Monitoring RH-SSO Disable SSL Certificate Validation
+  name: BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+  value: "false"
+  required: false
 objects:
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-kieserver"
-    labels:
-      application: "${APPLICATION_NAME}"
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
-    labels:
-      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -301,6 +319,22 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The Business Central Monitoring web server's https port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentrmon-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
 - kind: Service
   apiVersion: v1
   spec:
@@ -346,6 +380,22 @@ objects:
 - kind: Service
   apiVersion: v1
   spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver-1-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
+- kind: Service
+  apiVersion: v1
+  spec:
     ports:
     - port: 8080
       targetPort: 8080
@@ -371,6 +421,22 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The second execution server web server's https port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver-2-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
 - apiVersion: v1
   kind: Service
   metadata:
@@ -565,6 +631,9 @@ objects:
           - name: https
             containerPort: 8443
             protocol: TCP
+          - name: ping
+            containerPort: 8888
+            protocol: TCP
           env:
           - name: KIE_ADMIN_PWD
             value: "${KIE_ADMIN_PWD}"
@@ -600,6 +669,32 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentrmon-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
+          - name: SSO_URL
+            value: "${BUSINESS_CENTRAL_SSO_URL}"
+          - name: SSO_OPENIDCONNECT_DEPLOYMENTS
+            value: "ROOT.war"
+          - name: SSO_SECRET
+            value: "${BUSINESS_CENTRAL_SSO_SECRET}"
+          - name: SSO_REALM
+            value: "${BUSINESS_CENTRAL_SSO_REALM}"
+          - name: SSO_CLIENT
+            value: "${BUSINESS_CENTRAL_SSO_CLIENT}"
+          - name: SSO_USERNAME
+            value: "${BUSINESS_CENTRAL_SSO_USERNAME}"
+          - name: SSO_PASSWORD
+            value: "${BUSINESS_CENTRAL_SSO_PASSWORD}"
+          - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+            value: "${BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
         volumes:
         - name: businesscentral-keystore-volume
           secret:
@@ -711,7 +806,6 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver-1"
@@ -745,6 +839,9 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
+            protocol: TCP
+          - name: ping
+            containerPort: 8888
             protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
@@ -819,6 +916,12 @@ objects:
             value: "${KIE_SERVER_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${KIE_SERVER_HTTPS_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-kieserver-1-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
         volumes:
         - name: kieserver-keystore-volume
           secret:
@@ -905,7 +1008,6 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver-2"
@@ -939,6 +1041,9 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
+            protocol: TCP
+          - name: ping
+            containerPort: 8888
             protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
@@ -1013,6 +1118,12 @@ objects:
             value: "${KIE_SERVER_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${KIE_SERVER_HTTPS_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-kieserver-2-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
         volumes:
         - name: kieserver-keystore-volume
           secret:

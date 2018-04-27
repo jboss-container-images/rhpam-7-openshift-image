@@ -230,19 +230,13 @@ parameters:
   description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped"
   name: KIE_SERVER_MGMT_DISABLED
   example: "true"
-  required: false  
+  required: false
 - displayName: KIE Server Startup Strategy
   description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
   name: KIE_SERVER_STARTUP_STRATEGY
   example: "LocalContainersStartupStrategy"
-  required: false  
+  required: false
 objects:
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-kieserver"
-    labels:
-      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -271,6 +265,22 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The execution server web server's https port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
 - apiVersion: v1
   kind: Service
   metadata:
@@ -343,7 +353,6 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -377,6 +386,9 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
+            protocol: TCP
+          - name: ping
+            containerPort: 8888
             protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
@@ -465,6 +477,12 @@ objects:
             value: "${ADMIN_USERNAME}"
           - name: ADMIN_PASSWORD
             value: "${ADMIN_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-kieserver-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
         volumes:
         - name: kieserver-keystore-volume
           secret:

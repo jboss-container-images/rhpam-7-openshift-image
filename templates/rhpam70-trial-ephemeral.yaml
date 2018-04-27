@@ -114,19 +114,37 @@ parameters:
   name: EXCECUTION_SERVER_MEMORY_LIMIT
   value: 1Gi
   required: false
+- displayName: Business Central RH-SSO URL
+  description: Business Central RH-SSO URL
+  name: BUSINESS_CENTRAL_SSO_URL
+  example: https://rh-sso.example.com/auth
+  required: false
+- displayName: Business Central RH-SSO Realm name
+  description: Business Central RH-SSO Realm name
+  name: BUSINESS_CENTRAL_SSO_REALM
+  required: false
+- displayName: Business Central RH-SSO Client name
+  description: Business Central RH-SSO Client name
+  name: BUSINESS_CENTRAL_SSO_CLIENT
+  required: false
+- displayName: Business Central RH-SSO Client Secret
+  description: Business Central RH-SSO Client Secret
+  name: BUSINESS_CENTRAL_SSO_SECRET
+  required: false
+- displayName: Business Central RH-SSO Realm Admin Username
+  description: Business Central RH-SSO Realm Admin Username used to create the Client
+  name: BUSINESS_CENTRAL_SSO_USERNAME
+  required: false
+- displayName: Business Central RH-SSO Realm Admin Password
+  description: Business Central RH-SSO Realm Admin Password used to create the Client
+  name: BUSINESS_CENTRAL_SSO_PASSWORD
+  required: false
+- displayName: Business Central RH-SSO Disable SSL Certificate Validation
+  description: Business Central RH-SSO Disable SSL Certificate Validation
+  name: BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+  value: "false"
+  required: false
 objects:
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-kieserver"
-    labels:
-      application: "${APPLICATION_NAME}"
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
-    labels:
-      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -158,6 +176,22 @@ objects:
 - kind: Service
   apiVersion: v1
   spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
+- kind: Service
+  apiVersion: v1
+  spec:
     ports:
     - port: 8080
       targetPort: 8080
@@ -169,6 +203,22 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The execution server web server's http port.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-http"
@@ -225,7 +275,6 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-rhpamcentr"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
@@ -262,6 +311,9 @@ objects:
           - name: git-ssh
             containerPort: 8001
             protocol: TCP
+          - name: ping
+            containerPort: 8888
+            protocol: TCP
           env:
           - name: KIE_ADMIN_PWD
             value: "${DEFAULT_PASSWORD}"
@@ -291,6 +343,32 @@ objects:
             value: probe.eap.jolokia.EapProbe
           - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
             value: 'true'
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
+          - name: SSO_URL
+            value: "${BUSINESS_CENTRAL_SSO_URL}"
+          - name: SSO_OPENIDCONNECT_DEPLOYMENTS
+            value: "ROOT.war"
+          - name: SSO_SECRET
+            value: "${BUSINESS_CENTRAL_SSO_SECRET}"
+          - name: SSO_REALM
+            value: "${BUSINESS_CENTRAL_SSO_REALM}"
+          - name: SSO_CLIENT
+            value: "${BUSINESS_CENTRAL_SSO_CLIENT}"
+          - name: SSO_USERNAME
+            value: "${BUSINESS_CENTRAL_SSO_USERNAME}"
+          - name: SSO_PASSWORD
+            value: "${BUSINESS_CENTRAL_SSO_PASSWORD}"
+          - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+            value: "${BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -321,7 +399,6 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -351,6 +428,9 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
+            protocol: TCP
+          - name: ping
+            containerPort: 8888
             protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
@@ -397,3 +477,9 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${DEFAULT_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-kieserver-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
