@@ -138,8 +138,8 @@ parameters:
 - displayName: KIE Server Keystore Secret Name
   description: The name of the secret containing the keystore file
   name: KIE_SERVER_HTTPS_SECRET
-  value: kieserver-app-secret
-  required: false
+  example: kieserver-app-secret
+  required: true
 - displayName: KIE Server Keystore Filename
   description: The name of the keystore file within the secret
   name: KIE_SERVER_HTTPS_KEYSTORE
