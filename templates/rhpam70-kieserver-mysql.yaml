@@ -241,8 +241,12 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
   metadata:
@@ -251,20 +255,6 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The execution server web server's http port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
-  metadata:
-    name: "secure-${APPLICATION_NAME}-kieserver"
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The execution server web server's https port.
 - kind: Service
   apiVersion: v1
   spec:
@@ -308,6 +298,8 @@ objects:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
+    port:
+      targetPort: http
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-https"
@@ -321,6 +313,8 @@ objects:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
     to:
       name: "secure-${APPLICATION_NAME}-kieserver"
+    port:
+      targetPort: https
     tls:
       termination: passthrough
 - kind: DeploymentConfig

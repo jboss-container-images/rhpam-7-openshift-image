@@ -149,8 +149,12 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: git-ssh
+      port: 8001
+      targetPort: 8001
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
   metadata:
@@ -159,20 +163,6 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The Business Central web server's http port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8001
-      targetPort: 8001
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
-  metadata:
-    name: ${APPLICATION_NAME}-rhpamcentr-git-ssh
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The Business Central Git SSH port
 - kind: Service
   apiVersion: v1
   spec:
@@ -232,6 +222,8 @@ objects:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-rhpamcentr"
+    port:
+      targetPort: http
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-http"

@@ -108,7 +108,6 @@ $ oc new-app rhpam70-kieserver-s2i
 
   --> Creating resources ...
       service "myapp-kieserver" created
-      service "secure-myapp-kieserver" created
       service "myapp-kieserver-ping" created
       route "myapp-kieserver" created
       route "secure-myapp-kieserver" created

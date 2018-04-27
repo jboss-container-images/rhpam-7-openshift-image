@@ -210,8 +210,12 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
   metadata:
@@ -220,20 +224,6 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The Business Central Monitoring web server's http port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
-  metadata:
-    name: "secure-${APPLICATION_NAME}-rhpamcentrmon"
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The Business Central Monitoring web server's https port.
 - kind: Service
   apiVersion: v1
   spec:
@@ -277,6 +267,8 @@ objects:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-rhpamcentrmon"
+    port:
+      targetPort: http
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentrmon-https"
@@ -290,6 +282,8 @@ objects:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
       name: "secure-${APPLICATION_NAME}-rhpamcentrmon"
+    port:
+      targetPort: https
     tls:
       termination: passthrough
 - kind: Route

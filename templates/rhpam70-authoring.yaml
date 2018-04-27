@@ -250,8 +250,15 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
+    - name: git-ssh
+      port: 8001
+      targetPort: 8001
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
   metadata:
@@ -260,34 +267,6 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The Business Central web server's http port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
-  metadata:
-    name: secure-${APPLICATION_NAME}-rhpamcentr
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The Business Central web server's https port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8001
-      targetPort: 8001
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
-  metadata:
-    name: ${APPLICATION_NAME}-rhpamcentr-git-ssh
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The Business Central Git SSH port
 - kind: Service
   apiVersion: v1
   spec:
@@ -308,8 +287,12 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
   metadata:
@@ -318,20 +301,6 @@ objects:
       application: "${APPLICATION_NAME}"
     annotations:
       description: The KIE server web server's http port.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
-  metadata:
-    name: secure-${APPLICATION_NAME}-kieserver
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: The KIE server web server's https port.
 - kind: Service
   apiVersion: v1
   spec:
@@ -361,6 +330,8 @@ objects:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-rhpamcentr"
+    port:
+      targetPort: http
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-https"
@@ -374,6 +345,8 @@ objects:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
       name: secure-${APPLICATION_NAME}-rhpamcentr
+    port:
+      targetPort: https
     tls:
       termination: passthrough
 - kind: Route
@@ -389,6 +362,8 @@ objects:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
+    port:
+      targetPort: http
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-https"
@@ -402,6 +377,8 @@ objects:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
     to:
       name: secure-${APPLICATION_NAME}-kieserver
+    port:
+      targetPort: https
     tls:
       termination: passthrough
 - kind: DeploymentConfig
