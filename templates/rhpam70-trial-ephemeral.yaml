@@ -167,23 +167,6 @@ objects:
 - kind: Service
   apiVersion: v1
   spec:
-    clusterIP: "None"
-    ports:
-    - name: "ping"
-      port: 8888
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr-ping"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-rhpamcentr"
-    annotations:
-      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-      description: "The JGroups ping port for clustering."
-- kind: Service
-  apiVersion: v1
-  spec:
     ports:
     - port: 8080
       targetPort: 8080
@@ -196,23 +179,6 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: All the KIE server web server's ports.
-- kind: Service
-  apiVersion: v1
-  spec:
-    clusterIP: "None"
-    ports:
-    - name: "ping"
-      port: 8888
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
-  metadata:
-    name: "${APPLICATION_NAME}-kieserver-ping"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
-    annotations:
-      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-      description: "The JGroups ping port for clustering."
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-http"
@@ -311,9 +277,6 @@ objects:
           - name: git-ssh
             containerPort: 8001
             protocol: TCP
-          - name: ping
-            containerPort: 8888
-            protocol: TCP
           env:
           - name: KIE_ADMIN_PWD
             value: "${DEFAULT_PASSWORD}"
@@ -343,12 +306,6 @@ objects:
             value: probe.eap.jolokia.EapProbe
           - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
             value: 'true'
-          - name: JGROUPS_PING_PROTOCOL
-            value: "openshift.DNS_PING"
-          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-            value: "${APPLICATION_NAME}-rhpamcentr-ping"
-          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-            value: "8888"
           - name: SSO_URL
             value: "${BUSINESS_CENTRAL_SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -439,9 +396,6 @@ objects:
           - name: https
             containerPort: 8443
             protocol: TCP
-          - name: ping
-            containerPort: 8888
-            protocol: TCP
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
@@ -487,9 +441,3 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${DEFAULT_PASSWORD}"
-          - name: JGROUPS_PING_PROTOCOL
-            value: "openshift.DNS_PING"
-          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-            value: "${APPLICATION_NAME}-kieserver-ping"
-          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-            value: "8888"
