@@ -265,8 +265,9 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
-      description: The Business Central web server's http port.
+      description: All the Business Central web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -280,6 +281,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -299,8 +301,9 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
-      description: The KIE server web server's http port.
+      description: All the KIE server web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -314,6 +317,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -324,6 +328,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       description: Route for Business Central's http service.
   spec:
@@ -339,6 +344,7 @@ objects:
     name: secure-${APPLICATION_NAME}-rhpamcentr
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       description: Route for Business Central's https service.
   spec:
@@ -356,6 +362,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for KIE server's http service.
   spec:
@@ -371,6 +378,7 @@ objects:
     name: secure-${APPLICATION_NAME}-kieserver
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for KIE server's https service.
   spec:
@@ -387,6 +395,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
   spec:
     strategy:
       type: Recreate
@@ -532,6 +541,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
   spec:
     strategy:
       type: Recreate
@@ -691,6 +701,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
   spec:
     accessModes:
     - ReadWriteOnce
@@ -703,6 +714,7 @@ objects:
     name: "${APPLICATION_NAME}-h2-claim"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
   spec:
     accessModes:
     - ReadWriteOnce

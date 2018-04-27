@@ -161,8 +161,9 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
-      description: The Business Central web server's http port.
+      description: All the Business Central web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -176,6 +177,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -191,8 +193,9 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
-      description: The execution server web server's http port.
+      description: All the KIE server web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -206,6 +209,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -216,6 +220,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       description: Route for Business Central's http service.
   spec:
@@ -231,6 +236,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for execution server's http service.
   spec:
@@ -243,6 +249,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
   spec:
     strategy:
       type: Recreate
@@ -266,6 +273,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-rhpamcentr"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -367,6 +375,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
   spec:
     strategy:
       type: Recreate
@@ -390,6 +399,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-kieserver"
       spec:
         terminationGracePeriodSeconds: 60
         containers:

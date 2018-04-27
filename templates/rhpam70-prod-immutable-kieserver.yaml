@@ -258,8 +258,9 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
-      description: The execution server web server's http port.
+      description: All the KIE server web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -273,6 +274,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -283,6 +285,7 @@ objects:
       description: The database server's port.
     labels:
       application: ${APPLICATION_NAME}
+      service: "${APPLICATION_NAME}-postgresql"
     name: ${APPLICATION_NAME}-postgresql
   spec:
     ports:
@@ -297,6 +300,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for KIE server's http service.
   spec:
@@ -312,6 +316,7 @@ objects:
     name: "secure-${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for KIE server's https service.
   spec:
@@ -328,12 +333,14 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
 - kind: BuildConfig
   apiVersion: v1
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
   spec:
     source:
       type: Git
@@ -376,6 +383,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
   spec:
     strategy:
       type: Recreate
@@ -398,6 +406,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-kieserver"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -533,6 +542,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql"
   spec:
     strategy:
       type: Recreate
@@ -556,6 +566,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-postgresql"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-postgresql"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -585,6 +596,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql-claim"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql"
   spec:
     accessModes:
     - ReadWriteOnce

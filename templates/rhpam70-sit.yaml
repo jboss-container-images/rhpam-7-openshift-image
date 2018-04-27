@@ -307,8 +307,9 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
-      description: The Business Central Monitoring web server's http port.
+      description: All the Business Central Monitoring web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -322,6 +323,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentrmon-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -337,6 +339,7 @@ objects:
     name: "${APPLICATION_NAME}-smartrouter"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
     annotations:
       description: The smart router server http port.
 - kind: Service
@@ -355,8 +358,9 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-1"
     annotations:
-      description: The first execution server web server's http port.
+      description: All the KIE server web server's ports. (First execution server)
 - kind: Service
   apiVersion: v1
   spec:
@@ -370,6 +374,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-1-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-1"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -389,8 +394,9 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
-      description: The second execution server web server's http port.
+      description: All the KIE server web server's ports. (Second execution server)
 - kind: Service
   apiVersion: v1
   spec:
@@ -404,6 +410,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-2-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -414,6 +421,7 @@ objects:
       description: The first database server's port.
     labels:
       application: ${APPLICATION_NAME}
+      service: "${APPLICATION_NAME}-postgresql-1"
     name: ${APPLICATION_NAME}-postgresql-1
   spec:
     ports:
@@ -428,6 +436,7 @@ objects:
       description: The second database server's port.
     labels:
       application: ${APPLICATION_NAME}
+      service: "${APPLICATION_NAME}-postgresql-2"
     name: ${APPLICATION_NAME}-postgresql-2
   spec:
     ports:
@@ -442,6 +451,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's http service.
   spec:
@@ -457,6 +467,7 @@ objects:
     name: "secure-${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's https service.
   spec:
@@ -474,6 +485,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-1"
     annotations:
       description: Route for First KIE server's http service.
   spec:
@@ -489,6 +501,7 @@ objects:
     name: "secure-${APPLICATION_NAME}-kieserver-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-1"
     annotations:
       description: Route for First KIE server's https service.
   spec:
@@ -506,6 +519,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
       description: Route for First KIE server's http service.
   spec:
@@ -521,6 +535,7 @@ objects:
     name: "secure-${APPLICATION_NAME}-kieserver-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
       description: Route for First KIE server's https service.
   spec:
@@ -538,6 +553,7 @@ objects:
     name: "${APPLICATION_NAME}-smartrouter"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
     annotations:
       description: Route for Smart Router's http service.
   spec:
@@ -550,6 +566,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
   spec:
     strategy:
       type: Recreate
@@ -573,6 +590,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-rhpamcentrmon"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -690,6 +708,7 @@ objects:
     name: ${APPLICATION_NAME}-smartrouter
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
   spec:
     strategy:
       type: Recreate
@@ -713,6 +732,7 @@ objects:
         labels:
           application: "${APPLICATION_NAME}"
           deploymentConfig: "${APPLICATION_NAME}-smartrouter"
+          service: "${APPLICATION_NAME}-smartrouter"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -764,6 +784,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-1"
   spec:
     strategy:
       type: Recreate
@@ -787,6 +808,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-kieserver-1"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -914,6 +936,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql-1"
   spec:
     strategy:
       type: Recreate
@@ -937,6 +960,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-postgresql-1"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-postgresql-1"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -966,6 +990,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver-2"
   spec:
     strategy:
       type: Recreate
@@ -989,6 +1014,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-kieserver-2"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -1116,6 +1142,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql-2"
   spec:
     strategy:
       type: Recreate
@@ -1139,6 +1166,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-postgresql-2"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-postgresql-2"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -1168,6 +1196,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql-claim-1"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql-1"
   spec:
     accessModes:
     - ReadWriteOnce
@@ -1180,6 +1209,7 @@ objects:
     name: "${APPLICATION_NAME}-postgresql-claim-2"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-postgresql-2"
   spec:
     accessModes:
     - ReadWriteOnce
@@ -1192,6 +1222,7 @@ objects:
     name: "${APPLICATION_NAME}-smartrouter-claim"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
   spec:
     accessModes:
     - ReadWriteOnce
@@ -1204,6 +1235,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
   spec:
     accessModes:
     - ReadWriteOnce
