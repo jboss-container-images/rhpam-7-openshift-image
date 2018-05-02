@@ -316,7 +316,7 @@ objects:
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
-      name: secure-${APPLICATION_NAME}-rhpamcentr
+      name: ${APPLICATION_NAME}-rhpamcentr
     port:
       targetPort: https
     tls:
@@ -350,7 +350,7 @@ objects:
   spec:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
     to:
-      name: secure-${APPLICATION_NAME}-kieserver
+      name: ${APPLICATION_NAME}-kieserver
     port:
       targetPort: https
     tls:

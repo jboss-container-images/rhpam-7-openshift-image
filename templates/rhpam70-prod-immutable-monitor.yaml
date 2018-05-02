@@ -286,7 +286,7 @@ objects:
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
-      name: "secure-${APPLICATION_NAME}-rhpamcentrmon"
+      name: "${APPLICATION_NAME}-rhpamcentrmon"
     port:
       targetPort: https
     tls:
