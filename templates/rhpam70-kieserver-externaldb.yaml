@@ -300,7 +300,7 @@ objects:
   spec:
     host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
     to:
-      name: "secure-${APPLICATION_NAME}-kieserver"
+      name: "${APPLICATION_NAME}-kieserver"
     port:
       targetPort: https
     tls:
