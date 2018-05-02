@@ -104,6 +104,11 @@ parameters:
   name: MAVEN_REPO_USERNAME
   required: true
   value: mavenUser
+- displayName: Username for the Maven service hosted by Business Central
+  description: Username to access the Maven service hosted by Business Central inside EAP.
+  name: BUSINESS_CENTRAL_MAVEN_USERNAME
+  required: true
+  value: mavenUser
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
@@ -298,6 +303,10 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${DEFAULT_PASSWORD}"
+          - name: KIE_MAVEN_USER
+            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
+          - name: KIE_MAVEN_PWD
+            value: "${DEFAULT_PASSWORD}"
           - name: ADMIN_USERNAME
             value: "${ADMIN_USERNAME}"
           - name: ADMIN_PASSWORD
@@ -432,7 +441,7 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME
-            value: "${MAVEN_REPO_USERNAME}"
+            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
             value: "${DEFAULT_PASSWORD}"
           - name: EXTERNAL_MAVEN_REPO_URL
