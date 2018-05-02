@@ -200,6 +200,17 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+- displayName: Username for the Maven service hosted by Business Central
+  description: Username to access the Maven service hosted by Business Central inside EAP.
+  name: BUSINESS_CENTRAL_MAVEN_USERNAME
+  required: true
+  value: mavenUser
+- displayName: Password for the Maven service hosted by Business Central
+  description: Password to access the Maven service hosted by Business Central inside EAP.
+  name: BUSINESS_CENTRAL_MAVEN_PASSWORD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: true
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
   name: BUSINESS_CENTRAL_VOLUME_CAPACITY
@@ -385,6 +396,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-rhpamcentr"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -449,6 +461,10 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
+          - name: KIE_MAVEN_USER
+            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
+          - name: KIE_MAVEN_PWD
+            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
@@ -522,6 +538,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-kieserver"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -625,9 +642,9 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME
-            value: "${MAVEN_REPO_USERNAME}"
+            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_PASSWORD}"
+            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
