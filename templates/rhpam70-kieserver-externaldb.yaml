@@ -162,6 +162,15 @@ parameters:
   name: KIE_SERVER_EXTERNALDB_DIALECT
   example: "org.hibernate.dialect.MySQL5Dialect"
   required: true
+- displayName: KIE Server External Database Host
+  description: KIE execution server external database host, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_HOST
+  required: true
+- displayName: KIE Server External Database name
+  description: KIE execution server external database name, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_DB
+  value: rhpam
+  required: false
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -445,6 +454,10 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_PWD}"
           - name: RHPAM_XA_CONNECTION_PROPERTY_URL
             value: "${KIE_SERVER_EXTERNALDB_URL}"
+          - name: RHPAM_SERVICE_HOST
+            value: "${KIE_SERVER_EXTERNALDB_HOST}"
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_EXTERNALDB_DB}"
           - name: RHPAM_NONXA
             value: "false"
           - name: RHPAM_JTA
