@@ -88,9 +88,24 @@ parameters:
   description: The service name for the optional business-central-monitor, where it can be reached and registered with, to allow monitoring console functionality
   name: KIE_SERVER_MONITOR_SERVICE
   required: false
-- displayName: KIE Server Smart Router Service
+- displayName: Smart Router Service
   description: The service name for the optional smart router, where it can be reached, to allow smart routing
   name: KIE_SERVER_ROUTER_SERVICE
+  required: false
+- displayName: Smart Router Host
+  description: "The host name of the smart router, which could be the service name resolved by OpenShift or a globally resolvable domain name"
+  name: KIE_SERVER_ROUTER_HOST
+  example: "myapp-smartrouter"
+  required: false
+- displayName: Smart Router listening port
+  description: Port in which the smart router server listens (router property org.kie.server.router.port)
+  name: KIE_SERVER_ROUTER_PORT
+  example: "9000"
+  required: false
+- displayName: Smart Router protocol
+  description: KIE server router protocol (Used to build the org.kie.server.router.url.external property)
+  name: KIE_SERVER_ROUTER_PROTOCOL
+  example: "http"
   required: false
 - displayName: KIE Server Persistence DS
   description: KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property)
@@ -456,10 +471,10 @@ objects:
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
-          - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
+          - name: KIE_ADMIN_PWD
+            value: "${KIE_ADMIN_PWD}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
@@ -494,6 +509,12 @@ objects:
             value: "/maven2/"
           - name: KIE_SERVER_ROUTER_SERVICE
             value: "${KIE_SERVER_ROUTER_SERVICE}"
+          - name: KIE_SERVER_ROUTER_HOST
+            value: "${KIE_SERVER_ROUTER_HOST}"
+          - name: KIE_SERVER_ROUTER_PORT
+            value: "${KIE_SERVER_ROUTER_PORT}"
+          - name: KIE_SERVER_ROUTER_PROTOCOL
+            value: "${KIE_SERVER_ROUTER_PROTOCOL}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "org.hibernate.dialect.PostgreSQLDialect"
           - name: KIE_SERVER_PERSISTENCE_DS

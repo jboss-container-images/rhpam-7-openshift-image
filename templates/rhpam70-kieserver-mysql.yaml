@@ -402,10 +402,10 @@ objects:
           env:
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
-          - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
+          - name: KIE_ADMIN_PWD
+            value: "${KIE_ADMIN_PWD}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
@@ -446,6 +446,12 @@ objects:
             value: "/maven2/"
           - name: KIE_SERVER_ROUTER_SERVICE
             value: "${KIE_SERVER_ROUTER_SERVICE}"
+          - name: KIE_SERVER_ROUTER_HOST
+            value: "${KIE_SERVER_ROUTER_HOST}"
+          - name: KIE_SERVER_ROUTER_PORT
+            value: "${KIE_SERVER_ROUTER_PORT}"
+          - name: KIE_SERVER_ROUTER_PROTOCOL
+            value: "${KIE_SERVER_ROUTER_PROTOCOL}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "org.hibernate.dialect.MySQL5Dialect"
           - name: KIE_SERVER_PERSISTENCE_DS
