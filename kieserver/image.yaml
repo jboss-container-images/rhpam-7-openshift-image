@@ -268,6 +268,9 @@ artifacts:
       sha256: f48b2b15ccfd17589f5a424c689697b8cfefbe95a553ba589c14eaba4978a823
     - url: slf4j-simple-1.7.22.redhat-1.jar
       md5: 51c319582c16a07c21e41737e45cb03a
+    - path: postgresql-42.2.2.redhat-2.jar
+      description: "temp fix for https://issues.jboss.org/browse/RHPAM-740, after the latest postgresql jar is provided from RPM, follow up work: https://issues.jboss.org/browse/RHPAM-785"
+      md5:  48a419e50c1524fe9612f8db6e31ccec
 run:
       user: 185
       cmd:
