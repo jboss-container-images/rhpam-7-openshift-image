@@ -190,13 +190,8 @@ parameters:
   name: KIE_SERVER_HTTPS_PASSWORD
   value: mykeystorepass
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 512Mi
-  required: true
-- displayName: AppFormer Elasticsearch reconnection tries.
-  description: The number of times that appformer will try to connect to the Elasticsearch node before give up.
+- displayName: AppFormer elastic search reconnection tries.
+  description: The number of times that appformer will try to connect to the elasticsearch node before give up.
   name: APPFORMER_ELASTIC_RETRIES
   required: false
 - displayName: AppFormer JMS Broker port.
