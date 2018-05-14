@@ -195,6 +195,9 @@ envs:
     - name: "AUTO_CONFIGURE_EJB_TIMER"
       example: "false"
       description: "Set if the EJB timer datasources should be auto configured, if false, user will need to define the default and the ejb datasources using the DATASOURCES or DB_SERVICE_PREFIX_MAPPING environment variables manually. Default is true"
+    - name: "KIE_SERVER_MGMT_DISABLED"
+      example: "true"
+      description: "Turn the Execution server immutable, this setting prevents the controllers to execute tasks like add or remove kie containers."
 ports:
     - value: 8080
     - value: 8443
