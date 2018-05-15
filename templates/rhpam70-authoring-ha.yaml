@@ -195,8 +195,8 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 512Mi
   required: true
-- displayName: AppFormer elastic search reconnection tries.
-  description: The number of times that appformer will try to connect to the elasticsearch node before give up.
+- displayName: AppFormer Elasticsearch reconnection tries.
+  description: The number of times that appformer will try to connect to the Elasticsearch node before give up.
   name: APPFORMER_ELASTIC_RETRIES
   required: false
 - displayName: AppFormer JMS Broker port.
@@ -216,41 +216,41 @@ parameters:
   required: true
 - displayName: Elasticsearch Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
-    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+    e.g.: <application-name>-rhpamindex-<project>.<default-domain-suffix>'
   name: ES_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: Elastic Search Cluster name
+- displayName: Elasticsearch Cluster name
   description: Sets the ES cluster.name and configure it on Business Central. Defaults to kie-cluster.
   name: APPFORMER_ELASTIC_CLUSTER_NAME
   value: ''
   required: false
-- displayName: Elastic Search Node name
+- displayName: Elasticsearch Node name
   description: Sets the ES node.name property. Defaults to HOSTNAME env value.
   name: ES_NODE_NAME
   value: ''
   required: false
-- displayName: Elastic Search Transport Host
+- displayName: Elasticsearch Transport Host
   description: Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address.
   name: ES_TRANSPORT_HOST
   value: ''
   required: false
-- displayName: Elastic Search Transport TCP Port
+- displayName: Elasticsearch Transport TCP Port
   description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster and the communication with Business Central.
   name: APPFORMER_ELASTIC_PORT
   value: ''
   required: false
-- displayName: Elastic Search HTTP Host
+- displayName: Elasticsearch HTTP Host
   description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address
   name: ES_HTTP_HOST
   value: ''
   required: false
-- displayName: Elastic Search HTTP Port
+- displayName: Elasticsearch HTTP Port
   description: Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api.
   name: ES_HTTP_PORT
   value: ''
   required: false
-- displayName: Elastic Search Additional Java Options
+- displayName: Elasticsearch Additional Java Options
   description: Appends custom jvm configurations/properties to ES jvm.options configuration file.
   name: ES_JAVA_OPTS
   value: ''
@@ -271,8 +271,8 @@ parameters:
   name: AMQ_GLOBAL_MAX_SIZE
   value: 100 gb
   required: false
-- displayName: Elastic Search Volume Capacity
-  description: Size of persistent storage for elastic search volume.
+- displayName: Elasticsearch Volume Capacity
+  description: Size of persistent storage for Elasticsearch volume.
   name: ES_VOLUME_CAPACITY
   value: 512Mi
   required: true
@@ -426,14 +426,14 @@ objects:
       port: 9300
       targetPort: 9300
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-es"
+      deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
   metadata:
-    name: "${APPLICATION_NAME}-es"
+    name: "${APPLICATION_NAME}-rhpamindex"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-es"
+      service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
-      description: The elasticsearch ports.
+      description: All the Business Central Indexing Elasticsearch ports.
 - apiVersion: v1
   kind: Service
   spec:
@@ -534,17 +534,17 @@ objects:
       termination: passthrough
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-es-http"
+  id: "${APPLICATION_NAME}-rhpamindex-http"
   metadata:
-    name: "${APPLICATION_NAME}-es"
+    name: "${APPLICATION_NAME}-rhpamindex"
     labels:
       application: "${APPLICATION_NAME}"
     annotations:
-      description: Route for elasticsearch's http service.
+      description: Route for Business Central Indexing's Elasticsearch http service.
   spec:
     host: "${ES_HOSTNAME_HTTP}"
     to:
-      name: "${APPLICATION_NAME}-es"
+      name: "${APPLICATION_NAME}-rhpamindex"
     port:
       targetPort: rest
 - kind: DeploymentConfig
@@ -670,7 +670,7 @@ objects:
           - name: APPFORMER_ELASTIC_RETRIES
             value: "${APPFORMER_ELASTIC_RETRIES}"
           - name: APPFORMER_ELASTIC_HOST
-            value: "${APPLICATION_NAME}-es"
+            value: "${APPLICATION_NAME}-rhpamindex"
           - name: APPFORMER_JMS_BROKER_ADDRESS
             value: "${APPLICATION_NAME}-amq-tcp"
           - name: APPFORMER_JMS_BROKER_PORT
@@ -868,7 +868,7 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-es"
+    name: "${APPLICATION_NAME}-rhpamindex"
     labels:
       application: "${APPLICATION_NAME}"
   spec:
@@ -879,29 +879,29 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-es"
+        - "${APPLICATION_NAME}-rhpamindex"
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-elasticsearch-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam70-businesscentral-indexing-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-es"
+      deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-es"
+        name: "${APPLICATION_NAME}-rhpamindex"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-es"
+          deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
           application: "${APPLICATION_NAME}"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-es"
-          image: rhpam70-elasticsearch-openshift
+        - name: "${APPLICATION_NAME}-rhpamindex"
+          image: rhpam70-businesscentral-indexing-openshift
           imagePullPolicy: Always
           volumeMounts:
-          - name: "${APPLICATION_NAME}-es-pvol"
+          - name: "${APPLICATION_NAME}-rhpamindex-pvol"
             mountPath: "/opt/elasticsearch/data"
           livenessProbe:
             tcpSocket:
@@ -937,9 +937,9 @@ objects:
           - name: ES_JAVA_OPTS
             value: "${ES_JAVA_OPTS}"
         volumes:
-        - name: "${APPLICATION_NAME}-es-pvol"
+        - name: "${APPLICATION_NAME}-rhpamindex-pvol"
           persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-es-claim"
+            claimName: "${APPLICATION_NAME}-rhpamindex-claim"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -1101,7 +1101,7 @@ objects:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: "${APPLICATION_NAME}-es-claim"
+    name: "${APPLICATION_NAME}-rhpamindex-claim"
     labels:
       application: "${APPLICATION_NAME}"
   spec:

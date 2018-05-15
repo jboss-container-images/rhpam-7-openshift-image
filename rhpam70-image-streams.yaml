@@ -104,7 +104,7 @@ items:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam70-elasticsearch-openshift
+    name: rhpam70-businesscentral-indexing-openshift
     annotations:
       openshift.io/display-name: Elastic Search 5.6.5
       openshift.io/provider-display-name: Red Hat, Inc.
@@ -112,12 +112,12 @@ items:
     tags:
     - name: '1.0'
       annotations:
-        description: Elastic Search 5.6.5 image.
+        description: Red Hat Process Automation Manager 7.0 - Business Central Indexing image.
         iconClass: icon-jboss
-        tags: elasticsearch,xpaas
-        supports: elasticsearch:5.6.5,xpaas:1.4
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
         version: '1.0'
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-elasticsearch-openshift:1.0
+        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-indexing-openshift:1.0
 
