@@ -247,7 +247,7 @@ parameters:
   value: 1Gi
   required: false
 - displayName: Disable KIE Server Management
-  description: description: Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy.
+  description: Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy.
   name: KIE_SERVER_MGMT_DISABLED
   value: "true"
   required: true
