@@ -454,6 +454,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's http service.
+      haproxy.router.openshift.io/timeout: 60s
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
@@ -470,6 +471,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's https service.
+      haproxy.router.openshift.io/timeout: 60s
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
@@ -521,7 +523,7 @@ objects:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
-      description: Route for First KIE server's http service.
+      description: Route for Second KIE server's http service.
   spec:
     host: "${EXECUTION_SERVER2_HOSTNAME_HTTP}"
     to:
@@ -537,7 +539,7 @@ objects:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver-2"
     annotations:
-      description: Route for First KIE server's https service.
+      description: Route for Second KIE server's https service.
   spec:
     host: "${EXECUTION_SERVER2_HOSTNAME_HTTPS}"
     to:
