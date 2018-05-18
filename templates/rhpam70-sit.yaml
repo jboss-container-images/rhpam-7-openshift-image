@@ -144,6 +144,11 @@ parameters:
   name: KIE_SERVER_POSTGRESQL_DB
   value: rhpam7
   required: false
+- displayName: PostgreSQL Database max prepared connections
+  description: Allows the PostgreSQL to handle XA transactions.
+  name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
+  value: '100'
+  required: true
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -994,6 +999,8 @@ objects:
             value: "${KIE_SERVER_POSTGRESQL_PWD}"
           - name: POSTGRESQL_DATABASE
             value: "${KIE_SERVER_POSTGRESQL_DB}"
+          - name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
+            value: "${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}"
         volumes:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
@@ -1212,6 +1219,8 @@ objects:
             value: "${KIE_SERVER_POSTGRESQL_PWD}"
           - name: POSTGRESQL_DATABASE
             value: "${KIE_SERVER_POSTGRESQL_DB}"
+          - name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
+            value: "${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}"
         volumes:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
