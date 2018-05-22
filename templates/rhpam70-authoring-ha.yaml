@@ -269,7 +269,7 @@ parameters:
 - displayName: Elasticsearch Volume Capacity
   description: Size of persistent storage for Elasticsearch volume.
   name: ES_VOLUME_CAPACITY
-  value: 512Mi
+  value: 1Gi
   required: true
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
@@ -319,7 +319,7 @@ parameters:
 - displayName: Database Volume Capacity
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
-  value: 512Mi
+  value: 1Gi
   required: true
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
@@ -329,7 +329,7 @@ parameters:
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
   name: BUSINESS_CENTRAL_VOLUME_CAPACITY
-  value: 512Mi
+  value: 1Gi
   required: true
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit
