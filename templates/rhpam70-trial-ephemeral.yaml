@@ -102,8 +102,11 @@ parameters:
 - displayName: Maven repository username
   description: Username to access the Maven repository.
   name: MAVEN_REPO_USERNAME
-  required: true
-  value: mavenUser
+  required: false
+- displayName: Maven repository password
+  description: Password to access the Maven repository, if required.
+  name: MAVEN_REPO_PASSWORD
+  required: false
 - displayName: Username for the Maven service hosted by Business Central
   description: Username to access the Maven service hosted by Business Central inside EAP.
   name: BUSINESS_CENTRAL_MAVEN_USERNAME
@@ -309,7 +312,7 @@ objects:
           - name: MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
-            value: "${DEFAULT_PASSWORD}"
+            value: "${MAVEN_REPO_PASSWORD}"
           - name: KIE_MAVEN_USER
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: KIE_MAVEN_PWD
@@ -450,8 +453,8 @@ objects:
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
-          - name: EXTERNAL_MAVEN_REPO_PASSWORD
-            value: "${DEFAULT_PASSWORD}"
+          - name: MAVEN_REPO_PASSWORD
+            value: "${MAVEN_REPO_USERNAME}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

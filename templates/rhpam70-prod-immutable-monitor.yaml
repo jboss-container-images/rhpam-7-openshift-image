@@ -24,7 +24,7 @@ parameters:
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
   example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
-  required: true
+  required: false
 - displayName: Maven repository username
   description: Username to access the Maven repository, if required.
   name: MAVEN_REPO_USERNAME

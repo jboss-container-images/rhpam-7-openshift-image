@@ -28,13 +28,10 @@ parameters:
   description: Username to access the Maven repository.
   name: MAVEN_REPO_USERNAME
   required: true
-  value: mavenUser
 - displayName: Maven repository password
   description: Password to access the Maven repository.
   name: MAVEN_REPO_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
+  required: true
 - displayName: EAP Admin User
   description: EAP administrator username
   name: ADMIN_USERNAME

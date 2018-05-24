@@ -69,7 +69,6 @@ parameters:
 - displayName: KIE Server ID
   description: Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property).
   name: KIE_SERVER_ID
-  value: ''
   required: false
 - displayName: KIE Server Bypass Auth User
   description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
@@ -192,13 +191,10 @@ parameters:
 - displayName: Maven repository username
   description: Username to access the Maven repository.
   name: MAVEN_REPO_USERNAME
-  required: true
-  value: mavenUser
+  required: false
 - displayName: Maven repository password
   description: Password to access the Maven repository.
   name: MAVEN_REPO_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
   required: false
 - displayName: Username for the Maven service hosted by Business Central
   description: Username to access the Maven service hosted by Business Central inside EAP.
