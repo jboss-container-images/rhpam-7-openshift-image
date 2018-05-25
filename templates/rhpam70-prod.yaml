@@ -262,14 +262,14 @@ parameters:
   name: SMART_ROUTER_MEMORY_LIMIT
   value: 512Mi
   required: false
-- displayName: Business Central Monitoring RH-SSO URL
-  description: Business Central Monitoring RH-SSO URL
-  name: BUSINESS_CENTRAL_SSO_URL
+- displayName: RH-SSO URL
+  description: RH-SSO URL
+  name: SSO_URL
   example: https://rh-sso.example.com/auth
   required: false
-- displayName: Business Central Monitoring RH-SSO Realm name
-  description: Business Central Monitoring RH-SSO Realm name
-  name: BUSINESS_CENTRAL_SSO_REALM
+- displayName: RH-SSO Realm name
+  description: RH-SSO Realm name
+  name: SSO_REALM
   required: false
 - displayName: Business Central Monitoring RH-SSO Client name
   description: Business Central Monitoring RH-SSO Client name
@@ -278,18 +278,37 @@ parameters:
 - displayName: Business Central Monitoring RH-SSO Client Secret
   description: Business Central Monitoring RH-SSO Client Secret
   name: BUSINESS_CENTRAL_SSO_SECRET
+  example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
-- displayName: Business Central Monitoring RH-SSO Realm Admin Username
-  description: Business Central Monitoring RH-SSO Realm Admin Username used to create the Client
-  name: BUSINESS_CENTRAL_SSO_USERNAME
+- displayName: KIE Server 1 RH-SSO Client name
+  description: KIE Server 1 RH-SSO Client name
+  name: KIE_SERVER1_SSO_CLIENT
   required: false
-- displayName: Business Central Monitoring RH-SSO Realm Admin Password
-  description: Business Central Monitoring RH-SSO Realm Admin Password used to create the Client
-  name: BUSINESS_CENTRAL_SSO_PASSWORD
+- displayName: KIE Server 1 RH-SSO Client Secret
+  description: KIE Server 1 RH-SSO Client Secret
+  name: KIE_SERVER1_SSO_SECRET
+  example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
-- displayName: Business Central Monitoring RH-SSO Disable SSL Certificate Validation
-  description: Business Central Monitoring RH-SSO Disable SSL Certificate Validation
-  name: BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+- displayName: KIE Server 2 RH-SSO Client name
+  description: KIE Server 2 RH-SSO Client name
+  name: KIE_SERVER2_SSO_CLIENT
+  required: false
+- displayName: KIE Server 2 RH-SSO Client Secret
+  description: KIE Server 2 RH-SSO Client Secret
+  name: KIE_SERVER2_SSO_SECRET
+  example: "252793ed-7118-4ca8-8dab-5622fa97d892"
+  required: false
+- displayName: RH-SSO Realm Admin Username
+  description: RH-SSO Realm Admin Username used to create the Client if it doesn't exist
+  name: SSO_USERNAME
+  required: false
+- displayName: RH-SSO Realm Admin Password
+  description: RH-SSO Realm Admin Password used to create the Client
+  name: SSO_PASSWORD
+  required: false
+- displayName: RH-SSO Disable SSL Certificate Validation
+  description: RH-SSO Disable SSL Certificate Validation
+  name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
   value: "false"
   required: false
 objects:
@@ -680,21 +699,21 @@ objects:
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
           - name: SSO_URL
-            value: "${BUSINESS_CENTRAL_SSO_URL}"
+            value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
             value: "ROOT.war"
+          - name: SSO_REALM
+            value: "${SSO_REALM}"
           - name: SSO_SECRET
             value: "${BUSINESS_CENTRAL_SSO_SECRET}"
-          - name: SSO_REALM
-            value: "${BUSINESS_CENTRAL_SSO_REALM}"
           - name: SSO_CLIENT
             value: "${BUSINESS_CENTRAL_SSO_CLIENT}"
           - name: SSO_USERNAME
-            value: "${BUSINESS_CENTRAL_SSO_USERNAME}"
+            value: "${SSO_USERNAME}"
           - name: SSO_PASSWORD
-            value: "${BUSINESS_CENTRAL_SSO_PASSWORD}"
+            value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
-            value: "${BUSINESS_CENTRAL_SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+            value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
           - name: HOSTNAME_HTTP
             value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
@@ -944,6 +963,26 @@ objects:
             value: "${APPLICATION_NAME}-kieserver-1-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
+          - name: SSO_URL
+            value: "${SSO_URL}"
+          - name: SSO_OPENIDCONNECT_DEPLOYMENTS
+            value: "ROOT.war"
+          - name: SSO_REALM
+            value: "${SSO_REALM}"
+          - name: SSO_SECRET
+            value: "${KIE_SERVER1_SSO_SECRET}"
+          - name: SSO_CLIENT
+            value: "${KIE_SERVER1_SSO_CLIENT}"
+          - name: SSO_USERNAME
+            value: "${SSO_USERNAME}"
+          - name: SSO_PASSWORD
+            value: "${SSO_PASSWORD}"
+          - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+            value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${EXECUTION_SERVER1_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${EXECUTION_SERVER1_HOSTNAME_HTTPS}"
         volumes:
         - name: kieserver-keystore-volume
           secret:
@@ -1166,6 +1205,26 @@ objects:
             value: "${APPLICATION_NAME}-kieserver-2-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
+          - name: SSO_URL
+            value: "${SSO_URL}"
+          - name: SSO_OPENIDCONNECT_DEPLOYMENTS
+            value: "ROOT.war"
+          - name: SSO_REALM
+            value: "${SSO_REALM}"
+          - name: SSO_SECRET
+            value: "${KIE_SERVER2_SSO_SECRET}"
+          - name: SSO_CLIENT
+            value: "${KIE_SERVER2_SSO_CLIENT}"
+          - name: SSO_USERNAME
+            value: "${SSO_USERNAME}"
+          - name: SSO_PASSWORD
+            value: "${SSO_PASSWORD}"
+          - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+            value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${EXECUTION_SERVER2_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${EXECUTION_SERVER2_HOSTNAME_HTTPS}"
         volumes:
         - name: kieserver-keystore-volume
           secret:
