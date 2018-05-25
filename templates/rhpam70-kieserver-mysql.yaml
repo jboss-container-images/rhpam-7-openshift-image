@@ -227,12 +227,12 @@ parameters:
   example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT
   required: false
 - displayName: Disable KIE Server Management
-  description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped"
+  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable."
   name: KIE_SERVER_MGMT_DISABLED
   example: "true"
   required: false
 - displayName: KIE Server Startup Strategy
-  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
+  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable."
   name: KIE_SERVER_STARTUP_STRATEGY
   example: "LocalContainersStartupStrategy"
   required: false
@@ -452,6 +452,10 @@ objects:
             value: "${KIE_SERVER_ROUTER_PORT}"
           - name: KIE_SERVER_ROUTER_PROTOCOL
             value: "${KIE_SERVER_ROUTER_PROTOCOL}"
+          - name: KIE_SERVER_MGMT_DISABLED
+            value: "${KIE_SERVER_MGMT_DISABLED}"
+          - name: KIE_SERVER_STARTUP_STRATEGY
+            value: "${KIE_SERVER_STARTUP_STRATEGY}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "org.hibernate.dialect.MySQL5Dialect"
           - name: KIE_SERVER_PERSISTENCE_DS
