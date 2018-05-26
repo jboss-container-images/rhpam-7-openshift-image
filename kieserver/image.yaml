@@ -198,6 +198,9 @@ envs:
     - name: "KIE_SERVER_MGMT_DISABLED"
       example: "true"
       description: "Turn the Execution server immutable, this setting prevents the controllers to execute tasks like add or remove kie containers."
+    - name: "KIE_SERVER_STARTUP_STRATEGY"
+      description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
+      example: "LocalContainersStartupStrategy"
 ports:
     - value: 8080
     - value: 8443
