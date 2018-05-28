@@ -138,6 +138,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
+## External database parameters BEGIN 
 - displayName: KIE Server External Database Driver
   description: KIE execution server external database driver
   name: KIE_SERVER_EXTERNALDB_DRIVER
@@ -171,6 +172,7 @@ parameters:
   name: KIE_SERVER_EXTERNALDB_DB
   value: rhpam
   required: false
+## External database parameters END 
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -448,14 +450,15 @@ objects:
             value: "${KIE_SERVER_MGMT_DISABLED}"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "${KIE_SERVER_STARTUP_STRATEGY}"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
+## External database driver settings BEGIN 
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
           - name: RHPAM_DRIVER
             value: "${KIE_SERVER_EXTERNALDB_DRIVER}"
           - name: RHPAM_USERNAME
@@ -468,6 +471,7 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_HOST}"
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_EXTERNALDB_DB}"
+## External database driver settings END 
           - name: RHPAM_JTA
             value: "true"
           - name: RHPAM_TX_ISOLATION

@@ -82,10 +82,6 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: false
-- displayName: PostgreSQL ImageStream Tag
-  description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
-  name: POSTGRESQL_IMAGE_STREAM_TAG
-  value: "9.6"
   required: false
 - displayName: Smart Router Service
   description: The service name for the optional smart router, where it can be reached, to allow smart routing
@@ -143,6 +139,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
+## PostgreSQL database parameters BEGIN 
 - displayName: KIE Server PostgreSQL Database User
   description: KIE execution server PostgreSQL database username
   name: KIE_SERVER_POSTGRESQL_USER
@@ -159,11 +156,20 @@ parameters:
   name: KIE_SERVER_POSTGRESQL_DB
   value: rhpam7
   required: false
+- displayName: PostgreSQL ImageStream Tag
+  description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
+  name: POSTGRESQL_IMAGE_STREAM_TAG
+  value: "9.6"
 - displayName: PostgreSQL Database max prepared connections
   description: Allows the PostgreSQL to handle XA transactions.
   name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
   value: '100'
   required: true
+- displayName: Database Volume Capacity
+  description: Size of persistent storage for database volume.
+  name: DB_VOLUME_CAPACITY
+  value: 1Gi
+## PostgreSQL database parameters END 
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -211,10 +217,6 @@ parameters:
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 1Gi
   required: true
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
@@ -246,7 +248,7 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - name: http
+    - name: http  
       port: 8080
       targetPort: 8080
     - name: https
@@ -278,6 +280,7 @@ objects:
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
+## PostgreSQL service BEGIN
 - apiVersion: v1
   kind: Service
   metadata:
@@ -293,6 +296,7 @@ objects:
       targetPort: 5432
     selector:
       deploymentConfig: ${APPLICATION_NAME}-postgresql
+## PostgreSQL service END
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-http"
@@ -461,22 +465,15 @@ objects:
             value: "${KIE_SERVER_MGMT_DISABLED}"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "${KIE_SERVER_STARTUP_STRATEGY}"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.PostgreSQLDialect"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
+## PostgreSQL driver settings BEGIN
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_POSTGRESQL_DB}"
-          - name: RHPAM_JNDI
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_DRIVER
             value: "postgresql"
-          - name: RHPAM_JTA
-            value: "true"
-          - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_COMMITTED"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_POSTGRESQL_USER}"
           - name: RHPAM_PASSWORD
@@ -487,6 +484,15 @@ objects:
             value: "5432"
           - name: TIMER_SERVICE_DATA_STORE
             value: "${APPLICATION_NAME}-postgresql"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.PostgreSQLDialect"
+## PostgreSQL driver settings END
+          - name: RHPAM_JTA
+            value: "true"
+          - name: RHPAM_JNDI
+            value: "${KIE_SERVER_PERSISTENCE_DS}"
+          - name: RHPAM_TX_ISOLATION
+            value: "TRANSACTION_READ_COMMITTED"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: HTTPS_KEYSTORE_DIR
@@ -511,6 +517,7 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+## PostgreSQL deployment config BEGIN    
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -567,6 +574,8 @@ objects:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-postgresql-claim"
+## PostgreSQL deployment config END  
+## PostgreSQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -580,3 +589,4 @@ objects:
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
+## PostgreSQL persistent volume claim END

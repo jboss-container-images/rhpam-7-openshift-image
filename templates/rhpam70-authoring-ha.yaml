@@ -80,6 +80,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
+## MySQL database parameters BEGIN 
 - displayName: KIE Server MySQL Database User
   description: KIE execution server MySQL database username
   name: KIE_SERVER_MYSQL_USER
@@ -96,6 +97,17 @@ parameters:
   name: KIE_SERVER_MYSQL_DB
   value: rhpam7
   required: false
+- displayName: MySQL ImageStream Tag
+  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
+  name: MYSQL_IMAGE_STREAM_TAG
+  value: "5.7"
+  required: false
+- displayName: Database Volume Capacity
+  description: Size of persistent storage for database volume.
+  name: DB_VOLUME_CAPACITY
+  value: 1Gi
+  required: true
+## MySQL database parameters END 
 - displayName: KIE MBeans
   description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
@@ -264,11 +276,6 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: false
-- displayName: MySQL ImageStream Tag
-  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
-  name: MYSQL_IMAGE_STREAM_TAG
-  value: "5.7"
-  required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
@@ -292,11 +299,6 @@ parameters:
   name: BUSINESS_CENTRAL_MAVEN_PASSWORD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
-  required: true
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 1Gi
   required: true
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
@@ -461,6 +463,7 @@ objects:
       service: "${APPLICATION_NAME}-amq"
     annotations:
       description: The broker's OpenWire port.
+## MySQL service BEGIN
 - apiVersion: v1
   kind: Service
   spec:
@@ -476,6 +479,7 @@ objects:
       service: "${APPLICATION_NAME}-mysql"
     annotations:
       description: The MySQL server's port.
+## MySQL service END
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-http"
@@ -581,6 +585,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "rhpam70-businesscentral-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
+## Replicas for Business Central
     replicas: 2
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
@@ -800,16 +805,11 @@ objects:
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: DATASOURCES
             value: "RHPAM"
+## MySQL driver settings BEGIN
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_MYSQL_DB}"
-          - name: RHPAM_JNDI
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_DRIVER
             value: "mysql"
-          - name: RHPAM_JTA
-            value: "true"
-          - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_COMMITTED"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_MYSQL_USER}"
           - name: RHPAM_PASSWORD
@@ -818,6 +818,17 @@ objects:
             value: "${APPLICATION_NAME}-mysql"
           - name: RHPAM_SERVICE_PORT
             value: "3306"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.MySQLDialect"
+## MySQL driver settings END
+          - name: KIE_SERVER_PERSISTENCE_DS
+            value: "${KIE_SERVER_PERSISTENCE_DS}"
+          - name: RHPAM_JNDI
+            value: "${KIE_SERVER_PERSISTENCE_DS}"
+          - name: RHPAM_JTA
+            value: "true"
+          - name: RHPAM_TX_ISOLATION
+            value: "TRANSACTION_READ_COMMITTED"
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_PWD
@@ -840,10 +851,6 @@ objects:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.MySQLDialect"
-          - name: KIE_SERVER_PERSISTENCE_DS
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
@@ -1056,6 +1063,7 @@ objects:
           namespace: ${IMAGE_STREAM_NAMESPACE}
       type: ImageChange
     - type: ConfigChange
+## MySQL deployment config BEGIN    
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -1108,6 +1116,7 @@ objects:
         - name: "${APPLICATION_NAME}-mysql-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-mysql-claim"
+## MySQL deployment config END
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -1120,6 +1129,7 @@ objects:
     resources:
       requests:
         storage: "${BUSINESS_CENTRAL_VOLUME_CAPACITY}"
+## MySQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -1132,6 +1142,7 @@ objects:
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
+## MySQL persistent volume claim END
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:

@@ -80,6 +80,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
+## H2 database parameters BEGIN 
 - displayName: KIE Server H2 Database User
   description: KIE execution server H2 database username
   name: KIE_SERVER_H2_USER
@@ -91,6 +92,7 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+## H2 database parameters END 
 - displayName: KIE MBeans
   description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
@@ -304,6 +306,7 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: All the KIE server web server's ports.
+## Place to add database service
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-http"
@@ -560,8 +563,10 @@ objects:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
             readOnly: true
+## H2 volume mount BEGIN
           - name: "${APPLICATION_NAME}-h2-pvol"
             mountPath: "/opt/eap/standalone/data"
+## H2 volume mount END
           livenessProbe:
             exec:
               command:
@@ -599,10 +604,11 @@ objects:
             value: "rhpam7"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: RHPAM_DRIVER
-            value: "h2"
           - name: RHPAM_JTA
             value: "true"
+## H2 driver settings BEGIN
+          - name: RHPAM_DRIVER
+            value: "h2"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_H2_USER}"
           - name: RHPAM_PASSWORD
@@ -613,6 +619,9 @@ objects:
             value: "dummy_ignored"
           - name: RHPAM_SERVICE_PORT
             value: "12345"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.H2Dialect"
+## H2 driver settings END
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_USER
@@ -635,8 +644,6 @@ objects:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.H2Dialect"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_USER
@@ -691,9 +698,12 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+## H2 volume settings BEGIN
         - name: "${APPLICATION_NAME}-h2-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-h2-claim"
+## H2 volume settings END
+## Place to add database deployment config
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -707,6 +717,7 @@ objects:
     resources:
       requests:
         storage: "${BUSINESS_CENTRAL_VOLUME_CAPACITY}"
+## H2 persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -720,3 +731,4 @@ objects:
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
+## H2 persistent volume claim END
