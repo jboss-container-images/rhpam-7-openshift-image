@@ -427,6 +427,7 @@ objects:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
+      description: All the KIE server web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
