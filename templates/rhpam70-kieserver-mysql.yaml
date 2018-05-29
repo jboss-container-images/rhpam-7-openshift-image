@@ -82,11 +82,6 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: false
-- displayName: MySQL ImageStream Tag
-  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
-  name: MYSQL_IMAGE_STREAM_TAG
-  value: "5.7"
-  required: false
 - displayName: Smart Router Service
   description: The service name for the optional smart router, where it can be reached, to allow smart routing
   name: KIE_SERVER_ROUTER_SERVICE
@@ -143,6 +138,12 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
+## MySQL database parameters BEGIN 
+- displayName: MySQL ImageStream Tag
+  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
+  name: MYSQL_IMAGE_STREAM_TAG
+  value: "5.7"
+  required: false
 - displayName: KIE Server MySQL Database User
   description: KIE execution server MySQL database username
   name: KIE_SERVER_MYSQL_USER
@@ -159,6 +160,11 @@ parameters:
   name: KIE_SERVER_MYSQL_DB
   value: rhpam7
   required: false
+- displayName: Database Volume Capacity
+  description: Size of persistent storage for database volume.
+  name: DB_VOLUME_CAPACITY
+  value: 1Gi
+## MySQL database parameters END 
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -206,10 +212,6 @@ parameters:
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 1Gi
   required: true
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
@@ -273,6 +275,7 @@ objects:
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
+## MySQL service BEGIN
 - apiVersion: v1
   kind: Service
   metadata:
@@ -288,6 +291,7 @@ objects:
       targetPort: 3306
     selector:
       deploymentConfig: ${APPLICATION_NAME}-mysql
+## MySQL service END
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-http"
@@ -456,22 +460,21 @@ objects:
             value: "${KIE_SERVER_MGMT_DISABLED}"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "${KIE_SERVER_STARTUP_STRATEGY}"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.MySQL5Dialect"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_MYSQL_DB}"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: RHPAM_DRIVER
-            value: "mysql"
-          - name: RHPAM_JTA
-            value: "true"
           - name: RHPAM_TX_ISOLATION
             value: "TRANSACTION_READ_COMMITTED"
+## MySQL driver settings BEGIN
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_MYSQL_DB}"
+          - name: RHPAM_DRIVER
+            value: "mysql"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.MySQL5Dialect"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_MYSQL_USER}"
           - name: RHPAM_PASSWORD
@@ -482,6 +485,9 @@ objects:
             value: "3306"
           - name: TIMER_SERVICE_DATA_STORE
             value: "${APPLICATION_NAME}-mysql"
+## MySQL driver settings END
+          - name: RHPAM_JTA
+            value: "true"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: HTTPS_KEYSTORE_DIR
@@ -506,6 +512,7 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+## MySQL deployment config BEGIN    
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -560,6 +567,8 @@ objects:
         - name: "${APPLICATION_NAME}-mysql-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-mysql-claim"
+## MySQL deployment config END
+## MySQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
@@ -573,3 +582,5 @@ objects:
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
+## MySQL persistent volume claim END
+
