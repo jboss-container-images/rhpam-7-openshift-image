@@ -8,6 +8,7 @@ metadata:
     tags: rhpam,jboss,xpaas
     version: 1.4.0
     openshift.io/display-name: Red Hat Process Automation Manager 7.0 production monitoring environment
+    template.openshift.io/bindable: "false"
   name: rhpam70-prod-immutable-monitor
 labels:
   template: rhpam70-prod-immutable-monitor
