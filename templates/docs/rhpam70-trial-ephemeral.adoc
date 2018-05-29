@@ -241,7 +241,7 @@ Http Get on http://localhost:8080/kie-wb.jsp
 |`KIE_SERVER_HOST` | -- | --
 |`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | -- | `${DEFAULT_PASSWORD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
