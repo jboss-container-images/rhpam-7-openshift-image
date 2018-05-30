@@ -268,16 +268,20 @@ objects:
             limits:
               memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           livenessProbe:
-            httpGet:
-              path: /kie-wb.jsp
-              port: 8080
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
           readinessProbe:
-            httpGet:
-              path: /kie-wb.jsp
-              port: 8080
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30

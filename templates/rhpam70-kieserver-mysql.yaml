@@ -138,7 +138,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## MySQL database parameters BEGIN 
+## MySQL database parameters BEGIN
 - displayName: MySQL ImageStream Tag
   description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
   name: MYSQL_IMAGE_STREAM_TAG
@@ -164,7 +164,7 @@ parameters:
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
-## MySQL database parameters END 
+## MySQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -375,7 +375,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/healthcheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -385,7 +385,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -512,7 +512,7 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
-## MySQL deployment config BEGIN    
+## MySQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -583,4 +583,3 @@ objects:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
 ## MySQL persistent volume claim END
-
