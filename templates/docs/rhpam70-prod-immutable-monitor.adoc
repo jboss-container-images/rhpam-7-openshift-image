@@ -166,7 +166,7 @@ for more information.
 
 .${APPLICATION_NAME}-rhpamcentrmon
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 
@@ -177,7 +177,7 @@ Http Get on http://localhost:8080/kie-wb.jsp
 
 .${APPLICATION_NAME}-rhpamcentrmon
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 
