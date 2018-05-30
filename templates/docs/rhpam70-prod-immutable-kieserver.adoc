@@ -188,7 +188,7 @@ for more information.
 
 .${APPLICATION_NAME}-kieserver
 ----
-/bin/bash -c curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck
 ----
 
 
@@ -199,7 +199,7 @@ for more information.
 
 .${APPLICATION_NAME}-kieserver
 ----
-/bin/bash -c curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck
 ----
 
 
