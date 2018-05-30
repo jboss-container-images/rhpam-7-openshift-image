@@ -231,12 +231,12 @@ information.
 
 .${APPLICATION_NAME}-rhpamcentr
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 .${APPLICATION_NAME}-kieserver
 ----
-/bin/bash -c curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck
 ----
 
 .${APPLICATION_NAME}-rhpamindex
@@ -252,12 +252,12 @@ Http Get on http://localhost:9200/_cluster/health
 
 .${APPLICATION_NAME}-rhpamcentr
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 .${APPLICATION_NAME}-kieserver
 ----
-/bin/bash -c curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck
 ----
 
 

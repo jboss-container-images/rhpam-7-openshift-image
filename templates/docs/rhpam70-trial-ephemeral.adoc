@@ -154,7 +154,7 @@ for more information.
 
 .${APPLICATION_NAME}-rhpamcentr
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 .${APPLICATION_NAME}-kieserver
@@ -170,7 +170,7 @@ Http Get on http://localhost:8080/kie-wb.jsp
 
 .${APPLICATION_NAME}-rhpamcentr
 ----
-Http Get on http://localhost:8080/kie-wb.jsp
+/bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp
 ----
 
 .${APPLICATION_NAME}-kieserver
