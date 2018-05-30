@@ -107,7 +107,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## PostgreSQL database parameters BEGIN 
+## PostgreSQL database parameters BEGIN
 - displayName: PostgreSQL ImageStream Tag
   description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
   name: POSTGRESQL_IMAGE_STREAM_TAG
@@ -139,7 +139,7 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
-## PostgreSQL database parameters END 
+## PostgreSQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -449,7 +449,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/healthcheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -459,7 +459,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -649,4 +649,3 @@ objects:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
 ## PostgreSQL persistent volume claim END
-

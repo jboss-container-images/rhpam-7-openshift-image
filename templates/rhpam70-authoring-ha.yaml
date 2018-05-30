@@ -80,7 +80,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## MySQL database parameters BEGIN 
+## MySQL database parameters BEGIN
 - displayName: KIE Server MySQL Database User
   description: KIE execution server MySQL database username
   name: KIE_SERVER_MYSQL_USER
@@ -107,7 +107,7 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
-## MySQL database parameters END 
+## MySQL database parameters END
 - displayName: KIE MBeans
   description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
@@ -613,16 +613,20 @@ objects:
           - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
             mountPath: "/opt/eap/standalone/data/bpmsuite"
           livenessProbe:
-            httpGet:
-              path: /kie-wb.jsp
-              port: 8080
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
           readinessProbe:
-            httpGet:
-              path: /kie-wb.jsp
-              port: 8080
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -774,7 +778,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/healthcheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -784,7 +788,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -1064,7 +1068,7 @@ objects:
           namespace: ${IMAGE_STREAM_NAMESPACE}
       type: ImageChange
     - type: ConfigChange
-## MySQL deployment config BEGIN    
+## MySQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:

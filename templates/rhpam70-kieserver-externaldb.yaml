@@ -138,7 +138,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## External database parameters BEGIN 
+## External database parameters BEGIN
 - displayName: KIE Server External Database Driver
   description: KIE execution server external database driver
   name: KIE_SERVER_EXTERNALDB_DRIVER
@@ -172,7 +172,7 @@ parameters:
   name: KIE_SERVER_EXTERNALDB_DB
   value: rhpam
   required: false
-## External database parameters END 
+## External database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -365,7 +365,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/healthcheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -375,7 +375,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -456,7 +456,7 @@ objects:
             value: "RHPAM"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
-## External database driver settings BEGIN 
+## External database driver settings BEGIN
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
           - name: RHPAM_DRIVER
@@ -471,7 +471,7 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_HOST}"
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_EXTERNALDB_DB}"
-## External database driver settings END 
+## External database driver settings END
           - name: RHPAM_JTA
             value: "true"
           - name: RHPAM_TX_ISOLATION

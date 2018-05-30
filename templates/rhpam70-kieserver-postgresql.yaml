@@ -139,7 +139,7 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## PostgreSQL database parameters BEGIN 
+## PostgreSQL database parameters BEGIN
 - displayName: KIE Server PostgreSQL Database User
   description: KIE execution server PostgreSQL database username
   name: KIE_SERVER_POSTGRESQL_USER
@@ -169,7 +169,7 @@ parameters:
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
-## PostgreSQL database parameters END 
+## PostgreSQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -248,7 +248,7 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - name: http  
+    - name: http
       port: 8080
       targetPort: 8080
     - name: https
@@ -380,7 +380,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/healthcheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -390,7 +390,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u ${KIE_ADMIN_USER}:${KIE_ADMIN_PWD} http://localhost:8080/services/rest/server/readycheck"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
@@ -517,7 +517,7 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
-## PostgreSQL deployment config BEGIN    
+## PostgreSQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -574,7 +574,7 @@ objects:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-postgresql-claim"
-## PostgreSQL deployment config END  
+## PostgreSQL deployment config END
 ## PostgreSQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
