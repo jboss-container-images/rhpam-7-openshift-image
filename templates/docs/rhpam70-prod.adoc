@@ -363,7 +363,7 @@ for more information.
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_JNDI` | -- | `${KIE_SERVER_PERSISTENCE_DS}`
 |`RHPAM_JTA` | -- | true
-|`RHPAM_TX_ISOLATION` | -- | `TRANSACTION_READ_UNCOMMITTED`
+|`RHPAM_TX_ISOLATION` | -- | `TRANSACTION_READ_COMMITTED`
 |`RHPAM_DATABASE` | -- | `${KIE_SERVER_POSTGRESQL_DB}`
 |`RHPAM_DRIVER` | -- | postgresql
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.PostgreSQLDialect
@@ -420,7 +420,7 @@ for more information.
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_JNDI` | -- | `${KIE_SERVER_PERSISTENCE_DS}`
 |`RHPAM_JTA` | -- | true
-|`RHPAM_TX_ISOLATION` | -- | `TRANSACTION_READ_UNCOMMITTED`
+|`RHPAM_TX_ISOLATION` | -- | `TRANSACTION_READ_COMMITTED`
 |`RHPAM_DATABASE` | -- | `${KIE_SERVER_POSTGRESQL_DB}`
 |`RHPAM_DRIVER` | -- | postgresql
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.PostgreSQLDialect
