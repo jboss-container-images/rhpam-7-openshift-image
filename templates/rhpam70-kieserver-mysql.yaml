@@ -212,7 +212,6 @@ parameters:
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
-  required: true
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
   name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
