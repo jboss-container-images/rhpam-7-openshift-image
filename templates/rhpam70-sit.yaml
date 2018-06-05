@@ -949,7 +949,7 @@ objects:
           - name: RHPAM_JTA
             value: "true"
           - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_UNCOMMITTED"
+            value: "TRANSACTION_READ_COMMITTED"
 ## PostgreSQL driver settings 1 BEGIN
           - name: RHPAM_DRIVER
             value: "postgresql"
@@ -1195,7 +1195,7 @@ objects:
           - name: RHPAM_JTA
             value: "true"
           - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_UNCOMMITTED"
+            value: "TRANSACTION_READ_COMMITTED"
 ## PostgreSQL driver settings 2 BEGIN
           - name: RHPAM_DRIVER
             value: "postgresql"
