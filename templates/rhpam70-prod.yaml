@@ -355,8 +355,8 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 9000
-      targetPort: 9000
+    - port: ${{KIE_SERVER_ROUTER_PORT}}
+      targetPort: ${{KIE_SERVER_ROUTER_PORT}}
     selector:
       deploymentConfig: "${APPLICATION_NAME}-smartrouter"
   metadata:
@@ -787,7 +787,7 @@ objects:
               memory: "${SMART_ROUTER_MEMORY_LIMIT}"
           ports:
           - name: http
-            containerPort: 9000
+            containerPort: ${{KIE_SERVER_ROUTER_PORT}}
             protocol: TCP
           env:
           - name: KIE_SERVER_ROUTER_HOST

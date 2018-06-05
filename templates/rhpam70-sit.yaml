@@ -91,7 +91,7 @@ parameters:
 - displayName: Smart Router listening port
   description: Port in which the smart router server listens (router property org.kie.server.router.port)
   name: KIE_SERVER_ROUTER_PORT
-  example: "9000"
+  example: "${{KIE_SERVER_ROUTER_PORT}}"
   required: false
 - displayName: Smart Router protocol
   description: KIE server router protocol (Used to build the org.kie.server.router.url.external property)
@@ -355,8 +355,8 @@ objects:
   apiVersion: v1
   spec:
     ports:
-    - port: 9000
-      targetPort: 9000
+    - port: ${{KIE_SERVER_ROUTER_PORT}}
+      targetPort: ${{KIE_SERVER_ROUTER_PORT}}
     selector:
       deploymentConfig: "${APPLICATION_NAME}-smartrouter"
   metadata:
@@ -786,7 +786,7 @@ objects:
               memory: "${SMART_ROUTER_MEMORY_LIMIT}"
           ports:
           - name: http
-            containerPort: 9000
+            containerPort: ${{KIE_SERVER_ROUTER_PORT}}
             protocol: TCP
           env:
           - name: KIE_SERVER_ROUTER_HOST
