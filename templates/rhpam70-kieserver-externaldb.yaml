@@ -8,6 +8,7 @@ metadata:
     tags: rhpam,jboss,xpaas
     version: 1.4.0
     openshift.io/display-name: Red Hat Process Automation Manager 7.0 managed KIE server with an external database
+    template.openshift.io/bindable: "false"
   name: rhpam70-kieserver-externaldb
 labels:
   template: rhpam70-kieserver-externaldb
