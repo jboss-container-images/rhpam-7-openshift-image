@@ -135,7 +135,7 @@ modules:
       repositories:
           - git:
               url: https://github.com/jboss-openshift/cct_module.git
-              ref: master
+              ref: sprint-18
           - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
               ref: master
