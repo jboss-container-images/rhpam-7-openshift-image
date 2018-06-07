@@ -1024,22 +1024,17 @@ objects:
             value: ${AMQ_GLOBAL_MAX_SIZE}
           image: amq-broker71-openshift
           imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
           readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/amq/bin/readinessProbe.sh"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /opt/amq/bin/shutdownHook.sh
           name: ${APPLICATION_NAME}-amq
           ports:
           - containerPort: 8161
