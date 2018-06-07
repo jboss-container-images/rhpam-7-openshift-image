@@ -168,6 +168,10 @@ parameters:
   description: KIE execution server external database host, for ejb_timer datasource configuration
   name: KIE_SERVER_EXTERNALDB_HOST
   required: true
+- displayName: KIE Server External Database Port
+  description: KIE execution server external database port, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_PORT
+  required: true
 - displayName: KIE Server External Database name
   description: KIE execution server external database name, for ejb_timer datasource configuration
   name: KIE_SERVER_EXTERNALDB_DB
@@ -470,6 +474,8 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_URL}"
           - name: RHPAM_SERVICE_HOST
             value: "${KIE_SERVER_EXTERNALDB_HOST}"
+          - name: RHPAM_SERVICE_PORT
+            value: "${KIE_SERVER_EXTERNALDB_PORT}"
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_EXTERNALDB_DB}"
 ## External database driver settings END
