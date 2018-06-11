@@ -459,7 +459,7 @@ objects:
           - name: EXTERNAL_MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
-            value: "${MAVEN_REPO_USERNAME}"
+            value: "${MAVEN_REPO_PASSWORD}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

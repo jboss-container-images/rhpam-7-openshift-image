@@ -513,10 +513,6 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: MAVEN_REPO_SERVICE
-            value: ""
-          - name: MAVEN_REPO_PATH
-            value: "/maven2/"
           - name: KIE_SERVER_ROUTER_SERVICE
             value: "${KIE_SERVER_ROUTER_SERVICE}"
           - name: KIE_SERVER_ROUTER_HOST
