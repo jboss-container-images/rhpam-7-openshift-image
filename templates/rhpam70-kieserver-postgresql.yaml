@@ -79,10 +79,9 @@ parameters:
   value: openshift
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "1.1".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
-  required: false
+  value: "1.1"
   required: false
 - displayName: Smart Router Service
   description: The service name for the optional smart router, where it can be reached, to allow smart routing
