@@ -559,6 +559,10 @@ objects:
             value: "${KIE_SERVER_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${KIE_SERVER_HTTPS_PASSWORD}"
+          - name: ADMIN_USERNAME
+            value: "${ADMIN_USERNAME}"
+          - name: ADMIN_PASSWORD
+            value: "${ADMIN_PASSWORD}"
           - name: KIE_SERVER_MGMT_DISABLED
             value: "${KIE_SERVER_MGMT_DISABLED}"
           - name: KIE_SERVER_STARTUP_STRATEGY
