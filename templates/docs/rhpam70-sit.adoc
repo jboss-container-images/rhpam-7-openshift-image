@@ -412,7 +412,6 @@ for more information.
 |`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
 |`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
 |`KIE_SERVER_ROUTER_SERVICE` | -- | `${APPLICATION_NAME}-smartrouter`
-|`KIE_SERVER_ROUTER_PORT` | Port in which the smart router server listens (router property org.kie.server.router.port) | `${KIE_SERVER_ROUTER_PORT}`
 |`KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}`
 |`KIE_SERVER_PERSISTENCE_DS` | KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`DATASOURCES` | -- | `RHPAM`
