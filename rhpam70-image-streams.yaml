@@ -25,6 +25,16 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - Business Central image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-openshift:1.1
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -44,6 +54,16 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - Business Central Monitoring image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.1
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -63,6 +83,16 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7/rhpam70-controller-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - Standalone Controller image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7/rhpam70-controller-openshift:1.1
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -82,6 +112,16 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7/rhpam70-kieserver-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - KIE Server image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7/rhpam70-kieserver-openshift:1.1
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -101,6 +141,16 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7/rhpam70-smartrouter-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - Smart Router image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7/rhpam70-smartrouter-openshift:1.1
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -120,4 +170,14 @@ items:
       from:
         kind: DockerImage
         name: registry.access.redhat.com/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.0
+    - name: '1.1'
+      annotations:
+        description: Red Hat Process Automation Manager 7.0 - Business Central Indexing image.
+        iconClass: icon-jboss
+        tags: rhpam,xpaas
+        supports: rhpam:7.0,xpaas:1.4
+        version: '1.1'
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.1
 
