@@ -24,8 +24,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | True
-|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | True
-|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}` | True
+|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | False
+|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}` | False
 |`ADMIN_USERNAME` | `ADMIN_USERNAME` | EAP administrator username | eapadmin | False
 |`ADMIN_PASSWORD` | `ADMIN_PASSWORD` | EAP administrator password | `${ADMIN_PASSWORD}` | False
 |`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator username | adminUser | False

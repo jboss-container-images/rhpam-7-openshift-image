@@ -231,14 +231,12 @@ parameters:
   value: ''
   required: false
 - displayName: Maven repository username
-  description: Username to access the Maven repository.
+  description: Username to access the Maven repository, if required
   name: MAVEN_REPO_USERNAME
-  value: ''
   required: false
 - displayName: Maven repository password
-  description: Password to access the Maven repository.
+  description: Password to access the Maven repository, if required
   name: MAVEN_REPO_PASSWORD
-  value: ''
   required: false
 - description: List of directories from which archives will be copied into the deployment folder. If unspecified, all archives in /target will be copied.
   name: ARTIFACT_DIR

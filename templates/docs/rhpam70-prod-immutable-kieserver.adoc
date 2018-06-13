@@ -241,8 +241,8 @@ for more information.
 |`KIE_SERVER_PWD` | KIE execution server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_REPO_URL` | Fully qualified URL to a Maven repository. | `${MAVEN_REPO_URL}`
-|`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
-|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
+|`MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required | `${MAVEN_REPO_USERNAME}`
+|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required | `${MAVEN_REPO_PASSWORD}`
 |`MAVEN_REPO_SERVICE` | -- | 
 |`MAVEN_REPO_PATH` | -- | `/maven2/`
 |`KIE_SERVER_ROUTER_SERVICE` | The service name for the optional smart router, where it can be reached, to allow smart routing | `${KIE_SERVER_ROUTER_SERVICE}`
