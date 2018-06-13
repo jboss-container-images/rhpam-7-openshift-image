@@ -63,8 +63,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`GENERIC_WEBHOOK_SECRET` | -- | Generic build trigger secret | -- | True
 |`MAVEN_MIRROR_URL` | -- | Maven mirror to use for S2I builds | -- | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository. | `${MAVEN_REPO_URL}` | False
-|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}` | False
-|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}` | False
+|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | False
+|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}` | False
 |`ARTIFACT_DIR` | -- | List of directories from which archives will be copied into the deployment folder. If unspecified, all archives in /target will be copied. | -- | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE` | Sets refresh-interval for the EJB timer service database-data-store. | 30000 | False
 |`EXECUTION_SERVER_MEMORY_LIMIT` | -- | Execution Server Container memory limit | 1Gi | False
@@ -241,8 +241,8 @@ for more information.
 |`KIE_SERVER_PWD` | KIE execution server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_REPO_URL` | Fully qualified URL to a Maven repository. | `${MAVEN_REPO_URL}`
-|`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
-|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
+|`MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
+|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}`
 |`KIE_SERVER_ROUTER_SERVICE` | The service name for the optional smart router, where it can be reached, to allow smart routing | `${KIE_SERVER_ROUTER_SERVICE}`
 |`KIE_SERVER_ROUTER_HOST` | The host name of the smart router, which could be the service name resolved by OpenShift or a globally resolvable domain name | `${KIE_SERVER_ROUTER_HOST}`
 |`KIE_SERVER_ROUTER_PORT` | Port in which the smart router server listens (router property org.kie.server.router.port) | `${KIE_SERVER_ROUTER_PORT}`
