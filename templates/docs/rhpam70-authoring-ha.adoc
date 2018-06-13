@@ -65,12 +65,13 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`ES_HTTP_HOST` | `ES_HTTP_HOST` | Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address | `${ES_HTTP_HOST}` | False
 |`ES_HTTP_PORT` | `ES_HTTP_PORT` | Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api. | `${ES_HTTP_PORT}` | False
 |`ES_JAVA_OPTS` | `ES_JAVA_OPTS` | Appends custom jvm configurations/properties to ES jvm.options configuration file. | `${ES_JAVA_OPTS}` | False
+|`AMQ_IMAGE_STREAM_TAG` | -- | The AMQ image stream tag. Default is "1.0". | 1.0 | False
 |`AMQ_ROLE` | `AMQ_ROLE` | User role for standard broker user. | admin | True
 |`AMQ_NAME` | `AMQ_NAME` | The name of the broker | broker | True
 |`AMQ_GLOBAL_MAX_SIZE` | `AMQ_GLOBAL_MAX_SIZE` | Maximum amount of memory which message data may consume (Default: Undefined, half of the system's memory). | 100 gb | False
 |`ES_VOLUME_CAPACITY` | -- | Size of persistent storage for Elasticsearch volume. | 1Gi | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | False
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
 |`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}` | False
 |`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}` | False
@@ -244,6 +245,11 @@ information.
 Http Get on http://localhost:9200/_cluster/health
 ----
 
+.${APPLICATION_NAME}-amq
+----
+/bin/bash -c /opt/amq/bin/readinessProbe.sh
+----
+
 
 
 
@@ -298,13 +304,13 @@ Http Get on http://localhost:9200/_cluster/health
 |Deployment |Variable name |Description |Example value
 
 .39+| `${APPLICATION_NAME}-rhpamcentr`
-|`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
+|`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
 |`KIE_MBEANS` | KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
-|`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
-|`KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
+|`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
 |`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
+|`KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
 |`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
 |`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
@@ -337,7 +343,7 @@ Http Get on http://localhost:9200/_cluster/health
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
-.50+| `${APPLICATION_NAME}-kieserver`
+.48+| `${APPLICATION_NAME}-kieserver`
 |`AUTO_CONFIGURE_EJB_TIMER` | -- | true
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`DATASOURCES` | -- | `RHPAM`
@@ -364,16 +370,14 @@ Http Get on http://localhost:9200/_cluster/health
 |`KIE_SERVER_HOST` | -- | --
 |`KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
-|`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${KIE_ADMIN_USER}`
-|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${KIE_ADMIN_PWD}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
-|`MAVEN_REPO_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
-|`MAVEN_REPO_PATH` | -- | `/maven2/`
+|`RHPAMCENTR_MAVEN_REPO_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
+|`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
 |`RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
 |`RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
 |`EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
 |`EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
-|`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | --
+|`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret | `${KIE_SERVER_HTTPS_KEYSTORE}`
 |`HTTPS_NAME` | The name associated with the server certificate | `${KIE_SERVER_HTTPS_NAME}`
