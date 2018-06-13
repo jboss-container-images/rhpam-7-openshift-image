@@ -33,10 +33,9 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE execution server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | False
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | False
 |`SMART_ROUTER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>' | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`KIE_SERVER_ROUTER_ID` | `KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | kie-server-router | ?
-|`KIE_SERVER_ROUTER_PORT` | `KIE_SERVER_ROUTER_PORT` | Port in which the smart router server listens (router property org.kie.server.router.port) | `${KIE_SERVER_ROUTER_PORT}` | False
 |`KIE_SERVER_ROUTER_PROTOCOL` | `KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}` | False
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | `KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}` | ?
 |`KIE_SERVER_ROUTER_NAME` | `KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | KIE Server Router | ?
@@ -237,6 +236,7 @@ for more information.
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
 .11+| `${APPLICATION_NAME}-smartrouter`
 |`KIE_SERVER_ROUTER_HOST` | -- | --
+|`KIE_SERVER_ROUTER_PORT` | -- | 9000
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}`
 |`KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | `${KIE_SERVER_ROUTER_ID}`
 |`KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | `${KIE_SERVER_ROUTER_NAME}`
