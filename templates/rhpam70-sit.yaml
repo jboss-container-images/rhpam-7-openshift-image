@@ -26,13 +26,13 @@ parameters:
   example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
   required: true
 - displayName: Maven repository username
-  description: Username to access the Maven repository.
+  description: Username to access the Maven repository, if required.
   name: MAVEN_REPO_USERNAME
-  required: true
+  required: false
 - displayName: Maven repository password
-  description: Password to access the Maven repository.
+  description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
-  required: true
+  required: false
 - displayName: EAP Admin User
   description: EAP administrator username
   name: ADMIN_USERNAME
