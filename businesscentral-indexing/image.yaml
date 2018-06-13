@@ -50,7 +50,7 @@ modules:
               ref: sprint-18
           - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
-              ref: master
+              ref: rhpam-7.0.1.GA
       install:
           - name: os.bpmsuite.elasticsearch
           - name: dynamic-resources
