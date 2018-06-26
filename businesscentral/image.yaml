@@ -133,6 +133,9 @@ envs:
     - name: "WORKBENCH_MAX_METASPACE_SIZE"
       example: "512"
       description: "The maximum metaspace for the Business Central, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
+    - name: "GIT_HOOKS_DIR"
+      example: "/opt/git/hooks"
+      description: "If provided, the specified path will be copied to all the git repositories hooks dir"
 ports:
     - value: 8080
     - value: 8443
@@ -187,6 +190,7 @@ packages:
           - python-requests
           - python-enum34
           - PyYAML
+          - git
 artifacts:
     - path: javax.json-1.0.4.jar
       md5: 569870f975deeeb6691fcb9bc02a9555
