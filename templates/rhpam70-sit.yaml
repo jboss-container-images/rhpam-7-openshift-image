@@ -74,11 +74,16 @@ parameters:
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
+- displayName: KIE Server ImageStream Name
+  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam70-kieserver-openshift".
+  name: KIE_SERVER_IMAGE_STREAM_NAME
+  value: "rhpam70-kieserver-openshift"
+  required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.1".
   name: IMAGE_STREAM_TAG
   value: "1.1"
-  required: false
+  required: true
 - displayName: Smart Router Custom http Route Hostname
   description: Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>'
   name: SMART_ROUTER_HOSTNAME_HTTP
@@ -835,7 +840,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-kieserver-openshift:${IMAGE_STREAM_TAG}"
+          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -851,7 +856,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver-1"
-          image: rhpam70-kieserver-openshift
+          image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           resources:
             limits:
@@ -1081,7 +1086,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-kieserver-openshift:${IMAGE_STREAM_TAG}"
+          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -1097,7 +1102,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver-2"
-          image: rhpam70-kieserver-openshift
+          image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           resources:
             limits:
