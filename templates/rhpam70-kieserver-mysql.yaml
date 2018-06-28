@@ -464,8 +464,6 @@ objects:
             value: "RHPAM"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_COMMITTED"
 ## MySQL driver settings BEGIN
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_MYSQL_DB}"
