@@ -66,7 +66,7 @@ parameters:
   value: 'true'
   required: false
 - displayName: Execution Server Custom http Route Hostname
-  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+  description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: EXECUTION_SERVER_HOSTNAME_HTTP
   value: ''
@@ -169,6 +169,21 @@ parameters:
   value: "false"
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+     name: "${APPLICATION_NAME}-kieserver-view"
+  subjects:
+  - kind: ServiceAccount
+    name: "${APPLICATION_NAME}-kieserver"
+  roleRef:
+    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -351,8 +366,6 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
-          - name: HOSTNAME_HTTP
-            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -385,6 +398,7 @@ objects:
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver"
       spec:
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -437,12 +451,16 @@ objects:
             value: "${DEFAULT_PASSWORD}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentr"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "ws"
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
+            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+          - name: EXECUTION_SERVER_ROUTE_NAME
+            value: "${APPLICATION_NAME}-kieserver"
+          - name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
+            value: "${EXECUTION_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
@@ -481,5 +499,3 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
-          - name: HOSTNAME_HTTP
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"

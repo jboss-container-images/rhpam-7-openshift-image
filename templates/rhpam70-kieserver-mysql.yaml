@@ -182,7 +182,7 @@ parameters:
   value: enabled
   required: false
 - displayName: Execution Server Custom http Route Hostname
-  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+  description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: EXECUTION_SERVER_HOSTNAME_HTTP
   value: ''
@@ -192,6 +192,11 @@ parameters:
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: EXECUTION_SERVER_HOSTNAME_HTTPS
   value: ''
+  required: false
+- displayName: Use the secure route name to set KIE_SERVER_HOST.
+  description: Use https for the KIE_SERVER_HOST when it is not explicit configured to a custom value.
+  name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
+  value: 'false'
   required: false
 - displayName: KIE Server Keystore Secret Name
   description: The name of the secret containing the keystore file
@@ -244,6 +249,21 @@ parameters:
   example: "LocalContainersStartupStrategy"
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+     name: "${APPLICATION_NAME}-kieserver-view"
+  subjects:
+  - kind: ServiceAccount
+    name: "${APPLICATION_NAME}-kieserver"
+  roleRef:
+    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -363,6 +383,7 @@ objects:
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver"
       spec:
+        serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -433,12 +454,16 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_CONTROLLER_TOKEN}"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "ws"
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
+            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+          - name: EXECUTION_SERVER_ROUTE_NAME
+            value: "${APPLICATION_NAME}-kieserver"
+          - name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
+            value: "${EXECUTION_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
