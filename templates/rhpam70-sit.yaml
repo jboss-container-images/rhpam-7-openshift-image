@@ -944,8 +944,6 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
-          - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_COMMITTED"
 ## PostgreSQL driver settings 1 BEGIN
           - name: RHPAM_DRIVER
             value: "postgresql"
@@ -1190,8 +1188,6 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
-          - name: RHPAM_TX_ISOLATION
-            value: "TRANSACTION_READ_COMMITTED"
 ## PostgreSQL driver settings 2 BEGIN
           - name: RHPAM_DRIVER
             value: "postgresql"
