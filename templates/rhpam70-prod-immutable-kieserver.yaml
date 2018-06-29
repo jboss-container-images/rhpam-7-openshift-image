@@ -20,17 +20,6 @@ parameters:
   name: APPLICATION_NAME
   value: myapp
   required: true
-- displayName: EAP Admin User
-  description: EAP administrator username
-  name: ADMIN_USERNAME
-  value: eapadmin
-  required: false
-- displayName: EAP Admin Password
-  description: EAP administrator password
-  name: ADMIN_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
 - displayName: KIE Admin User
   description: KIE administrator username
   name: KIE_ADMIN_USER
