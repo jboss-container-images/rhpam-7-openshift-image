@@ -366,6 +366,8 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -499,3 +501,5 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
