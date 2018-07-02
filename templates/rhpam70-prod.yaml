@@ -754,6 +754,10 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
         volumes:
         - name: businesscentral-keystore-volume
           secret:
@@ -1019,6 +1023,10 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${EXECUTION_SERVER1_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${EXECUTION_SERVER1_HOSTNAME_HTTPS}"
         volumes:
         - name: kieserver-keystore-volume
           secret:
@@ -1264,6 +1272,10 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: HOSTNAME_HTTP
+            value: "${EXECUTION_SERVER2_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${EXECUTION_SERVER2_HOSTNAME_HTTPS}"
         volumes:
         - name: kieserver-keystore-volume
           secret:
