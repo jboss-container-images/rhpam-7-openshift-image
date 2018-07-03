@@ -25,11 +25,6 @@ parameters:
   name: DEFAULT_PASSWORD
   value: RedHat
   required: true
-- displayName: EAP Admin User
-  description: EAP administrator username
-  name: ADMIN_USERNAME
-  value: eapadmin
-  required: false
 - displayName: KIE Admin User
   description: KIE administrator username
   name: KIE_ADMIN_USER
@@ -341,10 +336,6 @@ objects:
           - name: KIE_MAVEN_USER
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: KIE_MAVEN_PWD
-            value: "${DEFAULT_PASSWORD}"
-          - name: ADMIN_USERNAME
-            value: "${ADMIN_USERNAME}"
-          - name: ADMIN_PASSWORD
             value: "${DEFAULT_PASSWORD}"
           - name: PROBE_IMPL
             value: probe.eap.jolokia.EapProbe
