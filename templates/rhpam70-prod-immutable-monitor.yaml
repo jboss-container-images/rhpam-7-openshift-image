@@ -34,17 +34,6 @@ parameters:
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: EAP Admin User
-  description: EAP administrator username
-  name: ADMIN_USERNAME
-  value: eapadmin
-  required: false
-- displayName: EAP Admin Password
-  description: EAP administrator password
-  name: ADMIN_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
 - displayName: KIE Admin User
   description: KIE administrator username
   name: KIE_ADMIN_USER
@@ -397,10 +386,6 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: ADMIN_USERNAME
-            value: "${ADMIN_USERNAME}"
-          - name: ADMIN_PASSWORD
-            value: "${ADMIN_PASSWORD}"
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
