@@ -565,6 +565,19 @@ objects:
         - name: "${APPLICATION_NAME}-postgresql"
           image: postgresql
           imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+              - "/usr/libexec/check-container"
+              - "--live"
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+              - "/usr/libexec/check-container"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
           ports:
           - containerPort: 5432
             protocol: TCP
