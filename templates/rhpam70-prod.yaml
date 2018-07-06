@@ -5,14 +5,14 @@ metadata:
   annotations:
     description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.0
     iconClass: icon-jboss
-    tags: rhpam,jboss,xpaas
-    version: 1.4.0
+    tags: rhpam,jboss,prod
+    version: 1.2
     openshift.io/display-name: Red Hat Process Automation Manager 7.0 production environment
     template.openshift.io/bindable: "false"
   name: rhpam70-prod
 labels:
   template: rhpam70-prod
-  xpaas: 1.4.0
+  rhpam: 1.2
 message: A new environment has been set up for Red Hat Process Automation Manager 7. The username/password for accessing Business Central Monitoring is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}. Both sets of KIE servers are configured with the username/password of ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
 parameters:
 - displayName: Application Name
