@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam70-businesscentral-indexing-openshift"
 description: "Red Hat Business Central Indexing 7.0 OpenShift container image"
-version: "1.1"
+version: "1.2"
 from: "rhpam-7/rhpam70-businesscentral-indexing:latest"
 labels:
     - name: "com.redhat.component"
