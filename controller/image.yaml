@@ -182,7 +182,7 @@ modules:
               ref: sprint-18
           - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
-              ref: master
+              ref: 7.0.x
       install:
           - name: dynamic-resources
           - name: java-alternatives
