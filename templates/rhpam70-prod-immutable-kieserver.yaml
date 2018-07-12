@@ -235,6 +235,21 @@ parameters:
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
+- displayName: Name of the Maven service hosted by Business Central
+  description: The service name for the optional business central, where it can be reached, to allow service lookups (for maven repo usage), if required
+  name: BUSINESS_CENTRAL_MAVEN_SERVICE
+  example: "myapp-rhpamcentr"
+  required: false
+- displayName: Username for the Maven service hosted by Business Central
+  description: Username to access the Maven service hosted by Business Central inside EAP.
+  name: BUSINESS_CENTRAL_MAVEN_USERNAME
+  example: "mavenUser"
+  required: false
+- displayName: Password for the Maven service hosted by Business Central
+  description: Password to access the Maven service hosted by Business Central inside EAP.
+  name: BUSINESS_CENTRAL_MAVEN_PASSWORD
+  example: "maven1!"
+  required: false
 - description: List of directories from which archives will be copied into the deployment folder. If unspecified, all archives in /target will be copied.
   name: ARTIFACT_DIR
   value: ''
@@ -522,11 +537,21 @@ objects:
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_CONTAINER_DEPLOYMENT
             value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
-          - name: MAVEN_REPO_URL
+          - name: MAVEN_REPOS
+            value: "RHPAMCENTR,EXTERNAL"
+          - name: RHPAMCENTR_MAVEN_REPO_SERVICE
+            value: "${BUSINESS_CENTRAL_MAVEN_SERVICE}"
+          - name: RHPAMCENTR_MAVEN_REPO_PATH
+            value: "/maven2/"
+          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
+          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+          - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
-          - name: MAVEN_REPO_USERNAME
+          - name: EXTERNAL_MAVEN_REPO_USERNAME
             value: "${MAVEN_REPO_USERNAME}"
-          - name: MAVEN_REPO_PASSWORD
+          - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
           - name: KIE_SERVER_ROUTER_SERVICE
             value: "${KIE_SERVER_ROUTER_SERVICE}"
