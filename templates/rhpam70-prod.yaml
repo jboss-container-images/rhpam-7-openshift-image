@@ -84,9 +84,9 @@ parameters:
   value: "rhpam70-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.1".
+  description: A named pointer to an image in an image stream. Default is "1.2".
   name: IMAGE_STREAM_TAG
-  value: "1.1"
+  value: "1.2"
   required: true
 - displayName: Smart Router Custom http Route Hostname
   description: Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>'
