@@ -86,9 +86,9 @@ parameters:
   value: "rhpam70-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.1".
+  description: A named pointer to an image in an image stream. Default is "1.2".
   name: IMAGE_STREAM_TAG
-  value: "1.1"
+  value: "1.2"
   required: true
 - displayName: KIE Server Container Deployment
   description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
