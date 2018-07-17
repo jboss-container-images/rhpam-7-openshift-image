@@ -15,6 +15,7 @@ toc::[levels=1]
 
 == rhpam-7-openshift-image/templates
 
+* link:contrib.adoc[contrib]
 * link:docs.adoc[docs]
 * link:rhpam70-authoring-ha.adoc[rhpam70-authoring-ha]
 * link:rhpam70-authoring.adoc[rhpam70-authoring]
