@@ -607,7 +607,7 @@ objects:
           - containerPort: 5432
             protocol: TCP
           volumeMounts:
-          - mountPath: "/var/lib/postgresql/data"
+          - mountPath: "/var/lib/pgsql/data"
             name: "${APPLICATION_NAME}-postgresql-pvol"
           env:
           - name: POSTGRESQL_USER
