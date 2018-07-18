@@ -13,7 +13,14 @@ metadata:
 labels:
   template: rhpam70-kieserver-mysql
   rhpam: "1.2"
-message: A new environment has been set up for Red Hat Process Automation Manager 7. The username/password for accessing the KIE server is ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
+message: |-
+          A new Process Automation Manager Execution Server application have been created in your project.
+          The username/password for accessing the KIE server
+
+              Username: ${KIE_SERVER_USER}
+              Password: ${KIE_SERVER_PWD}
+
+          Please be sure to create the secret named "${KIE_SERVER_HTTPS_SECRET}" containing the ${KIE_SERVER_HTTPS_KEYSTORE} file used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
