@@ -167,7 +167,7 @@ parameters:
   description: KIE execution server external database JDBC URL
   name: KIE_SERVER_EXTERNALDB_URL
   example: "jdbc:mysql://127.0.0.1:3306/rhpam"
-  required: true
+  required: false
 - displayName: KIE Server External Database Dialect
   description: KIE execution server external database Hibernate dialect
   name: KIE_SERVER_EXTERNALDB_DIALECT
