@@ -154,6 +154,11 @@ parameters:
   name: KIE_SERVER_EXTERNALDB_DRIVER
   example: "mysql"
   required: true
+- displayName: KIE Server External Database Driver Type
+  description: KIE execution server external database driver type, applicable only for DB2, possible values are 4 (default) or 2
+  name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
+  example: "4"
+  required: false
 - displayName: KIE Server External Database User
   description: KIE execution server external database username
   name: KIE_SERVER_EXTERNALDB_USER
@@ -167,7 +172,7 @@ parameters:
   description: KIE execution server external database JDBC URL
   name: KIE_SERVER_EXTERNALDB_URL
   example: "jdbc:mysql://127.0.0.1:3306/rhpam"
-  required: true
+  required: false
 - displayName: KIE Server External Database Dialect
   description: KIE execution server external database Hibernate dialect
   name: KIE_SERVER_EXTERNALDB_DIALECT
@@ -508,6 +513,8 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
           - name: RHPAM_DRIVER
             value: "${KIE_SERVER_EXTERNALDB_DRIVER}"
+          - name: RHPAM_DRIVER_TYPE
+            value: "${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_EXTERNALDB_USER}"
           - name: RHPAM_PASSWORD
