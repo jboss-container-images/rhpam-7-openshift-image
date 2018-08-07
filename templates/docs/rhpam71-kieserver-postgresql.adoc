@@ -3,12 +3,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (./*.in)
 ////
-= rhpam70-kieserver-postgresql
+= rhpam71-kieserver-postgresql
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.0
+Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.1
 
 toc::[]
 
@@ -35,8 +35,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Execution Server. Default is "rhpam70-kieserver-openshift". | rhpam70-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.2". | 1.2 | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Execution Server. Default is "rhpam71-kieserver-openshift". | rhpam71-kieserver-openshift | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`KIE_SERVER_ROUTER_SERVICE` | `KIE_SERVER_ROUTER_SERVICE` | The service name for the optional smart router, where it can be reached, to allow smart routing | `${KIE_SERVER_ROUTER_SERVICE}` | False
 |`KIE_SERVER_ROUTER_HOST` | `KIE_SERVER_ROUTER_HOST` | The host name of the smart router, which could be the service name resolved by OpenShift or a globally resolvable domain name | `${KIE_SERVER_ROUTER_HOST}` | False
 |`KIE_SERVER_ROUTER_PORT` | `KIE_SERVER_ROUTER_PORT` | Port in which the smart router server listens (router property org.kie.server.router.port) | `${KIE_SERVER_ROUTER_PORT}` | False

@@ -3,16 +3,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.0
+    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.1
     iconClass: icon-jboss
     tags: rhpam,jboss,authoring,ha
-    version: "1.2"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.0 authoring environment (HA, persistent, with https)
+    version: "1.0"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.1 authoring environment (HA, persistent, with https)
     template.openshift.io/bindable: "false"
-  name: rhpam70-authoring-ha
+  name: rhpam71-authoring-ha
 labels:
-  template: rhpam70-authoring-ha
-  rhpam: "1.2"
+  template: rhpam71-authoring-ha
+  rhpam: "1.0"
 message: A new persistent Process Automation Manager application have been created in your project.
   The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
   Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
@@ -272,14 +272,14 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam70-kieserver-openshift".
+  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam71-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam70-kieserver-openshift"
+  value: "rhpam71-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.2".
+  description: A named pointer to an image in an image stream. Default is "1.0".
   name: IMAGE_STREAM_TAG
-  value: "1.2"
+  value: "1.0"
   required: true
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
@@ -699,7 +699,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-businesscentral-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam71-businesscentral-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
 ## Replicas for Business Central
     replicas: 2
@@ -716,7 +716,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
-          image: rhpam70-businesscentral-openshift
+          image: rhpam71-businesscentral-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -1123,7 +1123,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-businesscentral-indexing-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam71-businesscentral-indexing-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -1138,7 +1138,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamindex"
-          image: rhpam70-businesscentral-indexing-openshift
+          image: rhpam71-businesscentral-indexing-openshift
           imagePullPolicy: Always
           volumeMounts:
           - name: "${APPLICATION_NAME}-rhpamindex-pvol"

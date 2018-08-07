@@ -1,16 +1,16 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam70-controller-openshift"
-description: "Red Hat Process Automation Manager Standalone Controller 7.0 container image"
-version: "1.2"
-from: "rhpam-7/rhpam70-controller:latest"
+name: "rhpam-7/rhpam71-controller-openshift"
+description: "Red Hat Process Automation Manager Standalone Controller 7.1 container image"
+version: "1.0"
+from: "rhpam-7/rhpam71-controller:latest"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam70-controller-openshift-container"
+      value: "rhpam-7-rhpam71-controller-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Process Automation Manager Standalone Controller"
     - name: "io.k8s.display-name"
-      value: "Red Hat Process Automation Manager Standalone Controller 7.0"
+      value: "Red Hat Process Automation Manager Standalone Controller 7.1"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
@@ -238,4 +238,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-controller-openshift
-          branch: jb-rhpam-7.0-controller-openshift-rhel-7
+          branch: jb-rhpam-7.1-controller-openshift-rhel-7

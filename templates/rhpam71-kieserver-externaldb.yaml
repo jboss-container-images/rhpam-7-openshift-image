@@ -3,16 +3,16 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.0
+    description: Application template for a managed KIE server with an external database, for Red Hat Process Automation Manager 7.1
     iconClass: icon-jboss
-    tags: rhpam,jboss,kieserver,postgresql
-    version: "1.2"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.0 managed KIE server with a PostgreSQL database
+    tags: rhpam,jboss,kieserver,externaldb
+    version: "1.0"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.1 managed KIE server with an external database
     template.openshift.io/bindable: "false"
-  name: rhpam70-kieserver-postgresql
+  name: rhpam71-kieserver-externaldb
 labels:
-  template: rhpam70-kieserver-postgresql
-  rhpam: "1.2"
+  template: rhpam71-kieserver-externaldb
+  rhpam: "1.0"
 message: A new environment has been set up for Red Hat Process Automation Manager 7. The username/password for accessing the KIE server is ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
 parameters:
 - displayName: Application Name
@@ -83,14 +83,14 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam70-kieserver-openshift".
+  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam71-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam70-kieserver-openshift"
+  value: "rhpam71-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.2".
+  description: A named pointer to an image in an image stream. Default is "1.0".
   name: IMAGE_STREAM_TAG
-  value: "1.2"
+  value: "1.0"
   required: true
 - displayName: Smart Router Service
   description: The service name for the optional smart router, where it can be reached, to allow smart routing
@@ -148,37 +148,50 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## PostgreSQL database parameters BEGIN
-- displayName: KIE Server PostgreSQL Database User
-  description: KIE execution server PostgreSQL database username
-  name: KIE_SERVER_POSTGRESQL_USER
+## External database parameters BEGIN
+- displayName: KIE Server External Database Driver
+  description: KIE execution server external database driver
+  name: KIE_SERVER_EXTERNALDB_DRIVER
+  example: "mysql"
+  required: true
+- displayName: KIE Server External Database Driver Type
+  description: KIE execution server external database driver type, applicable only for DB2, possible values are 4 (default) or 2
+  name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
+  example: "4"
+  required: false
+- displayName: KIE Server External Database User
+  description: KIE execution server external database username
+  name: KIE_SERVER_EXTERNALDB_USER
+  example: rhpam
+  required: true
+- displayName: KIE Server External Database Password
+  description: KIE execution server external database password
+  name: KIE_SERVER_EXTERNALDB_PWD
+  required: true
+- displayName: KIE Server External Database URL
+  description: KIE execution server external database JDBC URL
+  name: KIE_SERVER_EXTERNALDB_URL
+  example: "jdbc:mysql://127.0.0.1:3306/rhpam"
+  required: false
+- displayName: KIE Server External Database Dialect
+  description: KIE execution server external database Hibernate dialect
+  name: KIE_SERVER_EXTERNALDB_DIALECT
+  example: "org.hibernate.dialect.MySQL5Dialect"
+  required: true
+- displayName: KIE Server External Database Host
+  description: KIE execution server external database host, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_HOST
+  required: true
+- displayName: KIE Server External Database Port
+  description: KIE execution server external database port, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_PORT
+  required: true
+- displayName: KIE Server External Database name
+  description: KIE execution server external database name, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_DB
   value: rhpam
   required: false
-- displayName: KIE Server PostgreSQL Database Password
-  description: KIE execution server PostgreSQL database password
-  name: KIE_SERVER_POSTGRESQL_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
-- displayName: KIE Server PostgreSQL Database Name
-  description: KIE execution server PostgreSQL database name
-  name: KIE_SERVER_POSTGRESQL_DB
-  value: rhpam7
-  required: false
-- displayName: PostgreSQL ImageStream Tag
-  description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
-  name: POSTGRESQL_IMAGE_STREAM_TAG
-  value: "9.6"
-- displayName: PostgreSQL Database max prepared connections
-  description: Allows the PostgreSQL to handle XA transactions.
-  name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
-  value: '100'
-  required: true
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 1Gi
-## PostgreSQL database parameters END
+## External database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -247,7 +260,7 @@ parameters:
   example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT
   required: false
 - displayName: Disable KIE Server Management
-  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
+  description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
   name: KIE_SERVER_MGMT_DISABLED
   example: "true"
   required: false
@@ -308,23 +321,6 @@ objects:
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
-## PostgreSQL service BEGIN
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      description: The database server's port.
-    labels:
-      application: ${APPLICATION_NAME}
-      service: "${APPLICATION_NAME}-postgresql"
-    name: ${APPLICATION_NAME}-postgresql
-  spec:
-    ports:
-    - port: 5432
-      targetPort: 5432
-    selector:
-      deploymentConfig: ${APPLICATION_NAME}-postgresql
-## PostgreSQL service END
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-http"
@@ -510,28 +506,30 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
-## PostgreSQL driver settings BEGIN
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_POSTGRESQL_DB}"
-          - name: RHPAM_DRIVER
-            value: "postgresql"
-          - name: RHPAM_USERNAME
-            value: "${KIE_SERVER_POSTGRESQL_USER}"
-          - name: RHPAM_PASSWORD
-            value: "${KIE_SERVER_POSTGRESQL_PWD}"
-          - name: RHPAM_SERVICE_HOST
-            value: "${APPLICATION_NAME}-postgresql"
-          - name: RHPAM_SERVICE_PORT
-            value: "5432"
-          - name: TIMER_SERVICE_DATA_STORE
-            value: "${APPLICATION_NAME}-postgresql"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.PostgreSQLDialect"
-## PostgreSQL driver settings END
-          - name: RHPAM_JTA
-            value: "true"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
+## External database driver settings BEGIN
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
+          - name: RHPAM_DRIVER
+            value: "${KIE_SERVER_EXTERNALDB_DRIVER}"
+          - name: RHPAM_DRIVER_TYPE
+            value: "${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}"
+          - name: RHPAM_USERNAME
+            value: "${KIE_SERVER_EXTERNALDB_USER}"
+          - name: RHPAM_PASSWORD
+            value: "${KIE_SERVER_EXTERNALDB_PWD}"
+          - name: RHPAM_XA_CONNECTION_PROPERTY_URL
+            value: "${KIE_SERVER_EXTERNALDB_URL}"
+          - name: RHPAM_SERVICE_HOST
+            value: "${KIE_SERVER_EXTERNALDB_HOST}"
+          - name: RHPAM_SERVICE_PORT
+            value: "${KIE_SERVER_EXTERNALDB_PORT}"
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_EXTERNALDB_DB}"
+## External database driver settings END
+          - name: RHPAM_JTA
+            value: "true"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: HTTPS_KEYSTORE_DIR
@@ -552,89 +550,3 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
-## PostgreSQL deployment config BEGIN
-- kind: DeploymentConfig
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-postgresql"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-postgresql"
-  spec:
-    strategy:
-      type: Recreate
-    triggers:
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-        - "${APPLICATION_NAME}-postgresql"
-        from:
-          kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "postgresql:${POSTGRESQL_IMAGE_STREAM_TAG}"
-    - type: ConfigChange
-    replicas: 1
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-postgresql"
-    template:
-      metadata:
-        name: "${APPLICATION_NAME}-postgresql"
-        labels:
-          deploymentConfig: "${APPLICATION_NAME}-postgresql"
-          application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-postgresql"
-      spec:
-        terminationGracePeriodSeconds: 60
-        containers:
-        - name: "${APPLICATION_NAME}-postgresql"
-          image: postgresql
-          imagePullPolicy: Always
-          livenessProbe:
-            exec:
-              command:
-              - "/usr/libexec/check-container"
-              - "--live"
-            initialDelaySeconds: 120
-            timeoutSeconds: 10
-          readinessProbe:
-            exec:
-              command:
-              - "/usr/libexec/check-container"
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          ports:
-          - containerPort: 5432
-            protocol: TCP
-          volumeMounts:
-          - mountPath: "/var/lib/pgsql/data"
-            name: "${APPLICATION_NAME}-postgresql-pvol"
-          env:
-          - name: POSTGRESQL_USER
-            value: "${KIE_SERVER_POSTGRESQL_USER}"
-          - name: POSTGRESQL_PASSWORD
-            value: "${KIE_SERVER_POSTGRESQL_PWD}"
-          - name: POSTGRESQL_DATABASE
-            value: "${KIE_SERVER_POSTGRESQL_DB}"
-          - name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
-            value: "${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}"
-        volumes:
-        - name: "${APPLICATION_NAME}-postgresql-pvol"
-          persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-postgresql-claim"
-## PostgreSQL deployment config END
-## PostgreSQL persistent volume claim BEGIN
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: "${APPLICATION_NAME}-postgresql-claim"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-postgresql"
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: "${DB_VOLUME_CAPACITY}"
-## PostgreSQL persistent volume claim END

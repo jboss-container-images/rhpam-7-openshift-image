@@ -1,6 +1,6 @@
 # Red Hat Process Automation Manager 7 - Smart Router OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/rhpam70-dev/smartrouter[Red Hat Process Automation Manager Smart Router 7.0 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/rhpam71-dev/smartrouter[Red Hat Process Automation Manager Smart Router 7.1 container image]
 
 # License
 

@@ -3,18 +3,18 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.0
+    description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.1
     iconClass: icon-jboss
     tags: rhpam,jboss,kieserver,immutable,monitor
-    version: "1.2"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.0 production monitoring environment
+    version: "1.0"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.1 production monitoring environment
     template.openshift.io/bindable: "false"
-  name: rhpam70-prod-immutable-monitor
+  name: rhpam71-prod-immutable-monitor
 labels:
-  template: rhpam70-prod-immutable-monitor
-  rhpam: "1.2"
+  template: rhpam71-prod-immutable-monitor
+  rhpam: "1.0"
 message: A new environment has been set up for Red Hat Process Automation Manager 7. To create a new KIE server and connect to this monitoring console/router, enter
-  oc new-app -f rhpam70-prod-immutable-kieserver.yaml -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
+  oc new-app -f rhpam71-prod-immutable-kieserver.yaml -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
 parameters:
 - displayName: Application Name
   description: The name for the application.
@@ -80,9 +80,9 @@ parameters:
   value: openshift
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.2".
+  description: A named pointer to an image in an image stream. Default is "1.0".
   name: IMAGE_STREAM_TAG
-  value: "1.2"
+  value: "1.0"
   required: false
 - displayName: Smart Router Custom http Route Hostname
   description: Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>'
@@ -428,7 +428,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam71-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -444,7 +444,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
-          image: rhpam70-businesscentral-monitoring-openshift
+          image: rhpam71-businesscentral-monitoring-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -622,7 +622,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam70-smartrouter-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam71-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 2
     selector:
@@ -638,7 +638,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-smartrouter"
-          image: rhpam70-smartrouter-openshift
+          image: rhpam71-smartrouter-openshift
           imagePullPolicy: Always
           resources:
             limits:

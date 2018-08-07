@@ -6,7 +6,7 @@
 = Application Templates
 
 This project contains OpenShift v3 application templates which support applications based on RHPAM products.
-Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/rhpam70-dev[here].
+Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/rhpam71-dev[here].
 
 :icons: font
 :toc: macro
@@ -17,16 +17,16 @@ toc::[levels=1]
 
 * link:contrib.adoc[contrib]
 * link:docs.adoc[docs]
-* link:rhpam70-authoring-ha.adoc[rhpam70-authoring-ha]
-* link:rhpam70-authoring.adoc[rhpam70-authoring]
-* link:rhpam70-kieserver-externaldb.adoc[rhpam70-kieserver-externaldb]
-* link:rhpam70-kieserver-mysql.adoc[rhpam70-kieserver-mysql]
-* link:rhpam70-kieserver-postgresql.adoc[rhpam70-kieserver-postgresql]
-* link:rhpam70-prod-immutable-kieserver.adoc[rhpam70-prod-immutable-kieserver]
-* link:rhpam70-prod-immutable-monitor.adoc[rhpam70-prod-immutable-monitor]
-* link:rhpam70-prod.adoc[rhpam70-prod]
-* link:rhpam70-sit.adoc[rhpam70-sit]
-* link:rhpam70-trial-ephemeral.adoc[rhpam70-trial-ephemeral]
+* link:rhpam71-authoring-ha.adoc[rhpam71-authoring-ha]
+* link:rhpam71-authoring.adoc[rhpam71-authoring]
+* link:rhpam71-kieserver-externaldb.adoc[rhpam71-kieserver-externaldb]
+* link:rhpam71-kieserver-mysql.adoc[rhpam71-kieserver-mysql]
+* link:rhpam71-kieserver-postgresql.adoc[rhpam71-kieserver-postgresql]
+* link:rhpam71-prod-immutable-kieserver.adoc[rhpam71-prod-immutable-kieserver]
+* link:rhpam71-prod-immutable-monitor.adoc[rhpam71-prod-immutable-monitor]
+* link:rhpam71-prod.adoc[rhpam71-prod]
+* link:rhpam71-sit.adoc[rhpam71-sit]
+* link:rhpam71-trial-ephemeral.adoc[rhpam71-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file
