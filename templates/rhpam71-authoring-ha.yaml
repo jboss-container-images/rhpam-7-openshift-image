@@ -384,6 +384,11 @@ parameters:
   name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
   value: "false"
   required: false
+- displayName: RH-SSO Principal Attribute
+  description: RH-SSO Principal Attribute to use as username.
+  name: SSO_PRINCIPAL_ATTRIBUTE
+  value: preferred_username
+  required: false
 - displayName: LDAP Endpoint
   description: LDAP Endpoint to connect for authentication
   name: AUTH_LDAP_URL
@@ -854,6 +859,8 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: SSO_PRINCIPAL_ATTRIBUTE
+            value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
             value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
@@ -1081,6 +1088,8 @@ objects:
             value: "${SSO_PASSWORD}"
           - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
             value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: SSO_PRINCIPAL_ATTRIBUTE
+            value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
             value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
