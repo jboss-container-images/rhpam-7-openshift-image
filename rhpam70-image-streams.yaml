@@ -22,9 +22,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central image.
@@ -32,9 +34,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-openshift:1.1
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central image.
@@ -42,9 +46,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-openshift:1.2
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-openshift:1.2
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -61,9 +67,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central Monitoring image.
@@ -71,9 +79,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.1
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central Monitoring image.
@@ -81,9 +91,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.2
+        name: registry.redhat.io/rhpam-7/rhpam70-businesscentral-monitoring-openshift:1.2
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -100,9 +112,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-controller-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam70-controller-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Standalone Controller image.
@@ -110,9 +124,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-controller-openshift:1.1
+        name: registry.redhat.io/rhpam-7/rhpam70-controller-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Standalone Controller image.
@@ -120,9 +136,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-controller-openshift:1.2
+        name: registry.redhat.io/rhpam-7/rhpam70-controller-openshift:1.2
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -139,9 +157,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-kieserver-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam70-kieserver-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - KIE Server image.
@@ -149,9 +169,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-kieserver-openshift:1.1
+        name: registry.redhat.io/rhpam-7/rhpam70-kieserver-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - KIE Server image.
@@ -159,9 +181,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-kieserver-openshift:1.2
+        name: registry.redhat.io/rhpam-7/rhpam70-kieserver-openshift:1.2
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -178,9 +202,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-smartrouter-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam70-smartrouter-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Smart Router image.
@@ -188,9 +214,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-smartrouter-openshift:1.1
+        name: registry.redhat.io/rhpam-7/rhpam70-smartrouter-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Smart Router image.
@@ -198,9 +226,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7/rhpam70-smartrouter-openshift:1.2
+        name: registry.redhat.io/rhpam-7/rhpam70-smartrouter-openshift:1.2
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -217,9 +247,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.0'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.0
+        name: registry.redhat.io/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.0
     - name: '1.1'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central Indexing image.
@@ -227,9 +259,11 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.1'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.1
+        name: registry.redhat.io/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.1
     - name: '1.2'
       annotations:
         description: Red Hat Process Automation Manager 7.0 - Business Central Indexing image.
@@ -237,7 +271,9 @@ items:
         tags: rhpam
         supports: rhpam:7.0
         version: '1.2'
+      referencePolicy:
+        type: Local
       from:
         kind: DockerImage
-        name: registry.access.redhat.com/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.2
+        name: registry.redhat.io/rhpam-7-tech-preview/rhpam70-businesscentral-indexing-openshift:1.2
 
