@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam70-businesscentral-indexing-openshift"
 description: "Red Hat Business Central Indexing 7.0 OpenShift container image"
-version: "1.0"
+version: "1.2"
 from: "rhpam-7/rhpam70-businesscentral-indexing:latest"
 labels:
     - name: "com.redhat.component"
@@ -50,7 +50,7 @@ modules:
               ref: sprint-18
           - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
-              ref: rhpam-7.0.0.GA
+              ref: rhpam-7.0.2.GA
       install:
           - name: os.bpmsuite.elasticsearch
           - name: dynamic-resources

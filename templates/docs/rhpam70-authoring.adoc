@@ -23,8 +23,6 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |Variable name |Image Environment Variable |Description |Example value |Required
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
-|`ADMIN_USERNAME` | `ADMIN_USERNAME` | EAP administrator username | eapadmin | False
-|`ADMIN_PASSWORD` | `ADMIN_PASSWORD` | EAP administrator password | `${ADMIN_PASSWORD}` | False
 |`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator username | adminUser | False
 |`KIE_ADMIN_PWD` | `KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}` | False
 |`KIE_SERVER_CONTROLLER_USER` | `KIE_SERVER_CONTROLLER_USER` | KIE server controller username (Sets the org.kie.server.controller.user system property) | controllerUser | False
@@ -38,10 +36,11 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |KIE_SERVER_H2_PWD | -- | KIE execution server H2 database password | -- | False
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE execution server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
-|`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
+|`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
-|`EXECUTION_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
+|`EXECUTION_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`EXECUTION_SERVER_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
+|`EXECUTION_SERVER_USE_SECURE_ROUTE_NAME` | `EXECUTION_SERVER_USE_SECURE_ROUTE_NAME` | Use https for the KIE_SERVER_HOST when it is not explicit configured to a custom value. | false | False
 |`BUSINESS_CENTRAL_HTTPS_SECRET` | -- | The name of the secret containing the keystore file | -- | True
 |`BUSINESS_CENTRAL_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret | keystore.jks | False
 |`BUSINESS_CENTRAL_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate | jboss | False
@@ -52,10 +51,11 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for database volume. | 1Gi | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | False
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Execution Server. Default is "rhpam70-kieserver-openshift". | rhpam70-kieserver-openshift | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.2". | 1.2 | True
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
-|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}` | False
-|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}` | False
+|`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | False
+|`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}` | False
 |`BUSINESS_CENTRAL_MAVEN_USERNAME` | -- | Username to access the Maven service hosted by Business Central inside EAP. | mavenUser | True
 |`BUSINESS_CENTRAL_MAVEN_PASSWORD` | -- | Password to access the Maven service hosted by Business Central inside EAP. | -- | True
 |`BUSINESS_CENTRAL_VOLUME_CAPACITY` | -- | Size of the persistent storage for Business Central's runtime data. | 1Gi | True
@@ -70,6 +70,27 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`SSO_USERNAME` | `SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist | `${SSO_USERNAME}` | False
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}` | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | false | False
+|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}` | False
+|`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}` | False
+|`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}` | False
+|`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | `AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}` | False
+|`AUTH_LDAP_BASE_CTX_DN` | `AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}` | False
+|`AUTH_LDAP_BASE_FILTER` | `AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}` | False
+|`AUTH_LDAP_SEARCH_SCOPE` | `AUTH_LDAP_SEARCH_SCOPE` | The search scope to use. | `${AUTH_LDAP_SEARCH_SCOPE}` | False
+|`AUTH_LDAP_SEARCH_TIME_LIMIT` | `AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | `${AUTH_LDAP_SEARCH_TIME_LIMIT}` | False
+|`AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | `AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry's DN is used. | `${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}` | False
+|`AUTH_LDAP_PARSE_USERNAME` | `AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString. | `${AUTH_LDAP_PARSE_USERNAME}` | False
+|`AUTH_LDAP_USERNAME_BEGIN_STRING` | `AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_BEGIN_STRING}` | False
+|`AUTH_LDAP_USERNAME_END_STRING` | `AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_END_STRING}` | False
+|`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | `AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | `${AUTH_LDAP_ROLE_ATTRIBUTE_ID}` | False
+|`AUTH_LDAP_ROLES_CTX_DN` | `AUTH_LDAP_ROLES_CTX_DN` | The fixed DN of the context to search for user roles. This is not the DN where the actual roles are, but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server, this is the DN where the user account is. | `${AUTH_LDAP_ROLES_CTX_DN}` | False
+|`AUTH_LDAP_ROLE_FILTER` | `AUTH_LDAP_ROLE_FILTER` | A search filter used to locate the roles associated with the authenticated user. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. The authenticated userDN is substituted into the filter anywhere a {1} is used. An example search filter that matches on the input username is (member={0}). An alternative that matches on the authenticated userDN is (member={1}). | `${AUTH_LDAP_ROLE_FILTER}` | False
+|`AUTH_LDAP_ROLE_RECURSION` | `AUTH_LDAP_ROLE_RECURSION` | The number of levels of recursion the role search will go below a matching context. Disable recursion by setting this to 0. | `${AUTH_LDAP_ROLE_RECURSION}` | False
+|`AUTH_LDAP_DEFAULT_ROLE` | `AUTH_LDAP_DEFAULT_ROLE` | A role included for all authenticated users | `${AUTH_LDAP_DEFAULT_ROLE}` | False
+|`AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID` | `AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID` | Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object's name attribute. | `${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}` | False
+|`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | `AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}` | False
+|`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | `AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}` | False
+|`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | `AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}` | False
 |=======================================================================
 
 
@@ -158,6 +179,18 @@ for more information.
 ==== Pod Template
 
 
+===== Service Accounts
+
+Service accounts are API objects that exist within each project. They can be created or deleted like any other API object. Refer to the
+https://docs.openshift.com/enterprise/3.0/dev_guide/service_accounts.html#managing-service-accounts[Openshift documentation] for more
+information.
+
+|============
+|Deployment | Service Account
+
+|`${APPLICATION_NAME}-kieserver` | `${APPLICATION_NAME}-kieserver`
+|============
+
 
 
 ===== Image
@@ -166,7 +199,7 @@ for more information.
 |Deployment | Image
 
 |`${APPLICATION_NAME}-rhpamcentr` | rhpam70-businesscentral-openshift
-|`${APPLICATION_NAME}-kieserver` | rhpam70-kieserver-openshift
+|`${APPLICATION_NAME}-kieserver` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
 |============
 
 
@@ -226,7 +259,7 @@ for more information.
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.30+| `${APPLICATION_NAME}-rhpamcentr`
+.49+| `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
 |`KIE_MBEANS` | KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
@@ -235,16 +268,14 @@ for more information.
 |`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
-|`MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
-|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
+|`MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
+|`MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}`
 |`KIE_MAVEN_USER` | -- | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
 |`KIE_MAVEN_PWD` | -- | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/businesscentral-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret | `${BUSINESS_CENTRAL_HTTPS_KEYSTORE}`
 |`HTTPS_NAME` | The name associated with the server certificate | `${BUSINESS_CENTRAL_HTTPS_NAME}`
 |`HTTPS_PASSWORD` | The password for the keystore and certificate | `${BUSINESS_CENTRAL_HTTPS_PASSWORD}`
-|`ADMIN_USERNAME` | EAP administrator username | `${ADMIN_USERNAME}`
-|`ADMIN_PASSWORD` | EAP administrator password | `${ADMIN_PASSWORD}`
 |`PROBE_IMPL` | -- | probe.eap.jolokia.EapProbe
 |`PROBE_DISABLE_BOOT_ERRORS_CHECK` | -- | true
 |`SSO_URL` | RH-SSO URL | `${SSO_URL}`
@@ -255,9 +286,30 @@ for more information.
 |`SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist | `${SSO_USERNAME}`
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
-.46+| `${APPLICATION_NAME}-kieserver`
+|`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
+|`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
+|`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
+|`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
+|`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
+|`AUTH_LDAP_SEARCH_SCOPE` | The search scope to use. | `${AUTH_LDAP_SEARCH_SCOPE}`
+|`AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | `${AUTH_LDAP_SEARCH_TIME_LIMIT}`
+|`AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry's DN is used. | `${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}`
+|`AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString. | `${AUTH_LDAP_PARSE_USERNAME}`
+|`AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_BEGIN_STRING}`
+|`AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_END_STRING}`
+|`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | `${AUTH_LDAP_ROLE_ATTRIBUTE_ID}`
+|`AUTH_LDAP_ROLES_CTX_DN` | The fixed DN of the context to search for user roles. This is not the DN where the actual roles are, but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server, this is the DN where the user account is. | `${AUTH_LDAP_ROLES_CTX_DN}`
+|`AUTH_LDAP_ROLE_FILTER` | A search filter used to locate the roles associated with the authenticated user. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. The authenticated userDN is substituted into the filter anywhere a {1} is used. An example search filter that matches on the input username is (member={0}). An alternative that matches on the authenticated userDN is (member={1}). | `${AUTH_LDAP_ROLE_FILTER}`
+|`AUTH_LDAP_ROLE_RECURSION` | The number of levels of recursion the role search will go below a matching context. Disable recursion by setting this to 0. | `${AUTH_LDAP_ROLE_RECURSION}`
+|`AUTH_LDAP_DEFAULT_ROLE` | A role included for all authenticated users | `${AUTH_LDAP_DEFAULT_ROLE}`
+|`AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID` | Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object's name attribute. | `${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}`
+|`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}`
+|`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}`
+|`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
+.70+| `${APPLICATION_NAME}-kieserver`
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_DATABASE` | -- | rhpam7
 |`RHPAM_JNDI` | -- | `${KIE_SERVER_PERSISTENCE_DS}`
@@ -277,19 +329,22 @@ for more information.
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
 |`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
+|`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ID` | Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property). | `${KIE_SERVER_ID}`
-|`KIE_SERVER_HOST` | -- | --
+|`KIE_SERVER_HOST` | -- | `${EXECUTION_SERVER_HOSTNAME_HTTP}`
+|`EXECUTION_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
+|`EXECUTION_SERVER_USE_SECURE_ROUTE_NAME` | Use https for the KIE_SERVER_HOST when it is not explicit configured to a custom value. | `${EXECUTION_SERVER_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_PERSISTENCE_DS` | KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE execution server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
-|`RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
-|`RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
+|`RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
+|`RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
 |`EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
-|`EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository. | `${MAVEN_REPO_USERNAME}`
-|`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository. | `${MAVEN_REPO_PASSWORD}`
+|`EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
+|`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret | `${KIE_SERVER_HTTPS_KEYSTORE}`
 |`HTTPS_NAME` | The name associated with the server certificate | `${KIE_SERVER_HTTPS_NAME}`
@@ -302,8 +357,29 @@ for more information.
 |`SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist | `${SSO_USERNAME}`
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${EXECUTION_SERVER_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${EXECUTION_SERVER_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${EXECUTION_SERVER_HOSTNAME_HTTPS}`
+|`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
+|`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
+|`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
+|`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
+|`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
+|`AUTH_LDAP_SEARCH_SCOPE` | The search scope to use. | `${AUTH_LDAP_SEARCH_SCOPE}`
+|`AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | `${AUTH_LDAP_SEARCH_TIME_LIMIT}`
+|`AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry's DN is used. | `${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}`
+|`AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString. | `${AUTH_LDAP_PARSE_USERNAME}`
+|`AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_BEGIN_STRING}`
+|`AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_END_STRING}`
+|`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | `${AUTH_LDAP_ROLE_ATTRIBUTE_ID}`
+|`AUTH_LDAP_ROLES_CTX_DN` | The fixed DN of the context to search for user roles. This is not the DN where the actual roles are, but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server, this is the DN where the user account is. | `${AUTH_LDAP_ROLES_CTX_DN}`
+|`AUTH_LDAP_ROLE_FILTER` | A search filter used to locate the roles associated with the authenticated user. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. The authenticated userDN is substituted into the filter anywhere a {1} is used. An example search filter that matches on the input username is (member={0}). An alternative that matches on the authenticated userDN is (member={1}). | `${AUTH_LDAP_ROLE_FILTER}`
+|`AUTH_LDAP_ROLE_RECURSION` | The number of levels of recursion the role search will go below a matching context. Disable recursion by setting this to 0. | `${AUTH_LDAP_ROLE_RECURSION}`
+|`AUTH_LDAP_DEFAULT_ROLE` | A role included for all authenticated users | `${AUTH_LDAP_DEFAULT_ROLE}`
+|`AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID` | Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object's name attribute. | `${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}`
+|`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}`
+|`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}`
+|`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |=======================================================================
 
 
@@ -335,6 +411,15 @@ more information.
 |`${APPLICATION_NAME}-h2-claim` | ReadWriteOnce
 |=============
 
+
+
+
+==== Secrets
+
+This template requires the following secrets to be installed for the application to run.
+
+businesscentral-app-secret
+kieserver-app-secret
 
 
 

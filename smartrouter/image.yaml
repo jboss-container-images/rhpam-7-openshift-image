@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam70-smartrouter-openshift"
 description: "Red Hat Process Automation Manager Smart Router 7.0 container image"
-version: "1.0"
+version: "1.2"
 from: "rhpam-7/rhpam70-smartrouter:latest"
 labels:
     - name: "com.redhat.component"
@@ -66,7 +66,7 @@ modules:
               ref: sprint-18
           - git:
               url: https://github.com/jboss-container-images/jboss-kie-modules.git
-              ref: rhpam-7.0.0.GA
+              ref: rhpam-7.0.2.GA
       install:
           - name: os-logging
           - name: os.bpmsuite.smartrouter
