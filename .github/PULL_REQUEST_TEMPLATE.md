@@ -2,7 +2,7 @@ Thanks for submitting your Pull Request!
 
 Please make sure your PR meets the following requirements:
 
-- [ ] Pull Request title is properly formatted: `[CLOUD-XYA] Subject`
+- [ ] Pull Request title is properly formatted: `[RHPAM-XYZ] Subject`
 - [ ] Pull Request contains link to the JIRA issue
 - [ ] Pull Request contains description of the issue
 - [ ] Pull Request does not include fixes for issues other than the main ticket
