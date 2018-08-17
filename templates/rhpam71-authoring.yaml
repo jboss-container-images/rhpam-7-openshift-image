@@ -538,7 +538,7 @@ objects:
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
           - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
-            mountPath: "/opt/eap/standalone/data/bpmsuite"
+            mountPath: "/opt/eap/standalone/data/kie"
           livenessProbe:
             exec:
               command:

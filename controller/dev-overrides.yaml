@@ -1,0 +1,21 @@
+schema_version: 1
+
+from: "rhpam-7/rhpam71-controller:latest"
+modules:
+      repositories:
+          - name: cct_module
+            git:
+                  url: https://github.com/jboss-openshift/cct_module.git
+                  ref: master
+          - name: jboss-eap-modules
+            git:
+                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
+                  ref: master
+          - name: jboss-kie-modules
+            git:
+                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
+                  ref: master
+osbs:
+      repository:
+          name: containers/rhpam-7-controller-openshift
+          branch: jb-rhpam-7.1-controller-openshift-dev-rhel-7

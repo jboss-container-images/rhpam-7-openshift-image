@@ -16,18 +16,12 @@ labels:
     - name: "io.openshift.tags"
       value: "javaee,rhpam,rhdm,rhpam7,rhdm7"
 envs:
+    - name: "SCRIPT_DEBUG"
+      example: "true"
+      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
     - name: "ES_CLUSTER_NAME"
       example: "kie-cluster"
       description: "Sets the ES cluster.name property. Defaults to kie-cluster."
-    - name: "ES_NODE_NAME"
-      example: "nodeName"
-      description: "Sets the ES node.name property. Defaults to HOSTNAME env value."
-    - name: "ES_TRANSPORT_HOST"
-      example: "10.10.10.10"
-      description: "Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address."
-    - name: "ES_TRANSPORT_TCP_PORT"
-      example: "9300"
-      description: "Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster."
     - name: "ES_HTTP_HOST"
       example: "0.0.0.0"
       description: "Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address"
@@ -37,22 +31,30 @@ envs:
     - name: "ES_JAVA_OPTS"
       example: "-Xms1024m -Xmx1024m"
       description: "Appends custom jvm configurations/properties to ES jvm.options configuration file."
-    - name: "SCRIPT_DEBUG"
-      example: "true"
-      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+    - name: "ES_NODE_NAME"
+      example: "nodeName"
+      description: "Sets the ES node.name property. Defaults to HOSTNAME env value."
+    - name: "ES_TRANSPORT_HOST"
+      example: "10.10.10.10"
+      description: "Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address."
+    - name: "ES_TRANSPORT_TCP_PORT"
+      example: "9300"
+      description: "Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster."
 ports:
     - value: 9200
     - value: 9300
 modules:
       repositories:
-          - git:
-              url: https://github.com/jboss-openshift/cct_module.git
-              ref: sprint-18
-          - git:
-              url: https://github.com/jboss-container-images/jboss-kie-modules.git
-              ref: master
+          - name: cct_module
+            git:
+                  url: https://github.com/jboss-openshift/cct_module.git
+                  ref: master
+          - name: jboss-kie-modules
+            git:
+                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
+                  ref: master
       install:
-          - name: os.bpmsuite.elasticsearch
+          - name: jboss.kie.workbench-indexing
           - name: dynamic-resources
           - name: java-alternatives
           - name: os-java-run
