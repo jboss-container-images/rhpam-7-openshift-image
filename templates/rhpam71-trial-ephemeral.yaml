@@ -438,10 +438,6 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: KIE_MAVEN_PWD
             value: "${DEFAULT_PASSWORD}"
-          - name: PROBE_IMPL
-            value: probe.eap.jolokia.EapProbe
-          - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
-            value: 'true'
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

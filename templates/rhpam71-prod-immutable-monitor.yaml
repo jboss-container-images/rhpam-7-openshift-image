@@ -516,10 +516,6 @@ objects:
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_MONITOR_PWD}"
-          - name: PROBE_IMPL
-            value: probe.eap.jolokia.EapProbe
-          - name: PROBE_DISABLE_BOOT_ERRORS_CHECK
-            value: 'true'
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
