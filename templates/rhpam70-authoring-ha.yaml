@@ -13,10 +13,20 @@ metadata:
 labels:
   template: rhpam70-authoring-ha
   rhpam: "1.2"
-message: A new persistent Process Automation Manager application have been created in your project.
-  The username/password for accessing the KIE Server / Business Central interface is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}.
-  Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
-  ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
+message: |-
+          A new persistent HA Process Automation Manager application have been created in your project.
+          The username/password for accessing the Business Central interface is
+
+              Username: ${KIE_ADMIN_USER}
+              Password: ${KIE_ADMIN_PWD}
+
+          The user name/password for calls to the Execution Server is
+
+              Username: ${KIE_SERVER_USER}
+              Password: ${KIE_SERVER_PWD}
+
+          Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
+          ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
