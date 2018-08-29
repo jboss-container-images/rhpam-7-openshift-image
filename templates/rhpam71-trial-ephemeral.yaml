@@ -13,7 +13,19 @@ metadata:
 labels:
   template: rhpam71-trial-ephemeral
   rhpam: "1.0"
-message: "A new Process Automation Manager trial environment has been created. Please remember that this is an ephemeral enviornment and any work will be LOST with a simple pod restart."
+message: |-
+          A new Process Automation Manager trial environment has been created.
+          The username/password for accessing the Business Central interface is
+
+              Username: ${KIE_ADMIN_USER}
+              Password: ${KIE_ADMIN_PWD}
+
+          The user name/password for calls to the Execution Server is
+
+              Username: ${KIE_SERVER_USER}
+              Password: ${KIE_SERVER_PWD}
+
+          Please remember that this is an ephemeral environment and any work will be LOST with a simple pod restart.
 parameters:
 - displayName: Application Name
   description: The name for the application.
