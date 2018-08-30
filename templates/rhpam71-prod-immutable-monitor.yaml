@@ -3,11 +3,15 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.1
     iconClass: icon-jboss
     tags: rhpam,jboss,kieserver,immutable,monitor
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 production monitoring environment
+    openshift.io/provider-display-name: Red Hat, Inc.
+    description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.1
+    template.openshift.io/long-description: This template defines resources needed for a router and monitoring console in a production environment for Red Hat Process Automation Manager 7.1, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_authoring_environment_on_red_hat_openshift_container_platform/
+    template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
   name: rhpam71-prod-immutable-monitor
 labels:
@@ -93,6 +97,7 @@ parameters:
   description: Router ID used when connecting to the controller (router property org.kie.server.router.id)
   name: KIE_SERVER_ROUTER_ID
   value: kie-server-router
+  required: true
 - displayName: Smart Router protocol
   description: KIE server router protocol (Used to build the org.kie.server.router.url.external property)
   name: KIE_SERVER_ROUTER_PROTOCOL
@@ -101,10 +106,12 @@ parameters:
 - displayName: Smart Router external URL
   description: Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external)
   name: KIE_SERVER_ROUTER_URL_EXTERNAL
+  required: false
 - displayName: Smart Router name
   description: Router name used when connecting to the controller (router property org.kie.server.router.name)
   name: KIE_SERVER_ROUTER_NAME
   value: KIE Server Router
+  required: true
 - displayName: KIE Server Monitor User
   description: KIE server monitor username (Sets the org.kie.server.controller.user system property)
   name: KIE_SERVER_MONITOR_USER
@@ -334,6 +341,7 @@ objects:
     ports:
     - name: "ping"
       port: 8888
+      targetPort: 8888
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
   metadata:
@@ -416,6 +424,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentrmon"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate

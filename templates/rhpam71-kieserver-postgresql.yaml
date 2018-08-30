@@ -3,11 +3,15 @@ kind: Template
 apiVersion: v1
 metadata:
   annotations:
-    description: Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.1
     iconClass: icon-jboss
     tags: rhpam,jboss,kieserver,postgresql
     version: "1.0"
+    openshift.io/provider-display-name: Red Hat, Inc.
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 managed KIE server with a PostgreSQL database
+    description: Application template for a managed KIE server with a PostgreSQL database, for Red Hat Process Automation Manager 7.1
+    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager Execution Server 7.1, including application deployment configuration, secure and insecure http communication using a PostgreSQL database.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_managed_server_environment_on_red_hat_openshift_container_platform/
+    template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
   name: rhpam71-kieserver-postgresql
 labels:
@@ -169,6 +173,7 @@ parameters:
   description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
   name: POSTGRESQL_IMAGE_STREAM_TAG
   value: "9.6"
+  required: true
 - displayName: PostgreSQL Database max prepared connections
   description: Allows the PostgreSQL to handle XA transactions.
   name: POSTGRESQL_MAX_PREPARED_TRANSACTIONS
@@ -178,6 +183,7 @@ parameters:
   description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
+  required: true
 ## PostgreSQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
@@ -298,6 +304,7 @@ objects:
     ports:
     - name: "ping"
       port: 8888
+      targetPort: 8888
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
   metadata:
@@ -366,6 +373,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
@@ -560,6 +569,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-postgresql"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
