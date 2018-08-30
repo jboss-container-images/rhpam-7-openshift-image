@@ -13,7 +13,20 @@ metadata:
 labels:
   template: rhpam71-prod
   rhpam: "1.0"
-message: A new environment has been set up for Red Hat Process Automation Manager 7. The username/password for accessing Business Central Monitoring is ${KIE_ADMIN_USER}/${KIE_ADMIN_PWD}. Both sets of KIE servers are configured with the username/password of ${KIE_SERVER_USER}/${KIE_SERVER_PWD}.
+message: |-
+          A new environment has been set up for Red Hat Process Automation Manager 7.
+          The username/password for accessing Business Central Monitoring is
+
+              Username: ${KIE_ADMIN_USER}
+              Password: ${KIE_ADMIN_PWD}
+
+          Both sets of KIE servers are configured with the username/password
+
+              Username: ${KIE_SERVER_USER}
+              Password: ${KIE_SERVER_PWD}
+
+          Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
+          ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
