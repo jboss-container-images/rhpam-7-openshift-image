@@ -129,6 +129,11 @@ parameters:
   name: BUSINESS_CENTRAL_MAVEN_USERNAME
   required: true
   value: mavenUser
+- displayName: Git hooks directory
+  description: The directory to use for git hooks, if required.
+  name: GIT_HOOKS_DIR
+  example: /opt/git/hooks
+  required: false
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
@@ -457,6 +462,8 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: KIE_MAVEN_PWD
             value: "${DEFAULT_PASSWORD}"
+          - name: GIT_HOOKS_DIR
+            value: "${GIT_HOOKS_DIR}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
