@@ -49,7 +49,7 @@ envs:
       description: "This var can be used to configure the broker with custom paramenters, the default value is ha=true&retryInterval=1000&retryIntervalMultiplier=1.0&reconnectAttempts=-1"
       example: "ha=falsee&retryInterval=1000&retryIntervalMultiplier=2.0&reconnectAttempts=10"
     - name: "GIT_HOOKS_DIR"
-      example: "/opt/git/hooks"
+      example: "/opt/eap/standalone/data/kie/git/hooks"
       description: "If provided, the specified path will be copied to all the git repositories hooks dir"
     - name: "KIE_ADMIN_USER"
       example: "adminUser"

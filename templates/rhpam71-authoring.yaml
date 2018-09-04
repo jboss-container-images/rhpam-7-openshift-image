@@ -226,7 +226,7 @@ parameters:
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
-  example: /opt/git/hooks
+  example: /opt/eap/standalone/data/kie/git/hooks
   required: false
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central's runtime data.
