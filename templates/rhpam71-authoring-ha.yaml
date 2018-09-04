@@ -322,7 +322,7 @@ parameters:
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
-  example: /opt/git/hooks
+  example: /opt/eap/standalone/data/kie/git/hooks
   required: false
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
