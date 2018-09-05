@@ -50,9 +50,10 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property) | `${KIE_SERVER_CONTROLLER_TOKEN}` | False
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |`KIE_SERVER_EXTERNALDB_DRIVER` | -- | KIE execution server external database driver | -- | True
+|`KIE_SERVER_EXTERNALDB_DRIVER_TYPE` | -- | KIE execution server external database driver type, applicable only for DB2, possible values are 4 (default) or 2 | -- | False
 |`KIE_SERVER_EXTERNALDB_USER` | -- | KIE execution server external database username | -- | True
 |`KIE_SERVER_EXTERNALDB_PWD` | -- | KIE execution server external database password | -- | True
-|`KIE_SERVER_EXTERNALDB_URL` | -- | KIE execution server external database JDBC URL | -- | True
+|`KIE_SERVER_EXTERNALDB_URL` | -- | KIE execution server external database JDBC URL | -- | False
 |`KIE_SERVER_EXTERNALDB_DIALECT` | -- | KIE execution server external database Hibernate dialect | -- | True
 |`KIE_SERVER_EXTERNALDB_HOST` | -- | KIE execution server external database host, for ejb_timer datasource configuration | -- | True
 |`KIE_SERVER_EXTERNALDB_PORT` | -- | KIE execution server external database port, for ejb_timer datasource configuration | -- | True
@@ -219,7 +220,7 @@ information.
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.54+| `${APPLICATION_NAME}-kieserver`
+.55+| `${APPLICATION_NAME}-kieserver`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE execution server class filtering (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
@@ -259,6 +260,7 @@ information.
 |`RHPAM_JNDI` | -- | `${KIE_SERVER_PERSISTENCE_DS}`
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | `${KIE_SERVER_EXTERNALDB_DIALECT}`
 |`RHPAM_DRIVER` | -- | `${KIE_SERVER_EXTERNALDB_DRIVER}`
+|`RHPAM_DRIVER_TYPE` | -- | `${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}`
 |`RHPAM_USERNAME` | -- | `${KIE_SERVER_EXTERNALDB_USER}`
 |`RHPAM_PASSWORD` | -- | `${KIE_SERVER_EXTERNALDB_PWD}`
 |`RHPAM_XA_CONNECTION_PROPERTY_URL` | -- | `${KIE_SERVER_EXTERNALDB_URL}`
