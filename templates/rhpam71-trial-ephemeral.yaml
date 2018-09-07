@@ -24,7 +24,7 @@ message: |-
               Username: ${KIE_ADMIN_USER}
               Password: ${KIE_ADMIN_PWD}
 
-          The user name/password for calls to the Execution Server is
+          The user name/password for calls to the KIE server is
 
               Username: ${KIE_SERVER_USER}
               Password: ${KIE_SERVER_PWD}
@@ -47,7 +47,7 @@ parameters:
   value: adminUser
   required: false
 - displayName: KIE Server User
-  description: KIE execution server username (Sets the org.kie.server.user system property)
+  description: KIE server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
   required: false
@@ -57,7 +57,7 @@ parameters:
   value: ''
   required: false
 - displayName: KIE Server Bypass Auth User
-  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
+  description: KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
@@ -67,19 +67,19 @@ parameters:
   value: controllerUser
   required: false
 - displayName: KIE MBeans
-  description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+  description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
   value: enabled
   required: false
 - displayName: Drools Server Filter Classes
-  description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
+  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
   value: 'true'
   required: false
-- displayName: Execution Server Custom http Route Hostname
+- displayName: KIE server Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: EXECUTION_SERVER_HOSTNAME_HTTP
+  name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Business Central Custom http Route Hostname
@@ -97,7 +97,7 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam71-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
   value: "rhpam71-kieserver-openshift"
   required: true
@@ -139,9 +139,9 @@ parameters:
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
-- displayName: Execution Server Container Memory Limit
-  description: Execution Server Container memory limit
-  name: EXCECUTION_SERVER_MEMORY_LIMIT
+- displayName: KIE server Container Memory Limit
+  description: KIE server Container memory limit
+  name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
   required: false
 - displayName: RH-SSO URL
@@ -366,9 +366,9 @@ objects:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
-      description: Route for execution server's http service.
+      description: Route for KIE server's http service.
   spec:
-    host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+    host: "${KIE_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
 - kind: DeploymentConfig
@@ -573,7 +573,7 @@ objects:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
+              memory: "${KIE_SERVER_MEMORY_LIMIT}"
           livenessProbe:
             exec:
               command:
@@ -623,11 +623,11 @@ objects:
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
-          - name: EXECUTION_SERVER_ROUTE_NAME
+            value: "${KIE_SERVER_HOSTNAME_HTTP}"
+          - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
-          - name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${EXECUTION_SERVER_USE_SECURE_ROUTE_NAME}"
+          - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
+            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
@@ -669,7 +669,7 @@ objects:
           - name: SSO_PRINCIPAL_ATTRIBUTE
             value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+            value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: AUTH_LDAP_URL
             value: "${AUTH_LDAP_URL}"
           - name: AUTH_LDAP_BIND_DN

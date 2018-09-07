@@ -24,7 +24,7 @@ message: |-
               Username: ${KIE_ADMIN_USER}
               Password: ${KIE_ADMIN_PWD}
 
-          The user name/password for calls to the Execution Server is
+          The user name/password for calls to the KIE server is
 
               Username: ${KIE_SERVER_USER}
               Password: ${KIE_SERVER_PWD}
@@ -60,12 +60,12 @@ parameters:
   generate: expression
   required: false
 - displayName: KIE Server User
-  description: KIE execution server username (Sets the org.kie.server.user system property)
+  description: KIE server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
   required: false
 - displayName: KIE Server Password
-  description: KIE execution server password (Sets the org.kie.server.pwd system property)
+  description: KIE server password (Sets the org.kie.server.pwd system property)
   name: KIE_SERVER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
@@ -75,29 +75,29 @@ parameters:
   name: KIE_SERVER_ID
   required: false
 - displayName: KIE Server Bypass Auth User
-  description: KIE execution server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
+  description: KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
 - displayName: KIE Server Persistence DS
-  description: KIE execution server persistence datasource (Sets the org.kie.server.persistence.ds system property)
+  description: KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
 ## MySQL database parameters BEGIN
 - displayName: KIE Server MySQL Database User
-  description: KIE execution server MySQL database username
+  description: KIE server MySQL database username
   name: KIE_SERVER_MYSQL_USER
   value: rhpam
   required: false
 - displayName: KIE Server MySQL Database Password
-  description: KIE execution server MySQL database password
+  description: KIE server MySQL database password
   name: KIE_SERVER_MYSQL_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
 - displayName: KIE Server MySQL Database Name
-  description: KIE execution server MySQL database name
+  description: KIE server MySQL database name
   name: KIE_SERVER_MYSQL_DB
   value: rhpam7
   required: false
@@ -113,12 +113,12 @@ parameters:
   required: true
 ## MySQL database parameters END
 - displayName: KIE MBeans
-  description: KIE execution server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+  description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
   value: enabled
   required: false
 - displayName: Drools Server Filter Classes
-  description: KIE execution server class filtering (Sets the org.drools.server.filter.classes system property)
+  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
   value: 'true'
   required: false
@@ -134,21 +134,21 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: Execution Server Custom http Route Hostname
+- displayName: KIE server Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
       e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: EXECUTION_SERVER_HOSTNAME_HTTP
+  name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: Execution Server Custom https Route Hostname
+- displayName: KIE server Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: EXECUTION_SERVER_HOSTNAME_HTTPS
+  name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
   required: false
 - displayName: Use the secure route name to set KIE_SERVER_HOST.
   description: Use https for the KIE_SERVER_HOST when it is not explicit configured to a custom value.
-  name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
+  name: KIE_SERVER_USE_SECURE_ROUTE_NAME
   value: 'false'
   required: false
 - displayName: Business Central Server Keystore Secret Name
@@ -286,7 +286,7 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE Execution Server. Default is "rhpam71-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
   value: "rhpam71-kieserver-openshift"
   required: true
@@ -339,9 +339,9 @@ parameters:
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
-- displayName: Execution Server Container Memory Limit
-  description: Execution Server Container memory limit
-  name: EXCECUTION_SERVER_MEMORY_LIMIT
+- displayName: KIE server Container Memory Limit
+  description: KIE server Container memory limit
+  name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
   required: false
 - displayName: RH-SSO URL
@@ -668,7 +668,7 @@ objects:
     annotations:
       description: Route for KIE server's http service.
   spec:
-    host: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+    host: "${KIE_SERVER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-kieserver"
     port:
@@ -684,7 +684,7 @@ objects:
     annotations:
       description: Route for KIE server's https service.
   spec:
-    host: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
+    host: "${KIE_SERVER_HOSTNAME_HTTPS}"
     to:
       name: ${APPLICATION_NAME}-kieserver
     port:
@@ -954,7 +954,7 @@ objects:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: "${EXCECUTION_SERVER_MEMORY_LIMIT}"
+              memory: "${KIE_SERVER_MEMORY_LIMIT}"
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
@@ -1039,11 +1039,11 @@ objects:
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
-          - name: EXECUTION_SERVER_ROUTE_NAME
+            value: "${KIE_SERVER_HOSTNAME_HTTP}"
+          - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
-          - name: EXECUTION_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${EXECUTION_SERVER_USE_SECURE_ROUTE_NAME}"
+          - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
+            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
@@ -1091,9 +1091,9 @@ objects:
           - name: SSO_PRINCIPAL_ATTRIBUTE
             value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTP}"
+            value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
-            value: "${EXECUTION_SERVER_HOSTNAME_HTTPS}"
+            value: "${KIE_SERVER_HOSTNAME_HTTPS}"
           - name: AUTH_LDAP_URL
             value: "${AUTH_LDAP_URL}"
           - name: AUTH_LDAP_BIND_DN
