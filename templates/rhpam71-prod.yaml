@@ -146,6 +146,14 @@ parameters:
   value: java:/jboss/datasources/rhpam
   required: false
 ## PostgreSQL database parameters BEGIN
+- displayName: PostgreSQL ImageStream Namespace
+  description: Namespace in which the ImageStream for the PostgreSQL image is
+    installed. The ImageStream is already installed in the openshift namespace.
+    You should only need to modify this if you've installed the ImageStream in a
+    different namespace/project. Default is "openshift".
+  name: POSTGRESQL_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: false
 - displayName: PostgreSQL ImageStream Tag
   description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6".
   name: POSTGRESQL_IMAGE_STREAM_TAG
@@ -1276,7 +1284,7 @@ objects:
         - "${APPLICATION_NAME}-postgresql-1"
         from:
           kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          namespace: "${POSTGRESQL_IMAGE_STREAM_NAMESPACE}"
           name: "postgresql:${POSTGRESQL_IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
@@ -1592,7 +1600,7 @@ objects:
         - "${APPLICATION_NAME}-postgresql-2"
         from:
           kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          namespace: "${POSTGRESQL_IMAGE_STREAM_NAMESPACE}"
           name: "postgresql:${POSTGRESQL_IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1

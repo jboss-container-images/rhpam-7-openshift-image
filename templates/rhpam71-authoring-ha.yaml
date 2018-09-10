@@ -101,6 +101,14 @@ parameters:
   name: KIE_SERVER_MYSQL_DB
   value: rhpam7
   required: false
+- displayName: MySQL ImageStream Namespace
+  description: Namespace in which the ImageStream for the MySQL image is
+    installed. The ImageStream is already installed in the openshift namespace.
+    You should only need to modify this if you've installed the ImageStream in a
+    different namespace/project. Default is "openshift".
+  name: MYSQL_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: false
 - displayName: MySQL ImageStream Tag
   description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
   name: MYSQL_IMAGE_STREAM_TAG
@@ -1313,7 +1321,7 @@ objects:
         - "${APPLICATION_NAME}-mysql"
         from:
           kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          namespace: "${MYSQL_IMAGE_STREAM_NAMESPACE}"
           name: "mysql:${MYSQL_IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
