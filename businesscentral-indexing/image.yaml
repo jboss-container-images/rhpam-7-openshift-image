@@ -14,7 +14,7 @@ labels:
     - name: "io.openshift.expose-services"
       value: "9200:http,9300:tcp"
     - name: "io.openshift.tags"
-      value: "javaee,rhpam,rhdm,rhpam7,rhdm7"
+      value: "javaee,rhpam,rhpam7"
 envs:
     - name: "SCRIPT_DEBUG"
       example: "true"
