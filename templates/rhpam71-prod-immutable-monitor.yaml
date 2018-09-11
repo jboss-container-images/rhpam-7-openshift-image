@@ -25,7 +25,14 @@ message: |-
               Password: ${KIE_SERVER_MONITOR_PWD}
 
           To create a new KIE server and connect to this monitoring console/router, use the following "oc" command:
-          oc new-app -f rhpam71-prod-immutable-kieserver.yaml -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
+          oc new-app -f rhpam71-prod-immutable-kieserver.yaml \
+            -p KIE_ADMIN_USER=${KIE_ADMIN_USER} -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} \
+            -p KIE_SERVER_USER=${KIE_SERVER_USER} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} \
+            -p KIE_SERVER_MONITOR_USER=${KIE_SERVER_MONITOR_USER} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} \
+            -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon \
+            -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter \
+            -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
+            -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
 
           Please be sure to create the secret named "${BUSINESS_CENTRAL_HTTPS_SECRET}" containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} file used for serving secure content.
 parameters:
