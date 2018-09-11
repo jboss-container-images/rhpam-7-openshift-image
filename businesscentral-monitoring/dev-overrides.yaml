@@ -6,15 +6,15 @@ modules:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
+                  ref: sprint-23
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: master
+                  ref: sprint-23
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: master
+                  ref: 7.1.x
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-monitoring-openshift
