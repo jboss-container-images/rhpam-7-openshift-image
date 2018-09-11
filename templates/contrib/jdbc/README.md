@@ -38,4 +38,4 @@ $ docker build sybase-driver-image --build-args ARTIFACT_MVN_REPO=https://mvn-re
 
 ## The build.sh script
 
-The `build.sh` script is customized for Red Hat Process Automation Manager (RHPAM) KIE Execution Server
+The `build.sh` script is customized for Red Hat Process Automation Manager (RHPAM) KIE Server

@@ -63,11 +63,11 @@ $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-
 $ oc new-app rhpam71-kieserver-s2i
   --> Deploying template "openshift/rhpam71-kieserver-s2i" to project rhpam-kieserver
 
-       Red Hat Process Automation Manager Execution Server 7.1 S2I (Ephemeral with https)
+       Red Hat Process Automation Manager KIE Server 7.1 S2I (Ephemeral with https)
        ---------
-       Application template for Red Hat Process Automation Manager Execution Server 7.1 application built using S2I.
+       Application template for Red Hat Process Automation Manager KIE Server 7.1 application built using S2I.
 
-       A new Process Automation Manager Execution Server application has been created in your project. Please be sure to create the "kieserver-service-account" service account and the secret named "kieserver-app-secret" containing the keystore.jks file used for serving secure content.
+       A new Process Automation Manager KIE Server application has been created in your project. Please be sure to create the "kieserver-service-account" service account and the secret named "kieserver-app-secret" containing the keystore.jks file used for serving secure content.
 
        * With parameters:
           * Application Name=myapp
@@ -87,8 +87,8 @@ $ oc new-app rhpam71-kieserver-s2i
           * KIE Server Bypass Auth User=false
           * KIE MBeans=enabled
           * Drools Server Filter Classes=true
-          * Execution Server Custom http Route Hostname=
-          * Execution Server Custom https Route Hostname=
+          * KIE Server Custom http Route Hostname=
+          * KIE Server Custom https Route Hostname=
           * Server Keystore Secret Name=kieserver-app-secret
           * Server Keystore Filename=keystore.jks
           * Server Certificate Name=jboss
