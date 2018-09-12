@@ -502,24 +502,18 @@ objects:
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
     labels:
       application: "${APPLICATION_NAME}"
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-kieserver-view"
+     name: "${APPLICATION_NAME}-rhpamsvc-view"
   subjects:
   - kind: ServiceAccount
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
   roleRef:
     name: view
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
-    labels:
-      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -747,7 +741,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-rhpamcentr"
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
@@ -829,6 +823,8 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
+          - name: WORKBENCH_ROUTE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
@@ -954,7 +950,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
