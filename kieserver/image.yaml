@@ -74,7 +74,7 @@ envs:
       example: "java:/jboss/datasources/ExampleDS"
       description: "KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)"
     - name: "KIE_SERVER_PERSISTENCE_SCHEMA"
-      example: ""
+      example: "my.db.schema"
       description: "KIE server persistence default schema (Sets the org.kie.server.persistence.schema system property)"
     - name: "KIE_SERVER_PERSISTENCE_TM"
       example: "org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"
