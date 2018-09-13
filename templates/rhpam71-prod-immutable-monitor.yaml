@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,jboss,kieserver,immutable,monitor
+    tags: rhpam,jboss,kieserver,immutable,s2i,monitor
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 production monitoring environment
     openshift.io/provider-display-name: Red Hat, Inc.
@@ -138,6 +138,15 @@ parameters:
   name: KIE_SERVER_MONITOR_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
+  required: false
+- displayName: KIE Server Monitor Token
+  description: KIE server monitor token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_MONITOR_TOKEN
+  required: false
+- displayName: KIE Server Monitor Protocol
+  description: The KIE server monitor protocol, for optional use of the business-central-monitor
+  name: KIE_SERVER_MONITOR_PROTOCOL
+  value: ws
   required: false
 - displayName: JGroups Cluster Password
   description: JGroups Cluster Password, used to establish an EAP cluster on OpenShift
@@ -547,6 +556,8 @@ objects:
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
@@ -695,8 +706,12 @@ objects:
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "${KIE_SERVER_MONITOR_PROTOCOL}"
           - name: KIE_SERVER_ROUTER_REPO
             value: "/opt/rhpam-smartrouter/data"
           - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
