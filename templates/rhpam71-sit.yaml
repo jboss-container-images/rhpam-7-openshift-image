@@ -140,6 +140,15 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+- displayName: KIE Server Controller Token
+  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_CONTROLLER_TOKEN
+  required: false
+- displayName: KIE Server Controller Protocol
+  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
+  name: KIE_SERVER_CONTROLLER_PROTOCOL
+  value: ws
+  required: false
 - displayName: KIE Server Persistence DS
   description: KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)
   name: KIE_SERVER_PERSISTENCE_DS
@@ -208,25 +217,25 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE server 1 Custom http Route Hostname
+- displayName: KIE Server 1 Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER1_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE server 1 Custom https Route Hostname
+- displayName: KIE Server 1 Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER1_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE server 2 Custom http Route Hostname
+- displayName: KIE Server 2 Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER2_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE server 2 Custom https Route Hostname
+- displayName: KIE Server 2 Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER2_HOSTNAME_HTTPS
@@ -292,7 +301,7 @@ parameters:
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
-- displayName: KIE server Container Memory Limit
+- displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
@@ -854,10 +863,12 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: ${KIE_SERVER_CONTROLLER_PWD}
           - name: KIE_SERVER_CONTROLLER_USER
-            value: ${KIE_SERVER_CONTROLLER_USER}
+            value: "${KIE_SERVER_CONTROLLER_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
@@ -1006,8 +1017,12 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_ROUTER_REPO
             value: "/opt/rhpam-smartrouter/data"
           - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
@@ -1113,10 +1128,12 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "ws"
+            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_ID
             value: "kie-server-1"
           - name: KIE_SERVER_HOST
@@ -1429,10 +1446,12 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "ws"
+            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_ID
             value: "kie-server-2"
           - name: KIE_SERVER_HOST

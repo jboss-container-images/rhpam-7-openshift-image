@@ -9,7 +9,7 @@ metadata:
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.1
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Poocesses on Red Hat Process Automation Manager 7.1 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.1 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
@@ -58,6 +58,15 @@ parameters:
   name: KIE_SERVER_CONTROLLER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
+  required: false
+- displayName: KIE Server Controller Token
+  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_CONTROLLER_TOKEN
+  required: false
+- displayName: KIE Server Controller Protocol
+  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
+  name: KIE_SERVER_CONTROLLER_PROTOCOL
+  value: ws
   required: false
 - displayName: KIE Server User
   description: KIE server username (Sets the org.kie.server.user system property)
@@ -142,13 +151,13 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE server Custom http Route Hostname
+- displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
       e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE server Custom https Route Hostname
+- displayName: KIE Server Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
@@ -260,11 +269,21 @@ parameters:
   value: ''
   example: "-Xms1024m -Xmx1024m"
   required: false
+- displayName: AMQ ImageStream Namespace
+  description: Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift".
+  name: AMQ_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: true
+- displayName: AMQ ImageStream Name
+  description: The name of the image stream to use for the AMQ broker. Default is "amq-broker71-openshift".
+  name: AMQ_IMAGE_STREAM_NAME
+  value: "amq-broker71-openshift"
+  required: true
 - displayName: AMQ ImageStream Tag
   description: The AMQ image stream tag. Default is "1.0".
   name: AMQ_IMAGE_STREAM_TAG
   value: "1.0"
-  required: false
+  required: true
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
@@ -347,7 +366,7 @@ parameters:
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
-- displayName: KIE server Container Memory Limit
+- displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
@@ -805,6 +824,8 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
@@ -1036,14 +1057,16 @@ objects:
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_CONTROLLER_PWD}"
-          - name: KIE_SERVER_CONTROLLER_SERVICE
-            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
+          - name: KIE_SERVER_CONTROLLER_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "ws"
+            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
           - name: KIE_SERVER_ID
             value: "${KIE_SERVER_ID}"
           - name: KIE_SERVER_HOST
@@ -1261,7 +1284,7 @@ objects:
             value: "openwire"
           - name: AMQ_GLOBAL_MAX_SIZE
             value: ${AMQ_GLOBAL_MAX_SIZE}
-          image: amq-broker71-openshift
+          image: "${AMQ_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           readinessProbe:
             exec:
@@ -1299,8 +1322,8 @@ objects:
         - ${APPLICATION_NAME}-amq
         from:
           kind: ImageStreamTag
-          name: amq-broker71-openshift:${AMQ_IMAGE_STREAM_TAG}
-          namespace: ${IMAGE_STREAM_NAMESPACE}
+          namespace: "${AMQ_IMAGE_STREAM_NAMESPACE}"
+          name: "${AMQ_IMAGE_STREAM_NAME}:${AMQ_IMAGE_STREAM_TAG}"
       type: ImageChange
     - type: ConfigChange
 ## MySQL deployment config BEGIN
