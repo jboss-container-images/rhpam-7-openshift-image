@@ -251,6 +251,11 @@ parameters:
   description: Maven mirror to use for S2I builds
   name: MAVEN_MIRROR_URL
   required: false
+- displayName: Maven repository ID
+  description: The id to use for the maven repository, if set. Default is generated randomly.
+  name: MAVEN_REPO_ID
+  example: my-repo-id
+  required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository.
   name: MAVEN_REPO_URL
@@ -729,6 +734,8 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
             value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+          - name: EXTERNAL_MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
