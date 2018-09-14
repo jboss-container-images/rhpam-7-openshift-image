@@ -115,6 +115,11 @@ parameters:
   name: KIE_SERVER_CONTAINER_DEPLOYMENT
   value: ''
   required: false
+- displayName: Maven repository ID
+  description: The id to use for the maven repository, if set. Default is generated randomly.
+  name: MAVEN_REPO_ID
+  example: my-repo-id
+  required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
@@ -464,6 +469,8 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
             value: "${DEFAULT_PASSWORD}"
+          - name: MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: MAVEN_REPO_USERNAME
@@ -649,6 +656,8 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
             value: "${DEFAULT_PASSWORD}"
+          - name: EXTERNAL_MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
