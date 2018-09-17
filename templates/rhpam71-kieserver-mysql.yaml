@@ -75,10 +75,6 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
-- displayName: KIE Server ID
-  description: The KIE server ID to use, which defaults to ${APPLICATION_NAME}-kieserver if not specified (Sets the org.kie.server.id system property).
-  name: KIE_SERVER_ID
-  required: false
 - displayName: KIE Server User
   description: KIE server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
@@ -144,11 +140,6 @@ parameters:
   description: The service name for the optional business central monitor, where it can be reached to allow service
     lookup, and registered with to allow monitoring console functionality (If set, will be used to discover host and port)
   name: KIE_SERVER_CONTROLLER_SERVICE
-  required: false
-- displayName: KIE Server Controller Protocol
-  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PROTOCOL
-  value: ws
   required: false
 - displayName: KIE Server Controller host
   description: KIE server controller host (Used to set the org.kie.server.controller system property)
@@ -628,13 +619,13 @@ objects:
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${KIE_SERVER_CONTROLLER_SERVICE}"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
+            value: "ws"
           - name: KIE_SERVER_CONTROLLER_HOST
             value: "${KIE_SERVER_CONTROLLER_HOST}"
           - name: KIE_SERVER_CONTROLLER_PORT
             value: "${KIE_SERVER_CONTROLLER_PORT}"
           - name: KIE_SERVER_ID
-            value: "${KIE_SERVER_ID}"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
             value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: KIE_SERVER_ROUTE_NAME

@@ -51,10 +51,6 @@ parameters:
   name: KIE_SERVER_USER
   value: executionUser
   required: false
-- displayName: KIE Server ID
-  description: Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property).
-  name: KIE_SERVER_ID
-  required: false
 - displayName: KIE Server Bypass Auth User
   description: KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
   name: KIE_SERVER_BYPASS_AUTH_USER
@@ -64,11 +60,6 @@ parameters:
   description: KIE server controller username (Sets the org.kie.server.controller.user system property)
   name: KIE_SERVER_CONTROLLER_USER
   value: controllerUser
-  required: false
-- displayName: KIE Server Controller Protocol
-  description: KIE server controller protocol (Used to set the org.kie.server.controller system property)
-  name: KIE_SERVER_CONTROLLER_PROTOCOL
-  value: ws
   required: false
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
@@ -633,9 +624,9 @@ objects:
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_CONTROLLER_PROTOCOL}"
+            value: "ws"
           - name: KIE_SERVER_ID
-            value: "${KIE_SERVER_ID}"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
             value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: KIE_SERVER_ROUTE_NAME

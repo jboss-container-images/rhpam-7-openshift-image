@@ -53,10 +53,6 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
-- displayName: KIE Server ID
-  description: The KIE server ID to use, which defaults to ${APPLICATION_NAME}-kieserver if not specified (Sets the org.kie.server.id system property).
-  name: KIE_SERVER_ID
-  required: false
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
@@ -709,9 +705,9 @@ objects:
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${KIE_SERVER_MONITOR_SERVICE}"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_MONITOR_PROTOCOL}"
+            value: "ws"
           - name: KIE_SERVER_ID
-            value: "${KIE_SERVER_ID}"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
             value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: KIE_SERVER_ROUTE_NAME
