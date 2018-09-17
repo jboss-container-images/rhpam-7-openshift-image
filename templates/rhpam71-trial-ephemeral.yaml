@@ -22,12 +22,12 @@ message: |-
           The username/password for accessing the Business Central interface is
 
               Username: ${KIE_ADMIN_USER}
-              Password: ${KIE_ADMIN_PWD}
+              Password: ${DEFAULT_PASSWORD}
 
           The user name/password for calls to the KIE server is
 
               Username: ${KIE_SERVER_USER}
-              Password: ${KIE_SERVER_PWD}
+              Password: ${DEFAULT_PASSWORD}
 
           Please remember that this is an ephemeral environment and any work will be LOST with a simple pod restart.
 parameters:
@@ -428,7 +428,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${DEFAULT_PASSWORD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
@@ -437,7 +437,7 @@ objects:
               command:
               - "/bin/bash"
               - "-c"
-              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/kie-wb.jsp"
+              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${DEFAULT_PASSWORD}' http://localhost:8080/kie-wb.jsp"
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
