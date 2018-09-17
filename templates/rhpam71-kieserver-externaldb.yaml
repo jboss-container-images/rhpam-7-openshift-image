@@ -176,11 +176,12 @@ parameters:
   description: KIE server external database password
   name: KIE_SERVER_EXTERNALDB_PWD
   required: true
-- displayName: KIE Server External Database URL
-  description: KIE server external database JDBC URL
-  name: KIE_SERVER_EXTERNALDB_URL
-  example: "jdbc:mysql://127.0.0.1:3306/rhpam"
-  required: false
+# RHPAM-904: Use KIE_SERVER_EXTERNALDB_HOST, _PORT, and _DB instead of _URL until CLOUD-2845 is resolved.
+#- displayName: KIE Server External Database URL
+#  description: KIE server external database JDBC URL
+#  name: KIE_SERVER_EXTERNALDB_URL
+#  example: "jdbc:mysql://127.0.0.1:3306/rhpam"
+#  required: false
 - displayName: KIE Server External Database Dialect
   description: KIE server external database Hibernate dialect
   name: KIE_SERVER_EXTERNALDB_DIALECT
@@ -676,8 +677,9 @@ objects:
             value: "${KIE_SERVER_EXTERNALDB_USER}"
           - name: RHPAM_PASSWORD
             value: "${KIE_SERVER_EXTERNALDB_PWD}"
-          - name: RHPAM_XA_CONNECTION_PROPERTY_URL
-            value: "${KIE_SERVER_EXTERNALDB_URL}"
+# See RHPAM-904 and CLOUD-2845 note above.
+#          - name: RHPAM_XA_CONNECTION_PROPERTY_URL
+#            value: "${KIE_SERVER_EXTERNALDB_URL}"
           - name: RHPAM_SERVICE_HOST
             value: "${KIE_SERVER_EXTERNALDB_HOST}"
           - name: RHPAM_SERVICE_PORT
