@@ -717,8 +717,6 @@ objects:
             value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
-          - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "${KIE_SERVER_MONITOR_PROTOCOL}"
           - name: KIE_SERVER_ROUTER_REPO
             value: "/opt/rhpam-smartrouter/data"
           - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
