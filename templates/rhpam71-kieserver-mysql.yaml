@@ -278,15 +278,6 @@ parameters:
   description: RH-SSO Realm name
   name: SSO_REALM
   required: false
-- displayName: Business Central RH-SSO Client name
-  description: Business Central RH-SSO Client name
-  name: BUSINESS_CENTRAL_SSO_CLIENT
-  required: false
-- displayName: Business Central RH-SSO Client Secret
-  description: Business Central RH-SSO Client Secret
-  name: BUSINESS_CENTRAL_SSO_SECRET
-  example: "252793ed-7118-4ca8-8dab-5622fa97d892"
-  required: false
 - displayName: KIE Server RH-SSO Client name
   description: KIE Server RH-SSO Client name
   name: KIE_SERVER_SSO_CLIENT
