@@ -148,17 +148,6 @@ parameters:
   description: KIE server monitor token for bearer authentication (Sets the org.kie.server.controller.token system property)
   name: KIE_SERVER_MONITOR_TOKEN
   required: false
-- displayName: JGroups Cluster Password
-  description: JGroups Cluster Password, used to establish an EAP cluster on OpenShift
-  name: JGROUPS_CLUSTER_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: true
-- displayName: KIE MBeans
-  description: KIE mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
-  name: KIE_MBEANS
-  value: enabled
-  required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
     e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
