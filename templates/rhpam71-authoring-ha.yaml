@@ -729,6 +729,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -943,6 +944,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -1173,6 +1175,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
