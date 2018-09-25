@@ -12,7 +12,6 @@ metadata:
     template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.1 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
-    template.openshift.io/bindable: "false"
   name: rhpam71-authoring-ha
 labels:
   template: rhpam71-authoring-ha
