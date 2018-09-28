@@ -9,7 +9,7 @@ metadata:
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.1
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Poocesses on Red Hat Process Automation Manager 7.1 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.1 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
@@ -59,6 +59,10 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+- displayName: KIE Server Controller Token
+  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_CONTROLLER_TOKEN
+  required: false
 - displayName: KIE Server User
   description: KIE server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
@@ -69,10 +73,6 @@ parameters:
   name: KIE_SERVER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
-  required: false
-- displayName: KIE Server ID
-  description: Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property).
-  name: KIE_SERVER_ID
   required: false
 - displayName: KIE Server Bypass Auth User
   description: KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)
@@ -142,13 +142,13 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE server Custom http Route Hostname
+- displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
       e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE server Custom https Route Hostname
+- displayName: KIE Server Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
@@ -260,11 +260,21 @@ parameters:
   value: ''
   example: "-Xms1024m -Xmx1024m"
   required: false
+- displayName: AMQ ImageStream Namespace
+  description: Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift".
+  name: AMQ_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: true
+- displayName: AMQ ImageStream Name
+  description: The name of the image stream to use for the AMQ broker. Default is "amq-broker71-openshift".
+  name: AMQ_IMAGE_STREAM_NAME
+  value: "amq-broker71-openshift"
+  required: true
 - displayName: AMQ ImageStream Tag
   description: The AMQ image stream tag. Default is "1.0".
   name: AMQ_IMAGE_STREAM_TAG
   value: "1.0"
-  required: false
+  required: true
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
@@ -303,6 +313,11 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: true
+- displayName: Maven repository ID
+  description: The id to use for the maven repository, if set. Default is generated randomly.
+  name: MAVEN_REPO_ID
+  example: my-repo-id
+  required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
@@ -347,7 +362,7 @@ parameters:
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
   required: false
-- displayName: KIE server Container Memory Limit
+- displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
@@ -502,24 +517,18 @@ objects:
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
     labels:
       application: "${APPLICATION_NAME}"
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-kieserver-view"
+     name: "${APPLICATION_NAME}-rhpamsvc-view"
   subjects:
   - kind: ServiceAccount
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
   roleRef:
     name: view
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
-    labels:
-      application: "${APPLICATION_NAME}"
 - kind: Service
   apiVersion: v1
   spec:
@@ -720,6 +729,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -747,7 +757,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-rhpamcentr"
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
@@ -805,10 +815,14 @@ objects:
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
+          - name: MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: MAVEN_REPO_USERNAME
@@ -829,6 +843,8 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
+          - name: WORKBENCH_ROUTE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
@@ -928,6 +944,7 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -954,7 +971,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
@@ -1036,16 +1053,18 @@ objects:
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_CONTROLLER_PWD}"
-          - name: KIE_SERVER_CONTROLLER_SERVICE
-            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${KIE_SERVER_CONTROLLER_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_CONTROLLER_TOKEN}"
+          - name: KIE_SERVER_CONTROLLER_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_SERVER_CONTROLLER_PROTOCOL
             value: "ws"
           - name: KIE_SERVER_ID
-            value: "${KIE_SERVER_ID}"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
             value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: KIE_SERVER_ROUTE_NAME
@@ -1066,6 +1085,8 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
             value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+          - name: EXTERNAL_MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
@@ -1154,6 +1175,7 @@ objects:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -1261,7 +1283,7 @@ objects:
             value: "openwire"
           - name: AMQ_GLOBAL_MAX_SIZE
             value: ${AMQ_GLOBAL_MAX_SIZE}
-          image: amq-broker71-openshift
+          image: "${AMQ_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           readinessProbe:
             exec:
@@ -1299,8 +1321,8 @@ objects:
         - ${APPLICATION_NAME}-amq
         from:
           kind: ImageStreamTag
-          name: amq-broker71-openshift:${AMQ_IMAGE_STREAM_TAG}
-          namespace: ${IMAGE_STREAM_NAMESPACE}
+          namespace: "${AMQ_IMAGE_STREAM_NAMESPACE}"
+          name: "${AMQ_IMAGE_STREAM_NAME}:${AMQ_IMAGE_STREAM_TAG}"
       type: ImageChange
     - type: ConfigChange
 ## MySQL deployment config BEGIN

@@ -23,6 +23,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |Variable name |Image Environment Variable |Description |Example value |Required
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
+|`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}` | False
 |`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
 |`MAVEN_REPO_USERNAME` | `RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}` | False
 |`MAVEN_REPO_PASSWORD` | `RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}` | False
@@ -31,19 +32,18 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`BUSINESS_CENTRAL_MAVEN_PASSWORD` | -- | Password to access the Maven service hosted by Business Central inside EAP. | -- | False
 |`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator username | adminUser | False
 |`KIE_ADMIN_PWD` | `KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}` | False
-|`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | executionUser | False
-|`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE execution server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
+|`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | executionUser | False
+|`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | False
 |`SMART_ROUTER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>' | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
-|`KIE_SERVER_ROUTER_ID` | `KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | kie-server-router | ?
+|`KIE_SERVER_ROUTER_ID` | `KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | kie-server-router | True
 |`KIE_SERVER_ROUTER_PROTOCOL` | `KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}` | False
-|`KIE_SERVER_ROUTER_URL_EXTERNAL` | `KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}` | ?
-|`KIE_SERVER_ROUTER_NAME` | `KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | KIE Server Router | ?
+|`KIE_SERVER_ROUTER_URL_EXTERNAL` | `KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}` | False
+|`KIE_SERVER_ROUTER_NAME` | `KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | KIE Server Router | True
 |`KIE_SERVER_MONITOR_USER` | -- | KIE server monitor username (Sets the org.kie.server.controller.user system property) | monitorUser | False
 |`KIE_SERVER_MONITOR_PWD` | -- | KIE server monitor password (Sets the org.kie.server.controller.pwd system property) | -- | False
-|`JGROUPS_CLUSTER_PASSWORD` | -- | JGroups Cluster Password, used to establish an EAP cluster on OpenShift | -- | True
-|`KIE_MBEANS` | -- | KIE mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
+|`KIE_SERVER_MONITOR_TOKEN` | -- | KIE server monitor token for bearer authentication (Sets the org.kie.server.controller.token system property) | -- | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`BUSINESS_CENTRAL_HTTPS_SECRET` | -- | The name of the secret containing the keystore file | -- | True
@@ -60,6 +60,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`SSO_USERNAME` | `SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist | `${SSO_USERNAME}` | False
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}` | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | false | False
+|`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | preferred_username | False
 |`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}` | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}` | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}` | False
@@ -225,23 +226,23 @@ for more information.
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.54+| `${APPLICATION_NAME}-rhpamcentrmon`
+.55+| `${APPLICATION_NAME}-rhpamcentrmon`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
-|`KIE_SERVER_PWD` | KIE execution server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_USER` | KIE execution server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
+|`KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
+|`KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | -- | `${BUSINESS_CENTRAL_MAVEN_SERVICE}`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
 |`RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
 |`RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
+|`EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}`
 |`EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
 |`EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
 |`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}`
 |`KIE_SERVER_CONTROLLER_USER` | -- | `${KIE_SERVER_MONITOR_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | -- | `${KIE_SERVER_MONITOR_PWD}`
-|`PROBE_IMPL` | -- | probe.eap.jolokia.EapProbe
-|`PROBE_DISABLE_BOOT_ERRORS_CHECK` | -- | true
+|`KIE_SERVER_CONTROLLER_TOKEN` | -- | `${KIE_SERVER_MONITOR_TOKEN}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/businesscentral-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret | `${BUSINESS_CENTRAL_HTTPS_KEYSTORE}`
 |`HTTPS_NAME` | The name associated with the server certificate | `${BUSINESS_CENTRAL_HTTPS_NAME}`
@@ -257,6 +258,7 @@ for more information.
 |`SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist | `${SSO_USERNAME}`
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
+|`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>' | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
@@ -280,7 +282,7 @@ for more information.
 |`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}`
 |`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}`
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
-.11+| `${APPLICATION_NAME}-smartrouter`
+.13+| `${APPLICATION_NAME}-smartrouter`
 |`KIE_SERVER_ROUTER_HOST` | -- | --
 |`KIE_SERVER_ROUTER_PORT` | -- | 9000
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}`
@@ -289,7 +291,9 @@ for more information.
 |`KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}`
 |`KIE_SERVER_CONTROLLER_USER` | -- | `${KIE_SERVER_MONITOR_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | -- | `${KIE_SERVER_MONITOR_PWD}`
+|`KIE_SERVER_CONTROLLER_TOKEN` | -- | `${KIE_SERVER_MONITOR_TOKEN}`
 |`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentrmon`
+|`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ROUTER_REPO` | -- | `/opt/rhpam-smartrouter/data`
 |`KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED` | -- | true
 |=======================================================================

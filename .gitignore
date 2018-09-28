@@ -16,6 +16,7 @@ hs_err_pid*
 *.jar
 .metadata/
 .mtj.tmp/
+my*.json
 my*.yaml
 .project
 .settings/

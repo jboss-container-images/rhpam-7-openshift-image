@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,jboss,kieserver,immutable,monitor
+    tags: rhpam,jboss,kieserver,immutable,s2i,monitor
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 production monitoring environment
     openshift.io/provider-display-name: Red Hat, Inc.
@@ -25,7 +25,14 @@ message: |-
               Password: ${KIE_SERVER_MONITOR_PWD}
 
           To create a new KIE server and connect to this monitoring console/router, use the following "oc" command:
-          oc new-app -f rhpam71-prod-immutable-kieserver.yaml -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
+          oc new-app -f rhpam71-prod-immutable-kieserver.yaml \
+            -p KIE_ADMIN_USER=${KIE_ADMIN_USER} -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} \
+            -p KIE_SERVER_USER=${KIE_SERVER_USER} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} \
+            -p KIE_SERVER_MONITOR_USER=${KIE_SERVER_MONITOR_USER} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} \
+            -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon \
+            -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter \
+            -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
+            -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
 
           Please be sure to create the secret named "${BUSINESS_CENTRAL_HTTPS_SECRET}" containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} file used for serving secure content.
 parameters:
@@ -34,6 +41,11 @@ parameters:
   name: APPLICATION_NAME
   value: myapp
   required: true
+- displayName: Maven repository ID
+  description: The id to use for the maven repository, if set. Default is generated randomly.
+  name: MAVEN_REPO_ID
+  example: my-repo-id
+  required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
@@ -132,16 +144,9 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
-- displayName: JGroups Cluster Password
-  description: JGroups Cluster Password, used to establish an EAP cluster on OpenShift
-  name: JGROUPS_CLUSTER_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: true
-- displayName: KIE MBeans
-  description: KIE mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
-  name: KIE_MBEANS
-  value: enabled
+- displayName: KIE Server Monitor Token
+  description: KIE server monitor token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_MONITOR_TOKEN
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
@@ -530,6 +535,8 @@ objects:
             value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
             value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+          - name: EXTERNAL_MAVEN_REPO_ID
+            value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
             value: "${MAVEN_REPO_URL}"
           - name: EXTERNAL_MAVEN_REPO_USERNAME
@@ -540,6 +547,8 @@ objects:
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: HTTPS_KEYSTORE_DIR
             value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
@@ -688,8 +697,12 @@ objects:
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
             value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "ws"
           - name: KIE_SERVER_ROUTER_REPO
             value: "/opt/rhpam-smartrouter/data"
           - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED

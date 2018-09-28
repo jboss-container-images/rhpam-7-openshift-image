@@ -96,6 +96,9 @@ envs:
     - name: "WORKBENCH_MAX_METASPACE_SIZE"
       example: "512"
       description: "The maximum metaspace for the Business Central, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
+    - name: "WORKBENCH_ROUTE_NAME"
+      example: "myapp-rhpamcentr"
+      description: "Route name that will be used to query its public address in the Kubernetes API to set the org.appformer.m2repo.url property. This env will only take effect if WORKBENCH_ROUTE_NAME is not empty. To set it to use https use the secure route available in the application template. Usually its name is secure-${APPLICATION_NAME}-rhpamcentr"
 ports:
     - value: 8080
     - value: 8443
@@ -105,11 +108,11 @@ modules:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
+                  ref: sprint-23
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: master
+                  ref: sprint-23
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
