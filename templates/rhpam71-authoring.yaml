@@ -394,6 +394,14 @@ parameters:
   description: If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
+- displayName: RoleMapping rolesProperties file path
+  description: When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3
+  name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
+  required: false
+- displayName: RoleMapping replaceRole property
+  description: Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true.
+  name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+  required: false
 objects:
 - kind: ServiceAccount
   apiVersion: v1
@@ -708,6 +716,10 @@ objects:
             value: "${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}"
           - name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
             value: "${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}"
+          - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
+            value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
+          - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+            value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
         volumes:
         - name: businesscentral-keystore-volume
           secret:
@@ -945,6 +957,10 @@ objects:
             value: "${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}"
           - name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
             value: "${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}"
+          - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
+            value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
+          - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+            value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
         volumes:
         - name: kieserver-keystore-volume
           secret:
