@@ -108,11 +108,11 @@ modules:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: sprint-23
+                  ref: sprint-24
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: sprint-23
+                  ref: sprint-24
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
@@ -132,6 +132,8 @@ modules:
           - name: os-eap-launch
           - name: os-eap7-launch
           - name: jboss.eap.logging.ext
+          - name: jboss.eap.config.jgroups
+          - name: jboss.eap.config.elytron
           - name: os-eap-probes
           - name: jboss-maven
           - name: os-eap-db-drivers
