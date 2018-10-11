@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,sit
+    tags: rhpam,jboss,sit
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 SIT environment
     openshift.io/provider-display-name: Red Hat, Inc.
