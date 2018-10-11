@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,jboss,kieserver,externaldb
+    tags: rhpam,processserver,jboss,kieserver,externaldb
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 managed KIE Server with an external database
     openshift.io/provider-display-name: Red Hat, Inc.
@@ -151,21 +151,55 @@ parameters:
   name: KIE_SERVER_CONTROLLER_PORT
   example: '8080'
   required: false
-- displayName: KIE Server Persistence DS
-  description: KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)
-  name: KIE_SERVER_PERSISTENCE_DS
-  value: java:/jboss/datasources/rhpam
+- displayName: KIE Server controller token
+  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_CONTROLLER_TOKEN
   required: false
 ## External database parameters BEGIN
+- displayName: KIE Server Persistence Schema
+  description: Hibernate persistence schema.
+  name: KIE_SERVER_PERSISTENCE_SCHEMA
+  example: bd.schema
+  required: false
+- displayName: KIE Server External Database Dialect
+  description: KIE server external database Hibernate dialect
+  name: KIE_SERVER_EXTERNALDB_DIALECT
+  example: "org.hibernate.dialect.MySQL5Dialect"
+  required: true
+- displayName: Datasource Service Host
+  description: Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set
+  name: KIE_SERVER_EXTERNALDB_SERVICE_HOST
+  example: 10.10.10.1
+  required: false
+- displayName: Database service Port
+  description: Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set
+  name: KIE_SERVER_EXTERNALDB_SERVICE_PORT
+  example: 4321
+  required: false
+- displayName: Non XA datasource
+  description: Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is false.
+  name: KIE_SERVER_EXTERNALDB_NONXA
+  example: true
+  required: false
+- displayName: KIE Server External Database URL
+  description: Sets the datasources jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter
+  name: KIE_SERVER_EXTERNALDB_URL
+  example: "jdbc:mysql://127.0.0.1:3306/rhpam"
+  required: false
 - displayName: KIE Server External Database Driver
-  description: KIE server external database driver
+  description: The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. For external driver the value passed here should be the same than KIE_SERVER_EXTERNALDB_DRIVER_NAME.
   name: KIE_SERVER_EXTERNALDB_DRIVER
   example: "mysql"
   required: true
-- displayName: KIE Server External Database Driver Type
-  description: KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2
-  name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
-  example: "4"
+- displayName: Database JNDI Name
+  description: Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS
+  name: KIE_SERVER_EXTERNALDB_JNDI
+  value: java:jboss/datasources/jbpmDS
+  required: true
+- displayName: KIE Server External Database name
+  description: KIE server external database name, for ejb_timer datasource configuration
+  name: KIE_SERVER_EXTERNALDB_DB
+  value: rhpam
   required: false
 - displayName: KIE Server External Database User
   description: KIE server external database username
@@ -176,30 +210,57 @@ parameters:
   description: KIE server external database password
   name: KIE_SERVER_EXTERNALDB_PWD
   required: true
-- displayName: KIE Server External Database URL
-  description: KIE server external database JDBC URL
-  name: KIE_SERVER_EXTERNALDB_URL
-  example: "jdbc:mysql://127.0.0.1:3306/rhpam"
+- displayName: Datasource Minimum Pool Size
+  description: Sets xa-pool/min-pool-size for the configured datasource
+  name: KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE
   required: false
-- displayName: KIE Server External Database Dialect
-  description: KIE server external database Hibernate dialect
-  name: KIE_SERVER_EXTERNALDB_DIALECT
-  example: "org.hibernate.dialect.MySQL5Dialect"
-  required: true
-- displayName: KIE Server External Database Host
-  description: KIE server external database host, for ejb_timer datasource configuration
-  name: KIE_SERVER_EXTERNALDB_HOST
-  required: true
-- displayName: KIE Server External Database Port
-  description: KIE server external database port, for ejb_timer datasource configuration
-  name: KIE_SERVER_EXTERNALDB_PORT
-  required: true
-- displayName: KIE Server External Database name
-  description: KIE server external database name, for ejb_timer datasource configuration
-  name: KIE_SERVER_EXTERNALDB_DB
-  value: rhpam
+- displayName: Datasource Maximum Pool Size
+  description: Sets xa-pool/max-pool-size for the configured datasource
+  name: KIE_SERVER_EXTERNALDB_MAX_POOL_SIZE
+  required: false
+- displayName: JDBC Connection Checker class
+  description: An org.jboss.jca.adapters.jdbc.ValidConnectionChecker that provides a SQLException isValidConnection(Connection e) method to validate if a connection is valid
+  name: KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER
+  example: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"
+  required: false
+- displayName: JDBC Exception Sorter class
+  description: An org.jboss.jca.adapters.jdbc.ExceptionSorter that provides a boolean isExceptionFatal(SQLException e) method to validate if an exception should be broadcast to all javax.resource.spi.ConnectionEventListener as a connectionErrorOccurred
+  name: KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER
+  example: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"
+  required: false
+- displayName: JDBC background validation
+  description: Sets the sql validation method to background-validation, if set to false the validate-on-match method will be used.
+  name: KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION
+  example: "true"
+  required: false
+- displayName: JDBC Background Validation Millis
+  description: Defines the interval for the background-validation check for the jdbc connections
+  name: KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS
+  example: "10000"
+  required: false
+- displayName: KIE Server External Database Driver Type
+  description: KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2
+  name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
+  example: "4"
   required: false
 ## External database parameters END
+## Extension image configuration BEGIN
+- displayName: Drivers Extension Image
+  description: ImageStreamTag definition for the image containing the drivers and configuration. i.e custom-driver-image:1.0
+  name: EXTENSIONS_IMAGE
+  value: custom-driver-extension:1.0
+  required: true
+- displayName: Drivers ImageStream Namespace
+  description: Namespace within which the ImageStream definition for the image containing the drivers and configuration is located.
+  name: EXTENSIONS_IMAGE_NAMESPACE
+  value: openshift
+  required: true
+- displayName: Drivers Image Install Directory
+  description: Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.)
+  name: EXTENSIONS_INSTALL_DIR
+  value: "/extensions"
+  required: true
+## Extension image configuration END
 - displayName: Drools Server Filter Classes
   description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
   name: DROOLS_SERVER_FILTER_CLASSES
@@ -509,6 +570,60 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
+
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+  spec:
+    source:
+      images:
+      - from:
+          kind: ImageStreamTag
+          namespace: "${EXTENSIONS_IMAGE_NAMESPACE}"
+          name: "${EXTENSIONS_IMAGE}"
+        paths:
+        - destinationDir: "./extensions/extras"
+          sourcePath: "${EXTENSIONS_INSTALL_DIR}/."
+    strategy:
+      type: Source
+      sourceStrategy:
+        env:
+        - name: CUSTOM_INSTALL_DIRECTORIES
+          value: "extensions/*"
+        forcePull: true
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
+    output:
+      to:
+        kind: ImageStreamTag
+        name: "${APPLICATION_NAME}-kieserver:latest"
+    triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ImageChange
+      imageChange:
+        from:
+          kind: ImageStreamTag
+          namespace: "${EXTENSIONS_IMAGE_NAMESPACE}"
+          name: "${EXTENSIONS_IMAGE}"
+    - type: ConfigChange
+
+
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -528,9 +643,8 @@ objects:
         containerNames:
         - "${APPLICATION_NAME}-kieserver"
         from:
-          kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
+          kind: ImageStream
+          name: "${APPLICATION_NAME}-kieserver"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -659,33 +773,51 @@ objects:
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "${KIE_SERVER_STARTUP_STRATEGY}"
           - name: KIE_SERVER_PERSISTENCE_DS
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: DATASOURCES
-            value: "RHPAM"
-          - name: RHPAM_JNDI
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
-## External database driver settings BEGIN
+            value: "${KIE_SERVER_EXTERNALDB_JNDI}"
+          - name: KIE_SERVER_PERSISTENCE_SCHEMA
+            value: "${KIE_SERVER_PERSISTENCE_SCHEMA}"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "${KIE_SERVER_EXTERNALDB_DIALECT}"
+## External database settings BEGIN
+          - name: DATASOURCES
+            value: "RHPAM"
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_EXTERNALDB_DB}"
+          - name: RHPAM_SERVICE_HOST
+            value: "${KIE_SERVER_EXTERNALDB_SERVICE_HOST}"
+          - name: RHPAM_SERVICE_PORT
+            value: "${KIE_SERVER_EXTERNALDB_SERVICE_PORT}"
+          - name: RHPAM_JNDI
+            value: "${KIE_SERVER_EXTERNALDB_JNDI}"
           - name: RHPAM_DRIVER
             value: "${KIE_SERVER_EXTERNALDB_DRIVER}"
-          - name: RHPAM_DRIVER_TYPE
-            value: "${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_EXTERNALDB_USER}"
           - name: RHPAM_PASSWORD
             value: "${KIE_SERVER_EXTERNALDB_PWD}"
+          - name: RHPAM_NONXA
+            value: "${KIE_SERVER_EXTERNALDB_NONXA}"
+          - name: RHPAM_URL
+            value: "${KIE_SERVER_EXTERNALDB_URL}"
           - name: RHPAM_XA_CONNECTION_PROPERTY_URL
             value: "${KIE_SERVER_EXTERNALDB_URL}"
-          - name: RHPAM_SERVICE_HOST
-            value: "${KIE_SERVER_EXTERNALDB_HOST}"
-          - name: RHPAM_SERVICE_PORT
-            value: "${KIE_SERVER_EXTERNALDB_PORT}"
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_EXTERNALDB_DB}"
-## External database driver settings END
+          - name: RHPAM_MIN_POOL_SIZE
+            value: "${KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE}"
+          - name: RHPAM_MAX_POOL_SIZE
+            value: "${KIE_SERVER_EXTERNALDB_MAX_POOL_SIZE}"
+          - name: RHPAM_CONNECTION_CHECKER
+            value: "${KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER}"
+          - name: RHPAM_EXCEPTION_SORTER
+            value: "${KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER}"
+          - name: RHPAM_BACKGROUND_VALIDATION
+            value: "${KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION}"
+          - name: RHPAM_VALIDATION_MILLIS
+            value: "${KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS}"
+          - name: RHPAM_DRIVER_TYPE
+            value: "${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}"
           - name: RHPAM_JTA
             value: "true"
+## External database settings END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: HTTPS_KEYSTORE_DIR

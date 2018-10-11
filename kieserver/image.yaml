@@ -74,7 +74,7 @@ envs:
       example: "java:/jboss/datasources/ExampleDS"
       description: "KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)"
     - name: "KIE_SERVER_PERSISTENCE_SCHEMA"
-      example: ""
+      example: "my.db.schema"
       description: "KIE server persistence default schema (Sets the org.kie.server.persistence.schema system property)"
     - name: "KIE_SERVER_PERSISTENCE_TM"
       example: "org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"
@@ -149,11 +149,11 @@ modules:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: sprint-23
+                  ref: sprint-24
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: sprint-23
+                  ref: sprint-24
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
@@ -175,6 +175,8 @@ modules:
           - name: os-eap-launch
           - name: os-eap7-launch
           - name: jboss.eap.logging.ext
+          - name: jboss.eap.config.jgroups
+          - name: jboss.eap.config.elytron
           - name: os-eap-probes
           - name: jboss-maven
           - name: os-eap-db-drivers

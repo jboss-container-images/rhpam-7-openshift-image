@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,jboss,kieserver,mysql
+    tags: rhpam,processserver,jboss,kieserver,mysql
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 managed KIE Server with a MySQL database
     openshift.io/provider-display-name: Red Hat, Inc.

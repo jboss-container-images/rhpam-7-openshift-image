@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,jboss,trial
+    tags: rhpam,processserver,jboss,trial
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.1 ephemeral trial environment
     openshift.io/provider-display-name: Red Hat, Inc.
@@ -76,6 +76,31 @@ parameters:
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
+  required: false
+- displayName: KIE Server Access-Control-Allow-Origin response header
+  description: Sets the Access-Control-Allow-Origin response header value in the KIE Server (useful for CORS support)
+  name: KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN
+  example: "*"
+  required: false
+- displayName: KIE Server Access-Control-Allow-Methods response header
+  description: Sets the Access-Control-Allow-Methods response header value in the KIE Server (useful for CORS support)
+  name: KIE_SERVER_ACCESS_CONTROL_ALLOW_METHODS
+  example: "GET, POST, OPTIONS, PUT"
+  required: false
+- displayName: KIE Server Access-Control-Allow-Headers response header
+  description: Sets the Access-Control-Allow-Headers response header value in the KIE Server (useful for CORS support)
+  name: KIE_SERVER_ACCESS_CONTROL_ALLOW_HEADERS
+  example: "Accept, Authorization, Content-Type, X-Requested-With"
+  required: false
+- displayName: KIE Server Access-Control-Allow-Credentials response header
+  description: Sets the Access-Control-Allow-Credentials response header value in the KIE Server (useful for CORS support)
+  name: KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS
+  example: "true"
+  required: false
+- displayName: KIE Server Access-Control-Max-Age response header
+  description: Sets the Access-Control-Max-Age response header value in the KIE Server (useful for CORS support)
+  name: KIE_SERVER_ACCESS_CONTROL_MAX_AGE
+  example: "1"
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
@@ -733,3 +758,25 @@ objects:
             value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
           - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
             value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
+          - name: FILTERS
+            value: "AC_ALLOW_ORIGIN,AC_ALLOW_METHODS,AC_ALLOW_HEADERS,AC_ALLOW_CREDENTIALS,AC_MAX_AGE"
+          - name: AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_NAME
+            value: "Access-Control-Allow-Origin"
+          - name: AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_VALUE
+            value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN}"
+          - name: AC_ALLOW_METHODS_FILTER_RESPONSE_HEADER_NAME
+            value: "Access-Control-Allow-Methods"
+          - name: AC_ALLOW_METHODS_FILTER_RESPONSE_HEADER_VALUE
+            value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_METHODS}"
+          - name: AC_ALLOW_HEADERS_FILTER_RESPONSE_HEADER_NAME
+            value: "Access-Control-Allow-Headers"
+          - name: AC_ALLOW_HEADERS_FILTER_RESPONSE_HEADER_VALUE
+            value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_HEADERS}"
+          - name: AC_ALLOW_CREDENTIALS_FILTER_RESPONSE_HEADER_NAME
+            value: "Access-Control-Allow-Credentials"
+          - name: AC_ALLOW_CREDENTIALS_FILTER_RESPONSE_HEADER_VALUE
+            value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS}"
+          - name: AC_MAX_AGE_FILTER_RESPONSE_HEADER_NAME
+            value: "Access-Control-Max-Age"
+          - name: AC_MAX_AGE_FILTER_RESPONSE_HEADER_VALUE
+            value: "${KIE_SERVER_ACCESS_CONTROL_MAX_AGE}"
