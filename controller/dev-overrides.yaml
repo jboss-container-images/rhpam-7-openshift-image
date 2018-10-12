@@ -1,6 +1,6 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam71-controller:latest"
+from: "rhpam-7/rhpam72-controller:latest"
 modules:
       repositories:
           - name: cct_module
@@ -18,4 +18,4 @@ modules:
 osbs:
       repository:
           name: containers/rhpam-7-controller-openshift
-          branch: jb-rhpam-7.1-controller-openshift-dev-rhel-7
+          branch: jb-rhpam-7.2-controller-openshift-dev-rhel-7

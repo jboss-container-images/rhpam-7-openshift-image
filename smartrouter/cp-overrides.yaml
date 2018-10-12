@@ -1,17 +1,17 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam71-smartrouter:7.1.0"
+from: "rhpam-7/rhpam72-smartrouter:7.2.0"
 modules:
       repositories:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: sprint-24
+                  ref: sprint-25
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: rhpam-7.1.0.GA
+                  ref: rhpam-7.2.0.GA
 osbs:
       repository:
           name: containers/rhpam-7-smartrouter-openshift
-          branch: jb-rhpam-7.1-smartrouter-openshift-cp-rhel-7
+          branch: jb-rhpam-7.2-smartrouter-openshift-cp-rhel-7
