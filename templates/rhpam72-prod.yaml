@@ -4,18 +4,18 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,sit
+    tags: rhpam,processserver,jboss,prod
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.1 SIT environment
+    openshift.io/display-name: Red Hat Process Automation Manager 7.2 production environment
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for system integration testing, for Red Hat Process Automation Manager 7.1
-    template.openshift.io/long-description: This template defines resources needed for system integration testing for Red Hat Process Automation Manager 7.1, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_immutable_server_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.2
+    template.openshift.io/long-description: This template defines resources needed for a HA prouction runtime environment for Red Hat Process Automation Manager 7.2, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.2/html/deploying_a_red_hat_process_automation_manager_7.2_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam71-sit
+  name: rhpam72-prod
 labels:
-  template: rhpam71-sit
+  template: rhpam72-prod
   rhpam: "1.0"
 message: |-
           A new environment has been set up for Red Hat Process Automation Manager 7.
@@ -101,9 +101,9 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam71-kieserver-openshift"
+  value: "rhpam72-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".
@@ -619,7 +619,7 @@ objects:
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
-## KIE server services 2 BEGIN
+## KIE server services 2 END
 ## PostgreSQL service 1 BEGIN
 - apiVersion: v1
   kind: Service
@@ -761,6 +761,7 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
+## KIE server routes 2 BEGIN
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-smartrouter-http"
@@ -775,7 +776,6 @@ objects:
     host: "${SMART_ROUTER_HOSTNAME_HTTP}"
     to:
       name: "${APPLICATION_NAME}-smartrouter"
-## KIE server routes 2 BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -797,9 +797,10 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam71-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam72-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+## Replicas for Business Central Monitoring
+    replicas: 3
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
     template:
@@ -813,7 +814,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
-          image: rhpam71-businesscentral-monitoring-openshift
+          image: rhpam72-businesscentral-monitoring-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -987,9 +988,9 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam71-smartrouter-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam72-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: 2
     selector:
       deploymentConfig: "${APPLICATION_NAME}-smartrouter"
     template:
@@ -1003,7 +1004,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-smartrouter"
-          image: rhpam71-smartrouter-openshift
+          image: rhpam72-smartrouter-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -1070,7 +1071,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: 3
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
     template:
@@ -1190,15 +1191,17 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_POSTGRESQL_DB}"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
 ## PostgreSQL driver settings 1 BEGIN
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_POSTGRESQL_DB}"
           - name: RHPAM_DRIVER
             value: "postgresql"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.PostgreSQLDialect"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_POSTGRESQL_USER}"
           - name: RHPAM_PASSWORD
@@ -1209,8 +1212,6 @@ objects:
             value: "5432"
           - name: TIMER_SERVICE_DATA_STORE
             value: "${APPLICATION_NAME}-postgresql-1"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.PostgreSQLDialect"
 ## PostgreSQL driver settings 1 END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
@@ -1394,7 +1395,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: 3
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
     template:
@@ -1514,15 +1515,17 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
             value: "RHPAM"
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_POSTGRESQL_DB}"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
 ## PostgreSQL driver settings 2 BEGIN
+          - name: RHPAM_DATABASE
+            value: "${KIE_SERVER_POSTGRESQL_DB}"
           - name: RHPAM_DRIVER
             value: "postgresql"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "org.hibernate.dialect.PostgreSQLDialect"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_POSTGRESQL_USER}"
           - name: RHPAM_PASSWORD
@@ -1533,8 +1536,6 @@ objects:
             value: "5432"
           - name: TIMER_SERVICE_DATA_STORE
             value: "${APPLICATION_NAME}-postgresql-2"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.PostgreSQLDialect"
 ## PostgreSQL driver settings 2 END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
@@ -1735,7 +1736,7 @@ objects:
       service: "${APPLICATION_NAME}-smartrouter"
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: "64Mi"
@@ -1748,7 +1749,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentrmon"
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: "64Mi"

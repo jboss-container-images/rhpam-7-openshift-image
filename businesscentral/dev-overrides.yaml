@@ -1,6 +1,6 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam71-businesscentral:latest"
+from: "rhpam-7/rhpam72-businesscentral:latest"
 modules:
       repositories:
           - name: cct_module
@@ -18,4 +18,4 @@ modules:
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-openshift
-          branch: jb-rhpam-7.1-businesscentral-openshift-dev-rhel-7
+          branch: jb-rhpam-7.2-businesscentral-openshift-dev-rhel-7

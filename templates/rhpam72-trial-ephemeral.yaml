@@ -6,16 +6,16 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,trial
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.1 ephemeral trial environment
+    openshift.io/display-name: Red Hat Process Automation Manager 7.2 ephemeral trial environment
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.1
-    template.openshift.io/long-description: This template defines resources needed for an ephemeral authoring and testing environment for Red Hat Process Automation Manager 7.1, including application deployment configuration, secure and insecure http communication.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.1/html/deploying_a_red_hat_process_automation_manager_7.1_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.2
+    template.openshift.io/long-description: This template defines resources needed for an ephemeral authoring and testing environment for Red Hat Process Automation Manager 7.2, including application deployment configuration, secure and insecure http communication.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.2/html/deploying_a_red_hat_process_automation_manager_7.2_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam71-trial-ephemeral
+  name: rhpam72-trial-ephemeral
 labels:
-  template: rhpam71-trial-ephemeral
+  template: rhpam72-trial-ephemeral
   rhpam: "1.0"
 message: |-
           A new Process Automation Manager trial environment has been created.
@@ -117,9 +117,9 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam71-kieserver-openshift"
+  value: "rhpam72-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".
@@ -425,7 +425,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam71-businesscentral-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam72-businesscentral-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -442,7 +442,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
-          image: rhpam71-businesscentral-openshift
+          image: rhpam72-businesscentral-openshift
           imagePullPolicy: Always
           resources:
             limits:

@@ -1,16 +1,16 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam71-businesscentral-monitoring-openshift"
-description: "Red Hat Business Central Monitoring 7.1 OpenShift container image"
+name: "rhpam-7/rhpam72-businesscentral-monitoring-openshift"
+description: "Red Hat Business Central Monitoring 7.2 OpenShift container image"
 version: "1.0"
-from: "rhpam-7/rhpam71-businesscentral-monitoring:latest"
+from: "rhpam-7/rhpam72-businesscentral-monitoring:latest"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam71-businesscentral-monitoring-openshift-container"
+      value: "rhpam-7-rhpam72-businesscentral-monitoring-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Monitoring"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Central Monitoring 7.1"
+      value: "Red Hat Business Central Monitoring 7.2"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
@@ -69,11 +69,11 @@ modules:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: sprint-24
+                  ref: sprint-25
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: sprint-24
+                  ref: master
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
@@ -126,4 +126,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-monitoring-openshift
-          branch: jb-rhpam-7.1-businesscentral-monitoring-openshift-rhel-7
+          branch: jb-rhpam-7.2-businesscentral-monitoring-openshift-rhel-7
