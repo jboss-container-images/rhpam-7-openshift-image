@@ -36,7 +36,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift". | rhpam71-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | True
 |`SMART_ROUTER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>' | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`KIE_SERVER_ROUTER_ID` | `KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | kie-server-router | True
 |`KIE_SERVER_ROUTER_PROTOCOL` | `KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}` | False

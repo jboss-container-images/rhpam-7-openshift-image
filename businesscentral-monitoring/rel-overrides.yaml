@@ -1,6 +1,6 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam71-businesscentral-monitoring:7.1.0"
+from: "rhpam-7/rhpam71-businesscentral-monitoring:7.1.1"
 modules:
       repositories:
           - name: cct_module
@@ -14,7 +14,7 @@ modules:
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: rhpam-7.1.0.GA
+                  ref: rhpam-7.1.1.GA
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-monitoring-openshift
