@@ -74,7 +74,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`ES_VOLUME_CAPACITY` | -- | Size of persistent storage for Elasticsearch volume. | 1Gi | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift". | rhpam71-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | True
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}` | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
 |`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | False

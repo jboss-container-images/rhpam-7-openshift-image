@@ -34,7 +34,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam71-kieserver-openshift". | rhpam71-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | True
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}` | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}` | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
