@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam72-controller-openshift"
 description: "Red Hat Process Automation Manager Standalone Controller 7.2 container image"
 version: "1.0"
-from: "rhpam-7/rhpam72-controller:latest"
+from: "rhpam-7/rhpam72-controller:7.2.0"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam72-controller-openshift-container"
