@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam72-smartrouter-openshift"
 description: "Red Hat Process Automation Manager Smart Router 7.2 container image"
 version: "1.0"
-from: "rhpam-7/rhpam72-smartrouter:latest"
+from: "rhpam-7/rhpam72-smartrouter:7.2.0"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam72-smartrouter-openshift-container"
