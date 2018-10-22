@@ -1,0 +1,23 @@
+schema_version: 1
+
+name: "will-be-populated-by-overrides-file"
+description: "JBoss KIE custom jdbc extension images"
+from: "bash:5.0.3"
+version: "will-be-populated-by-overrides-file"
+
+run:
+  cmd:
+    - "MODULE_DIR=${TARGET_DIR}/modules/${DRIVER_DIR}"
+
+labels:
+  - name: "maintainer"
+    value: "bsig-cloud@redhat.com"
+  - name: "io.k8s.description"
+    value: "JBoss KIE custom jdbc extension image"
+
+modules:
+  repositories:
+    - path: modules
+
+  install:
+    - name: kie-custom-jdbc-driver

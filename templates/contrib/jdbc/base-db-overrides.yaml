@@ -1,0 +1,20 @@
+schema_version: 1
+
+name: "kiegroup/jboss-kie-${DATABASE_TYPE}-extension-openshift-image"
+version: "${VERSION}"
+
+labels:
+  - name: "io.openshift.tags"
+    value: "${DATABASE_TYPE}-jdbc-driver"
+  - name: "io.k8s.display-name"
+    value: "JBoss KIE custom ${DATABASE_TYPE} jdbc extension image"
+  - name: "database.type"
+    value: "${DATABASE_TYPE}"
+  - name: "jdbc.driver.module"
+    value: "${DRIVER_MODULE}"
+
+envs:
+  - name: "DRIVER_DIR"
+    value: "${DRIVER_DIR}"
+  - name: "JDBC_ARTIFACT"
+    value: "${DRIVER_JDBC_ARTIFACT_NAME}"
