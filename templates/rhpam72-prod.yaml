@@ -311,6 +311,21 @@ parameters:
   name: SMART_ROUTER_MEMORY_LIMIT
   value: 512Mi
   required: false
+- displayName: Business Central Monitoring Container Replicas
+  description: Business Central Monitoring Container Replicas, will define how much Business Central Monitoring containers will be started.
+  name: BUSINESS_CENTRAL_MONITORING_CONTAINER_REPLICAS
+  value: '3'
+  required: true
+- displayName: Smart Router Container Replicas
+  description: Smart Router Container Replicas, will define how much smart router containers will be started.
+  name: SMART_ROUTER_CONTAINER_REPLICAS
+  value: '2'
+  required: true
+- displayName: KIE Server Container Replicas
+  description: KIE Server Container Replicas, will define how much KIE Server containers will be started.
+  name: KIE_SERVER_CONTAINER_REPLICAS
+  value: '3'
+  required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL
   name: SSO_URL
@@ -801,8 +816,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "rhpam72-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-## Replicas for Business Central Monitoring
-    replicas: 3
+    replicas: "${{BUSINESS_CENTRAL_MONITORING_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
     template:
@@ -994,7 +1008,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "rhpam72-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 2
+    replicas: "${{SMART_ROUTER_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-smartrouter"
     template:
@@ -1077,7 +1091,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 3
+    replicas: "${{KIE_SERVER_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
     template:
@@ -1405,7 +1419,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 3
+    replicas: "${{KIE_SERVER_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
     template:
