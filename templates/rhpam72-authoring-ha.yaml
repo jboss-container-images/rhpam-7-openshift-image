@@ -532,6 +532,8 @@ objects:
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-rhpamsvc-view"
+     labels:
+       application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-rhpamsvc"
@@ -1269,7 +1271,10 @@ objects:
   metadata:
     labels:
       application: ${APPLICATION_NAME}
+      service: ${APPLICATION_NAME}-amq
     name: ${APPLICATION_NAME}-amq
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     replicas: 1
     selector:
@@ -1348,6 +1353,9 @@ objects:
     name: "${APPLICATION_NAME}-mysql"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-mysql"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate

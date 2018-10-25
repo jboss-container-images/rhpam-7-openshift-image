@@ -109,11 +109,6 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: false
-- displayName: Smart Router Custom http Route Hostname
-  description: Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>'
-  name: SMART_ROUTER_HOSTNAME_HTTP
-  value: ''
-  required: false
 - displayName: Smart Router ID
   description: Router ID used when connecting to the controller (router property org.kie.server.router.id)
   name: KIE_SERVER_ROUTER_ID
@@ -653,6 +648,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-smartrouter"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate

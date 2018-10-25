@@ -485,6 +485,8 @@ objects:
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-kieserver-view"
+     labels:
+       application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-kieserver"
@@ -975,6 +977,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-smartrouter"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
@@ -1056,6 +1060,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver-1"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
@@ -1309,6 +1315,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-postgresql-1"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
@@ -1380,6 +1388,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver-2"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
@@ -1633,6 +1643,8 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-postgresql-2"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
       type: Recreate
