@@ -334,6 +334,8 @@ objects:
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-rhpamsvc-view"
+     labels:
+       application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-rhpamsvc"

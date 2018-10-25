@@ -151,10 +151,6 @@ parameters:
   name: KIE_SERVER_CONTROLLER_PORT
   example: '8080'
   required: false
-- displayName: KIE Server controller token
-  description: KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)
-  name: KIE_SERVER_CONTROLLER_TOKEN
-  required: false
 ## External database parameters BEGIN
 - displayName: KIE Server Persistence Schema
   description: Hibernate persistence schema.
@@ -187,7 +183,7 @@ parameters:
   example: "jdbc:mysql://127.0.0.1:3306/rhpam"
   required: false
 - displayName: KIE Server External Database Driver
-  description: The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. For external driver the value passed here should be the same than KIE_SERVER_EXTERNALDB_DRIVER_NAME.
+  description: The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver.
   name: KIE_SERVER_EXTERNALDB_DRIVER
   example: "mysql"
   required: true
@@ -197,34 +193,34 @@ parameters:
   value: java:jboss/datasources/jbpmDS
   required: true
 - displayName: KIE Server External Database name
-  description: KIE server external database name, for ejb_timer datasource configuration
+  description: KIE server external database name.
   name: KIE_SERVER_EXTERNALDB_DB
   value: rhpam
   required: false
 - displayName: KIE Server External Database User
-  description: KIE server external database username
+  description: KIE server external database username.
   name: KIE_SERVER_EXTERNALDB_USER
   example: rhpam
   required: true
 - displayName: KIE Server External Database Password
-  description: KIE server external database password
+  description: KIE server external database password.
   name: KIE_SERVER_EXTERNALDB_PWD
   required: true
 - displayName: Datasource Minimum Pool Size
-  description: Sets xa-pool/min-pool-size for the configured datasource
+  description: Sets xa-pool/min-pool-size for the configured datasource.
   name: KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE
   required: false
 - displayName: Datasource Maximum Pool Size
-  description: Sets xa-pool/max-pool-size for the configured datasource
+  description: Sets xa-pool/max-pool-size for the configured datasource.
   name: KIE_SERVER_EXTERNALDB_MAX_POOL_SIZE
   required: false
 - displayName: JDBC Connection Checker class
-  description: An org.jboss.jca.adapters.jdbc.ValidConnectionChecker that provides a SQLException isValidConnection(Connection e) method to validate if a connection is valid
+  description: An org.jboss.jca.adapters.jdbc.ValidConnectionChecker that provides a SQLException isValidConnection(Connection e) method to validate if a connection is valid.
   name: KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER
   example: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"
   required: false
 - displayName: JDBC Exception Sorter class
-  description: An org.jboss.jca.adapters.jdbc.ExceptionSorter that provides a boolean isExceptionFatal(SQLException e) method to validate if an exception should be broadcast to all javax.resource.spi.ConnectionEventListener as a connectionErrorOccurred
+  description: An org.jboss.jca.adapters.jdbc.ExceptionSorter that provides a boolean isExceptionFatal(SQLException e) method to validate if an exception should be broadcast to all javax.resource.spi.ConnectionEventListener as a connectionErrorOccurred.
   name: KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER
   example: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"
   required: false
@@ -234,19 +230,19 @@ parameters:
   example: "true"
   required: false
 - displayName: JDBC Background Validation Millis
-  description: Defines the interval for the background-validation check for the jdbc connections
+  description: Defines the interval for the background-validation check for the jdbc connections.
   name: KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS
   example: "10000"
   required: false
 - displayName: KIE Server External Database Driver Type
-  description: KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2
+  description: KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2.
   name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
   example: "4"
   required: false
 ## External database parameters END
 ## Extension image configuration BEGIN
 - displayName: Drivers Extension Image
-  description: ImageStreamTag definition for the image containing the drivers and configuration. i.e custom-driver-image:1.0
+  description: ImageStreamTag definition for the image containing the drivers and configuration. i.e custom-driver-image:1.0.
   name: EXTENSIONS_IMAGE
   value: custom-driver-extension:1.0
   required: true
@@ -256,18 +252,18 @@ parameters:
   value: openshift
   required: true
 - displayName: Drivers Image Install Directory
-  description: Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.)
+  description: Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.).
   name: EXTENSIONS_INSTALL_DIR
   value: "/extensions"
   required: true
 ## Extension image configuration END
 - displayName: Drools Server Filter Classes
-  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
+  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property).
   name: DROOLS_SERVER_FILTER_CLASSES
   value: 'true'
   required: false
 - displayName: KIE MBeans
-  description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+  description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties).
   name: KIE_MBEANS
   value: enabled
   required: false
@@ -494,6 +490,8 @@ objects:
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-kieserver-view"
+     labels:
+       application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-kieserver"
@@ -622,8 +620,6 @@ objects:
           namespace: "${EXTENSIONS_IMAGE_NAMESPACE}"
           name: "${EXTENSIONS_IMAGE}"
     - type: ConfigChange
-
-
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
