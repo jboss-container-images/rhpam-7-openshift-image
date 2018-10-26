@@ -77,7 +77,7 @@ modules:
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: master
+                  ref: 7.1.x
       install:
           - name: dynamic-resources
           - name: java-alternatives
