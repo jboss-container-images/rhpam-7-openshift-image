@@ -9,7 +9,7 @@ builds:
     descriptor: "businesscentral-indexing/image.yaml"
     product: true
     overrides:
-      - "businesscentral-monitoring/dev-overrides.yaml"
+      - "businesscentral-indexing/dev-overrides.yaml"
   - name: "rhpam-businesscentral-monitoring-openshift-dev"
     descriptor: "businesscentral-monitoring/image.yaml"
     product: true
