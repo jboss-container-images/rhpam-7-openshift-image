@@ -1,0 +1,32 @@
+builds:
+  # Product builds
+  - name: "rhpam-businesscentral-openshift-dev"
+    descriptor: "businesscentral/image.yaml"
+    product: true
+    overrides:
+      - "businesscentral/dev-overrides.yaml"
+  - name: "rhpam-businesscentral-indexing-openshift-dev"
+    descriptor: "businesscentral-indexing/image.yaml"
+    product: true
+    overrides:
+      - "businesscentral-indexing/dev-overrides.yaml"
+  - name: "rhpam-businesscentral-monitoring-openshift-dev"
+    descriptor: "businesscentral-monitoring/image.yaml"
+    product: true
+    overrides:
+      - "businesscentral-monitoring/dev-overrides.yaml"
+  - name: "rhpam-controller-openshift-dev"
+    descriptor: "controller/image.yaml"
+    product: true
+    overrides:
+      - "controller/dev-overrides.yaml"
+  - name: "rhpam-kieserver-openshift-dev"
+    descriptor: "kieserver/image.yaml"
+    product: true
+    overrides:
+      - "kieserver/dev-overrides.yaml"
+  - name: "rhpam-smartrouter-openshift-dev"
+    descriptor: "smartrouter/image.yaml"
+    product: true
+    overrides:
+      - "smartrouter/dev-overrides.yaml"
