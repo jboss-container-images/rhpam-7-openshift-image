@@ -6,19 +6,19 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,authoring,ha
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.3 authoring environment (HA, persistent, with https)
+    openshift.io/display-name: Red Hat Process Automation Manager 7.2 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.3
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.3 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volumes to store data that needs to survive a restart.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.3/html/deploying_a_red_hat_process_automation_manager_7.3_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.2
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.2 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.2/html/deploying_a_red_hat_process_automation_manager_7.2_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam73-authoring-ha
+  name: rhpam72-authoring-ha-jdg
 labels:
-  template: rhpam73-authoring-ha
+  template: rhpam72-authoring-ha-jdg
   rhpam: "1.0"
 message: |-
-          A new persistent HA Process Automation Manager application has been created in your project.
+          A new persistent HA Process Automation Manager application have been created in your project.
           The username/password for accessing the Business Central interface is
 
               Username: ${KIE_ADMIN_USER}
@@ -104,7 +104,7 @@ parameters:
 - displayName: MySQL ImageStream Namespace
   description: Namespace in which the ImageStream for the MySQL image is
     installed. The ImageStream is already installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStream in a
+    You should only need to modify this if you've installed the ImageStream in a
     different namespace/project. Default is "openshift".
   name: MYSQL_IMAGE_STREAM_NAMESPACE
   value: "openshift"
@@ -115,7 +115,7 @@ parameters:
   value: "5.7"
   required: false
 - displayName: Database Volume Capacity
-  description: Size of persistent storage for the database volume.
+  description: Size of persistent storage for database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
@@ -143,7 +143,7 @@ parameters:
   value: ''
   required: false
 - displayName: KIE Server Custom http Route Hostname
-  description: 'Custom hostname for http service route. Leave blank for default hostname,
+  description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
       e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
@@ -200,7 +200,7 @@ parameters:
   value: mykeystorepass
   required: false
 - displayName: AppFormer JMS Broker port.
-  description: The port to connect to the JMS broker. Default is 61616
+  description: The port to connect in the JMS broker. Defaults to 61616
   name: APPFORMER_JMS_BROKER_PORT
   required: false
 - displayName: AppFormer JMS Broker username.
@@ -209,57 +209,44 @@ parameters:
   required: true
   value: jmsBrokerUser
 - displayName: AppFormer JMS Broker password.
-  description: The password to connect to the JMS broker.
+  description: The password to connect in the JMS broker.
   name: APPFORMER_JMS_BROKER_PASSWORD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: true
-- displayName: AppFormer elastic search reconnection tries.
-  description: The number of times that appformer will try to connect to the elasticsearch node before give up.
-  name: APPFORMER_ELASTIC_RETRIES
-  required: false
-- displayName: Elasticsearch Cluster name
-  description: Sets the ES cluster.name and configure it on Business Central. Defaults to kie-cluster.
-  name: APPFORMER_ELASTIC_CLUSTER_NAME
+- displayName: JDG ImageStream Namespace
+  description: Namespace in which the ImageStream for the JDG image is installed. Default is "openshift".
+  name: JDG_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: true
+- displayName: JDG ImageStream Name
+  description: The name of the image stream to use for JDG. Default is "jboss-datagrid72-openshift".
+  name: JDG_IMAGE_STREAM_NAME
+  value: "jboss-datagrid72-openshift"
+  required: true
+- displayName: JDG ImageStream Tag
+  description: The JDG image stream tag. Default is "1.2".
+  name: JDG_IMAGE_STREAM_TAG
+  value: "1.2"
+  required: true
+- displayName: JDG Username
+  description: User name for JDG user.
+  name: JDG_USERNAME
   value: ''
   required: false
-- displayName: Elasticsearch Custom http Route Hostname
-  description: 'Custom hostname for http service route.  Leave blank for default hostname,
-    e.g.: <application-name>-rhpamindex-<project>.<default-domain-suffix>'
-  name: ES_HOSTNAME_HTTP
+- displayName: JDG Password
+  description: The password to access the JDG Caches. Must be different than username;
+    must not be root, admin, or administrator; must contain at least 8 characters,
+    1 alphabetic character(s), 1 digit(s), and 1 non-alphanumeric symbol(s). (optional)
+  name: JDG_PASSWORD
   value: ''
   required: false
-- displayName: Elasticsearch Node name
-  description: Sets the ES node.name property. Defaults to HOSTNAME env value.
-  name: ES_NODE_NAME
-  value: ''
-  required: false
-- displayName: Elasticsearch Transport Host
-  description: Sets the ES transport.host property. This will set the transport address of the main ES cluster node. Used for communication between nodes in the cluster. Defaults to container address.
-  name: ES_TRANSPORT_HOST
-  value: ''
-  required: false
-- displayName: Elasticsearch Transport TCP Port
-  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster and for communication with Business Central.
-  name: APPFORMER_ELASTIC_PORT
-  value: ''
-  required: false
-- displayName: Elasticsearch HTTP Host
-  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address
-  name: ES_HTTP_HOST
-  value: ''
-  required: false
-- displayName: Elasticsearch HTTP Port
-  description: Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with the cluster REST API.
-  name: ES_HTTP_PORT
-  value: ''
-  required: false
-- displayName: Elasticsearch Additional Java Options
-  description: Appends custom jvm configurations/properties to ES jvm.options configuration file.
-  name: ES_JAVA_OPTS
-  value: ''
-  example: "-Xms1024m -Xmx1024m"
-  required: false
+- displayName: JDG JGroups Cluster Password
+  description: JDG JGroups cluster password
+  name: JDG_JGROUPS_CLUSTER_PASSWORD
+  from: "[a-zA-Z0-9]{8}"
+  generate: expression
+  required: true
 - displayName: AMQ ImageStream Namespace
   description: Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift".
   name: AMQ_IMAGE_STREAM_NAMESPACE
@@ -273,7 +260,7 @@ parameters:
 - displayName: AMQ ImageStream Tag
   description: The AMQ image stream tag. Default is "1.0".
   name: AMQ_IMAGE_STREAM_TAG
-  value: "1.1"
+  value: "1.0"
   required: true
 - displayName: AMQ Role
   description: User role for standard broker user.
@@ -286,27 +273,22 @@ parameters:
   value: broker
   required: true
 - displayName: AMQ Global Max Size
-  description: Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated.
+  description: "Maximum amount of memory which message data may consume (Default: Undefined, half of the system's memory)."
   name: AMQ_GLOBAL_MAX_SIZE
-  example: 10 gb
+  value: 100 gb
   required: false
-- displayName: Elasticsearch Volume Capacity
-  description: Size of persistent storage for Elasticsearch volume.
-  name: ES_VOLUME_CAPACITY
-  value: 1Gi
-  required: true
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStreams in a
+    You should only need to modify this if you've installed the ImageStreams in a
     different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam73-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam73-kieserver-openshift"
+  value: "rhpam72-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".
@@ -365,6 +347,11 @@ parameters:
 - displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit
   name: KIE_SERVER_MEMORY_LIMIT
+  value: 1Gi
+  required: false
+- displayName: JDG Container Memory Limit
+  description: JDG Container memory limit
+  name: JDG_MEMORY_LIMIT
   value: 1Gi
   required: false
 - displayName: RH-SSO URL
@@ -510,7 +497,7 @@ parameters:
   example: "false"
   required: false
 - displayName: LDAP Referral user attribute ID
-  description: If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
+  description: If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
 - displayName: RoleMapping rolesProperties file path
@@ -582,6 +569,37 @@ objects:
   apiVersion: v1
   spec:
     ports:
+    - port: 11333
+      targetPort: 11333
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-jdg"
+  metadata:
+    name: "${APPLICATION_NAME}-jdg-hotrod"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      description: Hot Rod service for clustered applications.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+      targetPort: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-jdg"
+  metadata:
+    name: "${APPLICATION_NAME}-jdg-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
+      description: The JGroups ping port for clustering.
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
     - name: http
       port: 8080
       targetPort: 8080
@@ -597,25 +615,6 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: All the KIE server web server's ports.
-- kind: Service
-  apiVersion: v1
-  spec:
-    ports:
-    - name: rest
-      port: 9200
-      targetPort: 9200
-    - name: transport
-      port: 9300
-      targetPort: 9300
-    selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamindex"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-rhpamindex"
-    annotations:
-      description: All the Business Central Indexing Elasticsearch ports.
 - apiVersion: v1
   kind: Service
   spec:
@@ -718,21 +717,6 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
-- kind: Route
-  apiVersion: v1
-  id: "${APPLICATION_NAME}-rhpamindex-http"
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamindex"
-    labels:
-      application: "${APPLICATION_NAME}"
-    annotations:
-      description: Route for Business Central Indexing's Elasticsearch http service.
-  spec:
-    host: "${ES_HOSTNAME_HTTP}"
-    to:
-      name: "${APPLICATION_NAME}-rhpamindex"
-    port:
-      targetPort: rest
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -754,7 +738,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam73-businesscentral-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam72-businesscentral-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
 ## Replicas for Business Central
     replicas: 2
@@ -771,7 +755,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
-          image: rhpam73-businesscentral-openshift
+          image: rhpam72-businesscentral-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -861,14 +845,14 @@ objects:
             value: "${APPLICATION_NAME}-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
-          - name: APPFORMER_ELASTIC_PORT
-            value: "${APPFORMER_ELASTIC_PORT}"
-          - name: APPFORMER_ELASTIC_CLUSTER_NAME
-            value: "${APPFORMER_ELASTIC_CLUSTER_NAME}"
-          - name: APPFORMER_ELASTIC_RETRIES
-            value: "${APPFORMER_ELASTIC_RETRIES}"
-          - name: APPFORMER_ELASTIC_HOST
-            value: "${APPLICATION_NAME}-rhpamindex"
+          - name: APPFORMER_INFINISPAN_HOST
+            value: "${APPLICATION_NAME}-jdg"
+          - name: APPFORMER_INFINISPAN_PORT
+            value: "11333"
+          - name: APPFORMER_INFINISPAN_USERNAME
+            value: "${JDG_USERNAME}"
+          - name: APPFORMER_INFINISPAN_PASSWORD
+            value: "${JDG_PASSWORD}"
           - name: APPFORMER_JMS_BROKER_ADDRESS
             value: "${APPLICATION_NAME}-amq-tcp"
           - name: APPFORMER_JMS_BROKER_PORT
@@ -1188,10 +1172,10 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-rhpamindex"
+    name: "${APPLICATION_NAME}-jdg"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-rhpamindex"
+      service: "${APPLICATION_NAME}-jdg"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -1202,68 +1186,75 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-rhpamindex"
+        - "${APPLICATION_NAME}-jdg"
         from:
           kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam73-businesscentral-indexing-openshift:${IMAGE_STREAM_TAG}"
+          namespace: "${JDG_IMAGE_STREAM_NAMESPACE}"
+          name: "${JDG_IMAGE_STREAM_NAME}:${JDG_IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
+      deploymentConfig: "${APPLICATION_NAME}-jdg"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-rhpamindex"
+        name: "${APPLICATION_NAME}-jdg"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
+          deploymentConfig: "${APPLICATION_NAME}-jdg"
           application: "${APPLICATION_NAME}"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-rhpamindex"
-          image: rhpam73-businesscentral-indexing-openshift
+        - name: "${APPLICATION_NAME}-jdg"
+          image: "${JDG_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
-          volumeMounts:
-          - name: "${APPLICATION_NAME}-rhpamindex-pvol"
-            mountPath: "/opt/elasticsearch/data"
+          resources:
+            limits:
+              memory: "${JDG_MEMORY_LIMIT}"
           livenessProbe:
-            tcpSocket:
-              port: 9300
-            initialDelaySeconds: 15
-            timeoutSeconds: 1
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/datagrid/bin/livenessProbe.sh"
+            initialDelaySeconds: 60
           readinessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /_cluster/health
-              port: 9200
-            initialDelaySeconds: 15
-            timeoutSeconds: 2
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "/opt/datagrid/bin/readinessProbe.sh"
           ports:
-          - name: es
-            containerPort: 9300
+          - name: jolokia
+            containerPort: 8778
             protocol: TCP
-          - name: http
-            containerPort: 9200
+          - name: ping
+            containerPort: 8888
+            protocol: TCP
+          - name: hotrod-internal
+            containerPort: 11222
+            protocol: TCP
+          - name: hotrod
+            containerPort: 11333
             protocol: TCP
           env:
-          - name: ES_CLUSTER_NAME
-            value: "${APPFORMER_ELASTIC_CLUSTER_NAME}"
-          - name: ES_NODE_NAME
-            value: "${ES_NODE_NAME}"
-          - name: ES_TRANSPORT_HOST
-            value: "${ES_TRANSPORT_HOST}"
-          - name: ES_TRANSPORT_TCP_PORT
-            value: "${APPFORMER_ELASTIC_PORT}"
-          - name: ES_HTTP_PORT
-            value: "${ES_HTTP_PORT}"
-          - name: ES_HTTP_HOST
-            value: "${ES_HTTP_HOST}"
-          - name: ES_JAVA_OPTS
-            value: "${ES_JAVA_OPTS}"
-        volumes:
-        - name: "${APPLICATION_NAME}-rhpamindex-pvol"
-          persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-rhpamindex-claim"
+          - name: APPLICATION_NAME
+            value: "${APPLICATION_NAME}"
+          - name: USERNAME
+            value: "${JDG_USERNAME}"
+          - name: PASSWORD
+            value: "${JDG_PASSWORD}"
+          - name: JGROUPS_PING_PROTOCOL
+            value: openshift.DNS_PING
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-jdg-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: '8888'
+          - name: INFINISPAN_CONNECTORS
+            value: "hotrod"
+          - name: HOTROD_SERVICE_NAME
+            value: "${APPLICATION_NAME}-jdg-hotrod"
+          - name: JGROUPS_CLUSTER_PASSWORD
+            value: "${JDG_JGROUPS_CLUSTER_PASSWORD}"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -1437,15 +1428,3 @@ objects:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
 ## MySQL persistent volume claim END
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: "${APPLICATION_NAME}-rhpamindex-claim"
-    labels:
-      application: "${APPLICATION_NAME}"
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: "${ES_VOLUME_CAPACITY}"
