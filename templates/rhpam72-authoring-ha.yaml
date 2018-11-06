@@ -211,7 +211,7 @@ parameters:
   description: The username to connect in the JMS broker.
   name: APPFORMER_JMS_BROKER_USER
   required: true
-  value: jmsBrokserUser
+  value: jmsBrokerUser
 - displayName: AppFormer JMS Broker password.
   description: The password to connect in the JMS broker.
   name: APPFORMER_JMS_BROKER_PASSWORD
@@ -266,9 +266,9 @@ parameters:
   value: "openshift"
   required: true
 - displayName: AMQ ImageStream Name
-  description: The name of the image stream to use for the AMQ broker. Default is "amq-broker71-openshift".
+  description: The name of the image stream to use for the AMQ broker. Default is "amq-broker72-openshift".
   name: AMQ_IMAGE_STREAM_NAME
-  value: "amq-broker71-openshift"
+  value: "amq-broker72-openshift"
   required: true
 - displayName: AMQ ImageStream Tag
   description: The AMQ image stream tag. Default is "1.0".
@@ -1312,11 +1312,6 @@ objects:
               - "/bin/bash"
               - "-c"
               - "/opt/amq/bin/readinessProbe.sh"
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                - /opt/amq/bin/shutdownHook.sh
           name: ${APPLICATION_NAME}-amq
           ports:
           - containerPort: 8161

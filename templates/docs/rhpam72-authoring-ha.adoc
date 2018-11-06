@@ -55,7 +55,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
 |`APPFORMER_ELASTIC_RETRIES` | `APPFORMER_ELASTIC_RETRIES` | The number of times that appformer will try to connect to the elasticsearch node before give up. | `${APPFORMER_ELASTIC_RETRIES}` | False
 |`APPFORMER_JMS_BROKER_PORT` | `APPFORMER_JMS_BROKER_PORT` | The port to connect in the JMS broker. Defaults to 61616 | `${APPFORMER_JMS_BROKER_PORT}` | False
-|`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The username to connect in the JMS broker. | jmsBrokserUser | True
+|`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The username to connect in the JMS broker. | jmsBrokerUser | True
 |`APPFORMER_JMS_BROKER_PASSWORD` | `APPFORMER_JMS_BROKER_PASSWORD` | The password to connect in the JMS broker. | `${APPFORMER_JMS_BROKER_PASSWORD}` | True
 |`ES_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamindex-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`APPFORMER_ELASTIC_CLUSTER_NAME` | `APPFORMER_ELASTIC_CLUSTER_NAME` | Sets the ES cluster.name and configure it on Business Central. Defaults to kie-cluster. | `${APPFORMER_ELASTIC_CLUSTER_NAME}` | False
@@ -66,7 +66,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`ES_HTTP_PORT` | `ES_HTTP_PORT` | Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api. | `${ES_HTTP_PORT}` | False
 |`ES_JAVA_OPTS` | `ES_JAVA_OPTS` | Appends custom jvm configurations/properties to ES jvm.options configuration file. | `${ES_JAVA_OPTS}` | False
 |`AMQ_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift". | openshift | True
-|`AMQ_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ broker. Default is "amq-broker71-openshift". | amq-broker71-openshift | True
+|`AMQ_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ broker. Default is "amq-broker72-openshift". | amq-broker72-openshift | True
 |`AMQ_IMAGE_STREAM_TAG` | -- | The AMQ image stream tag. Default is "1.0". | 1.0 | True
 |`AMQ_ROLE` | `AMQ_ROLE` | User role for standard broker user. | admin | True
 |`AMQ_NAME` | `AMQ_NAME` | The name of the broker | broker | True
