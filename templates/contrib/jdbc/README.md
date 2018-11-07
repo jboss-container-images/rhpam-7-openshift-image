@@ -1,6 +1,6 @@
 # Build JDBC Driver images
 
-This repository provide a common repository for building JDBC Driver images to extend existing JBoss EAP 7.1 Openshift images using S2I.
+This repository provide a common repository for building JDBC Driver images to extend existing JBoss EAP Openshift images using S2I.
 
 Implemented driver configurations (JDBC Drivers are NOT included):
 

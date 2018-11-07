@@ -72,7 +72,7 @@ parameters:
   value: 'true'
   required: false
 - displayName: KIE Server Custom http Route Hostname
-  description: 'Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname,
+  description: 'Custom hostname for http service route. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
@@ -80,27 +80,27 @@ parameters:
 - displayName: KIE Server Access-Control-Allow-Origin response header
   description: Sets the Access-Control-Allow-Origin response header value in the KIE Server (useful for CORS support)
   name: KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN
-  example: "*"
+  value: "*"
   required: false
 - displayName: KIE Server Access-Control-Allow-Methods response header
   description: Sets the Access-Control-Allow-Methods response header value in the KIE Server (useful for CORS support)
   name: KIE_SERVER_ACCESS_CONTROL_ALLOW_METHODS
-  example: "GET, POST, OPTIONS, PUT"
+  value: "GET, POST, OPTIONS, PUT"
   required: false
 - displayName: KIE Server Access-Control-Allow-Headers response header
   description: Sets the Access-Control-Allow-Headers response header value in the KIE Server (useful for CORS support)
   name: KIE_SERVER_ACCESS_CONTROL_ALLOW_HEADERS
-  example: "Accept, Authorization, Content-Type, X-Requested-With"
+  value: "Accept, Authorization, Content-Type, X-Requested-With"
   required: false
 - displayName: KIE Server Access-Control-Allow-Credentials response header
   description: Sets the Access-Control-Allow-Credentials response header value in the KIE Server (useful for CORS support)
   name: KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS
-  example: "true"
+  value: "true"
   required: false
 - displayName: KIE Server Access-Control-Max-Age response header
   description: Sets the Access-Control-Max-Age response header value in the KIE Server (useful for CORS support)
   name: KIE_SERVER_ACCESS_CONTROL_MAX_AGE
-  example: "1"
+  value: "1"
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
@@ -667,9 +667,9 @@ objects:
           - name: KIE_SERVER_ID
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
-            value: "${KIE_SERVER_HOSTNAME_HTTP}"
-          - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver"
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD

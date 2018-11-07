@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam72-smartrouter-openshift"
 description: "Red Hat Process Automation Manager Smart Router 7.2 container image"
 version: "1.0"
-from: "rhpam-7/rhpam72-smartrouter:7.2.0"
+from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam72-smartrouter-openshift-container"
@@ -65,16 +65,27 @@ modules:
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
                   ref: master
+          - name: rhpam-7-image
+            git:
+                  url: https://github.com/jboss-container-images/rhpam-7-image.git
+                  ref: master
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: master
       install:
-          - name: os-logging
-          - name: jboss.kie.smartrouter
-artifacts:
-    - url: slf4j-simple-1.7.22.redhat-1.jar
-      md5: 51c319582c16a07c21e41737e45cb03a
+          - name: jboss.container.openjdk.jdk
+            version: "8"
+          - name: rhpam-7-smartrouter
+          - name: dynamic-resources
+          - name: java-alternatives
+          - name: os-java-run
+          - name: jboss-kie-smartrouter
+packages:
+      repositories:
+          - name: base
+            id: rhel-7-server-rpms
+          - jboss-os
 run:
       user: 185
       cmd:
@@ -82,4 +93,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-smartrouter-openshift
-          branch: jb-rhpam-7.2-smartrouter-openshift-rhel-7
+          branch: jb-rhpam-7.2-smartrouter-openshift-dev-rhel-7

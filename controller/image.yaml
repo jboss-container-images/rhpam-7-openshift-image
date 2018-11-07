@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam72-controller-openshift"
 description: "Red Hat Process Automation Manager Standalone Controller 7.2 container image"
 version: "1.0"
-from: "rhpam-7/rhpam72-controller:7.2.0"
+from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam72-controller-openshift-container"
@@ -65,27 +65,41 @@ modules:
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
                   ref: master
+          - name: jboss-eap-7-image
+            git:
+                  url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+                  ref: eap72-dev
+          - name: rhpam-7-image
+            git:
+                  url: https://github.com/jboss-container-images/rhpam-7-image.git
+                  ref: master
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: master
       install:
+          - name: jboss.container.openjdk.jdk
+            version: "8"
+          - name: eap-7.2-latest
+          - name: rhpam-7-controller
           - name: dynamic-resources
           - name: java-alternatives
           - name: os-java-jolokia
-          - name: jolokia
+          - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
-          - name: os-eap71-openshift
-          - name: os-eap7-modules
-          - name: os-eap71-modules
+          - name: jboss.eap72.openshift
+          - name: jboss.eap.cd.openshift.modules
           - name: os-eap7-ping
           - name: os-eap-activemq-rar
           - name: os-java-run
           - name: os-eap-launch
           - name: os-eap7-launch
-          - name: jboss.eap.logging.ext
+          - name: jboss.eap.cd.openshift.launch
+          - name: jboss.eap.cd.logging
+          - name: jboss.eap.config.mp-config
           - name: jboss.eap.config.jgroups
           - name: jboss.eap.config.elytron
+          - name: jboss.eap.config.tracing
           - name: os-eap-probes
           - name: jboss-maven
           - name: os-eap-db-drivers
@@ -99,12 +113,13 @@ modules:
           - name: openshift-layer
           - name: openshift-passwd
           - name: os-logging
-          - name: jboss.kie.common
-          - name: jboss.kie.controller
+          - name: jboss-kie-wildfly-common
+          - name: jboss-kie-controller
 packages:
       repositories:
+          - name: base
+            id: rhel-7-server-rpms
           - jboss-os
-          - jboss-rhscl
       install:
           - python-requests
           - python-enum34
@@ -117,4 +132,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-controller-openshift
-          branch: jb-rhpam-7.2-controller-openshift-rhel-7
+          branch: jb-rhpam-7.2-controller-openshift-dev-rhel-7
