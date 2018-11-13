@@ -1,6 +1,5 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam72-controller:7.2.0"
 modules:
       repositories:
           - name: cct_module
@@ -11,6 +10,14 @@ modules:
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
                   ref: TBD
+          - name: jboss-eap-7-image
+            git:
+                  url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+                  ref: TBD
+          - name: rhpam-7-image
+            git:
+                  url: https://github.com/jboss-container-images/rhpam-7-image.git
+                  ref: 7.2.0.GA
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git

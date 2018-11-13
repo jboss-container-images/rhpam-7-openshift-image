@@ -1,15 +1,22 @@
 schema_version: 1
 
-from: "rhpam-7/rhpam72-kieserver:latest"
 modules:
       repositories:
           - name: cct_module
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
+                  ref: sprint-26
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
+                  ref: master
+          - name: jboss-eap-7-image
+            git:
+                  url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+                  ref: eap72-dev
+          - name: rhpam-7-image
+            git:
+                  url: https://github.com/jboss-container-images/rhpam-7-image.git
                   ref: master
           - name: jboss-kie-modules
             git:

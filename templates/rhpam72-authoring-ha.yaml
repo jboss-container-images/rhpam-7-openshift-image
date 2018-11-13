@@ -154,11 +154,6 @@ parameters:
   name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: Use the secure route name to set KIE_SERVER_HOST.
-  description: Use https for the KIE_SERVER_HOST when it is not explicit configured to a custom value.
-  name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-  value: 'false'
-  required: false
 - displayName: Business Central Server Keystore Secret Name
   description: The name of the secret containing the keystore file
   name: BUSINESS_CENTRAL_HTTPS_SECRET
@@ -1080,11 +1075,9 @@ objects:
           - name: KIE_SERVER_ID
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_HOST
-            value: "${KIE_SERVER_HOSTNAME_HTTP}"
-          - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER

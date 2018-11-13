@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam72-businesscentral-indexing-openshift"
 description: "Red Hat Business Central Indexing 7.2 OpenShift container image"
 version: "1.0"
-from: "rhpam-7/rhpam72-businesscentral-indexing:7.2.0"
+from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam72-businesscentral-indexing-openshift-container"
@@ -49,15 +49,29 @@ modules:
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
                   ref: master
+          - name: rhpam-7-image
+            git:
+                  url: https://github.com/jboss-container-images/rhpam-7-image.git
+                  ref: master
           - name: jboss-kie-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: master
       install:
-          - name: jboss.kie.workbench-indexing
+          - name: jboss.container.openjdk.jdk
+            version: "8"
+          - name: rhpam-7-businesscentral-indexing
           - name: dynamic-resources
           - name: java-alternatives
           - name: os-java-run
+          - name: jboss-kie-workbench-indexing
+packages:
+      repositories:
+          - name: base
+            id: rhel-7-server-rpms
+          - jboss-os
+      install:
+          - hostname
 run:
       user: 185
       cmd:
@@ -65,4 +79,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-indexing-openshift
-          branch: jb-rhpam-7.2-businesscentral-indexing-openshift-rhel-7
+          branch: jb-rhpam-7.2-businesscentral-indexing-openshift-dev-rhel-7
