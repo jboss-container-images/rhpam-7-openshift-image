@@ -666,10 +666,8 @@ objects:
             value: "ws"
           - name: KIE_SERVER_ID
             value: "${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_HOST
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
+          - name: KIE_SERVER_ROUTE_NAME
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
