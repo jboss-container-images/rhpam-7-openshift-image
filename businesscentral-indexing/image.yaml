@@ -69,7 +69,8 @@ packages:
       repositories:
           - name: base
             id: rhel-7-server-rpms
-          - jboss-os
+          - name: scl
+            id: rhel-server-rhscl-7-rpms
       install:
           - hostname
 run:
