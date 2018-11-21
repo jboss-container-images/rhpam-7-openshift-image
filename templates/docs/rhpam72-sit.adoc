@@ -47,7 +47,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property) | `${KIE_SERVER_CONTROLLER_TOKEN}` | False
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |`POSTGRESQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the PostgreSQL image is installed. The ImageStream is already installed in the openshift namespace. You should only need to modify this if you've installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
-|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6". | 9.6 | False
+|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "10". | 10 | False
 |`KIE_SERVER_POSTGRESQL_USER` | `POSTGRESQL_USER` | KIE server PostgreSQL database username | rhpam | False
 |`KIE_SERVER_POSTGRESQL_PWD` | -- | KIE server PostgreSQL database password | -- | False
 |`KIE_SERVER_POSTGRESQL_DB` | -- | KIE server PostgreSQL database name | rhpam7 | False

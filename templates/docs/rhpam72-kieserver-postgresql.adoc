@@ -52,7 +52,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_POSTGRESQL_PWD` | -- | KIE server PostgreSQL database password | -- | False
 |`KIE_SERVER_POSTGRESQL_DB` | -- | KIE server PostgreSQL database name | rhpam7 | False
 |`POSTGRESQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the PostgreSQL image is installed. The ImageStream is already installed in the openshift namespace. You should only need to modify this if you've installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
-|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "9.6". | 9.6 | False
+|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "10". | 10 | False
 |`POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | `POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | Allows the PostgreSQL to handle XA transactions. | 100 | True
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for database volume. | 1Gi | True
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
