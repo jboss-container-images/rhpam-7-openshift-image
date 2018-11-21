@@ -182,4 +182,4 @@ run:
 osbs:
       repository:
           name: containers/rhpam-7-businesscentral-openshift
-          branch: jb-rhpam-7.2-businesscentral-openshift-dev-rhel-7
+          branch: rhpam-7.2-openshift-rhel-7

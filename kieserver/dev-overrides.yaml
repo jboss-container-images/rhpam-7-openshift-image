@@ -22,7 +22,3 @@ modules:
             git:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: 7.2.x
-osbs:
-      repository:
-          name: containers/rhpam-7-kieserver-openshift
-          branch: jb-rhpam-7.2-kieserver-openshift-dev-rhel-7
