@@ -80,6 +80,7 @@ modules:
           - name: dynamic-resources
           - name: java-alternatives
           - name: os-java-run
+          - name: os-logging
           - name: jboss-kie-smartrouter
 packages:
       repositories:
