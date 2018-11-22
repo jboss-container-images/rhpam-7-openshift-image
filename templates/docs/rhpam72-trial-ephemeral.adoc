@@ -30,7 +30,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_CONTROLLER_USER` | `KIE_SERVER_CONTROLLER_USER` | KIE server controller username (Sets the org.kie.server.controller.user system property) | controllerUser | False
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
-|`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
+|`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE Server location. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you've installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift". | rhpam72-kieserver-openshift | True
@@ -263,7 +263,7 @@ information.
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE Server location. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
@@ -296,7 +296,6 @@ information.
 |`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ID` | -- | `${APPLICATION_NAME}-kieserver`
-|`KIE_SERVER_HOST` | Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | -- | `${DEFAULT_PASSWORD}`
@@ -319,7 +318,7 @@ information.
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE_SERVER_HOST. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE Server location. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
