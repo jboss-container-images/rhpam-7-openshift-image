@@ -56,9 +56,9 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for database volume. | 1Gi | True
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
-|`KIE_SERVER_HOSTNAME_HTTP` | `KIE_SERVER_HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE Server location. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}` | False
-|`KIE_SERVER_HOSTNAME_HTTPS` | `KIE_SERVER_HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTPS}` | False
-|`KIE_SERVER_USE_SECURE_ROUTE_NAME` | `KIE_SERVER_USE_SECURE_ROUTE_NAME` | Use https for the KIE Server location. | false | False
+|`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}` | False
+|`KIE_SERVER_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}` | False
+|`KIE_SERVER_USE_SECURE_ROUTE_NAME` | `KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver vs. APPLICATION_NAME-kieserver as the route name. | false | False
 |`KIE_SERVER_HTTPS_SECRET` | -- | The name of the secret containing the keystore file | -- | True
 |`KIE_SERVER_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret | keystore.jks | False
 |`KIE_SERVER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate | jboss | False
@@ -98,6 +98,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | `AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}` | False
 |`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | `AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}` | False
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | `AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}` | False
+|`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | `AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}` | False
+|`AUTH_ROLE_MAPPER_REPLACE_ROLE` | `AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}` | False
 |=======================================================================
 
 
@@ -258,7 +260,7 @@ information.
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.86+| `${APPLICATION_NAME}-kieserver`
+.87+| `${APPLICATION_NAME}-kieserver`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
@@ -273,7 +275,7 @@ information.
 |`KIE_SERVER_CONTROLLER_PORT` | KIE server controller port (Used to set the org.kie.server.controller system property) | `${KIE_SERVER_CONTROLLER_PORT}`
 |`KIE_SERVER_ID` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
-|`KIE_SERVER_USE_SECURE_ROUTE_NAME` | Use https for the KIE Server location. | `${KIE_SERVER_USE_SECURE_ROUTE_NAME}`
+|`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver vs. APPLICATION_NAME-kieserver as the route name. | `${KIE_SERVER_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
@@ -321,7 +323,7 @@ information.
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route, if set will also configure the KIE Server location. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTPS}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
@@ -344,6 +346,8 @@ information.
 |`AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN` | A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries. | `${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}`
 |`AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN` | Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true. | `${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}`
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
+|`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
+|`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
 .3+| `${APPLICATION_NAME}-mysql`
 |`MYSQL_USER` | KIE server MySQL database username | `${KIE_SERVER_MYSQL_USER}`
 |`MYSQL_PASSWORD` | -- | `${KIE_SERVER_MYSQL_PWD}`
