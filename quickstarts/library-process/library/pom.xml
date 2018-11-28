@@ -26,7 +26,7 @@
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <org.kie.version>6.5.0.Final-redhat-19</org.kie.version>
+        <org.kie.version>7.11.0.Final-redhat-00004</org.kie.version>
     </properties>
 
     <dependencies>
