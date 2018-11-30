@@ -164,22 +164,20 @@ modules:
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-workbench
 packages:
-      repositories:
-          - name: base
-            id: rhel-7-server-rpms
-          - name: scl
-            id: rhel-server-rhscl-7-rpms
+      content_sets_file: content_sets.yml
       install:
           - python-requests
           - python-enum34
           - PyYAML
           - hostname
           - git
+osbs:
+      configuration:
+          container_file: container.yaml
+      repository:
+          name: containers/rhpam-7-businesscentral-openshift
+          branch: rhpam-7.2-openshift-rhel-7
 run:
       user: 185
       cmd:
           - "/opt/eap/bin/openshift-launch.sh"
-osbs:
-      repository:
-          name: containers/rhpam-7-businesscentral-openshift
-          branch: rhpam-7.2-openshift-rhel-7

@@ -66,18 +66,16 @@ modules:
           - name: os-java-run
           - name: jboss-kie-workbench-indexing
 packages:
-      repositories:
-          - name: base
-            id: rhel-7-server-rpms
-          - name: scl
-            id: rhel-server-rhscl-7-rpms
+      content_sets_file: content_sets.yml
       install:
           - hostname
+osbs:
+      configuration:
+          container_file: container.yaml
+      repository:
+          name: containers/rhpam-7-businesscentral-indexing-openshift
+          branch: rhpam-7.2-openshift-rhel-7
 run:
       user: 185
       cmd:
           - "/opt/elasticsearch/bin/openshift-launch.sh"
-osbs:
-      repository:
-          name: containers/rhpam-7-businesscentral-indexing-openshift
-          branch: rhpam-7.2-openshift-rhel-7
