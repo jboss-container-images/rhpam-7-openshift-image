@@ -213,24 +213,19 @@ modules:
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-kieserver
 packages:
-      repositories:
-          - name: base
-            id: rhel-7-server-rpms
-          - name: scl
-            id: rhel-server-rhscl-7-rpms
+      content_sets_file: content_sets.yml
       install:
           - python-requests
           - python-enum34
           - PyYAML
           - hostname
-artifacts:
-    - path: slf4j-simple-1.7.22.redhat-1.jar
-      md5: 51c319582c16a07c21e41737e45cb03a
+osbs:
+      configuration:
+          container_file: container.yaml
+      repository:
+          name: containers/rhpam-7-kieserver-openshift
+          branch: rhpam-7.2-openshift-rhel-7
 run:
       user: 185
       cmd:
           - "/opt/eap/bin/openshift-launch.sh"
-osbs:
-      repository:
-          name: containers/rhpam-7-kieserver-openshift
-          branch: rhpam-7.2-openshift-rhel-7
