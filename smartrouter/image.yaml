@@ -83,16 +83,14 @@ modules:
           - name: os-logging
           - name: jboss-kie-smartrouter
 packages:
-      repositories:
-          - name: base
-            id: rhel-7-server-rpms
-          - name: scl
-            id: rhel-server-rhscl-7-rpms
+      content_sets_file: content_sets.yml
+osbs:
+      configuration:
+          container_file: container.yaml
+      repository:
+          name: containers/rhpam-7-smartrouter-openshift
+          branch: rhpam-7.2-openshift-rhel-7
 run:
       user: 185
       cmd:
           - "/opt/rhpam-smartrouter/openshift-launch.sh"
-osbs:
-      repository:
-          name: containers/rhpam-7-smartrouter-openshift
-          branch: rhpam-7.2-openshift-rhel-7
