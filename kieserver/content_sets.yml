@@ -11,9 +11,6 @@
 # You should have one top level item for each architecture being built. Most
 # likely this will be x86_64 and ppc64le initially. 
 ---
-ppc64le:
-- rhel-7-for-power-le-rpms
-- rhel-7-server-for-power-le-rhscl-rpms
 x86_64:
 - rhel-7-server-rpms
 - rhel-server-rhscl-7-rpms
