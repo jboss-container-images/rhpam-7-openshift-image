@@ -541,9 +541,9 @@ objects:
     name: view
 - kind: Service
   apiVersion: v1
-  - name: http
   spec:
     ports:
+    - name: http
       port: 8080
       targetPort: 8080
     - name: https
