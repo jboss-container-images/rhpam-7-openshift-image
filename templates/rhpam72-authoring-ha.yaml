@@ -9,7 +9,7 @@ metadata:
     openshift.io/display-name: Red Hat Process Automation Manager 7.2 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.2
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.2 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.2 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volumes to store data that needs to survive a restart.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.2/html/deploying_a_red_hat_process_automation_manager_7.2_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
@@ -18,7 +18,7 @@ labels:
   template: rhpam72-authoring-ha
   rhpam: "1.0"
 message: |-
-          A new persistent HA Process Automation Manager application have been created in your project.
+          A new persistent HA Process Automation Manager application has been created in your project.
           The username/password for accessing the Business Central interface is
 
               Username: ${KIE_ADMIN_USER}
@@ -104,7 +104,7 @@ parameters:
 - displayName: MySQL ImageStream Namespace
   description: Namespace in which the ImageStream for the MySQL image is
     installed. The ImageStream is already installed in the openshift namespace.
-    You should only need to modify this if you've installed the ImageStream in a
+    You should only need to modify this if you installed the ImageStream in a
     different namespace/project. Default is "openshift".
   name: MYSQL_IMAGE_STREAM_NAMESPACE
   value: "openshift"
@@ -115,7 +115,7 @@ parameters:
   value: "5.7"
   required: false
 - displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
+  description: Size of persistent storage for the database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
@@ -204,7 +204,7 @@ parameters:
   name: APPFORMER_ELASTIC_RETRIES
   required: false
 - displayName: AppFormer JMS Broker port.
-  description: The port to connect in the JMS broker. Defaults to 61616
+  description: The port to connect to the JMS broker. Default is 61616
   name: APPFORMER_JMS_BROKER_PORT
   required: false
 - displayName: AppFormer JMS Broker username.
@@ -213,7 +213,7 @@ parameters:
   required: true
   value: jmsBrokerUser
 - displayName: AppFormer JMS Broker password.
-  description: The password to connect in the JMS broker.
+  description: The password to connect to the JMS broker.
   name: APPFORMER_JMS_BROKER_PASSWORD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
@@ -240,7 +240,7 @@ parameters:
   value: ''
   required: false
 - displayName: Elasticsearch Transport TCP Port
-  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster and the communication with Business Central.
+  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used for communication between nodes in the cluster and for communication with Business Central.
   name: APPFORMER_ELASTIC_PORT
   value: ''
   required: false
@@ -250,7 +250,7 @@ parameters:
   value: ''
   required: false
 - displayName: Elasticsearch HTTP Port
-  description: Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with cluster rest api.
+  description: Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with the cluster REST API.
   name: ES_HTTP_PORT
   value: ''
   required: false
@@ -298,7 +298,7 @@ parameters:
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you've installed the ImageStreams in a
+    You should only need to modify this if you installed the ImageStreams in a
     different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
@@ -510,7 +510,7 @@ parameters:
   example: "false"
   required: false
 - displayName: LDAP Referral user attribute ID
-  description: If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
+  description: If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
 - displayName: RoleMapping rolesProperties file path
