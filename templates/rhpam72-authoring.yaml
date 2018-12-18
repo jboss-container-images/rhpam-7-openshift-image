@@ -177,14 +177,14 @@ parameters:
   value: mykeystorepass
   required: false
 - displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
+  description: Size of persistent storage for the database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you've installed the ImageStreams in a
+    You should only need to modify this if you installed the ImageStreams in a
     different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
@@ -391,7 +391,7 @@ parameters:
   example: "false"
   required: false
 - displayName: LDAP Referral user attribute ID
-  description: If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
+  description: If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
 - displayName: RoleMapping rolesProperties file path

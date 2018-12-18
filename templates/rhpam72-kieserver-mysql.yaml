@@ -89,7 +89,7 @@ parameters:
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you've installed the ImageStreams in a
+    You should only need to modify this if you installed the ImageStreams in a
     different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
@@ -105,16 +105,16 @@ parameters:
   value: "1.0"
   required: true
 - displayName: Smart Router Service
-  description: The service name for the optional smart router, where it can be reached, to allow smart routing
+  description: The service name for the optional smart router.
   name: KIE_SERVER_ROUTER_SERVICE
   required: false
 - displayName: Smart Router Host
-  description: "The host name of the smart router, which could be the service name resolved by OpenShift or a globally resolvable domain name"
+  description: "The host name of the smart router, which can be the service name resolved by OpenShift or a globally resolvable domain name"
   name: KIE_SERVER_ROUTER_HOST
   example: "myapp-smartrouter"
   required: false
 - displayName: Smart Router listening port
-  description: Port in which the smart router server listens (router property org.kie.server.router.port)
+  description: Port on which the smart router server listens (router property org.kie.server.router.port)
   name: KIE_SERVER_ROUTER_PORT
   example: "9000"
   required: false
@@ -137,8 +137,7 @@ parameters:
   name: KIE_SERVER_CONTROLLER_TOKEN
   required: false
 - displayName: KIE Server Controller Service
-  description: The service name for the optional business central monitor, where it can be reached to allow service
-    lookup, and registered with to allow monitoring console functionality (If set, will be used to discover host and port)
+  description: The service name for the optional Business Central Monitoring. The application uses this service name to register with the monitoring console. (If set, will be used to discover host and port)
   name: KIE_SERVER_CONTROLLER_SERVICE
   required: false
 - displayName: KIE Server Controller host
@@ -160,7 +159,7 @@ parameters:
 - displayName: MySQL ImageStream Namespace
   description: Namespace in which the ImageStream for the MySQL image is
     installed. The ImageStream is already installed in the openshift namespace.
-    You should only need to modify this if you've installed the ImageStream in a
+    You should only need to modify this if you installed the ImageStream in a
     different namespace/project. Default is "openshift".
   name: MYSQL_IMAGE_STREAM_NAMESPACE
   value: "openshift"
@@ -187,7 +186,7 @@ parameters:
   value: rhpam7
   required: false
 - displayName: Database Volume Capacity
-  description: Size of persistent storage for database volume.
+  description: Size of persistent storage for the database volume.
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
@@ -260,7 +259,7 @@ parameters:
   example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT
   required: false
 - displayName: Disable KIE Server Management
-  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable."
+  description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
   name: KIE_SERVER_MGMT_DISABLED
   example: "true"
   required: false
@@ -403,7 +402,7 @@ parameters:
   example: "false"
   required: false
 - displayName: LDAP Referral user attribute ID
-  description: If you are not using referrals, this option can be ignored. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
+  description: If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
 - displayName: RoleMapping rolesProperties file path
