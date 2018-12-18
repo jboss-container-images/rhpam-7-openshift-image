@@ -3,12 +3,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (./*.in)
 ////
-= rhpam72-kieserver-externaldb
+= rhpam73-kieserver-mysql
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a managed KIE Server with an external database, for Red Hat Process Automation Manager 7.2
+Application template for a managed KIE Server with a MySQL database, for Red Hat Process Automation Manager 7.3
 
 toc::[]
 
@@ -35,7 +35,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift". | rhpam72-kieserver-openshift | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam73-kieserver-openshift". | rhpam73-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`KIE_SERVER_ROUTER_SERVICE` | `KIE_SERVER_ROUTER_SERVICE` | The service name for the optional smart router. | `${KIE_SERVER_ROUTER_SERVICE}` | False
 |`KIE_SERVER_ROUTER_HOST` | `KIE_SERVER_ROUTER_HOST` | The host name of the smart router, which can be the service name resolved by OpenShift or a globally resolvable domain name | `${KIE_SERVER_ROUTER_HOST}` | False
@@ -47,26 +47,15 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_CONTROLLER_SERVICE` | `KIE_SERVER_CONTROLLER_SERVICE` | The service name for the optional Business Central Monitoring. The application uses this service name to register with the monitoring console. (If set, will be used to discover host and port) | `${KIE_SERVER_CONTROLLER_SERVICE}` | False
 |`KIE_SERVER_CONTROLLER_HOST` | `KIE_SERVER_CONTROLLER_HOST` | KIE server controller host (Used to set the org.kie.server.controller system property) | `${KIE_SERVER_CONTROLLER_HOST}` | False
 |`KIE_SERVER_CONTROLLER_PORT` | `KIE_SERVER_CONTROLLER_PORT` | KIE server controller port (Used to set the org.kie.server.controller system property) | `${KIE_SERVER_CONTROLLER_PORT}` | False
-|`KIE_SERVER_PERSISTENCE_SCHEMA` | `KIE_SERVER_PERSISTENCE_SCHEMA` | Hibernate persistence schema. | `${KIE_SERVER_PERSISTENCE_SCHEMA}` | False
-|`KIE_SERVER_EXTERNALDB_DIALECT` | -- | KIE server external database Hibernate dialect | -- | True
-|`KIE_SERVER_EXTERNALDB_SERVICE_HOST` | -- | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set | -- | False
-|`KIE_SERVER_EXTERNALDB_SERVICE_PORT` | -- | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set | -- | False
-|`KIE_SERVER_EXTERNALDB_NONXA` | -- | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is false. | -- | False
-|`KIE_SERVER_EXTERNALDB_URL` | -- | Sets the datasources jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter | -- | False
-|`KIE_SERVER_EXTERNALDB_DRIVER` | -- | The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. | -- | True
-|`KIE_SERVER_EXTERNALDB_JNDI` | -- | Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS | java:jboss/datasources/jbpmDS | True
-|`KIE_SERVER_EXTERNALDB_DB` | -- | KIE server external database name. | rhpam | False
-|`KIE_SERVER_EXTERNALDB_USER` | -- | KIE server external database username. | -- | True
-|`KIE_SERVER_EXTERNALDB_PWD` | -- | KIE server external database password. | -- | True
-|`KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE` | -- | Sets xa-pool/min-pool-size for the configured datasource. | -- | False
-|`KIE_SERVER_EXTERNALDB_MAX_POOL_SIZE` | -- | Sets xa-pool/max-pool-size for the configured datasource. | -- | False
-|`KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER` | -- | An org.jboss.jca.adapters.jdbc.ValidConnectionChecker that provides a SQLException isValidConnection(Connection e) method to validate if a connection is valid. | -- | False
-|`KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER` | -- | An org.jboss.jca.adapters.jdbc.ExceptionSorter that provides a boolean isExceptionFatal(SQLException e) method to validate if an exception should be broadcast to all javax.resource.spi.ConnectionEventListener as a connectionErrorOccurred. | -- | False
-|`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION` | -- | Sets the sql validation method to background-validation, if set to false the validate-on-match method will be used. | -- | False
-|`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS` | -- | Defines the interval for the background-validation check for the jdbc connections. | -- | False
-|`KIE_SERVER_EXTERNALDB_DRIVER_TYPE` | -- | KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2. | -- | False
-|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property). | true | False
-|`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties). | enabled | False
+|`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
+|`MYSQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the MySQL image is installed. The ImageStream is already installed in the openshift namespace. You should only need to modify this if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
+|`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7". | 5.7 | False
+|`KIE_SERVER_MYSQL_USER` | `MYSQL_USER` | KIE server MySQL database username | rhpam | False
+|`KIE_SERVER_MYSQL_PWD` | -- | KIE server MySQL database password | -- | False
+|`KIE_SERVER_MYSQL_DB` | -- | KIE server MySQL database name | rhpam7 | False
+|`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
+|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
+|`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}` | False
 |`KIE_SERVER_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}` | False
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | `KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver vs. APPLICATION_NAME-kieserver as the route name. | false | False
@@ -75,7 +64,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate | jboss | False
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
 |`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property) | false | False
-|`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | 30000 | False
+|`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE` | Sets refresh-interval for the EJB timer database data-store service. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit | 1Gi | False
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}` | False
 |`KIE_SERVER_MGMT_DISABLED` | `KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | `${KIE_SERVER_MGMT_DISABLED}` | False
@@ -136,6 +125,9 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 .1+| `${APPLICATION_NAME}-kieserver-ping`
 |8888 | ping
 .1+| The JGroups ping port for clustering.
+.1+| `${APPLICATION_NAME}-mysql`
+|3306 | --
+.1+| The database server's port.
 |=============
 
 
@@ -172,6 +164,7 @@ https://access.redhat.com/beta/documentation/en/openshift-enterprise-30-develope
 |Deployment | Triggers
 
 |`${APPLICATION_NAME}-kieserver` | ImageChange
+|`${APPLICATION_NAME}-mysql` | ImageChange
 |============
 
 
@@ -187,6 +180,7 @@ for more information.
 |Deployment | Replicas
 
 |`${APPLICATION_NAME}-kieserver` | 1
+|`${APPLICATION_NAME}-mysql` | 1
 |============
 
 
@@ -213,6 +207,7 @@ information.
 |Deployment | Image
 
 |`${APPLICATION_NAME}-kieserver` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
+|`${APPLICATION_NAME}-mysql` | mysql
 |============
 
 
@@ -223,6 +218,11 @@ information.
 .${APPLICATION_NAME}-kieserver
 ----
 /bin/bash -c curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck
+----
+
+.${APPLICATION_NAME}-mysql
+----
+/bin/sh -i -c MYSQL_PWD="$MYSQL_PASSWORD" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE -e 'SELECT 1'
 ----
 
 
@@ -249,6 +249,8 @@ information.
 |http | 8080 | `TCP`
 |https | 8443 | `TCP`
 |ping | 8888 | `TCP`
+.1+| `${APPLICATION_NAME}-mysql`
+|-- | 3306 | `TCP`
 |=============
 
 
@@ -258,11 +260,11 @@ information.
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.97+| `${APPLICATION_NAME}-kieserver`
-|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property). | `${DROOLS_SERVER_FILTER_CLASSES}`
+.87+| `${APPLICATION_NAME}-kieserver`
+|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
-|`KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties). | `${KIE_MBEANS}`
+|`KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`KIE_SERVER_BYPASS_AUTH_USER` | KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
@@ -292,27 +294,17 @@ information.
 |`KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}`
 |`KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | `${KIE_SERVER_MGMT_DISABLED}`
 |`KIE_SERVER_STARTUP_STRATEGY` | When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable. | `${KIE_SERVER_STARTUP_STRATEGY}`
-|`KIE_SERVER_PERSISTENCE_DS` | -- | `${KIE_SERVER_EXTERNALDB_JNDI}`
-|`KIE_SERVER_PERSISTENCE_SCHEMA` | Hibernate persistence schema. | `${KIE_SERVER_PERSISTENCE_SCHEMA}`
-|`KIE_SERVER_PERSISTENCE_DIALECT` | -- | `${KIE_SERVER_EXTERNALDB_DIALECT}`
+|`KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`DATASOURCES` | -- | `RHPAM`
-|`RHPAM_DATABASE` | -- | `${KIE_SERVER_EXTERNALDB_DB}`
-|`RHPAM_SERVICE_HOST` | -- | `${KIE_SERVER_EXTERNALDB_SERVICE_HOST}`
-|`RHPAM_SERVICE_PORT` | -- | `${KIE_SERVER_EXTERNALDB_SERVICE_PORT}`
-|`RHPAM_JNDI` | -- | `${KIE_SERVER_EXTERNALDB_JNDI}`
-|`RHPAM_DRIVER` | -- | `${KIE_SERVER_EXTERNALDB_DRIVER}`
-|`RHPAM_USERNAME` | -- | `${KIE_SERVER_EXTERNALDB_USER}`
-|`RHPAM_PASSWORD` | -- | `${KIE_SERVER_EXTERNALDB_PWD}`
-|`RHPAM_NONXA` | -- | `${KIE_SERVER_EXTERNALDB_NONXA}`
-|`RHPAM_URL` | -- | `${KIE_SERVER_EXTERNALDB_URL}`
-|`RHPAM_XA_CONNECTION_PROPERTY_URL` | -- | `${KIE_SERVER_EXTERNALDB_URL}`
-|`RHPAM_MIN_POOL_SIZE` | -- | `${KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE}`
-|`RHPAM_MAX_POOL_SIZE` | -- | `${KIE_SERVER_EXTERNALDB_MAX_POOL_SIZE}`
-|`RHPAM_CONNECTION_CHECKER` | -- | `${KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER}`
-|`RHPAM_EXCEPTION_SORTER` | -- | `${KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER}`
-|`RHPAM_BACKGROUND_VALIDATION` | -- | `${KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION}`
-|`RHPAM_VALIDATION_MILLIS` | -- | `${KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS}`
-|`RHPAM_DRIVER_TYPE` | -- | `${KIE_SERVER_EXTERNALDB_DRIVER_TYPE}`
+|`RHPAM_JNDI` | -- | `${KIE_SERVER_PERSISTENCE_DS}`
+|`RHPAM_DATABASE` | -- | `${KIE_SERVER_MYSQL_DB}`
+|`RHPAM_DRIVER` | -- | mysql
+|`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.MySQL5Dialect
+|`RHPAM_USERNAME` | -- | `${KIE_SERVER_MYSQL_USER}`
+|`RHPAM_PASSWORD` | -- | `${KIE_SERVER_MYSQL_PWD}`
+|`RHPAM_SERVICE_HOST` | -- | `${APPLICATION_NAME}-mysql`
+|`RHPAM_SERVICE_PORT` | -- | 3306
+|`TIMER_SERVICE_DATA_STORE` | Sets refresh-interval for the EJB timer database data-store service. | `${APPLICATION_NAME}-mysql`
 |`RHPAM_JTA` | -- | true
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
@@ -356,6 +348,10 @@ information.
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
+.3+| `${APPLICATION_NAME}-mysql`
+|`MYSQL_USER` | KIE server MySQL database username | `${KIE_SERVER_MYSQL_USER}`
+|`MYSQL_PASSWORD` | -- | `${KIE_SERVER_MYSQL_PWD}`
+|`MYSQL_DATABASE` | -- | `${KIE_SERVER_MYSQL_DB}`
 |=======================================================================
 
 
@@ -366,10 +362,25 @@ information.
 |Deployment |Name  | mountPath | Purpose | readOnly 
 
 |`${APPLICATION_NAME}-kieserver` | kieserver-keystore-volume | `/etc/kieserver-secret-volume` | ssl certs | True
+|`${APPLICATION_NAME}-mysql` | `${APPLICATION_NAME}-mysql-pvol` | `/var/lib/mysql/data` | mysql | false
 |=============
 
 
 === External Dependencies
+
+
+==== Volume Claims
+
+A `PersistentVolume` object is a storage resource in an OpenShift cluster. Storage is provisioned by an administrator
+by creating `PersistentVolume` objects from sources such as GCE Persistent Disks, AWS Elastic Block Stores (EBS), and NFS mounts.
+Refer to the https://docs.openshift.com/enterprise/3.0/dev_guide/persistent_volumes.html#overview[Openshift documentation] for
+more information.
+
+|=============
+|Name | Access Mode
+
+|`${APPLICATION_NAME}-mysql-claim` | ReadWriteOnce
+|=============
 
 
 

@@ -6,16 +6,16 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,prod
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.2 production environment
+    openshift.io/display-name: Red Hat Process Automation Manager 7.3 production environment
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.2
-    template.openshift.io/long-description: This template defines resources needed for a HA prouction runtime environment for Red Hat Process Automation Manager 7.2, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.2/html/deploying_a_red_hat_process_automation_manager_7.2_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.3
+    template.openshift.io/long-description: This template defines resources needed for a HA prouction runtime environment for Red Hat Process Automation Manager 7.3, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.3/html/deploying_a_red_hat_process_automation_manager_7.3_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam72-prod
+  name: rhpam73-prod
 labels:
-  template: rhpam72-prod
+  template: rhpam73-prod
   rhpam: "1.0"
 message: |-
           A new environment has been set up for Red Hat Process Automation Manager 7.
@@ -101,9 +101,9 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam73-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam72-kieserver-openshift"
+  value: "rhpam73-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".
@@ -819,7 +819,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam72-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam73-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: "${{BUSINESS_CENTRAL_MONITORING_CONTAINER_REPLICAS}}"
     selector:
@@ -835,7 +835,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
-          image: rhpam72-businesscentral-monitoring-openshift
+          image: rhpam73-businesscentral-monitoring-openshift
           imagePullPolicy: Always
           resources:
             limits:
@@ -1011,7 +1011,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam72-smartrouter-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam73-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: "${{SMART_ROUTER_CONTAINER_REPLICAS}}"
     selector:
@@ -1027,7 +1027,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-smartrouter"
-          image: rhpam72-smartrouter-openshift
+          image: rhpam73-smartrouter-openshift
           imagePullPolicy: Always
           resources:
             limits:

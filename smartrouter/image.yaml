@@ -1,16 +1,16 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam72-smartrouter-openshift"
-description: "Red Hat Process Automation Manager Smart Router 7.2 container image"
+name: "rhpam-7/rhpam73-smartrouter-openshift"
+description: "Red Hat Process Automation Manager Smart Router 7.3 container image"
 version: "1.0"
 from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam72-smartrouter-openshift-container"
+      value: "rhpam-7-rhpam73-smartrouter-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Process Automation Manager Smart Router"
     - name: "io.k8s.display-name"
-      value: "Red Hat Process Automation Manager Smart Router 7.2"
+      value: "Red Hat Process Automation Manager Smart Router 7.3"
     - name: "io.openshift.expose-services"
       value: "9000:http"
     - name: "io.openshift.tags"
@@ -89,7 +89,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-smartrouter-openshift
-          branch: rhpam-7.2-openshift-rhel-7
+          branch: rhpam-7.3-openshift-rhel-7
 run:
       user: 185
       cmd:

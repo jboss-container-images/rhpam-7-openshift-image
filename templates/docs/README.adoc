@@ -16,15 +16,15 @@ toc::[levels=1]
 == rhpam-7-openshift-image/templates
 
 * link:README.adoc[README]
-* link:rhpam72-authoring-ha.adoc[rhpam72-authoring-ha]
-* link:rhpam72-authoring.adoc[rhpam72-authoring]
-* link:rhpam72-kieserver-externaldb.adoc[rhpam72-kieserver-externaldb]
-* link:rhpam72-kieserver-mysql.adoc[rhpam72-kieserver-mysql]
-* link:rhpam72-kieserver-postgresql.adoc[rhpam72-kieserver-postgresql]
-* link:rhpam72-prod-immutable-kieserver.adoc[rhpam72-prod-immutable-kieserver]
-* link:rhpam72-prod-immutable-monitor.adoc[rhpam72-prod-immutable-monitor]
-* link:rhpam72-prod.adoc[rhpam72-prod]
-* link:rhpam72-trial-ephemeral.adoc[rhpam72-trial-ephemeral]
+* link:rhpam73-authoring-ha.adoc[rhpam73-authoring-ha]
+* link:rhpam73-authoring.adoc[rhpam73-authoring]
+* link:rhpam73-kieserver-externaldb.adoc[rhpam73-kieserver-externaldb]
+* link:rhpam73-kieserver-mysql.adoc[rhpam73-kieserver-mysql]
+* link:rhpam73-kieserver-postgresql.adoc[rhpam73-kieserver-postgresql]
+* link:rhpam73-prod-immutable-kieserver.adoc[rhpam73-prod-immutable-kieserver]
+* link:rhpam73-prod-immutable-monitor.adoc[rhpam73-prod-immutable-monitor]
+* link:rhpam73-prod.adoc[rhpam73-prod]
+* link:rhpam73-trial-ephemeral.adoc[rhpam73-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file

@@ -1,16 +1,16 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam72-businesscentral-indexing-openshift"
-description: "Red Hat Business Central Indexing 7.2 OpenShift container image"
+name: "rhpam-7/rhpam73-businesscentral-indexing-openshift"
+description: "Red Hat Business Central Indexing 7.3 OpenShift container image"
 version: "1.0"
 from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam72-businesscentral-indexing-openshift-container"
+      value: "rhpam-7-rhpam73-businesscentral-indexing-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Indexing"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Central Indexing 7.2"
+      value: "Red Hat Business Central Indexing 7.3"
     - name: "io.openshift.expose-services"
       value: "9200:http,9300:tcp"
     - name: "io.openshift.tags"
@@ -74,7 +74,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-businesscentral-indexing-openshift
-          branch: rhpam-7.2-openshift-rhel-7
+          branch: rhpam-7.3-openshift-rhel-7
 run:
       user: 185
       cmd:
