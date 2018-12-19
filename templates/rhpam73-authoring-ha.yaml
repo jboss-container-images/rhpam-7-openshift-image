@@ -260,21 +260,26 @@ parameters:
   value: ''
   example: "-Xms1024m -Xmx1024m"
   required: false
-- displayName: AMQ ImageStream Namespace
-  description: Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift".
-  name: AMQ_IMAGE_STREAM_NAMESPACE
+- displayName: AMQ Scaledown Controller ImageStream Namespace
+  description: Namespace in which the ImageStream for the AMQ Scaledown Controller image is installed. Default is "openshift".
+  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAMESPACE
   value: "openshift"
   required: true
-- displayName: AMQ ImageStream Name
-  description: The name of the image stream to use for the AMQ broker. Default is "amq-broker72-openshift".
-  name: AMQ_IMAGE_STREAM_NAME
-  value: "amq-broker72-openshift"
+- displayName: AMQ Scaledown Controller ImageStream Name
+  description: The name of the image stream to use for the AMQ Scaledown Controller. Default is "amq-scaledown-controller-openshift".
+  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME
+  value: "amq-scaledown-controller-openshift"
   required: true
-- displayName: AMQ ImageStream Tag
-  description: The AMQ image stream tag. Default is "1.0".
-  name: AMQ_IMAGE_STREAM_TAG
-  value: "1.1"
+- displayName: AMQ Scaledown Controller ImageStream Tag
+  description: The AMQ image stream tag. Default is "0.4".
+  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG
   required: true
+  value: "0.4"
+- description: AMQ Broker Image
+  displayName: Image
+  name: AMQ_BROKER_IMAGE
+  required: true
+  value: registry.redhat.io/amq-broker-7/amq-broker-72-openshift:1.1
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
@@ -290,6 +295,11 @@ parameters:
   name: AMQ_GLOBAL_MAX_SIZE
   value: 100 gb
   required: false
+- displayName: Broker Volume Capacity
+  description: Size of persistent storage for AMQ broker volume.
+  name: AMQ_VOLUME_CAPACITY
+  value: 1Gi
+  required: true
 - displayName: Elasticsearch Volume Capacity
   description: Size of persistent storage for Elasticsearch volume.
   name: ES_VOLUME_CAPACITY
@@ -522,17 +532,92 @@ parameters:
   name: AUTH_ROLE_MAPPER_REPLACE_ROLE
   required: false
 objects:
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    name: ${APPLICATION_NAME}-amq-role
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+  rules:
+  - apiGroups:
+    - ""
+    resources:
+    - endpoints
+    verbs:
+    - create
+    - delete
+    - deletecollection
+    - get
+    - list
+    - patch
+    - update
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - namespaces
+    verbs:
+    - get
+    - list
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    name: ${APPLICATION_NAME}-amq-scaledown-controller-role
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+  rules:
+  - apiGroups:
+    - apps
+    resources:
+    - statefulsets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+    - create
+    - delete
+    - patch
+    - update
+  - apiGroups:
+    - ""
+    resources:
+    - persistentvolumeclaims
+    verbs:
+    - get
+    - list
+    - watch
+    - delete
+  - apiGroups:
+    - ""
+    resources:
+    - events
+    verbs:
+    - get
+    - list
+    - watch
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
     name: "${APPLICATION_NAME}-rhpamsvc"
     labels:
+      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
 - kind: RoleBinding
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-rhpamsvc-view"
      labels:
+       app: "${APPLICATION_NAME}"
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
@@ -557,6 +642,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
+      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -574,6 +660,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-ping"
     labels:
+      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -593,6 +680,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
+      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -612,6 +700,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
+      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
@@ -619,18 +708,38 @@ objects:
 - apiVersion: v1
   kind: Service
   spec:
+    clusterIP: None
     ports:
-    - port: 61616
-      targetPort: 61616
+      - port: 61616
+        targetPort: 61616
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-amq"
+      deploymentConfig: ${APPLICATION_NAME}-amq
   metadata:
-    name: "${APPLICATION_NAME}-amq-tcp"
-    labels:
-      application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-amq"
+    name: ${APPLICATION_NAME}-amq-tcp
     annotations:
       description: The broker's OpenWire port.
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      description: The JGroups ping port for clustering.
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+      template: rhpam72-authoring-ha
+    name: ${APPLICATION_NAME}-amq-ping
+  spec:
+    clusterIP: None
+    ports:
+      - port: 8888
+        protocol: TCP
+        targetPort: 8888
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-amq
 ## MySQL service BEGIN
 - apiVersion: v1
   kind: Service
@@ -643,6 +752,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-mysql"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-mysql"
     annotations:
@@ -654,6 +764,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -671,6 +782,7 @@ objects:
   metadata:
     name: "secure-${APPLICATION_NAME}-rhpamcentr"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -690,6 +802,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -706,6 +819,7 @@ objects:
   metadata:
     name: "secure-${APPLICATION_NAME}-kieserver"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -724,6 +838,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
     annotations:
       description: Route for Business Central Indexing's Elasticsearch http service.
@@ -738,6 +853,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -764,6 +880,7 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-rhpamcentr"
         labels:
+          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
       spec:
@@ -957,6 +1074,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -982,6 +1100,7 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-kieserver"
         labels:
+          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1190,6 +1309,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
@@ -1215,6 +1335,7 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-rhpamindex"
         labels:
+          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1268,15 +1389,17 @@ objects:
   apiVersion: v1
   metadata:
     labels:
+      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
-      service: ${APPLICATION_NAME}-amq
-    name: ${APPLICATION_NAME}-amq
+      service: ${APPLICATION_NAME}-amq-scaledown-controller
+    name: ${APPLICATION_NAME}-amq-scaledown-controller
     annotations:
+      deployment.kubernetes.io/revision: "1"
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     replicas: 1
     selector:
-      deploymentConfig: ${APPLICATION_NAME}-amq
+      deploymentConfig: ${APPLICATION_NAME}-amq-scaledown-controller
     strategy:
       rollingParams:
         maxSurge: 0
@@ -1284,6 +1407,157 @@ objects:
     template:
       metadata:
         labels:
+          app: ${APPLICATION_NAME}
+          application: ${APPLICATION_NAME}
+          deploymentConfig: ${APPLICATION_NAME}-amq-scaledown-controller
+        name: ${APPLICATION_NAME}-amq-scaledown-controller
+      spec:
+        serviceAccountName: ${APPLICATION_NAME}-amq-scaledown-controller-sa
+        containers:
+        - args:
+          - --localOnly
+          - --v
+          - "3"
+          image: ${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME}
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-amq
+        terminationGracePeriodSeconds: 30
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APPLICATION_NAME}-amq
+        from:
+          kind: ImageStreamTag
+          namespace: "${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAMESPACE}"
+          name: "${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME}:${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG}"
+      type: ImageChange
+    - type: ConfigChange
+- kind: StatefulSet
+  apiVersion: apps/v1
+  metadata:
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+      statefulsets.kubernetes.io/drainer-pod-template:  |
+        {
+          "metadata": {
+            "labels": {
+              "app": "${APPLICATION_NAME}"
+            },
+            "name": "${APPLICATION_NAME}-amq-drainer-pod"
+          },
+          "spec": {
+            "serviceAccount": "${APPLICATION_NAME}-amq-sa",
+            "serviceAccountName": "${APPLICATION_NAME}-amq-sa",
+            "terminationGracePeriodSeconds": 5,
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "AMQ_EXTRA_ARGS",
+                    "value": "--no-autotune"
+                  },
+                  {
+                    "name": "AMQ_USER",
+                    "value": "${APPFORMER_JMS_BROKER_USER}"
+                  },
+                  {
+                    "name": "AMQ_PASSWORD",
+                    "value": "${APPFORMER_JMS_BROKER_PASSWORD}"
+                  },
+                  {
+                    "name": "AMQ_ROLE",
+                    "value": "${AMQ_ROLE}"
+                  },
+                  {
+                    "name": "AMQ_NAME",
+                    "value": "${AMQ_NAME}"
+                  },
+                  {
+                    "name": "AMQ_TRANSPORTS",
+                    "value": "openwire"
+                  },
+                  {
+                    "name": "AMQ_QUEUES",
+                    "value": ""
+                  },
+                  {
+                    "name": "AMQ_GLOBAL_MAX_SIZE",
+                    "value": "${AMQ_GLOBAL_MAX_SIZE}"
+                  },
+                  {
+                    "name": "AMQ_ALLOW_ANONYMOUS",
+                    "value": "${AMQ_ALLOW_ANONYMOUS}"
+                  },
+                  {
+                    "name": "AMQ_DATA_DIR",
+                    "value": "/opt/amq/data"
+                  },
+                  {
+                    "name": "AMQ_DATA_DIR_LOGGING",
+                    "value": "true"
+                  },
+                  {
+                    "name": "AMQ_CLUSTERED",
+                    "value": "true"
+                  },
+                  {
+                    "name": "AMQ_REPLICAS",
+                    "value": "2"
+                  },
+                  {
+                    "name": "AMQ_CLUSTER_USER",
+                    "value": "${APPFORMER_JMS_BROKER_USER}"
+                  },
+                  {
+                    "name": "AMQ_CLUSTER_PASSWORD",
+                    "value": "${APPFORMER_JMS_BROKER_PASSWORD}"
+                  },
+                  {
+                    "name": "POD_NAMESPACE",
+                    "valueFrom": {
+                      "fieldRef": {
+                        "fieldPath": "metadata.namespace"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OPENSHIFT_DNS_PING_SERVICE_PORT",
+                    "value": "8888"
+                  }
+                ],
+                "image": "${AMQ_BROKER_IMAGE}",
+                "name": "${APPLICATION_NAME}-amq",
+                "command": ["/bin/sh", "-c", "echo \"Starting the drainer\" ; /opt/amq/bin/drain.sh; echo \"Drain completed! Exit code $?\""],
+                "volumeMounts": [
+                  {
+                    "name": "${APPLICATION_NAME}-amq-pvol",
+                    "mountPath": "/opt/amq/data"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+    creationTimestamp: null
+    generation: 3
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-amq
+  spec:
+    podManagementPolicy: OrderedReady
+    replicas: 2
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ${APPLICATION_NAME}
+    serviceName: ${APPLICATION_NAME}-amq-tcp
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ${APPLICATION_NAME}
           application: ${APPLICATION_NAME}
           deploymentConfig: ${APPLICATION_NAME}-amq
         name: ${APPLICATION_NAME}-amq
@@ -1302,15 +1576,30 @@ objects:
             value: "openwire"
           - name: AMQ_GLOBAL_MAX_SIZE
             value: ${AMQ_GLOBAL_MAX_SIZE}
-          image: "${AMQ_IMAGE_STREAM_NAME}"
-          imagePullPolicy: Always
-          readinessProbe:
-            exec:
-              command:
-              - "/bin/bash"
-              - "-c"
-              - "/opt/amq/bin/readinessProbe.sh"
-          name: ${APPLICATION_NAME}-amq
+          - name: AMQ_REQUIRE_LOGIN
+          - name: AMQ_DATA_DIR
+            value: /opt/amq/data
+          - name: AMQ_DATA_DIR_LOGGING
+            value: "true"
+          - name: AMQ_CLUSTERED
+            value: "true"
+          - name: AMQ_REPLICAS
+            value: "0"
+          - name: AMQ_CLUSTER_USER
+            value: ${APPFORMER_JMS_BROKER_USER}
+          - name: AMQ_CLUSTER_PASSWORD
+            value: ${APPFORMER_JMS_BROKER_PASSWORD}
+          - name: AMQ_EXTRA_ARGS
+          - name: AMQ_ANYCAST_PREFIX
+          - name: AMQ_MULTICAST_PREFIX
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: ${AMQ_BROKER_IMAGE}
+          imagePullPolicy: IfNotPresent
+          name: broker-amq
           ports:
           - containerPort: 8161
             name: jolokia
@@ -1327,24 +1616,88 @@ objects:
           - containerPort: 61616
             name: artemis
             protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - /opt/amq/bin/readinessProbe.sh
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/amq/data
+            name: "${APPLICATION_NAME}-amq-pvol"
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
         terminationGracePeriodSeconds: 60
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APPLICATION_NAME}-amq
-        from:
-          kind: ImageStreamTag
-          namespace: "${AMQ_IMAGE_STREAM_NAMESPACE}"
-          name: "${AMQ_IMAGE_STREAM_NAME}:${AMQ_IMAGE_STREAM_TAG}"
-      type: ImageChange
-    - type: ConfigChange
+    updateStrategy:
+      type: OnDelete
+    volumeClaimTemplates:
+    - metadata:
+        creationTimestamp: null
+        name: ${APPLICATION_NAME}-amq-pvol
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: ${AMQ_VOLUME_CAPACITY}
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    name: ${APPLICATION_NAME}-amq-scaledown-controller-openshift-rb
+    labels:
+      app: ${APPLICATION_NAME}
+      application: "${APPLICATION_NAME}"
+  subjects:
+    - kind: ServiceAccount
+      name: ${APPLICATION_NAME}-amq-scaledown-controller-sa
+  roleRef:
+    kind: Role
+    name: ${APPLICATION_NAME}-amq-scaledown-controller-role
+    apiGroup: rbac.authorization.k8s.io
+- apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    name: ${APPLICATION_NAME}-amq-rb
+    labels:
+      app: ${APPLICATION_NAME}
+      application: ${APPLICATION_NAME}
+  subjects:
+    - kind: ServiceAccount
+      name: ${APPLICATION_NAME}-amq-sa
+  roleRef:
+    kind: Role
+    name: ${APPLICATION_NAME}-amq-role
+    apiGroup: rbac.authorization.k8s.io
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+      application: "${APPLICATION_NAME}"
+    name: ${APPLICATION_NAME}-amq-sa
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+      application: "${APPLICATION_NAME}"
+    name: ${APPLICATION_NAME}-amq-scaledown-controller-sa
 ## MySQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
     name: "${APPLICATION_NAME}-mysql"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-mysql"
     annotations:
@@ -1365,11 +1718,13 @@ objects:
     - type: ConfigChange
     replicas: 1
     selector:
+      app: ${APPLICATION_NAME}
       deploymentConfig: "${APPLICATION_NAME}-mysql"
     template:
       metadata:
         name: "${APPLICATION_NAME}-mysql"
         labels:
+          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-mysql"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1416,6 +1771,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
@@ -1429,6 +1785,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-mysql-claim"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
@@ -1442,6 +1799,7 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex-claim"
     labels:
+      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
