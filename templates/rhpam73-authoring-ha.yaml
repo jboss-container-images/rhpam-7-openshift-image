@@ -286,9 +286,9 @@ parameters:
   value: broker
   required: true
 - displayName: AMQ Global Max Size
-  description: "Maximum amount of memory which message data may consume (Default: Undefined, half of the system's memory)."
+  description: Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated.
   name: AMQ_GLOBAL_MAX_SIZE
-  value: 100 gb
+  example: 10 gb
   required: false
 - displayName: Elasticsearch Volume Capacity
   description: Size of persistent storage for Elasticsearch volume.
