@@ -24,3 +24,5 @@ target
 target/
 venv/
 *.war
+*/output/
+*/results/
