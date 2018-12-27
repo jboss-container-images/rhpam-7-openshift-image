@@ -1,4 +1,4 @@
-kind: List
+kind: ImageStreamList
 apiVersion: v1
 metadata:
   name: rhpam73-image-streams
