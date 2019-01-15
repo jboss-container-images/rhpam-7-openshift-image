@@ -264,7 +264,7 @@ parameters:
   example: "true"
   required: false
 - displayName: KIE Server Startup Strategy
-  description: "When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable."
+  description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently used shared state from OpenShift API service; when set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable"
   name: KIE_SERVER_STARTUP_STRATEGY
   example: "LocalContainersStartupStrategy"
   required: false
@@ -423,14 +423,14 @@ objects:
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-kieserver-view"
+     name: "${APPLICATION_NAME}-kieserver-edit"
      labels:
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-kieserver"
   roleRef:
-    name: view
+    name: edit
 - kind: Service
   apiVersion: v1
   spec:
@@ -443,6 +443,11 @@ objects:
       targetPort: 8443
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
+    sessionAffinity:
+      ClientIP
+    sessionAffinityConfig:
+      clientIP:
+        timeoutSeconds: 3600
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
@@ -530,7 +535,9 @@ objects:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
-      type: Recreate
+      rollingParams:
+        maxUnavailable: 0
+      type: Rolling
     triggers:
     - type: ImageChange
       imageChangeParams:

@@ -96,6 +96,23 @@ parameters:
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+## OpenShift Enhancement BEGIN
+- displayName: Enable OpenShift Integration
+  description: If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)
+  name: KIE_CONTROLLER_OCP_ENABLED
+  value: "false"
+  required: false
+- displayName: Prefer KIE Server OpenShift Service
+  description: Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
+  name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+  value: "false"
+  required: false
+- displayName: KIE ServerTemplate Cache TTL
+  description: KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)
+  name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
+  value: "60000"
+  required: false
+## OpenShift Enhancement END
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
@@ -337,6 +354,23 @@ parameters:
   name: AUTH_ROLE_MAPPER_REPLACE_ROLE
   required: false
 objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamsvc"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+     name: "${APPLICATION_NAME}-rhpamsvc-edit"
+     labels:
+       application: "${APPLICATION_NAME}"
+  subjects:
+  - kind: ServiceAccount
+    name: "${APPLICATION_NAME}-rhpamsvc"
+  roleRef:
+    name: edit
 - kind: Service
   apiVersion: v1
   spec:
@@ -473,6 +507,7 @@ objects:
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-rhpamcentrmon"
       spec:
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
@@ -546,6 +581,14 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
+## OpenShift Enhancement BEGIN
+          - name: KIE_CONTROLLER_OCP_ENABLED
+            value: "${KIE_CONTROLLER_OCP_ENABLED}"
+          - name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+            value: "${KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
+          - name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
+            value: "${KIE_CONTROLLER_TEMPLATE_CACHE_TTL}"
+## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_MONITOR_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
