@@ -67,14 +67,14 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`ES_JAVA_OPTS` | `ES_JAVA_OPTS` | Appends custom jvm configurations/properties to ES jvm.options configuration file. | `${ES_JAVA_OPTS}` | False
 |`AMQ_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift". | openshift | True
 |`AMQ_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ broker. Default is "amq-broker72-openshift". | amq-broker72-openshift | True
-|`AMQ_IMAGE_STREAM_TAG` | -- | The AMQ image stream tag. Default is "1.0". | 1.1 | True
+|`AMQ_IMAGE_STREAM_TAG` | -- | The AMQ image stream tag. Default is "1.1". | 1.1 | True
 |`AMQ_ROLE` | `AMQ_ROLE` | User role for standard broker user. | admin | True
 |`AMQ_NAME` | `AMQ_NAME` | The name of the broker | broker | True
 |`AMQ_GLOBAL_MAX_SIZE` | `AMQ_GLOBAL_MAX_SIZE` | Maximum amount of memory which message data may consume (Default: Undefined, half of the system's memory). | 100 gb | False
 |`ES_VOLUME_CAPACITY` | -- | Size of persistent storage for Elasticsearch volume. | 1Gi | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam72-kieserver-openshift". | rhpam72-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | True
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}` | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
 |`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}` | False
