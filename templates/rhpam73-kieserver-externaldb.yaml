@@ -162,12 +162,12 @@ parameters:
   example: "org.hibernate.dialect.MySQL5Dialect"
   required: true
 - displayName: Datasource Service Host
-  description: Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set
+  description: Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set.
   name: KIE_SERVER_EXTERNALDB_SERVICE_HOST
   example: 10.10.10.1
   required: false
 - displayName: Database service Port
-  description: Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the URL or XA_CONNECTION_URL is set
+  description: Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set.
   name: KIE_SERVER_EXTERNALDB_SERVICE_PORT
   example: 4321
   required: false
@@ -192,9 +192,9 @@ parameters:
   value: java:jboss/datasources/jbpmDS
   required: true
 - displayName: KIE Server External Database name
-  description: KIE server external database name.
+  description: KIE server external database name. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set.
   name: KIE_SERVER_EXTERNALDB_DB
-  value: rhpam
+  example: rhpam
   required: false
 - displayName: KIE Server External Database User
   description: KIE server external database username.
