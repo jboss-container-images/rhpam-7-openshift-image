@@ -108,6 +108,23 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
+## OpenShift Enhancement BEGIN
+- displayName: Enable OpenShift Integration
+  description: If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)
+  name: KIE_CONTROLLER_OCP_ENABLED
+  value: "false"
+  required: false
+- displayName: Prefer KIE Server OpenShift Service
+  description: Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
+  name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+  value: "false"
+  required: false
+- displayName: KIE ServerTemplate Cache TTL
+  description: KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)
+  name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
+  value: "60000"
+  required: false
+## OpenShift Enhancement END
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
@@ -168,6 +185,11 @@ parameters:
   description: KIE server Container memory limit
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
+  required: false
+- displayName: KIE Server Startup Strategy
+  description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently used shared state from OpenShift API service. Default: ControllerBasedStartupStrategy"
+  name: KIE_SERVER_STARTUP_STRATEGY
+  value: ControllerBasedStartupStrategy
   required: false
 - displayName: RH-SSO URL
   description: RH-SSO URL
@@ -333,14 +355,14 @@ objects:
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-rhpamsvc-view"
+     name: "${APPLICATION_NAME}-rhpamsvc-edit"
      labels:
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-rhpamsvc"
   roleRef:
-    name: view
+    name: edit
 - kind: Service
   apiVersion: v1
   spec:
@@ -368,6 +390,11 @@ objects:
       targetPort: 8080
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
+    sessionAffinity:
+      ClientIP
+    sessionAffinityConfig:
+      clientIP:
+        timeoutSeconds: 3600
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
@@ -487,6 +514,14 @@ objects:
             value: "${DEFAULT_PASSWORD}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
+## OpenShift Enhancement BEGIN
+          - name: KIE_CONTROLLER_OCP_ENABLED
+            value: "${KIE_CONTROLLER_OCP_ENABLED}"
+          - name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+            value: "${KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
+          - name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
+            value: "${KIE_CONTROLLER_TEMPLATE_CACHE_TTL}"
+## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
           - name: KIE_SERVER_CONTROLLER_PWD
@@ -586,7 +621,9 @@ objects:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
-      type: Recreate
+      rollingParams:
+        maxUnavailable: 0
+      type: Rolling
     triggers:
     - type: ImageChange
       imageChangeParams:
@@ -668,6 +705,8 @@ objects:
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
+          - name: KIE_SERVER_STARTUP_STRATEGY
+            value: "${KIE_SERVER_STARTUP_STRATEGY}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
