@@ -610,21 +610,19 @@ objects:
             mountPath: "/etc/kieserver-secret-volume"
             readOnly: true
           livenessProbe:
-            exec:
-              command:
-              - "/bin/bash"
-              - "-c"
-              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/healthcheck"
+            httpGet:
+              path: /services/rest/server/healthcheck
+              port: 8080
+              scheme: HTTP
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
             failureThreshold: 3
           readinessProbe:
-            exec:
-              command:
-              - "/bin/bash"
-              - "-c"
-              - "curl --fail --silent -u '${KIE_ADMIN_USER}:${KIE_ADMIN_PWD}' http://localhost:8080/services/rest/server/readycheck"
+            httpGet:
+              path: /services/rest/server/readycheck
+              port: 8080
+              scheme: HTTP
             initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 30
