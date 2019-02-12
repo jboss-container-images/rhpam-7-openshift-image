@@ -214,11 +214,12 @@ parameters:
   name: APPFORMER_ELASTIC_RETRIES
   required: false
 - displayName: AppFormer JMS Broker port.
-  description: The port to connect to the JMS broker. Default is 61616
+  description: The port to connect to the JMS broker. Defaults to 61616
   name: APPFORMER_JMS_BROKER_PORT
+  value: '61616'
   required: false
 - displayName: AppFormer JMS Broker username.
-  description: The username to connect in the JMS broker.
+  description: The username to connect to the JMS broker.
   name: APPFORMER_JMS_BROKER_USER
   required: true
   value: jmsBrokerUser
@@ -255,7 +256,7 @@ parameters:
   value: ''
   required: false
 - displayName: Elasticsearch HTTP Host
-  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with cluster rest api. Defaults to the container ip address
+  description: Sets the ES http.host property. This will set the http address of the main ES cluster node. Used to interact with the cluster REST api. Defaults to the container ip address
   name: ES_HTTP_HOST
   value: ''
   required: false
@@ -276,15 +277,15 @@ parameters:
   value: "openshift"
   required: true
 - displayName: AMQ Scaledown Controller ImageStream Name
-  description: The name of the image stream to use for the AMQ Scaledown Controller. Default is "amq-scaledown-controller-openshift".
+  description: The name of the image stream to use for the AMQ Scaledown Controller. Default is "amq-broker-72-scaledown-controller-openshift".
   name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME
-  value: "amq-scaledown-controller-openshift"
+  value: "amq-broker-72-scaledown-controller-openshift"
   required: true
 - displayName: AMQ Scaledown Controller ImageStream Tag
-  description: The AMQ image stream tag. Default is "0.4".
+  description: The AMQ image stream tag. Default is "1.0".
   name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG
   required: true
-  value: "0.4"
+  value: "1.0"
 - description: AMQ Broker Image
   displayName: Image
   name: AMQ_BROKER_IMAGE
@@ -648,14 +649,14 @@ objects:
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-rhpamsvc-edit"
+     name: "${APPLICATION_NAME}-rhpamsvc-view"
      labels:
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-rhpamsvc"
   roleRef:
-    name: edit
+    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -692,6 +693,7 @@ objects:
     name: "${APPLICATION_NAME}-ping"
     labels:
       application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-ping"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
@@ -743,25 +745,19 @@ objects:
   spec:
     clusterIP: None
     ports:
-      - port: 61616
-        targetPort: 61616
+    - port: 61616
+      targetPort: 61616
     selector:
-      deploymentConfig: ${APPLICATION_NAME}-amq
+      deploymentConfig: "${APPLICATION_NAME}-amq"
   metadata:
-    name: ${APPLICATION_NAME}-amq-tcp
+    name: "${APPLICATION_NAME}-amq-tcp"
     annotations:
       description: The broker's OpenWire port.
     labels:
-      application: ${APPLICATION_NAME}
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-amq-tcp"
 - apiVersion: v1
   kind: Service
-  metadata:
-    annotations:
-      description: The JGroups ping port for clustering.
-      service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
-    labels:
-      application: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}-amq-ping
   spec:
     clusterIP: None
     ports:
@@ -770,6 +766,14 @@ objects:
         targetPort: 8888
     selector:
       deploymentConfig: ${APPLICATION_NAME}-amq
+  metadata:
+    name: ${APPLICATION_NAME}-amq-ping
+    annotations:
+      description: The JGroups ping port for clustering.
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
+    labels:
+      application: ${APPLICATION_NAME}
+      service: ${APPLICATION_NAME}-amq-ping
 ## MySQL service BEGIN
 - apiVersion: v1
   kind: Service
@@ -978,6 +982,8 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
+          - name: WORKBENCH_ROUTE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_REPO_ID
@@ -1002,8 +1008,6 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
-          - name: WORKBENCH_ROUTE_NAME
-            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
@@ -1112,9 +1116,7 @@ objects:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
-      rollingParams:
-        maxUnavailable: 0
-      type: Rolling
+      type: Recreate
     triggers:
     - type: ImageChange
       imageChangeParams:
@@ -1474,7 +1476,7 @@ objects:
         {
           "metadata": {
             "labels": {
-              "app": "${APPLICATION_NAME}"
+              "application": "${APPLICATION_NAME}"
             },
             "name": "${APPLICATION_NAME}-amq-drainer-pod"
           },
@@ -1552,6 +1554,14 @@ objects:
                         "fieldPath": "metadata.namespace"
                       }
                     }
+                  },
+                  {
+                    "name": "JGROUPS_PING_PROTOCOL",
+                    "value": "openshift.DNS_PING"
+                  },
+                  {
+                    "name": "OPENSHIFT_DNS_PING_SERVICE_NAME",
+                    "value": "${APPLICATION_NAME}-amq-ping"
                   },
                   {
                     "name": "OPENSHIFT_DNS_PING_SERVICE_PORT",
