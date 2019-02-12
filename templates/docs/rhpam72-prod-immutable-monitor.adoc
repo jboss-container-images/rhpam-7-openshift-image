@@ -36,10 +36,16 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | False
+|`SMART_ROUTER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-smartrouter-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
+|`SMART_ROUTER_HOSTNAME_HTTPS` | `HOSTNAME_HTTP` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-smartrouter-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`KIE_SERVER_ROUTER_ID` | `KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | kie-server-router | True
 |`KIE_SERVER_ROUTER_PROTOCOL` | `KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}` | False
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | `KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}` | False
 |`KIE_SERVER_ROUTER_NAME` | `KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | KIE Server Router | True
+|`KIE_SERVER_ROUTER_HTTPS_SECRET` | -- | The name of the secret containing the keystore file | -- | True
+|`KIE_SERVER_ROUTER_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret | keystore.jks | False
+|`KIE_SERVER_ROUTER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate | jboss | False
+|`KIE_SERVER_ROUTER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
 |`KIE_SERVER_MONITOR_USER` | -- | KIE server monitor username (Sets the org.kie.server.controller.user system property) | monitorUser | False
 |`KIE_SERVER_MONITOR_PWD` | -- | KIE server monitor password (Sets the org.kie.server.controller.pwd system property) | -- | False
 |`KIE_SERVER_MONITOR_TOKEN` | -- | KIE server monitor token for bearer authentication (Sets the org.kie.server.controller.token system property) | -- | False
@@ -49,7 +55,6 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`BUSINESS_CENTRAL_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret | keystore.jks | False
 |`BUSINESS_CENTRAL_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate | jboss | False
 |`BUSINESS_CENTRAL_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
-|`SMART_ROUTER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}` | False
 |`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit | 2Gi | False
 |`SMART_ROUTER_MEMORY_LIMIT` | -- | Smart Router Container memory limit | 512Mi | False
 |`SSO_URL` | `SSO_URL` | RH-SSO URL | `${SSO_URL}` | False
@@ -108,9 +113,10 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 .1+| `${APPLICATION_NAME}-rhpamcentrmon-ping`
 |8888 | ping
 .1+| The JGroups ping port for clustering.
-.1+| `${APPLICATION_NAME}-smartrouter`
-|9000 | --
-.1+| The smart router server http port.
+.2+| `${APPLICATION_NAME}-smartrouter`
+|9000 | http
+.2+| The smart router server http and https ports.
+|9443 | https
 |=============
 
 
@@ -128,6 +134,7 @@ https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/routes.html
 |`${APPLICATION_NAME}-rhpamcentrmon-http` | none | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`${APPLICATION_NAME}-rhpamcentrmon-https` | TLS passthrough | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
 |`${APPLICATION_NAME}-smartrouter-http` | none | `${SMART_ROUTER_HOSTNAME_HTTP}`
+|`${APPLICATION_NAME}-smartrouter-https` | TLS passthrough | `${SMART_ROUTER_HOSTNAME_HTTPS}`
 |=============
 
 
@@ -260,8 +267,8 @@ for more information.
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
-|`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
-|`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
+|`HOSTNAME_HTTP` | Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-smartrouter-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
+|`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: secure-<application-name>-smartrouter-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
@@ -285,13 +292,17 @@ for more information.
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.13+| `${APPLICATION_NAME}-smartrouter`
+.17+| `${APPLICATION_NAME}-smartrouter`
 |`KIE_SERVER_ROUTER_HOST` | -- | --
 |`KIE_SERVER_ROUTER_PORT` | -- | 9000
+|`KIE_SERVER_ROUTER_PORT_TLS` | -- | 9443
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}`
 |`KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller (router property org.kie.server.router.id) | `${KIE_SERVER_ROUTER_ID}`
 |`KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller (router property org.kie.server.router.name) | `${KIE_SERVER_ROUTER_NAME}`
 |`KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}`
+|`KIE_SERVER_ROUTER_TLS_KEYSTORE_KEYALIAS` | -- | `${KIE_SERVER_ROUTER_HTTPS_NAME}`
+|`KIE_SERVER_ROUTER_TLS_KEYSTORE_PASSWORD` | -- | `${KIE_SERVER_ROUTER_HTTPS_PASSWORD}`
+|`KIE_SERVER_ROUTER_TLS_KEYSTORE` | -- | `/etc/smartrouter-secret-volume/${KIE_SERVER_ROUTER_HTTPS_KEYSTORE}`
 |`KIE_SERVER_CONTROLLER_USER` | -- | `${KIE_SERVER_MONITOR_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | -- | `${KIE_SERVER_MONITOR_PWD}`
 |`KIE_SERVER_CONTROLLER_TOKEN` | -- | `${KIE_SERVER_MONITOR_TOKEN}`
