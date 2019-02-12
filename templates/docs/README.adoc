@@ -6,14 +6,14 @@
 = Application Templates
 
 This project contains OpenShift v3 application templates which support applications based on RHPAM products.
-Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.2.x[here].
+Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.2.1.GA/templates[here].
 
 :icons: font
 :toc: macro
 
 toc::[levels=1]
 
-== rhpam-7-openshift-image/templates
+== rhpam-7-openshift-templates
 
 * link:README.adoc[README]
 * link:rhpam72-authoring-ha.adoc[rhpam72-authoring-ha]
