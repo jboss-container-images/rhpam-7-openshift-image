@@ -22,3 +22,7 @@ jobs:
         name: Verify the templates
         command: |
           ./openshift-template-validator-linux-amd64 validate -d templates/
+    - run:
+        name: Verify the RHPAM imagestream
+        command: |
+          ./openshift-template-validator-linux-amd64 validate --file rhpam73-image-streams.yaml
