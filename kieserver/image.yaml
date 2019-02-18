@@ -146,6 +146,9 @@ envs:
     - name: "KIE_SERVER_ROUTER_PORT"
       example: "9000"
       description: "KIE server router port (Used to set the org.kie.server.router system property)"
+    - name: "PROMETHEUS_SERVER_EXT_DISABLED"
+      example: "false"
+      description: "If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)"
 ports:
     - value: 8080
     - value: 8443
@@ -210,6 +213,8 @@ modules:
           - name: openshift-layer
           - name: openshift-passwd
           - name: os-logging
+          - name: jboss.container.eap.prometheus.config
+            version: '7.2'
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-kieserver
 packages:

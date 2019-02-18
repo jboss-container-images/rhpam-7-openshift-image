@@ -113,6 +113,8 @@ modules:
           - name: openshift-layer
           - name: openshift-passwd
           - name: os-logging
+          - name: jboss.container.eap.prometheus.config
+            version: '7.2'
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-controller
 packages:
