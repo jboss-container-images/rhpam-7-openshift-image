@@ -559,7 +559,6 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-amq-role
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
   rules:
   - apiGroups:
@@ -587,7 +586,6 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-amq-scaledown-controller-role
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
   rules:
   - apiGroups:
@@ -632,14 +630,12 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamsvc"
     labels:
-      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
 - kind: RoleBinding
   apiVersion: v1
   metadata:
      name: "${APPLICATION_NAME}-rhpamsvc-edit"
      labels:
-       app: "${APPLICATION_NAME}"
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
@@ -664,7 +660,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
-      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -682,7 +677,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-ping"
     labels:
-      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -707,7 +701,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
-      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -727,7 +720,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
-      app: "${APPLICATION_NAME}"
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
@@ -746,7 +738,6 @@ objects:
     annotations:
       description: The broker's OpenWire port.
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
 - apiVersion: v1
   kind: Service
@@ -755,9 +746,7 @@ objects:
       description: The JGroups ping port for clustering.
       service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
-      template: rhpam72-authoring-ha
     name: ${APPLICATION_NAME}-amq-ping
   spec:
     clusterIP: None
@@ -779,7 +768,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-mysql"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-mysql"
     annotations:
@@ -791,7 +779,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -809,7 +796,6 @@ objects:
   metadata:
     name: "secure-${APPLICATION_NAME}-rhpamcentr"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -829,7 +815,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -846,7 +831,6 @@ objects:
   metadata:
     name: "secure-${APPLICATION_NAME}-kieserver"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -865,7 +849,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
     annotations:
       description: Route for Business Central Indexing's Elasticsearch http service.
@@ -880,7 +863,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
@@ -907,7 +889,6 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-rhpamcentr"
         labels:
-          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1109,7 +1090,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-kieserver"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
@@ -1137,7 +1117,6 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-kieserver"
         labels:
-          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1348,7 +1327,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamindex"
     annotations:
@@ -1374,7 +1352,6 @@ objects:
       metadata:
         name: "${APPLICATION_NAME}-rhpamindex"
         labels:
-          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-rhpamindex"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1428,7 +1405,6 @@ objects:
   apiVersion: v1
   metadata:
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
       service: ${APPLICATION_NAME}-amq-scaledown-controller
     name: ${APPLICATION_NAME}-amq-scaledown-controller
@@ -1446,7 +1422,6 @@ objects:
     template:
       metadata:
         labels:
-          app: ${APPLICATION_NAME}
           application: ${APPLICATION_NAME}
           deploymentConfig: ${APPLICATION_NAME}-amq-scaledown-controller
         name: ${APPLICATION_NAME}-amq-scaledown-controller
@@ -1581,7 +1556,6 @@ objects:
     creationTimestamp: null
     generation: 3
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}-amq
   spec:
@@ -1590,13 +1564,12 @@ objects:
     revisionHistoryLimit: 10
     selector:
       matchLabels:
-        app: ${APPLICATION_NAME}
+        deploymentConfig: ${APPLICATION_NAME}-amq
     serviceName: ${APPLICATION_NAME}-amq-tcp
     template:
       metadata:
         creationTimestamp: null
         labels:
-          app: ${APPLICATION_NAME}
           application: ${APPLICATION_NAME}
           deploymentConfig: ${APPLICATION_NAME}-amq
         name: ${APPLICATION_NAME}-amq
@@ -1693,7 +1666,6 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-amq-scaledown-controller-openshift-rb
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   subjects:
     - kind: ServiceAccount
@@ -1707,7 +1679,6 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-amq-rb
     labels:
-      app: ${APPLICATION_NAME}
       application: ${APPLICATION_NAME}
   subjects:
     - kind: ServiceAccount
@@ -1720,14 +1691,12 @@ objects:
   kind: ServiceAccount
   metadata:
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
     name: ${APPLICATION_NAME}-amq-sa
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
     name: ${APPLICATION_NAME}-amq-scaledown-controller-sa
 ## MySQL deployment config BEGIN
@@ -1736,7 +1705,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-mysql"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-mysql"
     annotations:
@@ -1757,13 +1725,11 @@ objects:
     - type: ConfigChange
     replicas: 1
     selector:
-      app: ${APPLICATION_NAME}
       deploymentConfig: "${APPLICATION_NAME}-mysql"
     template:
       metadata:
         name: "${APPLICATION_NAME}-mysql"
         labels:
-          app: ${APPLICATION_NAME}
           deploymentConfig: "${APPLICATION_NAME}-mysql"
           application: "${APPLICATION_NAME}"
       spec:
@@ -1810,7 +1776,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
@@ -1824,7 +1789,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-mysql-claim"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
@@ -1838,7 +1802,6 @@ objects:
   metadata:
     name: "${APPLICATION_NAME}-rhpamindex-claim"
     labels:
-      app: ${APPLICATION_NAME}
       application: "${APPLICATION_NAME}"
   spec:
     accessModes:
