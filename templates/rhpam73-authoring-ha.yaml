@@ -119,6 +119,11 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
+- displayName: KIE Server MySQL Dialect
+  description: KIE server MySQL Hibernate dialect
+  name: KIE_SERVER_MYSQL_DIALECT
+  value: org.hibernate.dialect.MySQL57Dialect
+  required: true
 ## MySQL database parameters END
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
@@ -1190,7 +1195,7 @@ objects:
           - name: RHPAM_SERVICE_PORT
             value: "3306"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.MySQLDialect"
+            value: "${KIE_SERVER_MYSQL_DIALECT}"
 ## MySQL driver settings END
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"

@@ -190,6 +190,11 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
+- displayName: KIE Server MySQL Dialect
+  description: KIE server MySQL Hibernate dialect
+  name: KIE_SERVER_MYSQL_DIALECT
+  value: org.hibernate.dialect.MySQL57Dialect
+  required: true
 ## MySQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
@@ -685,7 +690,7 @@ objects:
           - name: RHPAM_DRIVER
             value: "mysql"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.MySQL5Dialect"
+            value: "${KIE_SERVER_MYSQL_DIALECT}"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_MYSQL_USER}"
           - name: RHPAM_PASSWORD

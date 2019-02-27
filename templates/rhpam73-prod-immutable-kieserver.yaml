@@ -152,6 +152,11 @@ parameters:
   name: DB_VOLUME_CAPACITY
   value: 1Gi
   required: true
+- displayName: KIE Server PostgreSQL Dialect
+  description: KIE server PostgreSQL Hibernate dialect
+  name: KIE_SERVER_POSTGRESQL_DIALECT
+  value: org.hibernate.dialect.PostgreSQLDialect
+  required: true
 ## PostgreSQL database parameters END
 - displayName: Drools Server Filter Classes
   description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
@@ -760,7 +765,7 @@ objects:
           - name: RHPAM_DRIVER
             value: "postgresql"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.PostgreSQLDialect"
+            value: "${KIE_SERVER_POSTGRESQL_DIALECT}"
           - name: RHPAM_USERNAME
             value: "${KIE_SERVER_POSTGRESQL_USER}"
           - name: RHPAM_PASSWORD
