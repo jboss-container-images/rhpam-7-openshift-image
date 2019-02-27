@@ -206,15 +206,20 @@ parameters:
   value: org.hibernate.dialect.PostgreSQLDialect
   required: true
 ## PostgreSQL database parameters END
-- displayName: Drools Server Filter Classes
-  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
-  name: DROOLS_SERVER_FILTER_CLASSES
-  value: 'true'
+- displayName: KIE Server Mode
+  description: "The KIE Server mode. Valid values are 'development' or 'production'. (Sets the org.kie.server.mode system property)."
+  name: KIE_SERVER_MODE
+  value: "production"
   required: false
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
   value: enabled
+  required: false
+- displayName: Drools Server Filter Classes
+  description: KIE server class filtering (Sets the org.drools.server.filter.classes system property)
+  name: DROOLS_SERVER_FILTER_CLASSES
+  value: 'true'
   required: false
 - displayName: Business Central Monitoring Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
@@ -1223,14 +1228,16 @@ objects:
             containerPort: 8888
             protocol: TCP
           env:
-          - name: DROOLS_SERVER_FILTER_CLASSES
-            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
             value: "${KIE_ADMIN_PWD}"
+          - name: KIE_SERVER_MODE
+            value: "${KIE_SERVER_MODE}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
+          - name: DROOLS_SERVER_FILTER_CLASSES
+            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_CONTROLLER_USER

@@ -61,6 +61,11 @@ parameters:
   name: KIE_SERVER_CONTROLLER_USER
   value: controllerUser
   required: false
+- displayName: KIE Server Mode
+  description: "The KIE Server mode. Valid values are 'development' or 'production'. (Sets the org.kie.server.mode system property)."
+  name: KIE_SERVER_MODE
+  value: "development"
+  required: false
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
@@ -688,16 +693,18 @@ objects:
             containerPort: 8080
             protocol: TCP
           env:
-          - name: DROOLS_SERVER_FILTER_CLASSES
-            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: PROMETHEUS_SERVER_EXT_DISABLED
             value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
             value: "${DEFAULT_PASSWORD}"
+          - name: KIE_SERVER_MODE
+            value: "${KIE_SERVER_MODE}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
+          - name: DROOLS_SERVER_FILTER_CLASSES
+            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_CONTROLLER_USER
