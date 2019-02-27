@@ -1175,8 +1175,6 @@ objects:
             containerPort: 8443
             protocol: TCP
           env:
-          - name: AUTO_CONFIGURE_EJB_TIMER
-            value: "true"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: DATASOURCES
