@@ -1003,8 +1003,6 @@ objects:
             value: "${APPLICATION_NAME}-postgresql-1"
           - name: RHPAM_SERVICE_PORT
             value: "5432"
-          - name: TIMER_SERVICE_DATA_STORE
-            value: "${APPLICATION_NAME}-postgresql-1"
 ## PostgreSQL driver settings 1 END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"

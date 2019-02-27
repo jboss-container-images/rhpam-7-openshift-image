@@ -699,8 +699,6 @@ objects:
             value: "${APPLICATION_NAME}-mysql"
           - name: RHPAM_SERVICE_PORT
             value: "3306"
-          - name: TIMER_SERVICE_DATA_STORE
-            value: "${APPLICATION_NAME}-mysql"
 ## MySQL driver settings END
           - name: RHPAM_JTA
             value: "true"

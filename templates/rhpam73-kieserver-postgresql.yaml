@@ -700,8 +700,6 @@ objects:
             value: "${APPLICATION_NAME}-postgresql"
           - name: RHPAM_SERVICE_PORT
             value: "5432"
-          - name: TIMER_SERVICE_DATA_STORE
-            value: "${APPLICATION_NAME}-postgresql"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "${KIE_SERVER_POSTGRESQL_DIALECT}"
 ## PostgreSQL driver settings END
