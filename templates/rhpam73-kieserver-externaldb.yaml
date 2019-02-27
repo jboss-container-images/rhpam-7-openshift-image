@@ -159,7 +159,7 @@ parameters:
 - displayName: KIE Server External Database Dialect
   description: KIE server external database Hibernate dialect
   name: KIE_SERVER_EXTERNALDB_DIALECT
-  example: "org.hibernate.dialect.MySQL5Dialect"
+  example: "org.hibernate.dialect.MySQL57Dialect"
   required: true
 - displayName: Datasource Service Host
   description: Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set.
