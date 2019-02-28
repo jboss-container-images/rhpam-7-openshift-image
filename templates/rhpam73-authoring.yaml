@@ -97,6 +97,11 @@ parameters:
   generate: expression
   required: false
 ## H2 database parameters END
+- displayName: KIE Server Mode
+  description: "The KIE Server mode. Valid values are 'development' or 'production'. (Sets the org.kie.server.mode system property)."
+  name: KIE_SERVER_MODE
+  example: "production"
+  required: false
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
   name: KIE_MBEANS
@@ -878,14 +883,16 @@ objects:
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "org.hibernate.dialect.H2Dialect"
 ## H2 driver settings END
-          - name: DROOLS_SERVER_FILTER_CLASSES
-            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
             value: "${KIE_ADMIN_PWD}"
+          - name: KIE_SERVER_MODE
+            value: "${KIE_SERVER_MODE}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
+          - name: DROOLS_SERVER_FILTER_CLASSES
+            value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_CONTROLLER_USER
