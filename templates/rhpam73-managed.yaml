@@ -37,6 +37,10 @@ parameters:
   name: APPLICATION_NAME
   value: myapp
   required: true
+- displayName: Maven mirror URL
+  description: Maven mirror to use by Business Central and KIE server.
+  name: MAVEN_MIRROR_URL
+  required: false
 - displayName: Maven repository ID
   description: The id to use for the maven repository, if set. Default is generated randomly.
   name: MAVEN_REPO_ID
@@ -744,6 +748,8 @@ objects:
             value: "${KIE_SERVER_PWD}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
+          - name: MAVEN_MIRROR_URL
+            value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_REPO_ID
             value: "${MAVEN_REPO_ID}"
           - name: MAVEN_REPO_URL
@@ -963,6 +969,8 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
+          - name: MAVEN_MIRROR_URL
+            value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_REPOS
             value: "RHPAMCENTR,EXTERNAL"
           - name: RHPAMCENTR_MAVEN_REPO_SERVICE
