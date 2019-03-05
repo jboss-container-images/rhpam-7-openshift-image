@@ -1,16 +1,16 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam73-businesscentral-monitoring-openshift"
-description: "Red Hat Business Central Monitoring 7.3 OpenShift container image"
+name: "rhpam-7/rhpam74-businesscentral-monitoring-openshift"
+description: "Red Hat Business Central Monitoring 7.4 OpenShift container image"
 version: "1.0"
 from: "rhel7:7-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam73-businesscentral-monitoring-openshift-container"
+      value: "rhpam-7-rhpam74-businesscentral-monitoring-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Monitoring"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Central Monitoring 7.3"
+      value: "Red Hat Business Central Monitoring 7.4"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
@@ -150,7 +150,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-businesscentral-monitoring-openshift
-          branch: rhpam-7.3-openshift-rhel-7
+          branch: rhpam-7.4-openshift-rhel-7
 run:
       user: 185
       cmd:

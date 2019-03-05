@@ -1,8 +1,7 @@
 # Red Hat Process Automation Manager 7 - Standalone Controller OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/master/controller[Red Hat Process Automation Manager Standalone Controller 7.3 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/master/controller[Red Hat Process Automation Manager Standalone Controller 7.4 container image]
 
 # License
 
 See link:../LICENSE[LICENSE] file.
-

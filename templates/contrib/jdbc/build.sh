@@ -89,11 +89,11 @@ function create_build() {
     local driver=$1
     local version=$2
     oc new-build -n openshift \
-        --name rhpam73-kieserver-$driver-openshift \
-        --image-stream=openshift/rhpam73-kieserver-openshift:$image_tag \
+        --name rhpam74-kieserver-$driver-openshift \
+        --image-stream=openshift/rhpam74-kieserver-openshift:$image_tag \
         --source-image=openshift/$driver-driver-image:$version \
         --source-image-path=/extensions:$driver-driver/ \
-        --to=rhpam73-kieserver-$driver-openshift:$image_tag \
+        --to=rhpam74-kieserver-$driver-openshift:$image_tag \
         -e CUSTOM_INSTALL_DIRECTORIES=$driver-driver/extensions
 }
 

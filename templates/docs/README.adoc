@@ -16,15 +16,15 @@ toc::[levels=1]
 == rhpam-7-openshift-image/templates
 
 * link:README.adoc[README]
-* link:rhpam73-authoring-ha.adoc[rhpam73-authoring-ha]
-* link:rhpam73-authoring.adoc[rhpam73-authoring]
-* link:rhpam73-kieserver-externaldb.adoc[rhpam73-kieserver-externaldb]
-* link:rhpam73-kieserver-mysql.adoc[rhpam73-kieserver-mysql]
-* link:rhpam73-kieserver-postgresql.adoc[rhpam73-kieserver-postgresql]
-* link:rhpam73-prod-immutable-kieserver.adoc[rhpam73-prod-immutable-kieserver]
-* link:rhpam73-prod-immutable-monitor.adoc[rhpam73-prod-immutable-monitor]
-* link:rhpam73-prod.adoc[rhpam73-prod]
-* link:rhpam73-trial-ephemeral.adoc[rhpam73-trial-ephemeral]
+* link:rhpam74-authoring-ha.adoc[rhpam74-authoring-ha]
+* link:rhpam74-authoring.adoc[rhpam74-authoring]
+* link:rhpam74-kieserver-externaldb.adoc[rhpam74-kieserver-externaldb]
+* link:rhpam74-kieserver-mysql.adoc[rhpam74-kieserver-mysql]
+* link:rhpam74-kieserver-postgresql.adoc[rhpam74-kieserver-postgresql]
+* link:rhpam74-prod-immutable-kieserver.adoc[rhpam74-prod-immutable-kieserver]
+* link:rhpam74-prod-immutable-monitor.adoc[rhpam74-prod-immutable-monitor]
+* link:rhpam74-prod.adoc[rhpam74-prod]
+* link:rhpam74-trial-ephemeral.adoc[rhpam74-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file
@@ -34,4 +34,3 @@ toc::[levels=1]
 == Release Notes
 
 For more information, please refer the Red Hat Process Automation Manager documentation on https://access.redhat.com
-

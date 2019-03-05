@@ -3,12 +3,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (./*.in)
 ////
-= rhpam73-authoring
+= rhpam74-authoring
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.3
+Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.4
 
 toc::[]
 
@@ -51,7 +51,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate | mykeystorepass | False
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam73-kieserver-openshift". | rhpam73-kieserver-openshift | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam74-kieserver-openshift". | rhpam74-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}` | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}` | False
@@ -204,7 +204,7 @@ information.
 |============
 |Deployment | Image
 
-|`${APPLICATION_NAME}-rhpamcentr` | rhpam73-businesscentral-openshift
+|`${APPLICATION_NAME}-rhpamcentr` | rhpam74-businesscentral-openshift
 |`${APPLICATION_NAME}-kieserver` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
 |============
 
@@ -402,7 +402,7 @@ information.
 =====  Volumes
 
 |=============
-|Deployment |Name  | mountPath | Purpose | readOnly 
+|Deployment |Name  | mountPath | Purpose | readOnly
 
 |`${APPLICATION_NAME}-rhpamcentr` | businesscentral-keystore-volume | `/etc/businesscentral-secret-volume` | ssl certs | True
 |`${APPLICATION_NAME}-kieserver` | kieserver-keystore-volume | `/etc/kieserver-secret-volume` | ssl certs | True
@@ -435,9 +435,3 @@ This template requires the following secrets to be installed for the application
 
 businesscentral-app-secret
 kieserver-app-secret
-
-
-
-
-
-
