@@ -3,12 +3,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (./*.in)
 ////
-= rhpam73-kieserver-postgresql
+= rhpam74-kieserver-postgresql
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a managed KIE Server with a PostgreSQL database, for Red Hat Process Automation Manager 7.3
+Application template for a managed KIE Server with a PostgreSQL database, for Red Hat Process Automation Manager 7.4
 
 toc::[]
 
@@ -35,7 +35,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}` | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam73-kieserver-openshift". | rhpam73-kieserver-openshift | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam74-kieserver-openshift". | rhpam74-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`KIE_SERVER_ROUTER_SERVICE` | `KIE_SERVER_ROUTER_SERVICE` | The service name for the optional smart router. | `${KIE_SERVER_ROUTER_SERVICE}` | False
 |`KIE_SERVER_ROUTER_HOST` | `KIE_SERVER_ROUTER_HOST` | The host name of the smart router, which can be the service name resolved by OpenShift or a globally resolvable domain name | `${KIE_SERVER_ROUTER_HOST}` | False
@@ -366,7 +366,7 @@ information.
 =====  Volumes
 
 |=============
-|Deployment |Name  | mountPath | Purpose | readOnly 
+|Deployment |Name  | mountPath | Purpose | readOnly
 
 |`${APPLICATION_NAME}-kieserver` | kieserver-keystore-volume | `/etc/kieserver-secret-volume` | ssl certs | True
 |`${APPLICATION_NAME}-postgresql` | `${APPLICATION_NAME}-postgresql-pvol` | `/var/lib/pgsql/data` | postgresql | false
@@ -397,9 +397,3 @@ more information.
 This template requires the following secrets to be installed for the application to run.
 
 kieserver-app-secret
-
-
-
-
-
-

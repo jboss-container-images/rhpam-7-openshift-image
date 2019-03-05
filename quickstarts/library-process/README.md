@@ -6,7 +6,7 @@ This quickstart is intend to be used with the [RHPAM Kie Server](https://github.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam73-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam73-prod-immutable-kieserver.yaml)
+To deploy the Library Process demo you can use the [rhpam74-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam74-prod-immutable-kieserver.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -44,15 +44,15 @@ to build a new example application in Ruby.
 
 Make sure that you have the RHPAM template installed in your OpenShift Instance:
 ```bash
-$ oc get template rhpam73-prod-immutable-kieserver -n openshift
-Error from server (NotFound): templates.template.openshift.io "rhpam73-prod-immutable-kieserver" not found
+$ oc get template rhpam74-prod-immutable-kieserver -n openshift
+Error from server (NotFound): templates.template.openshift.io "rhpam74-prod-immutable-kieserver" not found
 ```
 
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam73-prod-immutable-kieserver.yaml -n openshift
-template.template.openshift.io "rhpam73-prod-immutable-kieserver" created
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam74-prod-immutable-kieserver.yaml -n openshift
+template.template.openshift.io "rhpam74-prod-immutable-kieserver" created
 ```
 
 For this template, we also need to install the secrets, which contain the certificates to configure https:
@@ -78,13 +78,13 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 Before proceed, make sure you have the RHDM imagestreams available under the 'openshift' namespace.
 
 ```bash
-$ oc get imagestream rhpam73-kieserver-openshift -n openshift
-Error from server (NotFound): imagestreams.image.openshift.io "rhpam73-kieserver-openshift" not found
+$ oc get imagestream rhpam74-kieserver-openshift -n openshift
+Error from server (NotFound): imagestreams.image.openshift.io "rhpam74-kieserver-openshift" not found
 
 ```
- If the `rhpam73-kieserver-openshift` is not found, install it under the 'openshift' namespace:
+ If the `rhpam74-kieserver-openshift` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam73-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam74-image-streams.yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information
@@ -93,25 +93,25 @@ please take a look [here](https://access.redhat.com/RegistryAuthentication)
 At this moment we are ready to instantiate the kieserver app:
 
 ```bash
-$ oc new-app rhpam73-prod-immutable-kieserver \
+$ oc new-app rhpam74-prod-immutable-kieserver \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
 -p SOURCE_REPOSITORY_REF=master \
 -p CONTEXT_DIR=quickstarts/library-process/library \
 -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret \
 -p IMAGE_STREAM_NAMESPACE=openshift
---> Deploying template "openshift/rhpam73-prod-immutable-kieserver" to project rhpam-kieserver
+--> Deploying template "openshift/rhpam74-prod-immutable-kieserver" to project rhpam-kieserver
 
-     Red Hat Process Automation Manager 7.3 immutable production environment
+     Red Hat Process Automation Manager 7.4 immutable production environment
      ---------
-     Application template for an immultable KIE server in a production environment, for Red Hat Process Automation Manager 7.3
+     Application template for an immultable KIE server in a production environment, for Red Hat Process Automation Manager 7.4
 
      A new immutable Red Hat Process Automation Manager KIE server have been created in your project.
      The username/password for accessing the KIE server is
-     
+
          Username: executionUser
          Password: MADQFF7!
-     
+
      Please be sure to create the secret named "businesscentral-app-secret" containing the keystore.jks files used for serving secure content.
 
      * With parameters:
@@ -121,7 +121,7 @@ $ oc new-app rhpam73-prod-immutable-kieserver \
         * KIE Server User=executionUser
         * KIE Server Password=MADQFF7! # generated
         * ImageStream Namespace=openshift
-        * KIE Server ImageStream Name=rhpam73-kieserver-openshift
+        * KIE Server ImageStream Name=rhpam74-kieserver-openshift
         * ImageStream Tag=1.1
         * KIE Server Monitor User=monitorUser
         * KIE Server Monitor Password=
@@ -212,8 +212,8 @@ $ oc new-app rhpam73-prod-immutable-kieserver \
     deploymentconfig "myapp-postgresql" created
     persistentvolumeclaim "myapp-postgresql-claim" created
 --> Success
-    Access your application via route 'myapp-kieserver-rhpam-kieserver.mycloud.com' 
-    Access your application via route 'secure-myapp-kieserver-rhpam-kieserver.mycloud.com' 
+    Access your application via route 'myapp-kieserver-rhpam-kieserver.mycloud.com'
+    Access your application via route 'secure-myapp-kieserver-rhpam-kieserver.mycloud.com'
     Build scheduled, use 'oc logs -f bc/myapp-kieserver' to track its progress.
     Run 'oc status' to view your app.
 ```
@@ -267,7 +267,7 @@ As result you should see something like this:
     buildconfig "eap-app" created
     deploymentconfig "eap-app" created
 --> Success
-    Access your application via route 'eap-app-rhpam-kieserver.mycloud.com' 
+    Access your application via route 'eap-app-rhpam-kieserver.mycloud.com'
     Build scheduled, use 'oc logs -f bc/eap-app' to track its progress.
     Run 'oc status' to view your app.
 ```
