@@ -197,9 +197,9 @@ parameters:
   required: true
 ## MySQL database parameters END
 - displayName: KIE Server Mode
-  description: "The KIE Server mode. Valid values are 'development' or 'production'. (Sets the org.kie.server.mode system property)."
+  description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. (Sets the org.kie.server.mode system property)."
   name: KIE_SERVER_MODE
-  example: "production"
+  value: "PRODUCTION"
   required: false
 - displayName: KIE MBeans
   description: KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
