@@ -224,21 +224,21 @@ parameters:
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE Server 1 Custom http Route Hostname
+- displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for http service route. Leave blank for default hostname,
     e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: KIE_SERVER1_HOSTNAME_HTTP
+  name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE Server 1 Custom https Route Hostname
+- displayName: KIE Server Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
     hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: KIE_SERVER1_HOSTNAME_HTTPS
+  name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: Use the secure route name to link application requests to KIE_SERVER1_HOSTNAME_HTTPS vs KIE_SERVER1_HOSTNAME_HTTP.
-  description: 'If true, will use secure-APPLICATION_NAME-kieserver-1 vs. APPLICATION_NAME-kieserver-1 as the route name.'
-  name: KIE_SERVER1_USE_SECURE_ROUTE_NAME
+- displayName: Use the secure route name to link application requests to KIE_SERVER_HOSTNAME_HTTPS vs KIE_SERVER_HOSTNAME_HTTP.
+  description: 'If true, will use secure-APPLICATION_NAME-kieserver vs. APPLICATION_NAME-kieserver as the route name.'
+  name: KIE_SERVER_USE_SECURE_ROUTE_NAME
   value: 'false'
   required: false
 - displayName: Business Central Monitoring Server Keystore Secret Name
@@ -334,13 +334,13 @@ parameters:
   name: BUSINESS_CENTRAL_SSO_SECRET
   example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
-- displayName: KIE Server 1 RH-SSO Client name
-  description: KIE Server 1 RH-SSO Client name
-  name: KIE_SERVER1_SSO_CLIENT
+- displayName: KIE Server RH-SSO Client name
+  description: KIE Server RH-SSO Client name
+  name: KIE_SERVER_SSO_CLIENT
   required: false
-- displayName: KIE Server 1 RH-SSO Client Secret
-  description: KIE Server 1 RH-SSO Client Secret
-  name: KIE_SERVER1_SSO_SECRET
+- displayName: KIE Server RH-SSO Client Secret
+  description: KIE Server RH-SSO Client Secret
+  name: KIE_SERVER_SSO_SECRET
   example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
 - displayName: RH-SSO Realm Admin Username
@@ -525,7 +525,7 @@ objects:
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
-## KIE server services 1 BEGIN
+## KIE server services BEGIN
 - kind: Service
   apiVersion: v1
   spec:
@@ -537,17 +537,17 @@ objects:
       port: 8443
       targetPort: 8443
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
     sessionAffinity:
       ClientIP
     sessionAffinityConfig:
       clientIP:
         timeoutSeconds: 3600
   metadata:
-    name: "${APPLICATION_NAME}-kieserver-1"
+    name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver-1"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: All the KIE server web server's ports. (First KIE server)
 - kind: Service
@@ -559,17 +559,17 @@ objects:
       port: 8888
       targetPort: 8888
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver-1-ping"
+    name: "${APPLICATION_NAME}-kieserver-ping"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver-1"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
-## KIE server services 1 END
-## PostgreSQL service 1 BEGIN
+## KIE server services END
+## PostgreSQL service BEGIN
 - apiVersion: v1
   kind: Service
   metadata:
@@ -577,15 +577,15 @@ objects:
       description: The first database server's port.
     labels:
       application: ${APPLICATION_NAME}
-      service: "${APPLICATION_NAME}-postgresql-1"
-    name: ${APPLICATION_NAME}-postgresql-1
+      service: "${APPLICATION_NAME}-postgresql"
+    name: ${APPLICATION_NAME}-postgresql
   spec:
     ports:
     - port: 5432
       targetPort: 5432
     selector:
-      deploymentConfig: ${APPLICATION_NAME}-postgresql-1
-## PostgreSQL service 1 END
+      deploymentConfig: ${APPLICATION_NAME}-postgresql
+## PostgreSQL service END
 - kind: Route
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentrmon-http"
@@ -622,42 +622,42 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
-## KIE server routes 1 BEGIN
+## KIE server routes BEGIN
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-1-http"
+  id: "${APPLICATION_NAME}-kieserver-http"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver-1"
+    name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver-1"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for First KIE server's http service.
   spec:
-    host: "${KIE_SERVER1_HOSTNAME_HTTP}"
+    host: "${KIE_SERVER_HOSTNAME_HTTP}"
     to:
-      name: "${APPLICATION_NAME}-kieserver-1"
+      name: "${APPLICATION_NAME}-kieserver"
     port:
       targetPort: http
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-1-https"
+  id: "${APPLICATION_NAME}-kieserver-https"
   metadata:
-    name: "secure-${APPLICATION_NAME}-kieserver-1"
+    name: "secure-${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver-1"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for First KIE server's https service.
   spec:
-    host: "${KIE_SERVER1_HOSTNAME_HTTPS}"
+    host: "${KIE_SERVER_HOSTNAME_HTTPS}"
     to:
-      name: "${APPLICATION_NAME}-kieserver-1"
+      name: "${APPLICATION_NAME}-kieserver"
     port:
       targetPort: https
     tls:
       termination: passthrough
-## KIE server routes 1 END
+## KIE server routes END
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -861,14 +861,14 @@ objects:
         - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
           persistentVolumeClaim:
             claimName: "${APPLICATION_NAME}-rhpamcentr-claim"
-## KIE server deployment config 1 BEGIN
+## KIE server deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-kieserver-1"
+    name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver-1"
+      service: "${APPLICATION_NAME}-kieserver"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -881,7 +881,7 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-kieserver-1"
+        - "${APPLICATION_NAME}-kieserver"
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
@@ -889,19 +889,19 @@ objects:
     - type: ConfigChange
     replicas: "${{KIE_SERVER_CONTAINER_REPLICAS}}"
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
+      deploymentConfig: "${APPLICATION_NAME}-kieserver"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-kieserver-1"
+        name: "${APPLICATION_NAME}-kieserver"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
+          deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-kieserver-1"
+          service: "${APPLICATION_NAME}-kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-kieserver-1"
+        - name: "${APPLICATION_NAME}-kieserver"
           image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           resources:
@@ -958,13 +958,13 @@ objects:
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_ID
-            value: "${APPLICATION_NAME}-kieserver-1"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver-1"
+            value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "${KIE_SERVER_STARTUP_STRATEGY}"
           - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${KIE_SERVER1_USE_SECURE_ROUTE_NAME}"
+            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
@@ -1003,7 +1003,7 @@ objects:
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
-## PostgreSQL driver settings 1 BEGIN
+## PostgreSQL driver settings BEGIN
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_POSTGRESQL_DB}"
           - name: RHPAM_DRIVER
@@ -1015,10 +1015,10 @@ objects:
           - name: RHPAM_PASSWORD
             value: "${KIE_SERVER_POSTGRESQL_PWD}"
           - name: RHPAM_SERVICE_HOST
-            value: "${APPLICATION_NAME}-postgresql-1"
+            value: "${APPLICATION_NAME}-postgresql"
           - name: RHPAM_SERVICE_PORT
             value: "5432"
-## PostgreSQL driver settings 1 END
+## PostgreSQL driver settings END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: HTTPS_KEYSTORE_DIR
@@ -1032,7 +1032,7 @@ objects:
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-            value: "${APPLICATION_NAME}-kieserver-1-ping"
+            value: "${APPLICATION_NAME}-kieserver-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
           - name: SSO_URL
@@ -1042,9 +1042,9 @@ objects:
           - name: SSO_REALM
             value: "${SSO_REALM}"
           - name: SSO_SECRET
-            value: "${KIE_SERVER1_SSO_SECRET}"
+            value: "${KIE_SERVER_SSO_SECRET}"
           - name: SSO_CLIENT
-            value: "${KIE_SERVER1_SSO_CLIENT}"
+            value: "${KIE_SERVER_SSO_CLIENT}"
           - name: SSO_USERNAME
             value: "${SSO_USERNAME}"
           - name: SSO_PASSWORD
@@ -1054,9 +1054,9 @@ objects:
           - name: SSO_PRINCIPAL_ATTRIBUTE
             value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
-            value: "${KIE_SERVER1_HOSTNAME_HTTP}"
+            value: "${KIE_SERVER_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
-            value: "${KIE_SERVER1_HOSTNAME_HTTPS}"
+            value: "${KIE_SERVER_HOSTNAME_HTTPS}"
           - name: AUTH_LDAP_URL
             value: "${AUTH_LDAP_URL}"
           - name: AUTH_LDAP_BIND_DN
@@ -1107,15 +1107,21 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
-## KIE server deployment config 1 END
-## PostgreSQL deployment config 1 BEGIN
+        initContainers:
+        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-postgresql; do echo waiting for ${APPLICATION_NAME}-postgresql; sleep 2; done;']
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-postgresql-init
+          terminationMessagePolicy: FallbackToLogsOnError
+## KIE server deployment config END
+## PostgreSQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-postgresql-1"
+    name: "${APPLICATION_NAME}-postgresql"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-postgresql-1"
+      service: "${APPLICATION_NAME}-postgresql"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -1126,7 +1132,7 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-postgresql-1"
+        - "${APPLICATION_NAME}-postgresql"
         from:
           kind: ImageStreamTag
           namespace: "${POSTGRESQL_IMAGE_STREAM_NAMESPACE}"
@@ -1134,18 +1140,18 @@ objects:
     - type: ConfigChange
     replicas: 1
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-postgresql-1"
+      deploymentConfig: "${APPLICATION_NAME}-postgresql"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-postgresql-1"
+        name: "${APPLICATION_NAME}-postgresql"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-postgresql-1"
+          deploymentConfig: "${APPLICATION_NAME}-postgresql"
           application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-postgresql-1"
+          service: "${APPLICATION_NAME}-postgresql"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-postgresql-1"
+        - name: "${APPLICATION_NAME}-postgresql"
           image: postgresql
           imagePullPolicy: Always
           livenessProbe:
@@ -1179,30 +1185,30 @@ objects:
         volumes:
         - name: "${APPLICATION_NAME}-postgresql-pvol"
           persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-postgresql-claim-1"
-## PostgreSQL deployment config 1 END
-## PostgreSQL persistent volume claim 1 BEGIN
+            claimName: "${APPLICATION_NAME}-postgresql-claim"
+## PostgreSQL deployment config END
+## PostgreSQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: "${APPLICATION_NAME}-postgresql-claim-1"
+    name: "${APPLICATION_NAME}-postgresql-claim"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-postgresql-1"
+      service: "${APPLICATION_NAME}-postgresql"
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
-## PostgreSQL persistent volume claim 1 END
+## PostgreSQL persistent volume claim END
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-rhpamcentrmon"
+      service: "${APPLICATION_NAME}-rhpamcentr"
   spec:
     accessModes:
     - ReadWriteMany
