@@ -1342,6 +1342,12 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+        initContainers:
+        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-mysql; do echo waiting for ${APPLICATION_NAME}-mysql; sleep 2; done;']
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-mysql-init
+          terminationMessagePolicy: FallbackToLogsOnError
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:

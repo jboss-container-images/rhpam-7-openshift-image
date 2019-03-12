@@ -1400,6 +1400,12 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+        initContainers:
+        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-postgresql-1; do echo waiting for ${APPLICATION_NAME}-postgresql-1; sleep 2; done;']
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-postgresql-init-1
+          terminationMessagePolicy: FallbackToLogsOnError
 ## KIE server deployment config 1 END
 ## PostgreSQL deployment config 1 BEGIN
 - kind: DeploymentConfig
@@ -1724,6 +1730,12 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
+        initContainers:
+        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-postgresql-2; do echo waiting for ${APPLICATION_NAME}-postgresql-2; sleep 2; done;']
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-postgresql-init-2
+          terminationMessagePolicy: FallbackToLogsOnError
 ## KIE server deployment config 2 END
 ## PostgreSQL deployment config 2 BEGIN
 - kind: DeploymentConfig
