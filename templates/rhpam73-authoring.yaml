@@ -187,6 +187,11 @@ parameters:
   value: 1Gi
   required: true
 ## OpenShift Enhancement BEGIN
+- displayName: Enable KIE server global discovery [Tech Preview]
+  description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
+  name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+  value: "false"
+  required: false
 - displayName: Prefer KIE Server OpenShift Service [Tech Preview]
   description: Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
@@ -657,6 +662,8 @@ objects:
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+            value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
             value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
           - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
