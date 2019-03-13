@@ -97,6 +97,9 @@ envs:
       example: "dasd373egds"
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
 ## OpenShift Enhancement BEGIN
+    - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+      example: "false"
+      description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
     - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
       example: "false"
       description: "If set to true, enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)"
