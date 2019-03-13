@@ -98,20 +98,25 @@ parameters:
   generate: expression
   required: false
 ## OpenShift Enhancement BEGIN
-- displayName: Enable OpenShift Integration
-  description: If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)
-  name: KIE_CONTROLLER_OCP_ENABLED
+- displayName: Enable KIE server global discovery [Tech Preview]
+  description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
+  name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
   value: "false"
   required: false
-- displayName: Prefer KIE Server OpenShift Service
+- displayName: Prefer KIE Server OpenShift Service [Tech Preview]
   description: Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
-  name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+  name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
   value: "false"
   required: false
-- displayName: KIE ServerTemplate Cache TTL
+- displayName: KIE ServerTemplate Cache TTL [Tech Preview]
   description: KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)
-  name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
+  name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
   value: "60000"
+  required: false
+- displayName: Enable OpenShift Integration [Tech Preview]
+  description: If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)
+  name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
+  value: "false"
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
@@ -633,12 +638,14 @@ objects:
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
 ## OpenShift Enhancement BEGIN
-          - name: KIE_CONTROLLER_OCP_ENABLED
-            value: "${KIE_CONTROLLER_OCP_ENABLED}"
-          - name: KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
-            value: "${KIE_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
-          - name: KIE_CONTROLLER_TEMPLATE_CACHE_TTL
-            value: "${KIE_CONTROLLER_TEMPLATE_CACHE_TTL}"
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+            value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+            value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
+          - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
+            value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
+          - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
+            value: "${KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED}"
 ## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_MONITOR_USER}"
