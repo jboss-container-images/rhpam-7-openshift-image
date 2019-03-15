@@ -1,32 +1,32 @@
 builds:
   # Product builds
-  - name: "rhpam-businesscentral-openshift-dev"
+  - name: "rhpam-businesscentral-openshift"
     descriptor: "businesscentral/image.yaml"
     product: true
     overrides:
-      - "businesscentral/dev-overrides.yaml"
-  - name: "rhpam-businesscentral-indexing-openshift-dev"
+      - "businesscentral/branch-overrides.yaml"
+  - name: "rhpam-businesscentral-indexing-openshift"
     descriptor: "businesscentral-indexing/image.yaml"
     product: true
     overrides:
-      - "businesscentral-indexing/dev-overrides.yaml"
-  - name: "rhpam-businesscentral-monitoring-openshift-dev"
+      - "businesscentral-indexing/branch-overrides.yaml"
+  - name: "rhpam-businesscentral-monitoring-openshift"
     descriptor: "businesscentral-monitoring/image.yaml"
     product: true
     overrides:
-      - "businesscentral-monitoring/dev-overrides.yaml"
-  - name: "rhpam-controller-openshift-dev"
+      - "businesscentral-monitoring/branch-overrides.yaml"
+  - name: "rhpam-controller-openshift"
     descriptor: "controller/image.yaml"
     product: true
     overrides:
-      - "controller/dev-overrides.yaml"
-  - name: "rhpam-kieserver-openshift-dev"
+      - "controller/branch-overrides.yaml"
+  - name: "rhpam-kieserver-openshift"
     descriptor: "kieserver/image.yaml"
     product: true
     overrides:
-      - "kieserver/dev-overrides.yaml"
-  - name: "rhpam-smartrouter-openshift-dev"
+      - "kieserver/branch-overrides.yaml"
+  - name: "rhpam-smartrouter-openshift"
     descriptor: "smartrouter/image.yaml"
     product: true
     overrides:
-      - "smartrouter/dev-overrides.yaml"
+      - "smartrouter/branch-overrides.yaml"
