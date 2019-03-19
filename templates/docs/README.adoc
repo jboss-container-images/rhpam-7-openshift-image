@@ -6,7 +6,7 @@
 = Application Templates
 
 This project contains OpenShift v3 application templates which support applications based on RHPAM products.
-Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/master[here].
+Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.3.x/templates[here].
 
 :icons: font
 :toc: macro
@@ -21,6 +21,7 @@ toc::[levels=1]
 * link:rhpam73-kieserver-externaldb.adoc[rhpam73-kieserver-externaldb]
 * link:rhpam73-kieserver-mysql.adoc[rhpam73-kieserver-mysql]
 * link:rhpam73-kieserver-postgresql.adoc[rhpam73-kieserver-postgresql]
+* link:rhpam73-managed.adoc[rhpam73-managed]
 * link:rhpam73-prod-immutable-kieserver.adoc[rhpam73-prod-immutable-kieserver]
 * link:rhpam73-prod-immutable-monitor.adoc[rhpam73-prod-immutable-monitor]
 * link:rhpam73-prod.adoc[rhpam73-prod]
