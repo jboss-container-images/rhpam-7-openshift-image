@@ -536,6 +536,7 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: Route for KIE server's http service.
+      haproxy.router.openshift.io/balance: source
   spec:
     host: "${KIE_SERVER_HOSTNAME_HTTP}"
     to:
@@ -572,6 +573,7 @@ objects:
   spec:
     strategy:
       rollingParams:
+        maxSurge: 100%
         maxUnavailable: 0
       type: Rolling
     triggers:
