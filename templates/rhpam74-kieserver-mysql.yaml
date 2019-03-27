@@ -551,6 +551,7 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
+      services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -580,6 +581,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver"
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver"
+          services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
@@ -653,7 +655,9 @@ objects:
           - name: KIE_SERVER_CONTROLLER_PORT
             value: "${KIE_SERVER_CONTROLLER_PORT}"
           - name: KIE_SERVER_ID
-            value: "${APPLICATION_NAME}-kieserver"
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
