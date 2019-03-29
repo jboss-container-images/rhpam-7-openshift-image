@@ -45,7 +45,7 @@ parameters:
 - displayName: Maven repository ID
   description: The id to use for the maven repository, if set. Default is generated randomly.
   name: MAVEN_REPO_ID
-  example: my-repo-id
+  value: repo-custom
   required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
@@ -616,6 +616,8 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: MAVEN_REPOS
             value: "RHPAMCENTR,EXTERNAL"
+          - name: RHPAMCENTR_MAVEN_REPO_ID
+            value: "repo-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_SERVICE
             value: "${BUSINESS_CENTRAL_MAVEN_SERVICE}"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
