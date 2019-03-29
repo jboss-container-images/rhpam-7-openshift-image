@@ -360,10 +360,15 @@ parameters:
   description: Maven mirror to use by Business Central and KIE server.
   name: MAVEN_MIRROR_URL
   required: false
+- displayName: Maven mirror of
+  description: Maven mirror configuration for KIE server.
+  name: MAVEN_MIRROR_OF
+  value: "external:*,!repo-rhpamcentr"
+  required: false
 - displayName: Maven repository ID
-  description: The id to use for the maven repository, if set. Default is generated randomly.
+  description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
   name: MAVEN_REPO_ID
-  example: my-repo-id
+  value: repo-custom
   required: false
 - displayName: Maven repository URL
   description: Fully qualified URL to a Maven repository or service.
@@ -1250,8 +1255,12 @@ objects:
             value: "${KIE_SERVER_USER}"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
+          - name: MAVEN_MIRROR_OF
+            value: "${MAVEN_MIRROR_OF}"
           - name: MAVEN_REPOS
             value: "RHPAMCENTR,EXTERNAL"
+          - name: RHPAMCENTR_MAVEN_REPO_ID
+            value: "repo-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_SERVICE
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
