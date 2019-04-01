@@ -16,6 +16,9 @@ labels:
     - name: "io.openshift.tags"
       value: "javaee,rhpam,rhpam7"
 envs:
+    - name: "SCRIPT_DEBUG"
+      example: "true"
+      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
     - name: "KIE_SERVER_ROUTER_ID"
       example: "kie-server-router"
       description: "Router ID used when connecting to the controller (property org.kie.server.router.id)"
