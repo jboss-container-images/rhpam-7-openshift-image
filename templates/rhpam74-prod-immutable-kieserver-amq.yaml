@@ -315,13 +315,28 @@ parameters:
   required: false
 - displayName: Enable KIE Server JMS Signal Queue
   description: "JMS queue for signals"
-  name: "KIE_SERVER_JMS_ENABLE_SIGNAL"
+  name: KIE_SERVER_JMS_ENABLE_SIGNAL
   value: "true"
   required: false
 - displayName: KIE Server JMS Signal Queue
   description: "Enable the Signal configuration through JMS"
-  name: "KIE_SERVER_JMS_QUEUE_SIGNAL"
-  example: "queue/KIE.SERVER.SIGNAL"
+  name: KIE_SERVER_JMS_QUEUE_SIGNAL
+  example: queue/KIE.SERVER.SIGNAL
+  required: false
+- displayName: Enable KIE Server JMS Audit
+  description: "Enable the Audit logging through JMS"
+  name: KIE_SERVER_JMS_ENABLE_AUDIT
+  value: "true"
+  required: false
+- displayName: KIE Server JMS Audit Queue
+  description: "JMS queue for audit logging"
+  name: KIE_SERVER_JMS_QUEUE_AUDIT
+  example: queue/KIE.SERVER.AUDIT
+  required: false
+- displayName: KIE Server JMS Audit logger transacted
+  description: "determines if JMS session is transacted or not - default true."
+  name: KIE_SERVER_JMS_AUDIT_TRANSACTED
+  example: "false"
   required: false
 - displayName: AMQ Username
   description: "User name for standard broker user. It is required for connecting to the broker. If left empty, it will be generated."
@@ -341,9 +356,9 @@ parameters:
   value: admin
   required: true
 - displayName: AMQ Queues
-  description: "Queue names, separated by commas. These queues will be automatically created when the broker starts. Also, they will be made accessible as JNDI resources in EAP. These are the default queues needed by KIE Server. If using custom Queues use the same value here than KIE_SERVER_JMS_QUEUE_RESPONSE, KIE_SERVER_JMS_QUEUE_REQUEST and KIE_SERVER_JMS_QUEUE_EXECUTOR env."
+  description: "Queue names, separated by commas. These queues will be automatically created when the broker starts. Also, they will be made accessible as JNDI resources in EAP. These are the default queues needed by KIE Server. If using custom Queues use the same value here than KIE_SERVER_JMS_QUEUE_RESPONSE, KIE_SERVER_JMS_QUEUE_REQUEST, KIE_SERVER_JMS_QUEUE_SIGNAL, KIE_SERVER_JMS_QUEUE_AUDIT  and KIE_SERVER_JMS_QUEUE_EXECUTOR env."
   name: AMQ_QUEUES
-  value: queue/KIE.SERVER.REQUEST,queue/KIE.SERVER.RESPONSE,queue/KIE.SERVER.EXECUTOR,queue/KIE.SERVER.SIGNAL
+  value: queue/KIE.SERVER.REQUEST,queue/KIE.SERVER.RESPONSE,queue/KIE.SERVER.EXECUTOR,queue/KIE.SERVER.SIGNAL,queue/KIE.SERVER.AUDIT
   required: false
 - displayName: AMQ Global Max Size
   description: "Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated."
@@ -947,6 +962,12 @@ objects:
             value: "${KIE_SERVER_JMS_ENABLE_SIGNAL}"
           - name: KIE_SERVER_JMS_QUEUE_SIGNAL
             value: "${KIE_SERVER_JMS_QUEUE_SIGNAL}"
+          - name: KIE_SERVER_JMS_ENABLE_AUDIT
+            value: "${KIE_SERVER_JMS_ENABLE_AUDIT}"
+          - name: KIE_SERVER_JMS_QUEUE_AUDIT
+            value: "${KIE_SERVER_JMS_QUEUE_AUDIT}"
+          - name: KIE_SERVER_JMS_AUDIT_TRANSACTED
+            value: "${KIE_SERVER_JMS_AUDIT_TRANSACTED}"
           - name: MQ_SERVICE_PREFIX_MAPPING
             value: "${APPLICATION_NAME}-amq7=AMQ"
           - name: AMQ_USERNAME
