@@ -91,15 +91,16 @@ modules:
                   ref: master
       install:
           - name: jboss.container.openjdk.jdk
-            version: "8"
+            version: "11"
           - name: rhpam-7-smartrouter
           - name: dynamic-resources
-          - name: java-alternatives
           - name: os-java-run
           - name: os-logging
           - name: jboss-kie-smartrouter
 packages:
       content_sets_file: content_sets.yml
+      install:
+          - hostname
 osbs:
       configuration:
           container_file: container.yaml
