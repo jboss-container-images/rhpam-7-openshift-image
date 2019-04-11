@@ -205,8 +205,8 @@ parameters:
   name: KIE_SERVER_HTTPS_PASSWORD
   value: mykeystorepass
   required: false
+- displayName: KIE server bypass auth user.
   description: Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property)
-  description: KIE server bypass auth user. (Sets the org.kie.server.bypass.auth.user system property)
   name: KIE_SERVER_BYPASS_AUTH_USER
   value: 'false'
   required: false
