@@ -403,7 +403,7 @@ parameters:
 - displayName: LDAP Default role
   description: A role included for all authenticated users.
   name: AUTH_LDAP_DEFAULT_ROLE
-  example: "guest"
+  example: "user"
   required: false
 - displayName: LDAP Role name attribute ID
   description: Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object’s name attribute.

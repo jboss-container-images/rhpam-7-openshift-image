@@ -113,25 +113,25 @@ parameters:
   value: 'true'
   required: false
 - displayName: Business Central Custom http Route Hostname
-  description: 'Custom hostname for the http service route for Business Central. Leave blank 
+  description: 'Custom hostname for the http service route for Business Central. Leave blank
     for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Business Central Custom https Route Hostname
-  description: 'Custom hostname for the https service route for Business Central. Leave blank for 
+  description: 'Custom hostname for the https service route for Business Central. Leave blank for
     default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
 - displayName: KIE Server Custom http Route Hostname
-  description: 'Custom hostname for the http service route for KIE Server. Leave blank for 
+  description: 'Custom hostname for the http service route for KIE Server. Leave blank for
     default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: KIE Server Custom https Route Hostname
-  description: 'Custom hostname for the https service route for KIE Server. Leave blank for 
+  description: 'Custom hostname for the https service route for KIE Server. Leave blank for
     default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
@@ -414,7 +414,7 @@ parameters:
 - displayName: LDAP Default role
   description: A role included for all authenticated users
   name: AUTH_LDAP_DEFAULT_ROLE
-  example: "guest"
+  example: "user"
   required: false
 - displayName: LDAP Role name attribute ID
   description: Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object’s name attribute.
