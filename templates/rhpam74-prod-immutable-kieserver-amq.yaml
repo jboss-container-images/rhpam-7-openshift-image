@@ -13,9 +13,9 @@ metadata:
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.4/html/deploying_a_red_hat_process_automation_manager_7.4_immutable_server_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam74-prod-immutable-kieserver
+  name: rhpam74-prod-immutable-kieserver-amq
 labels:
-  template: rhpam74-prod-immutable-kieserver
+  template: rhpam74-prod-immutable-kieserver-amq
   rhpam: "1.0"
 message: |-
           A new immutable Red Hat Process Automation Manager KIE server have been created in your project.
