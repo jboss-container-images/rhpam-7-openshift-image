@@ -36,7 +36,6 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
-import org.kie.remote.common.rest.KieRemoteHttpRequest;
 import org.kie.server.api.marshalling.MarshallingFormat;
 import org.kie.server.api.model.ServiceResponse;
 import org.kie.server.client.KieServicesClient;
@@ -44,6 +43,7 @@ import org.kie.server.client.KieServicesConfiguration;
 import org.kie.server.client.KieServicesFactory;
 import org.kie.server.client.ProcessServicesClient;
 import org.kie.server.client.RuleServicesClient;
+import org.kie.server.common.rest.KieServerHttpRequest;
 import org.openshift.quickstarts.rhpam.kieserver.library.types.Book;
 import org.openshift.quickstarts.rhpam.kieserver.library.types.Loan;
 import org.openshift.quickstarts.rhpam.kieserver.library.types.LoanRequest;
@@ -145,9 +145,9 @@ public class LibraryClient {
         props.setProperty(Context.SECURITY_PRINCIPAL, username);
         props.setProperty(Context.SECURITY_CREDENTIALS, password);
         InitialContext context = new InitialContext(props);
-        ConnectionFactory connectionFactory = (ConnectionFactory)context.lookup("ConnectionFactory");
-        Queue requestQueue = (Queue)context.lookup("dynamicQueues/queue/KIE.SERVER.REQUEST");
-        Queue responseQueue = (Queue)context.lookup("dynamicQueues/queue/KIE.SERVER.RESPONSE");
+        ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("ConnectionFactory");
+        Queue requestQueue = (Queue) context.lookup("dynamicQueues/queue/KIE.SERVER.REQUEST");
+        Queue responseQueue = (Queue) context.lookup("dynamicQueues/queue/KIE.SERVER.RESPONSE");
         KieServicesConfiguration kiecfg = KieServicesFactory.newJMSConfiguration(connectionFactory, requestQueue, responseQueue, qusername, qpassword);
         runRemote(out, kiecfg);
     }
@@ -252,10 +252,10 @@ public class LibraryClient {
             //logger.info(String.valueOf(serviceResponse));
             execResults = serviceResponse.getResult();
         }
-        QueryResults queryResults = (QueryResults)execResults.getValue("suggestion");
+        QueryResults queryResults = (QueryResults) execResults.getValue("suggestion");
         if (queryResults != null) {
             for (QueryResultsRow queryResult : queryResults) {
-                SuggestionResponse suggestionResponse = (SuggestionResponse)queryResult.get("suggestionResponse");
+                SuggestionResponse suggestionResponse = (SuggestionResponse) queryResult.get("suggestionResponse");
                 if (suggestionResponse != null) {
                     return suggestionResponse.getSuggestion();
                 }
@@ -272,12 +272,12 @@ public class LibraryClient {
         LoanResponse loanResponse;
         if (appcfg.getKieSession() != null) {
             KieSession kieSession = appcfg.getKieSession();
-            WorkflowProcessInstance procinst = (WorkflowProcessInstance)kieSession.startProcess("LibraryProcess", parameters);
-            loanResponse = (LoanResponse)procinst.getVariable("loanResponse");
+            WorkflowProcessInstance procinst = (WorkflowProcessInstance) kieSession.startProcess("LibraryProcess", parameters);
+            loanResponse = (LoanResponse) procinst.getVariable("loanResponse");
         } else {
             ProcessServicesClient procserv = appcfg.getProcessServicesClient();
             Long pid = procserv.startProcess("rhpam-kieserver-library", "LibraryProcess", parameters);
-            loanResponse = (LoanResponse)procserv.getProcessInstanceVariable("rhpam-kieserver-library", pid, "loanResponse");
+            loanResponse = (LoanResponse) procserv.getProcessInstanceVariable("rhpam-kieserver-library", pid, "loanResponse");
         }
         return loanResponse != null ? loanResponse.getLoan() : null;
     }
@@ -288,9 +288,9 @@ public class LibraryClient {
         ReturnResponse returnResponse;
         if (appcfg.getKieSession() != null) {
             KieSession kieSession = appcfg.getKieSession();
-            WorkflowProcessInstance procinst = (WorkflowProcessInstance)kieSession.getProcessInstance(loan.getId());
+            WorkflowProcessInstance procinst = (WorkflowProcessInstance) kieSession.getProcessInstance(loan.getId());
             procinst.signalEvent("ReturnSignal", returnRequest);
-            returnResponse = (ReturnResponse)procinst.getVariable("returnResponse");
+            returnResponse = (ReturnResponse) procinst.getVariable("returnResponse");
         } else {
             ProcessServicesClient procserv = appcfg.getProcessServicesClient();
             procserv.signalProcessInstance("rhpam-kieserver-library", loan.getId(), "ReturnSignal", returnRequest);
@@ -303,31 +303,38 @@ public class LibraryClient {
 
     // only needed for non-production test scenarios where the TLS certificate isn't set up properly
     private void forgiveUnknownCert() throws Exception {
-        KieRemoteHttpRequest.ConnectionFactory connf = new KieRemoteHttpRequest.ConnectionFactory() {
+        KieServerHttpRequest.ConnectionFactory connf = new KieServerHttpRequest.ConnectionFactory() {
+
             public HttpURLConnection create(URL u) throws IOException {
-                return forgiveUnknownCert((HttpURLConnection)u.openConnection());
+                return forgiveUnknownCert((HttpURLConnection) u.openConnection());
             }
+
             public HttpURLConnection create(URL u, Proxy p) throws IOException {
-                return forgiveUnknownCert((HttpURLConnection)u.openConnection(p));
+                return forgiveUnknownCert((HttpURLConnection) u.openConnection(p));
             }
+
             private HttpURLConnection forgiveUnknownCert(HttpURLConnection conn) throws IOException {
                 if (conn instanceof HttpsURLConnection) {
                     HttpsURLConnection sconn = HttpsURLConnection.class.cast(conn);
                     sconn.setHostnameVerifier(new HostnameVerifier() {
+
                         public boolean verify(String arg0, SSLSession arg1) {
                             return true;
                         }
                     });
                     try {
                         SSLContext context = SSLContext.getInstance("TLS");
-                        context.init(null, new TrustManager[] {
-                            new X509TrustManager() {
-                                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
-                                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
-                                public X509Certificate[] getAcceptedIssuers() {
-                                    return null;
-                                }
-                            }
+                        context.init(null, new TrustManager[]{
+                                                              new X509TrustManager() {
+
+                                                                  public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+
+                                                                  public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+
+                                                                  public X509Certificate[] getAcceptedIssuers() {
+                                                                      return null;
+                                                                  }
+                                                              }
                         }, null);
                         sconn.setSSLSocketFactory(context.getSocketFactory());
                     } catch (Exception e) {
@@ -337,7 +344,7 @@ public class LibraryClient {
                 return conn;
             }
         };
-        Field field = KieRemoteHttpRequest.class.getDeclaredField("CONNECTION_FACTORY");
+        Field field = KieServerHttpRequest.class.getDeclaredField("CONNECTION_FACTORY");
         field.setAccessible(true);
         field.set(null, connf);
     }

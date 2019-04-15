@@ -213,7 +213,7 @@ parameters:
 - displayName: KIE Server Container Deployment
   description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
   name: KIE_SERVER_CONTAINER_DEPLOYMENT
-  example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.4.0-SNAPSHOT
+  example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.5.0-SNAPSHOT
   required: true
 - displayName: Git Repository URL
   description: Git source URI for application.

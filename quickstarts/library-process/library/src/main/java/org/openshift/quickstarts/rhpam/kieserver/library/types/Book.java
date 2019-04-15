@@ -15,11 +15,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "book", propOrder = {"id", "isbn", "title", "synopsis", "available"})
 @Entity
-@Table(name="book")
+@Table(name = "book")
 public class Book implements Serializable {
 
     @Id
-    @Column(name="book_id")
+    @Column(name = "book_id")
     @GeneratedValue
     protected long id;
     @Column
@@ -114,8 +114,7 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", synopsis=" + synopsis + ", available="
- + available + "]";
+        return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", synopsis=" + synopsis + ", available=" + available + "]";
     }
 
 }
