@@ -17,15 +17,16 @@ import org.openshift.quickstarts.rhpam.kieserver.library.types.Loan;
 
 public final class Library {
 
-    private static final Object[][] INIT = new Object[][] {
-        new Object[] {"978-0-307-35193-7", "World War Z", "An Oral History of the Zombie War", 1},
-        new Object[] {"978-0-7360-9829-8", "Successful Sports Officiating", "American Sports Education Program.", 3},
-        new Object[] {"978-0-7434-8773-3", "The Time Machine", "H. G. Wells' story of a time traveler.", 8},
-        new Object[] {"978-1-101-15402-1", "The Island of Dr. Moreau", "H. G. Wells' story of what may be most relevant to modern ethical dimemmas.", 5},
-        new Object[] {"978-1-4000-5-80-2", "The Zombie Survival Guide", "Complete Protection from the Living Dead", 6},
-        new Object[] {"978-1-448-14153-1", "Doctor Who: Summer Falls", "Story of Amelia Williams.", 2},
-        new Object[] {"978-1-4516-7486-6", "Tesla, Man Out of Time", "Explores the brilliant and prescient mind of one of the twentieth century's greatest scientists and inventors, Nikola Tesla.", 4},
-        new Object[] {"978-1-59474-449-5", "Pride and Prejudice and Zombies", "The Classic Regency Romance -- Now with Ultraviolent Zombie Mayhem!", 7}
+    private static final Object[][] INIT = new Object[][]{
+                                                          new Object[]{"978-0-307-35193-7", "World War Z", "An Oral History of the Zombie War", 1},
+                                                          new Object[]{"978-0-7360-9829-8", "Successful Sports Officiating", "American Sports Education Program.", 3},
+                                                          new Object[]{"978-0-7434-8773-3", "The Time Machine", "H. G. Wells' story of a time traveler.", 8},
+                                                          new Object[]{"978-1-101-15402-1", "The Island of Dr. Moreau", "H. G. Wells' story of what may be most relevant to modern ethical dimemmas.", 5},
+                                                          new Object[]{"978-1-4000-5-80-2", "The Zombie Survival Guide", "Complete Protection from the Living Dead", 6},
+                                                          new Object[]{"978-1-448-14153-1", "Doctor Who: Summer Falls", "Story of Amelia Williams.", 2},
+                                                          new Object[]{"978-1-4516-7486-6", "Tesla, Man Out of Time",
+                                                                       "Explores the brilliant and prescient mind of one of the twentieth century's greatest scientists and inventors, Nikola Tesla.", 4},
+                                                          new Object[]{"978-1-59474-449-5", "Pride and Prejudice and Zombies", "The Classic Regency Romance -- Now with Ultraviolent Zombie Mayhem!", 7}
     };
 
     private static final Library INSTANCE = new Library();
@@ -37,20 +38,22 @@ public final class Library {
     private EntityManagerFactory emf = null;
 
     private static final class Init extends LibraryTransaction<Object> {
+
         private Init(EntityManagerFactory emf) {
             super(emf);
         }
+
         @Override
         public Object call() throws Exception {
             Query query = em().createQuery("select count(b) from Book b");
-            Long result = (Long)query.getSingleResult();
+            Long result = (Long) query.getSingleResult();
             if (result.intValue() == 0) {
                 for (Object[] b : INIT) {
-                    String isbn = (String)b[0];
-                    String title = (String)b[1];
-                    String synopsis = (String)b[2];
-                    Integer quantity = (Integer)b[3];
-                    for (int i=0; i < quantity; i++) {
+                    String isbn = (String) b[0];
+                    String title = (String) b[1];
+                    String synopsis = (String) b[2];
+                    Integer quantity = (Integer) b[3];
+                    for (int i = 0; i < quantity; i++) {
                         Book book = new Book(isbn, title, synopsis);
                         em().persist(book);
                     }
@@ -59,12 +62,13 @@ public final class Library {
             return null;
         }
     }
+
     public synchronized Library init(KieContext kcontext) {
         if (emf == null) {
             final ClassLoader tccl = Thread.currentThread().getContextClassLoader();
             try {
                 // https://issues.jboss.org/browse/DROOLS-1108
-                ClassLoader cl = ((InternalKnowledgeBase)kcontext.getKieRuntime().getKieBase()).getRootClassLoader();
+                ClassLoader cl = ((InternalKnowledgeBase) kcontext.getKieRuntime().getKieBase()).getRootClassLoader();
                 Thread.currentThread().setContextClassLoader(cl);
                 emf = Persistence.createEntityManagerFactory("library");
             } finally {
@@ -75,12 +79,24 @@ public final class Library {
         return this;
     }
 
+    //used in unit tests, don't expose
+    synchronized Library init() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("library");
+            new Init(emf).transact();
+        }
+        return this;
+    }
+
     private static final class GetFirstAvailableBooks extends LibraryTransaction<Collection<Book>> {
+
         private final String keyword;
+
         private GetFirstAvailableBooks(EntityManagerFactory emf, String keyword) {
             super(emf);
             this.keyword = keyword;
         }
+
         @Override
         public Collection<Book> call() throws Exception {
             Collection<Book> books = new ArrayList<Book>();
@@ -91,7 +107,7 @@ public final class Library {
             List<?> results = query.getResultList();
             Set<String> isbns = new HashSet<String>();
             for (Object result : results) {
-                Book book = (Book)result;
+                Book book = (Book) result;
                 if (!isbns.contains(book.getIsbn())) {
                     isbns.add(book.getIsbn());
                     books.add(book);
@@ -100,18 +116,22 @@ public final class Library {
             return books;
         }
     }
+
     public Collection<Book> getFirstAvailableBooks(final String keyword) {
         return new GetFirstAvailableBooks(emf, keyword).transact();
     }
 
     private static final class AttemptLoan extends LibraryTransaction<Loan> {
+
         final String isbn;
         final long loanId;
+
         private AttemptLoan(EntityManagerFactory emf, String isbn, long loanId) {
             super(emf);
             this.isbn = isbn;
             this.loanId = loanId;
         }
+
         @Override
         public Loan call() throws Exception {
             Loan loan = new Loan();
@@ -121,7 +141,7 @@ public final class Library {
             query.setParameter("isbn", isbn);
             List<?> results = query.getResultList();
             for (Object result : results) {
-                book = (Book)result;
+                book = (Book) result;
                 break;
             }
             if (book != null) {
@@ -137,16 +157,20 @@ public final class Library {
             return loan;
         }
     }
+
     public Loan attemptLoan(String isbn, long loanId) {
         return new AttemptLoan(emf, isbn, loanId).transact();
     }
 
     public static final class ReturnLoan extends LibraryTransaction<Boolean> {
+
         private final Loan loan;
+
         private ReturnLoan(EntityManagerFactory emf, Loan loan) {
             super(emf);
             this.loan = loan;
         }
+
         @Override
         public Boolean call() throws Exception {
             boolean returned = false;
@@ -164,6 +188,7 @@ public final class Library {
             return returned;
         }
     }
+
     public boolean returnLoan(Loan loan) {
         return new ReturnLoan(emf, loan).transact();
     }
