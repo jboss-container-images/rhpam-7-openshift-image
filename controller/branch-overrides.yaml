@@ -4,12 +4,12 @@ modules:
       repositories:
           - name: cct_module
             git:
-                  url: https://github.com/jboss-openshift/cct_module.git
-                  ref: sprint-28
+                  url: https://github.com/jmtd/cct_module.git
+                  ref: rhel82k19
           - name: jboss-eap-modules
             git:
-                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: sprint-28
+                  url: https://github.com/luck3y/jboss-eap-modules.git
+                  ref: ubi8-minimal
           - name: jboss-eap-7-image
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-7-image.git
@@ -20,5 +20,5 @@ modules:
                   ref: 7.3.x
           - name: jboss-kie-modules
             git:
-                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: 7.3.x
+                  url: https://github.com/errantepiphany/jboss-kie-modules.git
+                  ref: RHDM-894_RHPAM-2016_7.3.x

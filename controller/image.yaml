@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam73-controller-openshift"
 description: "Red Hat Process Automation Manager Standalone Controller 7.3 container image"
 version: "1.1"
-from: "rhel7:7-released"
+from: "ubi8-dev-preview/ubi:latest"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam73-controller-openshift-container"
@@ -78,6 +78,8 @@ modules:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: master
       install:
+          - name: jboss.container.maven.35.bash
+            version: "3.5"
           - name: jboss.container.openjdk.jdk
             version: "8"
           - name: eap-7.2-latest
@@ -88,9 +90,11 @@ modules:
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap72.openshift
+            version: '1.0-openjdk8'
           - name: jboss.eap.cd.openshift.modules
           - name: os-eap7-ping
           - name: os-eap-activemq-rar
+            version: '1.1'
           - name: os-java-run
           - name: os-eap-launch
           - name: os-eap7-launch
@@ -101,8 +105,10 @@ modules:
           - name: jboss.eap.config.elytron
           - name: jboss.eap.config.tracing
           - name: os-eap-probes
+            version: '2.0'
           - name: jboss-maven
           - name: os-eap-db-drivers
+            version: '2.0'
           - name: os-eap-sso
           - name: os-eap70-sso
           - name: os-java-hawkular
@@ -115,14 +121,13 @@ modules:
           - name: os-logging
           - name: jboss.container.eap.prometheus.config
             version: '7.2'
+          - name: os-eap-txnrecovery.run
+            version: 'python3'
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-controller
 packages:
       content_sets_file: content_sets.yml
       install:
-          - python-requests
-          - python-enum34
-          - PyYAML
           - hostname
 osbs:
       configuration:

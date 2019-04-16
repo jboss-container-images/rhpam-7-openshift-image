@@ -4,3 +4,4 @@ platforms:
   - x86_64
 compose:
   pulp_repos: true
+  include_unpublished_pulp_repos: true
