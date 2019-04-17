@@ -225,6 +225,17 @@ parameters:
   name: DATAGRID_IMAGE
   value: registry.redhat.io/jboss-datagrid-7/datagrid72-openshift:1.3
   required: true
+- displayName: DataGrid User
+  description: DataGrid user name.
+  name: DATAGRID_USER
+  value: datagridUser
+  required: true
+- displayName: DataGrid Password
+  description: DataGrid password.
+  name: DATAGRID_PASSWORD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: true
 - displayName: DataGrid Container Memory Limit
   description: DataGrid Container memory limit
   name: DATAGRID_MEMORY_LIMIT
@@ -880,6 +891,14 @@ objects:
             value: ${APPLICATION_NAME}-datagrid-ping
           - name: INFINISPAN_CONNECTORS
             value: "hotrod"
+          - name: HOTROD_AUTHENTICATION
+            value: "true"
+          - name: USERNAME
+            value: "${DATAGRID_USER}"
+          - name: PASSWORD
+            value: "${DATAGRID_PASSWORD}"
+          - name: CONTAINER_SECURITY_ROLES
+            value: "${DATAGRID_USER}=ALL"
           image: ${DATAGRID_IMAGE}
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-datagrid
@@ -1087,6 +1106,16 @@ objects:
             value: "${APPLICATION_NAME}-datagrid"
           - name: APPFORMER_INFINISPAN_PORT
             value: "11222"
+          - name: APPFORMER_INFINISPAN_USER
+            value: "${DATAGRID_USER}"
+          - name: APPFORMER_INFINISPAN_PASSWORD
+            value: "${DATAGRID_PASSWORD}"
+          - name: APPFORMER_INFINISPAN_REALM
+            value: "ApplicationRealm"
+          - name: APPFORMER_INFINISPAN_SERVER_NAME
+            value: "jdg-server"
+          - name: APPFORMER_INFINISPAN_SASL_QOP
+            value: "auth"
           - name: APPFORMER_JMS_BROKER_ADDRESS
             value: "${APPLICATION_NAME}-amq-tcp"
           - name: APPFORMER_JMS_BROKER_PORT
