@@ -119,25 +119,20 @@ parameters:
   value: ''
   required: false
 ## OpenShift Enhancement BEGIN
-- displayName: Enable KIE server global discovery [Tech Preview]
+- displayName: Enable KIE server global discovery 
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
   value: "false"
   required: false
-- displayName: Prefer KIE Server OpenShift Service [Tech Preview]
+- displayName: Prefer KIE Server OpenShift Service 
   description: If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
   value: "false"
   required: false
-- displayName: KIE ServerTemplate Cache TTL [Tech Preview]
+- displayName: KIE ServerTemplate Cache TTL 
   description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
   name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
   value: "60000"
-  required: false
-- displayName: Enable OpenShift Integration [Tech Preview]
-  description: If set to true, turns on OpenShift integration feature in Business Central. With OpenShift integration, Business Central automatically discovers and connects to any KIE server in the same namespace, provided that OpenShift integration (OpenShiftStartupStrategy) is enabled on the KIE server. (Sets the org.kie.workbench.controller.openshift.enabled system property)
-  name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-  value: "false"
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
@@ -200,11 +195,6 @@ parameters:
   description: KIE server Container memory limit.
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
-  required: false
-- displayName: KIE Server Startup Strategy
-  description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently using shared state from OpenShift API service and to connect to a Business Central that uses OpenShift integration. Default: ControllerBasedStartupStrategy"
-  name: KIE_SERVER_STARTUP_STRATEGY
-  value: ControllerBasedStartupStrategy
   required: false
 - displayName: RH-SSO URL
   description: RH-SSO URL.
@@ -536,7 +526,7 @@ objects:
           - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
             value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
           - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-            value: "${KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED}"
+            value: "true"
 ## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
@@ -637,6 +627,7 @@ objects:
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
+    revisionHistoryLimit: 10
     strategy:
       rollingParams:
         maxSurge: 100%
@@ -714,14 +705,6 @@ objects:
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-          - name: KIE_SERVER_CONTROLLER_USER
-            value: "${KIE_SERVER_CONTROLLER_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${DEFAULT_PASSWORD}"
-          - name: KIE_SERVER_CONTROLLER_SERVICE
-            value: "${APPLICATION_NAME}-rhpamcentr"
-          - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "ws"
           - name: KIE_SERVER_ID
             valueFrom:
               fieldRef:
@@ -729,7 +712,7 @@ objects:
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "${KIE_SERVER_STARTUP_STRATEGY}"
+            value: "OpenShiftStartupStrategy"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD

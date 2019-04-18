@@ -6,7 +6,7 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,prod
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.4 managed production environment. This template contains Tech Preview functionalities.
+    openshift.io/display-name: Red Hat Process Automation Manager 7.4 managed production environment.
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.4
     template.openshift.io/long-description: This template defines resources needed for a HA production runtime environment for Red Hat Process Automation Manager 7.4, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
@@ -102,25 +102,20 @@ parameters:
   generate: expression
   required: false
 ## OpenShift Enhancement BEGIN
-- displayName: Enable KIE server global discovery [Tech Preview]
+- displayName: Enable KIE server global discovery 
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
   value: "false"
   required: false
-- displayName: Prefer KIE Server OpenShift Service [Tech Preview]
+- displayName: Prefer KIE Server OpenShift Service 
   description: If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
   value: "false"
   required: false
-- displayName: KIE ServerTemplate Cache TTL [Tech Preview]
+- displayName: KIE ServerTemplate Cache TTL 
   description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
   name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
   value: "60000"
-  required: false
-- displayName: Enable OpenShift Integration [Tech Preview]
-  description: If set to true, turns on OpenShift integration feature in Business Central. With OpenShift integration, Business Central automatically discovers and connects to any KIE server in the same namespace, provided that OpenShift integration (OpenShiftStartupStrategy) is enabled on the KIE server. (Sets the org.kie.workbench.controller.openshift.enabled system property)
-  name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-  value: "true"
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
@@ -320,11 +315,6 @@ parameters:
   description: KIE Server Container Replicas, will define how much KIE Server containers will be started.
   name: KIE_SERVER_CONTAINER_REPLICAS
   value: '3'
-  required: true
-- displayName: KIE Server Startup Strategy
-  description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently using shared state from OpenShift API service and to connect to a Business Central that uses OpenShift integration. Default: OpenShiftStartupStrategy"
-  name: KIE_SERVER_STARTUP_STRATEGY
-  value: OpenShiftStartupStrategy
   required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL.
@@ -777,7 +767,7 @@ objects:
           - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
             value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
           - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-            value: "${KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED}"
+            value: "true"
 ## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_USER
             value: "${KIE_SERVER_CONTROLLER_USER}"
@@ -885,6 +875,7 @@ objects:
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
+    revisionHistoryLimit: 10
     strategy:
       rollingParams:
         maxSurge: 100%
@@ -976,7 +967,7 @@ objects:
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "${KIE_SERVER_STARTUP_STRATEGY}"
+            value: "OpenShiftStartupStrategy"
           - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
             value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
@@ -1007,12 +998,6 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: KIE_SERVER_ROUTER_SERVICE
-            value: "${APPLICATION_NAME}-smartrouter"
-          - name: KIE_SERVER_ROUTER_PORT
-            value: "9000"
-          - name: KIE_SERVER_ROUTER_PROTOCOL
-            value: "${KIE_SERVER_ROUTER_PROTOCOL}"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
