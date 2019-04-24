@@ -1,0 +1,5 @@
+schema_version: 1
+
+name: kie-custom-jdbc-driver
+execute:
+- script: install.sh

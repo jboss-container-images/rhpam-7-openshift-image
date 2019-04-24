@@ -247,6 +247,23 @@ parameters:
   name: KIE_SERVER_EXTERNALDB_DRIVER_TYPE
   example: "4"
   required: false
+## Extension image configuration BEGIN
+- displayName: Drivers Extension Image
+  description: ImageStreamTag definition for the image containing the drivers and configuration. i.e custom-driver-image:1.0.
+  name: EXTENSIONS_IMAGE
+  value: custom-driver-extension:1.0
+  required: true
+- displayName: Drivers ImageStream Namespace
+  description: Namespace within which the ImageStream definition for the image containing the drivers and configuration is located.
+  name: EXTENSIONS_IMAGE_NAMESPACE
+  value: openshift
+  required: true
+- displayName: Drivers Image Install Directory
+  description: Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.).
+  name: EXTENSIONS_INSTALL_DIR
+  value: "/extensions"
+  required: true
+## Extension image configuration END
 ## External database parameters END
 - displayName: KIE Server Mode
   description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)."
@@ -570,6 +587,57 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-kieserver"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-kieserver"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+  spec:
+    source:
+      images:
+      - from:
+          kind: ImageStreamTag
+          namespace: "${EXTENSIONS_IMAGE_NAMESPACE}"
+          name: "${EXTENSIONS_IMAGE}"
+        paths:
+        - destinationDir: "./extensions/extras"
+          sourcePath: "${EXTENSIONS_INSTALL_DIR}/."
+    strategy:
+      type: Source
+      sourceStrategy:
+        env:
+        - name: CUSTOM_INSTALL_DIRECTORIES
+          value: "extensions/*"
+        forcePull: true
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
+    output:
+      to:
+        kind: ImageStreamTag
+        name: "${APPLICATION_NAME}-kieserver:latest"
+    triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ImageChange
+      imageChange:
+        from:
+          kind: ImageStreamTag
+          namespace: "${EXTENSIONS_IMAGE_NAMESPACE}"
+          name: "${EXTENSIONS_IMAGE}"
+    - type: ConfigChange
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -594,8 +662,7 @@ objects:
         - "${APPLICATION_NAME}-kieserver"
         from:
           kind: ImageStreamTag
-          namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
+          name: "${APPLICATION_NAME}-kieserver:latest"
     - type: ConfigChange
     replicas: 1
     selector:

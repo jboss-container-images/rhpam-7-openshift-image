@@ -26,3 +26,6 @@ venv/
 *.war
 */output/
 */results/
+module.xml
+install.properties
+db-overrides.yaml
