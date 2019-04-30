@@ -1,0 +1,33 @@
+schema_version: 1
+
+# Purpose: Artifact overrides are for replacing "non-plain" artifacts with
+#          "plain" artifacts. Useful, for example, when referenced modules have
+#          not updated from "path" to "name". See "Artifact types" here:
+#          https://docs.cekit.io/en/latest/descriptor/module.html#artifact-types
+#          Currently used for jenkins builds for continuous integration.
+#   Usage: cekit --overrides-file branch-overrides.yaml \
+#                --overrides-file artifact-overrides.yaml
+
+artifacts:
+    - name: "jboss-eap-7.2.0.zip"
+      md5: "c06ac5dd62547d9982dea970c1b379f6"
+    - name: "txn-recovery-marker-jdbc-common-1.1.2.Final-redhat-00001.jar"
+      md5: "252aa2b4bcded8e5bf8a7087ad7bbbeb"
+    - name: "txn-recovery-marker-jdbc-hibernate5-1.1.2.Final-redhat-00001.jar"
+      md5: "cd68ad886a759d21f8dd0cb7646601ee"
+    - name: "openshift-ping-common-1.2.3.Final-redhat-1.jar"
+      md5: "2722e17d2b230184572b9e6539195c4d"
+    - name: "openshift-ping-dns-1.2.3.Final-redhat-1.jar"
+      md5: "a87fd933f56ef7619d9ca676e7a3d208"
+    - name: "openshift-ping-kube-1.2.3.Final-redhat-1.jar"
+      md5: "3c8e75aad63eeb5379530d1ee76a4122"
+    - name: "oauth-20100527.jar"
+      md5: "91c7c70579f95b7ddee95b2143a49b41"
+    - name: "rh-sso-7.2.2-eap7-adapter.zip"
+      md5: "bbe549c92511a04a10727b843eb0d2c5"
+    - name: "rh-sso-7.2.2-saml-eap7-adapter.zip"
+      md5: "2b6b2fd869259bdb92961fa100e5a838"
+    - name: "hawkular-javaagent-1.0.1.Final-redhat-2-shaded.jar"
+      md5: "f97f623e5b614a7b6d1eb5ff7158027b"
+    - name: "jmx_prometheus_javaagent-0.3.1.redhat-00006.jar"
+      md5: "620d5c068e4ca408ad99c244f8706fce"
