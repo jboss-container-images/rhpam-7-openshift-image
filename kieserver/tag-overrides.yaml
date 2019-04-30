@@ -1,5 +1,11 @@
 schema_version: 1
 
+# Purpose: Tag overrides are for reliably rebuilding the image per the state of
+#          the branch at the time the tag was created, along with other modules
+#          at reliable and unchanging reference points. Useful for CVE respins.
+#          Warning: Only reliable if referenced via a tag itself!
+#   Usage: cekit --overrides-file tag-overrides.yaml
+
 modules:
       repositories:
           - name: cct_module
