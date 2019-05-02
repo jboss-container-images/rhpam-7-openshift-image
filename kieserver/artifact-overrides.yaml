@@ -9,7 +9,7 @@ schema_version: 1
 #                --overrides-file artifact-overrides.yaml
 
 artifacts:
-    - name: "jboss-eap-7.2.0.zip"
+    - name: "jboss-eap-7.2.zip"
       md5: "c06ac5dd62547d9982dea970c1b379f6"
     - name: "txn-recovery-marker-jdbc-common-1.1.2.Final-redhat-00001.jar"
       md5: "252aa2b4bcded8e5bf8a7087ad7bbbeb"
