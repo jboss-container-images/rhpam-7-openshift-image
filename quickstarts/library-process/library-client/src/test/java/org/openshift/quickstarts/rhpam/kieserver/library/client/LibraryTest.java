@@ -1,9 +1,5 @@
 package org.openshift.quickstarts.rhpam.kieserver.library.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.openshift.quickstarts.rhpam.kieserver.library.types.Book;
@@ -11,6 +7,10 @@ import org.openshift.quickstarts.rhpam.kieserver.library.types.Loan;
 import org.openshift.quickstarts.rhpam.kieserver.library.types.Suggestion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LibraryTest {
 
