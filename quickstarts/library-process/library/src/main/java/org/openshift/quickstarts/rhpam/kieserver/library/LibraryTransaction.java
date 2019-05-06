@@ -29,11 +29,12 @@ public abstract class LibraryTransaction<T> implements Callable<T> {
         int status = Status.STATUS_UNKNOWN;
         UserTransaction ut = null;
         try {
-            ut = (UserTransaction)new InitialContext().lookup("java:jboss/UserTransaction");
+            ut = (UserTransaction) new InitialContext().lookup("java:jboss/UserTransaction");
             if (ut != null) {
                 status = ut.getStatus();
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         boolean emt = (status == Status.STATUS_UNKNOWN);
         boolean utt = (status == Status.STATUS_NO_TRANSACTION);
         if (emt) {

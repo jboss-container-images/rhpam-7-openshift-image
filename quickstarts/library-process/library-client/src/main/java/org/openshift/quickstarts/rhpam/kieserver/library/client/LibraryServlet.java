@@ -57,8 +57,7 @@ public class LibraryServlet extends HttpServlet {
             e.printStackTrace(out);
             out.println("</pre></font></p>");
             out.println("<a href=\"/library\">Back</a>");
-        }
-        finally {
+        } finally {
             out.println("</body></html>");
             out.flush();
         }
