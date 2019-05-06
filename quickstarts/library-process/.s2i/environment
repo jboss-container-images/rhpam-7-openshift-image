@@ -1,0 +1,2 @@
+CUSTOM_INSTALL_DIRECTORIES=
+ENV_FILES=/opt/eap/standalone/configuration/*.env

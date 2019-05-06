@@ -75,15 +75,37 @@
 			<artifactId>kie-api</artifactId>
 			<scope>compile</scope>
 		</dependency>
+        <!-- EAP is complaining about libs being added and not in use. 
+             The java.se module on JDK 11 will be added at the deployment structure to handle this dependencies. -->
 		<dependency>
 			<groupId>org.kie.server</groupId>
 			<artifactId>kie-server-api</artifactId>
 			<scope>compile</scope>
+			<exclusions>
+			  <exclusion>
+			    <groupId>com.sun.xml.bind</groupId>
+			    <artifactId>jaxb-core</artifactId>
+			  </exclusion>
+			  <exclusion>
+			    <groupId>com.sun.xml.bind</groupId>
+			    <artifactId>jaxb-impl</artifactId>
+			  </exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kie.server</groupId>
 			<artifactId>kie-server-client</artifactId>
 			<scope>compile</scope>
+			<exclusions>
+			  <exclusion>
+			    <groupId>com.sun.xml.bind</groupId>
+			    <artifactId>jaxb-core</artifactId>
+			  </exclusion>
+			  <exclusion>
+			    <groupId>com.sun.xml.bind</groupId>
+			    <artifactId>jaxb-impl</artifactId>
+			  </exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.openshift.quickstarts</groupId>
