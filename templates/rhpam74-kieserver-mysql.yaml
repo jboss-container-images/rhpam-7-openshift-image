@@ -642,7 +642,7 @@ objects:
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_MYSQL_DB}"
           - name: RHPAM_DRIVER
-            value: "mysql"
+            value: "mariadb"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "${KIE_SERVER_MYSQL_DIALECT}"
           - name: RHPAM_USERNAME

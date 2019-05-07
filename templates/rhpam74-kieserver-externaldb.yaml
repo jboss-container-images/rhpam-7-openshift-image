@@ -147,7 +147,7 @@ parameters:
 - displayName: KIE Server External Database Driver
   description: The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver.
   name: KIE_SERVER_EXTERNALDB_DRIVER
-  example: "mysql"
+  example: "mariadb"
   required: true
 - displayName: Database JNDI Name
   description: Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS.

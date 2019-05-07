@@ -583,7 +583,7 @@ objects:
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
-      services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver" 
+      services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:

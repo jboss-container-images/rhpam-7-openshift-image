@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam74-smartrouter-openshift"
 description: "Red Hat Process Automation Manager Smart Router 7.4 container image"
 version: "1.0"
-from: "rhel7:7-released"
+from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam74-smartrouter-openshift-container"
@@ -71,8 +71,6 @@ envs:
     - name: "KIE_SERVER_CONTROLLER_TOKEN"
       example: "dasd373egds"
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
-    - name: "LAUNCH_DIR"
-      value: /opt/rhpam-smartrouter/launch
 ports:
     - value: 9000
 modules:
@@ -92,9 +90,8 @@ modules:
       install:
           - name: jboss.container.openjdk.jdk
             version: "11"
-          - name: rhpam-7-smartrouter
           - name: dynamic-resources
-          - name: os-java-run
+          - name: rhpam-7-smartrouter
           - name: os-logging
           - name: jboss-kie-smartrouter
 packages:
@@ -106,7 +103,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-smartrouter-openshift
-          branch: rhpam-7.4-openshift-rhel-7
+          branch: rhpam-7.4-openshift-ubi-8
 run:
       user: 185
       cmd:

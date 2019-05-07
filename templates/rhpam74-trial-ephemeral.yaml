@@ -119,17 +119,17 @@ parameters:
   value: ''
   required: false
 ## OpenShift Enhancement BEGIN
-- displayName: Enable KIE server global discovery 
+- displayName: Enable KIE server global discovery
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
   value: "false"
   required: false
-- displayName: Prefer KIE Server OpenShift Service 
+- displayName: Prefer KIE Server OpenShift Service
   description: If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
   value: "false"
   required: false
-- displayName: KIE ServerTemplate Cache TTL 
+- displayName: KIE ServerTemplate Cache TTL
   description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
   name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
   value: "60000"
