@@ -71,42 +71,6 @@ parameters:
   name: IMAGE_STREAM_TAG
   value: "1.0"
   required: true
-- displayName: KIE Server Monitor User
-  description: KIE server monitor username, for optional use of Business Central Monitoring. (Sets the org.kie.server.controller.user system property)
-  name: KIE_SERVER_MONITOR_USER
-  value: monitorUser
-  required: false
-- displayName: KIE Server Monitor Password
-  description: KIE server monitor password, for optional use of Business Central Monitoring. (Sets the org.kie.server.controller.pwd system property)
-  name: KIE_SERVER_MONITOR_PWD
-  required: false
-- displayName: KIE Server Monitor Token
-  description: KIE server monitor token for bearer authentication. (Sets the org.kie.server.controller.token system property)
-  name: KIE_SERVER_MONITOR_TOKEN
-  required: false
-- displayName: KIE Server Monitor Service
-  description: The service name for the optional Business Central Monitoring. The application uses this service name to register with the monitoring console. (If set, will be used to discover host and port)
-  name: KIE_SERVER_MONITOR_SERVICE
-  required: false
-- displayName: Smart Router Service
-  description: The service name for the optional smart router.
-  name: KIE_SERVER_ROUTER_SERVICE
-  required: false
-- displayName: Smart Router Host
-  description: "The host name of the smart router, which can be the service name resolved by OpenShift or a globally resolvable domain name."
-  name: KIE_SERVER_ROUTER_HOST
-  example: "myapp-smartrouter"
-  required: false
-- displayName: Smart Router listening port
-  description: Port on which the smart router server listens. (Router property org.kie.server.router.port)
-  name: KIE_SERVER_ROUTER_PORT
-  example: "9000"
-  required: false
-- displayName: Smart Router protocol
-  description: KIE server router protocol. (Used to build the org.kie.server.router.url.external property)
-  name: KIE_SERVER_ROUTER_PROTOCOL
-  example: "http"
-  required: false
 - displayName: KIE Server Persistence DS
   description: KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property)
   name: KIE_SERVER_PERSISTENCE_DS
@@ -302,11 +266,6 @@ parameters:
   description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
   name: KIE_SERVER_MGMT_DISABLED
   value: "true"
-  required: true
-- displayName: KIE Server Startup Strategy
-  description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently using shared state from OpenShift API service and to connect to a Business Central that uses OpenShift integration. When set to LocalContainersStartupStrategy, allows KIE server to start up and function with local config, even when a controller is configured and unavailable."
-  name: KIE_SERVER_STARTUP_STRATEGY
-  value: LocalContainersStartupStrategy
   required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL.
@@ -628,6 +587,7 @@ objects:
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
+    revisionHistoryLimit: 10
     strategy:
       rollingParams:
         maxSurge: 100%
@@ -712,16 +672,6 @@ objects:
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-          - name: KIE_SERVER_CONTROLLER_USER
-            value: "${KIE_SERVER_MONITOR_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_MONITOR_PWD}"
-          - name: KIE_SERVER_CONTROLLER_TOKEN
-            value: "${KIE_SERVER_MONITOR_TOKEN}"
-          - name: KIE_SERVER_CONTROLLER_SERVICE
-            value: "${KIE_SERVER_MONITOR_SERVICE}"
-          - name: KIE_SERVER_CONTROLLER_PROTOCOL
-            value: "ws"
           - name: KIE_SERVER_ID
             valueFrom:
               fieldRef:
@@ -760,14 +710,6 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: KIE_SERVER_ROUTER_SERVICE
-            value: "${KIE_SERVER_ROUTER_SERVICE}"
-          - name: KIE_SERVER_ROUTER_HOST
-            value: "${KIE_SERVER_ROUTER_HOST}"
-          - name: KIE_SERVER_ROUTER_PORT
-            value: "${KIE_SERVER_ROUTER_PORT}"
-          - name: KIE_SERVER_ROUTER_PROTOCOL
-            value: "${KIE_SERVER_ROUTER_PROTOCOL}"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: DATASOURCES
@@ -805,7 +747,7 @@ objects:
           - name: KIE_SERVER_MGMT_DISABLED
             value: "${KIE_SERVER_MGMT_DISABLED}"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "${KIE_SERVER_STARTUP_STRATEGY}"
+            value: "OpenShiftStartupStrategy"
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
