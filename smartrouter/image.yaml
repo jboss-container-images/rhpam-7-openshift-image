@@ -73,6 +73,8 @@ envs:
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
     - name: "LAUNCH_DIR"
       value: /opt/rhpam-smartrouter/launch
+    - name: "JBOSS_HOME"
+      value: "/opt/eap"  
 ports:
     - value: 9000
 modules:
@@ -97,6 +99,7 @@ modules:
           - name: os-java-run
           - name: os-logging
           - name: jboss-kie-smartrouter
+          - name: jboss-kie-common   
 packages:
       content_sets_file: content_sets.yml
       install:
