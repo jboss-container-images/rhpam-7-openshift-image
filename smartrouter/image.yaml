@@ -71,6 +71,10 @@ envs:
     - name: "KIE_SERVER_CONTROLLER_TOKEN"
       example: "dasd373egds"
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
+    - name: "LAUNCH_DIR"
+      value: /opt/rhpam-smartrouter/launch
+    - name: "JBOSS_HOME"
+      value: /opt/rhpam-smartrouter
 ports:
     - value: 9000
 modules:
