@@ -248,6 +248,7 @@ modules:
             version: '7.2'
           - name: os-eap-txnrecovery.run
             version: 'python2'
+          - name: jboss-kie-common   
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-kieserver
 packages:
