@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam74-controller-openshift"
 description: "Red Hat Process Automation Manager Standalone Controller 7.4 container image"
 version: "1.0"
-from: "rhel7:7-released"
+from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam74-controller-openshift-container"
@@ -80,29 +80,32 @@ modules:
       install:
           - name: jboss.container.openjdk.jdk
             version: "11"
+          - name: dynamic-resources
           - name: eap-7.2-latest
           - name: rhpam-7-controller
-          - name: dynamic-resources
+          - name: jboss.container.maven.35.bash
+            version: "3.5"
+          - name: jboss.container.maven.default.bash
           - name: os-java-jolokia
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap72.openshift
+            version: "1.0-openjdk11"
           - name: jboss.eap.cd.openshift.modules
           - name: os-eap7-ping
           - name: os-eap-activemq-rar
-            version: '1.1'
-          - name: os-java-run
+            version: "1.1"
           - name: os-eap-launch
           - name: os-eap7-launch
           - name: jboss.eap.cd.openshift.launch
+          - name: jboss-kie-db-drivers
+          - name: os-eap-datasource
+            version: "1.0"
           - name: jboss.eap.cd.logging
           - name: jboss.eap.config.mp-config
           - name: jboss.eap.config.jgroups
           - name: jboss.eap.config.elytron
           - name: jboss.eap.config.tracing
-          - name: os-eap-probes
-          - name: jboss-maven
-          - name: os-eap-db-drivers
           - name: os-eap-sso
           - name: os-eap70-sso
           - name: os-eap-hawkular
@@ -112,9 +115,13 @@ modules:
           - name: openshift-passwd
           - name: os-logging
           - name: jboss.container.eap.prometheus.config
-            version: '7.2'
+            version: "7.2"
           - name: os-eap-txnrecovery.run
-            version: 'python2'
+            version: "python3"
+          - name: os-eap-python
+            version: "3.6"
+          - name: jboss-kie-jdk-clean
+            version: "11"
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-controller
 packages:
@@ -126,7 +133,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-controller-openshift
-          branch: rhpam-7.4-openshift-rhel-7
+          branch: rhpam-7.4-openshift-ubi-8
 run:
       user: 185
       cmd:

@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam74-businesscentral-openshift"
 description: "Red Hat Business Central 7.4 OpenShift container image"
 version: "1.0"
-from: "rhel7:7-released"
+from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-rhpam74-businesscentral-openshift-container"
@@ -115,16 +115,16 @@ envs:
       example: "dasd373egds"
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
 ## OpenShift Enhancement BEGIN
-    - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED"
       example: "false"
       description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
-    - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE"
       example: "false"
       description: "If set to true, enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)"
-    - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
+    - name: "KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL"
       example: "60000"
       description: "KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)"
-    - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
+    - name: "KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED"
       example: "true"
       description: "If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)"
 ## OpenShift Enhancement END
@@ -163,29 +163,32 @@ modules:
       install:
           - name: jboss.container.openjdk.jdk
             version: "11"
+          - name: dynamic-resources
           - name: eap-7.2-latest
           - name: rhpam-7-businesscentral
-          - name: dynamic-resources
+          - name: jboss.container.maven.35.bash
+            version: "3.5"
+          - name: jboss.container.maven.default.bash
           - name: os-java-jolokia
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap72.openshift
+            version: "1.0-openjdk11"
           - name: jboss.eap.cd.openshift.modules
           - name: os-eap7-ping
           - name: os-eap-activemq-rar
-            version: '1.1'
-          - name: os-java-run
+            version: "1.1"
           - name: os-eap-launch
           - name: os-eap7-launch
           - name: jboss.eap.cd.openshift.launch
+          - name: jboss-kie-db-drivers
+          - name: os-eap-datasource
+            version: "1.0"
           - name: jboss.eap.cd.logging
           - name: jboss.eap.config.mp-config
           - name: jboss.eap.config.jgroups
           - name: jboss.eap.config.elytron
           - name: jboss.eap.config.tracing
-          - name: os-eap-probes
-          - name: jboss-maven
-          - name: os-eap-db-drivers
           - name: os-eap-sso
           - name: os-eap70-sso
           - name: os-eap-hawkular
@@ -195,9 +198,13 @@ modules:
           - name: openshift-passwd
           - name: os-logging
           - name: jboss.container.eap.prometheus.config
-            version: '7.2'
+            version: "7.2"
           - name: os-eap-txnrecovery.run
-            version: 'python2'
+            version: "python3"
+          - name: os-eap-python
+            version: "3.6"
+          - name: jboss-kie-jdk-clean
+            version: "11"
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-workbench
 packages:
@@ -210,7 +217,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-businesscentral-openshift
-          branch: rhpam-7.4-openshift-rhel-7
+          branch: rhpam-7.4-openshift-ubi-8
 run:
       user: 185
       cmd:
