@@ -691,8 +691,6 @@ objects:
             containerPort: 8080
             protocol: TCP
           env:
-          - name: PROMETHEUS_SERVER_EXT_DISABLED
-            value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
@@ -703,6 +701,8 @@ objects:
             value: "${KIE_MBEANS}"
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
+          - name: PROMETHEUS_SERVER_EXT_DISABLED
+            value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_ID

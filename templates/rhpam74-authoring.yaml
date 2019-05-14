@@ -112,6 +112,11 @@ parameters:
   name: DROOLS_SERVER_FILTER_CLASSES
   value: 'true'
   required: false
+- displayName: Prometheus Server Extension Disabled
+  description: If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)
+  name: PROMETHEUS_SERVER_EXT_DISABLED
+  example: 'false'
+  required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for the http service route for Business Central. Leave blank
     for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
@@ -896,6 +901,8 @@ objects:
             value: "${KIE_MBEANS}"
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
+          - name: PROMETHEUS_SERVER_EXT_DISABLED
+            value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
           - name: KIE_SERVER_ID
