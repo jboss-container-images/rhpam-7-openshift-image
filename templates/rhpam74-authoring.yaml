@@ -836,7 +836,7 @@ objects:
             readOnly: true
 ## H2 volume mount BEGIN
           - name: "${APPLICATION_NAME}-h2-pvol"
-            mountPath: "/opt/eap/standalone/data"
+            mountPath: "/opt/kie/data"
 ## H2 volume mount END
           livenessProbe:
             httpGet:
@@ -883,7 +883,7 @@ objects:
           - name: RHPAM_PASSWORD
             value: "${KIE_SERVER_H2_PWD}"
           - name: RHPAM_XA_CONNECTION_PROPERTY_URL
-            value: "jdbc:h2:/opt/eap/standalone/data/rhpam"
+            value: "jdbc:h2:/opt/kie/data/h2/rhpam;AUTO_SERVER=TRUE"
           - name: RHPAM_SERVICE_HOST
             value: "dummy_ignored"
           - name: RHPAM_SERVICE_PORT
