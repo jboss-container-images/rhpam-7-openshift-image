@@ -29,3 +29,4 @@ venv/
 module.xml
 install.properties
 db-overrides.yaml
+templates/contrib/jdbc/modules/kie-custom-jdbc-driver/module.yaml

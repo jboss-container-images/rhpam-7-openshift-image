@@ -14,6 +14,8 @@ prepareFiles() {
     export DRIVERS DRIVER_NAME DRIVER_MODULE DRIVER_CLASS DRIVER_XA_CLASS DRIVER_DIR DRIVER_JDBC_ARTIFACT_NAME \
     DATABASE_TYPE VERSION
     env | egrep "DRIVER|DATABASE"
+    cat modules/kie-custom-jdbc-driver/base-module.yaml | envsubst > modules/kie-custom-jdbc-driver/module.yaml
+    if [ "${PIPESTATUS[0]}" -eq 0 ]; then echo "file modules/kie-custom-jdbc-driver/module.yaml successfully generated."; else echo "failed to create modules/kie-custom-jdbc-driver/module.yaml"; fi
     cat modules/kie-custom-jdbc-driver/added/base_install.properties | envsubst > modules/kie-custom-jdbc-driver/added/install.properties
     if [ "${PIPESTATUS[0]}" -eq 0 ]; then echo "file install.properties successfully generated."; else echo "failed to create install.properties"; fi
     cat modules/kie-custom-jdbc-driver/added/base_module.xml | envsubst > modules/kie-custom-jdbc-driver/added/module.xml
@@ -83,13 +85,13 @@ artifacts:
         DATABASE_TYPE="mariadb"
         VERSION="2.4.0"
         DRIVERS="MARIADB"
-        DRIVER_NAME="mariadb"
-        DRIVER_MODULE="org.mariadb"
+        DRIVER_NAME="mariadbCustom"
+        DRIVER_MODULE="org.mariadbCustom"
         DRIVER_CLASS="org.mariadb.jdbc.Driver"
         DRIVER_XA_CLASS="org.mariadb.jdbc.MariaDbDataSource"
 
         # base path is $JBOSS_HOME/modules
-        DRIVER_DIR="org/mariadb/main"
+        DRIVER_DIR="org/mariadbCustom/main"
         DRIVER_JDBC_ARTIFACT_NAME="mariadb-java-client-${VERSION}.jar"
 
         prepareFiles
@@ -126,13 +128,13 @@ artifacts:
         VERSION="8.0.12"
         DRIVERS="MYSQL"
         # needs to update after the default jdbc driver is dropped of frm eap images
-        DRIVER_NAME="mysqlCustom"
-        DRIVER_MODULE="com.mysqlCustom"
+        DRIVER_NAME="mysql"
+        DRIVER_MODULE="com.mysql"
         DRIVER_CLASS="com.mysql.cj.jdbc.Driver"
         DRIVER_XA_CLASS="com.mysql.cj.jdbc.MysqlXADataSource"
 
         # base path is $JBOSS_HOME/modules
-        DRIVER_DIR="com/mysqlCustom/main"
+        DRIVER_DIR="com/mysql/main"
         DRIVER_JDBC_ARTIFACT_NAME="mysql-connector-java-${VERSION}.jar"
 
         prepareFiles

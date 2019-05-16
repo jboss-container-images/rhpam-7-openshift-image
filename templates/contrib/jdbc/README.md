@@ -23,10 +23,9 @@ It adds a extra layer on top of the base image which contains:
 
 ##### Pre requisites:
 
-To interact with this repo you should install the CeKit:
+To interact with this repo you should install the CEKit 3.0.1:
 
-- https://docs.cekit.io/en/2.2.7/
-
+- https://docs.cekit.io/en/latest/
 
 
 The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
