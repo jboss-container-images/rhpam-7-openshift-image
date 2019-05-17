@@ -184,7 +184,7 @@ parameters:
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
-  example: /opt/eap/standalone/data/kie/git/hooks
+  example: /opt/kie/data/git/hooks
   required: false
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit.

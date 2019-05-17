@@ -70,7 +70,7 @@ envs:
       description: "Configures the Infinispan realm (Sets the org.appformer.ext.metadata.infinispan.realm property)"
       example: "ApplicationRealm"
     - name: "GIT_HOOKS_DIR"
-      example: "/opt/eap/standalone/data/kie/git/hooks"
+      example: "/opt/kie/data/git/hooks"
       description: "If provided, the specified path will be copied to all the git repositories hooks dir"
     - name: "KIE_ADMIN_USER"
       example: "adminUser"

@@ -356,7 +356,7 @@ parameters:
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
-  example: /opt/eap/standalone/data/kie/git/hooks
+  example: /opt/kie/data/git/hooks
   required: false
 - displayName: "Timer service data store refresh interval (in milliseconds)"
   description: "Sets refresh-interval for the EJB timer database data-store service."
@@ -990,7 +990,7 @@ objects:
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
           - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
-            mountPath: "/opt/eap/standalone/data/kie"
+            mountPath: "/opt/kie/data"
           livenessProbe:
             httpGet:
               path: /rest/healthy

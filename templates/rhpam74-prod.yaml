@@ -919,7 +919,7 @@ objects:
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
           - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
-            mountPath: "/opt/eap/standalone/data/kie"
+            mountPath: "/opt/kie/data"
           livenessProbe:
             httpGet:
               path: /rest/healthy
