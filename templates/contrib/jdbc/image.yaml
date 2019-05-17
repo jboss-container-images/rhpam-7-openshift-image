@@ -5,10 +5,6 @@ description: "JBoss KIE custom jdbc extension images"
 from: "bash:5.0.3"
 version: "will-be-populated-by-overrides-file"
 
-run:
-  cmd:
-    - "MODULE_DIR=${TARGET_DIR}/modules/${DRIVER_DIR}"
-
 labels:
   - name: "maintainer"
     value: "bsig-cloud@redhat.com"

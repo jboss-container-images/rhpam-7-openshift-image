@@ -12,9 +12,3 @@ labels:
     value: "${DATABASE_TYPE}"
   - name: "jdbc.driver.module"
     value: "${DRIVER_MODULE}"
-
-envs:
-  - name: "DRIVER_DIR"
-    value: "${DRIVER_DIR}"
-  - name: "JDBC_ARTIFACT"
-    value: "${DRIVER_JDBC_ARTIFACT_NAME}"

@@ -5,7 +5,6 @@ SCRIPT_DIR=$(dirname $0)
 ADDED_DIR=${SCRIPT_DIR}/added
 TARGET_DIR=/extensions
 
-
 MODULE_DIR=${TARGET_DIR}/modules/${DRIVER_DIR}
 
 mkdir -p ${MODULE_DIR}
