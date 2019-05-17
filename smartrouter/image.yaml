@@ -79,6 +79,10 @@ modules:
             git:
                   url: https://github.com/jboss-openshift/cct_module.git
                   ref: master
+          - name: jboss-eap-modules
+            git:
+                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
+                  ref: master
           - name: rhpam-7-image
             git:
                   url: https://github.com/jboss-container-images/rhpam-7-image.git
@@ -93,6 +97,9 @@ modules:
           - name: dynamic-resources
           - name: rhpam-7-smartrouter
           - name: os-logging
+          - name: os-eap-python
+            version: "3.6"
+          - name: jboss-kie-common  
           - name: jboss-kie-smartrouter
 packages:
       content_sets_file: content_sets.yml
