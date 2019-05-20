@@ -267,7 +267,7 @@ parameters:
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
-  example: /opt/eap/standalone/data/kie/git/hooks
+  example: /opt/kie/data/git/hooks
   required: false
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central runtime data.
@@ -622,7 +622,7 @@ objects:
             mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
           - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
-            mountPath: "/opt/eap/standalone/data/kie"
+            mountPath: "/opt/kie/data"
           livenessProbe:
             httpGet:
               path: /rest/healthy
@@ -835,7 +835,7 @@ objects:
             mountPath: "/etc/kieserver-secret-volume"
             readOnly: true
 ## H2 volume mount BEGIN
-          - name: "${APPLICATION_NAME}-h2-pvol"
+          - name: "${APPLICATION_NAME}-kie-pvol"
             mountPath: "/opt/kie/data"
 ## H2 volume mount END
           livenessProbe:
@@ -1026,9 +1026,9 @@ objects:
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
 ## H2 volume settings BEGIN
-        - name: "${APPLICATION_NAME}-h2-pvol"
+        - name: "${APPLICATION_NAME}-kie-pvol"
           persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-h2-claim"
+            claimName: "${APPLICATION_NAME}-kie-claim"
 ## H2 volume settings END
 ## Place to add database deployment config
 - apiVersion: v1
@@ -1048,7 +1048,7 @@ objects:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: "${APPLICATION_NAME}-h2-claim"
+    name: "${APPLICATION_NAME}-kie-claim"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
