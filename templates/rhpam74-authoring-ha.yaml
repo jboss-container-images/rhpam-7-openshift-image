@@ -295,7 +295,7 @@ parameters:
   displayName: Image
   name: AMQ_BROKER_IMAGE
   required: true
-  value: registry.redhat.io/amq-broker-7/amq-broker-72-openshift:1.1
+  value: registry.redhat.io/amq-broker-7/amq-broker-72-openshift:1.3
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
