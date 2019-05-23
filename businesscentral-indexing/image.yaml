@@ -74,7 +74,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-businesscentral-indexing-openshift
-          branch: rhpam-7.4-openshift-ubi-8
+          branch: rhpam-7.4-openshift-rhel-8
 run:
       user: 185
       cmd:

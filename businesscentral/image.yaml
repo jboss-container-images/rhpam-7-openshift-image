@@ -205,7 +205,7 @@ modules:
             version: "3.6"
           - name: jboss-kie-jdk-clean
             version: "11"
-          - name: jboss-kie-common  
+          - name: jboss-kie-common
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-workbench
 packages:
@@ -218,7 +218,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-businesscentral-openshift
-          branch: rhpam-7.4-openshift-ubi-8
+          branch: rhpam-7.4-openshift-rhel-8
 run:
       user: 185
       cmd:
