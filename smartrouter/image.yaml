@@ -99,7 +99,7 @@ modules:
           - name: os-logging
           - name: os-eap-python
             version: "3.6"
-          - name: jboss-kie-common  
+          - name: jboss-kie-common
           - name: jboss-kie-smartrouter
 packages:
       content_sets_file: content_sets.yml
@@ -110,7 +110,7 @@ osbs:
           container_file: container.yaml
       repository:
           name: containers/rhpam-7-smartrouter-openshift
-          branch: rhpam-7.4-openshift-ubi-8
+          branch: rhpam-7.4-openshift-rhel-8
 run:
       user: 185
       cmd:
