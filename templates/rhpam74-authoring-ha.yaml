@@ -1212,11 +1212,22 @@ objects:
           services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
-        terminationGracePeriodSeconds: 60
+        terminationGracePeriodSeconds: 90
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
           image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - /bin/sh
+                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
           resources:
             limits:
               memory: "${KIE_SERVER_MEMORY_LIMIT}"
@@ -1253,6 +1264,8 @@ objects:
             containerPort: 8443
             protocol: TCP
           env:
+          - name: WORKBENCH_SERVICE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: DATASOURCES
