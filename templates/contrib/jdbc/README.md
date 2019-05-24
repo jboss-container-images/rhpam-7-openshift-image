@@ -137,7 +137,15 @@ $ make build mssql
 Oracle extension image requires you to provide the jdbc jar:
 
 ```bash
-$ make build sybase artifact=/tmp/ojdbc7.jar version=7.0
+$ make build oracle artifact=/tmp/ojdbc7.jar version=7.0
+```
+
+##### DB2
+
+DB2 extension image requires you to provide the jdbc jar:
+
+```bash
+$ make build db2 artifact=/tmp/db2jcc4.jar version=10.2
 ```
 
 ##### sybase
