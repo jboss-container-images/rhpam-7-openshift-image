@@ -6,7 +6,7 @@ version: "1.0"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam74-businesscentral-indexing-openshift-container"
+      value: "rhpam-7-rhpam74-businesscentral-indexing-openshift-rhel8-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Indexing"
     - name: "io.k8s.display-name"

@@ -3,7 +3,7 @@ schema_version: 1
 # Purpose: Branch overrides are for building the current state of the branch,
 #          along with other modules at specific reference points. Neither the
 #          branch nor the modules it references are guaranteed to be unchanging.
-#   Usage: cekit --overrides-file branch-overrides.yaml
+#   Usage: cekit build --overrides-file branch-overrides.yaml
 
 modules:
       repositories:
