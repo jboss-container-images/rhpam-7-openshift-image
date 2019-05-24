@@ -882,12 +882,10 @@ objects:
             value: "${KIE_SERVER_H2_USER}"
           - name: RHPAM_PASSWORD
             value: "${KIE_SERVER_H2_PWD}"
+          - name: RHPAM_NONXA
+            value: "false"
           - name: RHPAM_XA_CONNECTION_PROPERTY_URL
             value: "jdbc:h2:/opt/kie/data/h2/rhpam;AUTO_SERVER=TRUE"
-          - name: RHPAM_SERVICE_HOST
-            value: "dummy_ignored"
-          - name: RHPAM_SERVICE_PORT
-            value: "12345"
           - name: KIE_SERVER_PERSISTENCE_DIALECT
             value: "org.hibernate.dialect.H2Dialect"
 ## H2 driver settings END

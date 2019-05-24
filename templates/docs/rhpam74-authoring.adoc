@@ -328,9 +328,8 @@ information.
 |`RHPAM_DRIVER` | -- | h2
 |`RHPAM_USERNAME` | -- | `${KIE_SERVER_H2_USER}`
 |`RHPAM_PASSWORD` | -- | `${KIE_SERVER_H2_PWD}`
+|`RHPAM_NONXA` | -- | `false`
 |`RHPAM_XA_CONNECTION_PROPERTY_URL` | -- | jdbc:h2:/opt/kie/data/h2/rhpam;AUTO_SERVER=TRUE
-|`RHPAM_SERVICE_HOST` | -- | dummy_ignored
-|`RHPAM_SERVICE_PORT` | -- | 12345
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.H2Dialect
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
