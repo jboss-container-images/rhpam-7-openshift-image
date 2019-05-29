@@ -60,9 +60,9 @@ parameters:
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: Name of the Maven service hosted by Business Central
-  description: The service name for the optional business central, where it can be reached, to allow service lookups (for maven repo usage), if required
-  name: BUSINESS_CENTRAL_MAVEN_SERVICE
+- displayName: Name of the Business Central service
+  description: The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required.
+  name: BUSINESS_CENTRAL_SERVICE
   example: "myapp-rhpamcentr"
   required: false
 - displayName: Username for the Maven service hosted by Business Central
@@ -617,7 +617,7 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_ID
             value: "repo-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_SERVICE
-            value: "${BUSINESS_CENTRAL_MAVEN_SERVICE}"
+            value: "${BUSINESS_CENTRAL_SERVICE}"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME

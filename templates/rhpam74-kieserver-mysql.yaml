@@ -58,9 +58,9 @@ parameters:
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: Name of the Maven service hosted by Business Central
-  description: The service name for the optional business central, where it can be reached, to allow service lookups (for maven repo usage), if required
-  name: BUSINESS_CENTRAL_MAVEN_SERVICE
+- displayName: Name of the Business Central service
+  description: The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required.
+  name: BUSINESS_CENTRAL_SERVICE
   example: "myapp-rhpamcentr"
   required: false
 - displayName: Username for the Maven service hosted by Business Central
@@ -539,11 +539,22 @@ objects:
           services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-kieserver"
-        terminationGracePeriodSeconds: 60
+        terminationGracePeriodSeconds: 90
         containers:
         - name: "${APPLICATION_NAME}-kieserver"
           image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - /bin/sh
+                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
           resources:
             limits:
               memory: "${KIE_SERVER_MEMORY_LIMIT}"
@@ -583,6 +594,8 @@ objects:
             containerPort: 8888
             protocol: TCP
           env:
+          - name: WORKBENCH_SERVICE_NAME
+            value: "${BUSINESS_CENTRAL_SERVICE}"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
@@ -620,7 +633,7 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_ID
             value: "repo-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_SERVICE
-            value: "${BUSINESS_CENTRAL_MAVEN_SERVICE}"
+            value: "${BUSINESS_CENTRAL_SERVICE}"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME
