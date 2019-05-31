@@ -5,8 +5,8 @@ schema_version: 1
 #          not updated from "path" to "name". See "Artifact types" here:
 #          https://docs.cekit.io/en/latest/descriptor/module.html#artifact-types
 #          Currently used for jenkins builds for continuous integration.
-#   Usage: cekit --overrides-file branch-overrides.yaml \
-#                --overrides-file artifact-overrides.yaml
+#   Usage: cekit build --overrides-file branch-overrides.yaml \
+#                      --overrides-file artifact-overrides.yaml
 
 artifacts:
     - name: "jboss-eap-7.2.1-patch.zip"

@@ -14,8 +14,7 @@ modules:
           - name: jboss-eap-modules
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  # TODO: replace with GA tag when available
-                  ref: 7.2.x-openjdk11
+                  ref: EAP_722_OPENJDK11_CR1
           - name: rhpam-7-image
             git:
                   url: https://github.com/jboss-container-images/rhpam-7-image.git
