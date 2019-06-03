@@ -66,7 +66,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`ES_HTTP_PORT` | `ES_HTTP_PORT` | Sets the ES http.port property. This will set the http port of the main ES cluster node. Used to interact with the cluster REST API. | `${ES_HTTP_PORT}` | False
 |`ES_JAVA_OPTS` | `ES_JAVA_OPTS` | Appends custom jvm configurations/properties to ES jvm.options configuration file. | `${ES_JAVA_OPTS}` | False
 |`AMQ_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the AMQ image is installed. Default is "openshift". | openshift | True
-|`AMQ_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ broker. Default is "amq-broker72-openshift". | amq-broker72-openshift | True
+|`AMQ_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ broker. Default is "amq-broker-73-openshift". | amq-broker-73-openshift | True
 |`AMQ_IMAGE_STREAM_TAG` | -- | The AMQ image stream tag. Default is "1.0". | 1.1 | True
 |`AMQ_ROLE` | `AMQ_ROLE` | User role for standard broker user. | admin | True
 |`AMQ_NAME` | `AMQ_NAME` | The name of the broker | broker | True

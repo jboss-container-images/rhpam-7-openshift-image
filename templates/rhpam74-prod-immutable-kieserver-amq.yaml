@@ -338,7 +338,7 @@ parameters:
   description: "AMQ Broker Image"
   name: AMQ_BROKER_IMAGESTREAM_NAME
   required: true
-  value: amq-broker-72-openshift:1.3
+  value: amq-broker-73-openshift:7.3
 - displayName: RH-SSO URL
   description: RH-SSO URL
   name: SSO_URL
