@@ -83,7 +83,7 @@ parameters:
   required: false
 - displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for http service route. Leave blank for default hostname,
-    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+    e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
@@ -114,7 +114,7 @@ parameters:
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route for Business Central. Leave blank for default
-    hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+    hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
@@ -409,9 +409,9 @@ objects:
       description: All the KIE server web server's ports.
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-rhpamcentr-http"
+  id: "insecure-${APPLICATION_NAME}-rhpamcentr-http"
   metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
+    name: "insecure-${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
@@ -426,9 +426,9 @@ objects:
       targetPort: http
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-http"
+  id: "insecure-${APPLICATION_NAME}-kieserver-http"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "insecure-${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
@@ -723,7 +723,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver"
+            value: "insecure-${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "OpenShiftStartupStrategy"
           - name: KIE_SERVER_USER

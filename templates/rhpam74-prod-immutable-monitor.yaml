@@ -129,13 +129,13 @@ parameters:
   required: false
 - displayName: Smart Router Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
-    e.g.: <application-name>-smartrouter-<project>.<default-domain-suffix>'
+    e.g.: insecure-<application-name>-smartrouter-<project>.<default-domain-suffix>'
   name: SMART_ROUTER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Smart Router Custom https Route Hostname
   description: 'Custom hostname for https service route. Leave blank for default hostname,
-    e.g.: secure-<application-name>-smartrouter-<project>.<default-domain-suffix>'
+    e.g.: <application-name>-smartrouter-<project>.<default-domain-suffix>'
   name: SMART_ROUTER_HOSTNAME_HTTPS
   value: ''
   required: false
@@ -195,13 +195,13 @@ parameters:
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
-    e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
+    e.g.: insecure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Business Central Custom https Route Hostname
   description: 'Custom hostname for https service route. Leave blank for default
-    hostname, e.g.: secure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
+    hostname, e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
@@ -456,9 +456,9 @@ objects:
       description: The smart router server http and https ports.
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-rhpamcentrmon-http"
+  id: "insecure-${APPLICATION_NAME}-rhpamcentrmon-http"
   metadata:
-    name: "${APPLICATION_NAME}-rhpamcentrmon"
+    name: "insecure-${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentrmon"
@@ -475,7 +475,7 @@ objects:
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentrmon-https"
   metadata:
-    name: "secure-${APPLICATION_NAME}-rhpamcentrmon"
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentrmon"
@@ -492,9 +492,9 @@ objects:
       termination: passthrough
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-smartrouter-http"
+  id: "insecure-${APPLICATION_NAME}-smartrouter-http"
   metadata:
-    name: "${APPLICATION_NAME}-smartrouter"
+    name: "insecure-${APPLICATION_NAME}-smartrouter"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-smartrouter"
@@ -510,7 +510,7 @@ objects:
   apiVersion: v1
   id: "${APPLICATION_NAME}-smartrouter-https"
   metadata:
-    name: "secure-${APPLICATION_NAME}-smartrouter"
+    name: "${APPLICATION_NAME}-smartrouter"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-smartrouter"
