@@ -119,32 +119,27 @@ parameters:
   required: false
 - displayName: Business Central Custom http Route Hostname
   description: 'Custom hostname for the http service route for Business Central. Leave blank
-    for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+    for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Business Central Custom https Route Hostname
   description: 'Custom hostname for the https service route for Business Central. Leave blank for
-    default hostname, e.g.: secure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+    default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
 - displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for the http service route for KIE Server. Leave blank for
-    default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+    default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: KIE Server Custom https Route Hostname
   description: 'Custom hostname for the https service route for KIE Server. Leave blank for
-    default hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
+    default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
-  required: false
-- displayName: Use the secure route name to link application requests to KIE_SERVER_HOSTNAME_HTTPS vs KIE_SERVER_HOSTNAME_HTTP.
-  description: 'If true, the KIE server will use secure-<application-name>-kieserver vs. <application-name>-kieserver as the KIE server route endpoint for Business Central to report. Therefore, Business Central displays the secure link to the user.'
-  name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-  value: 'false'
   required: false
 - displayName: Business Central Server Keystore Secret Name
   description: The name of the secret containing the keystore file for Business Central.
@@ -505,9 +500,9 @@ objects:
 ## Place to add database service
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-rhpamcentr-http"
+  id: "insecure-${APPLICATION_NAME}-rhpamcentr-http"
   metadata:
-    name: "${APPLICATION_NAME}-rhpamcentr"
+    name: "insecure-${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
@@ -524,7 +519,7 @@ objects:
   apiVersion: v1
   id: "${APPLICATION_NAME}-rhpamcentr-https"
   metadata:
-    name: secure-${APPLICATION_NAME}-rhpamcentr
+    name: "${APPLICATION_NAME}-rhpamcentr"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-rhpamcentr"
@@ -541,9 +536,9 @@ objects:
       termination: passthrough
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-http"
+  id: "insecure-${APPLICATION_NAME}-kieserver-http"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "insecure-${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
@@ -560,7 +555,7 @@ objects:
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-https"
   metadata:
-    name: secure-${APPLICATION_NAME}-kieserver
+    name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
@@ -922,8 +917,6 @@ objects:
                 fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_STARTUP_STRATEGY

@@ -139,20 +139,15 @@ parameters:
   required: false
 - displayName: KIE Server Custom http Route Hostname
   description: 'Custom hostname for http service route. Leave blank for default hostname,
-    e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+    e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: KIE Server Custom https Route Hostname
   description: 'Custom hostname for https service route.  Leave blank for default
-    hostname, e.g.: secure-<application-name>-kieserver-<project>.<default-domain-suffix>'
+    hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
-  required: false
-- displayName: Use the secure route name to link application requests to KIE_SERVER_HOSTNAME_HTTPS vs KIE_SERVER_HOSTNAME_HTTP.
-  description: 'If true, the KIE server will use secure-<application-name>-kieserver vs. <application-name>-kieserver as the KIE server route endpoint for Business Central to report. Therefore, Business Central displays the secure link to the user.'
-  name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-  value: 'false'
   required: false
 - displayName: KIE Server Keystore Secret Name
   description: The name of the secret containing the keystore file.
@@ -496,9 +491,9 @@ objects:
 ## PostgreSQL service END
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-http"
+  id: "insecure-${APPLICATION_NAME}-kieserver-http"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "insecure-${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
@@ -515,7 +510,7 @@ objects:
   apiVersion: v1
   id: "${APPLICATION_NAME}-kieserver-https"
   metadata:
-    name: "secure-${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-kieserver"
     labels:
       application: "${APPLICATION_NAME}"
       service: "${APPLICATION_NAME}-kieserver"
@@ -698,8 +693,6 @@ objects:
                 fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
             value: "${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_USE_SECURE_ROUTE_NAME
-            value: "${KIE_SERVER_USE_SECURE_ROUTE_NAME}"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
