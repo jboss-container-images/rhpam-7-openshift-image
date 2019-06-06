@@ -119,7 +119,7 @@ envs:
       example: "false"
       description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
     - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE"
-      example: "false"
+      example: "true"
       description: "If set to true, enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)"
     - name: "KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL"
       example: "60000"

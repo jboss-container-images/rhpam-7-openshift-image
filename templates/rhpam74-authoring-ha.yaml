@@ -285,7 +285,7 @@ parameters:
 - displayName: Prefer KIE Server OpenShift Service
   description: Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
-  value: "false"
+  value: "true"
   required: false
 - displayName: KIE ServerTemplate Cache TTL
   description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
