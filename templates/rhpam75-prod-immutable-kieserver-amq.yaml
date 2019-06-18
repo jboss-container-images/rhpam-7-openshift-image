@@ -6,16 +6,16 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,kieserver,immutable,s2i,amq
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.4 immutable production environment with ActiveMQ
+    openshift.io/display-name: Red Hat Process Automation Manager 7.5 immutable production environment with ActiveMQ
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for an immultable KIE server in a production environment integrated with ActiveMQ, for Red Hat Process Automation Manager 7.4
-    template.openshift.io/long-description: This template defines resources needed for a immultable production runtime environment for Red Hat Process Automation Manager 7.4, including a source-to-image (S2I) build of your services, application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.4/html/deploying_a_red_hat_process_automation_manager_7.4_immutable_server_environment_on_red_hat_openshift_container_platform/
+    description: Application template for an immultable KIE server in a production environment integrated with ActiveMQ, for Red Hat Process Automation Manager 7.5
+    template.openshift.io/long-description: This template defines resources needed for a immultable production runtime environment for Red Hat Process Automation Manager 7.5, including a source-to-image (S2I) build of your services, application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.5/html/deploying_a_red_hat_process_automation_manager_7.5_immutable_server_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam74-prod-immutable-kieserver-amq
+  name: rhpam75-prod-immutable-kieserver-amq
 labels:
-  template: rhpam74-prod-immutable-kieserver-amq
+  template: rhpam75-prod-immutable-kieserver-amq
   rhpam: "1.0"
 message: |-
           A new immutable Red Hat Process Automation Manager KIE server have been created in your project.
@@ -62,9 +62,9 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam74-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam74-kieserver-openshift"
+  value: "rhpam75-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".

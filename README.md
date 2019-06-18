@@ -30,7 +30,7 @@ Inside each image directory you will find the following files:
 
 On the root directory you can also find the two files:
  - [example-app-secret-template.yaml](example-app-secret-template.yaml): Contains a https certificate to be used as example where https is required.
- - [rhpam-image-streams.yaml](rhpam74-image-streams.yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
+ - [rhpam-image-streams.yaml](rhpam75-image-streams.yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
 
 
 This repo depends directly on 5 repositories, which are:
@@ -39,7 +39,7 @@ This repo depends directly on 5 repositories, which are:
  - [jboss-eap-image](https://github.com/jboss-container-images/jboss-eap-7-image.git): provides the EAP modules, which is used to install the EAP on the target image.
  - [rhpam-7-image](https://github.com/jboss-container-images/rhpam-7-image.git): provides the RHPAM binaries modules.
  - [jboss-kie-modules](https://github.com/jboss-container-images/jboss-kie-modules): contains all the resources used to configure the RHPAM images.
- 
+
 
 ##### Found a issue?
 Please submit a issue [here](https://issues.jboss.org/projects/RHPAM) with the **Cloud** tag or send us a email: bsig-cloud@redhat.com.
