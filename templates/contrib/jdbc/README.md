@@ -5,7 +5,7 @@ on OpenShift.
 
 #### What is a extension image?
 
-The extension image is basically a minimal image that include all the files needed to configure a jdbc driver 
+The extension image is basically a minimal image that include all the files needed to configure a jdbc driver
 in the image used for deployment.
 
 It adds a extra layer on top of the base image which contains:
@@ -160,7 +160,7 @@ $ make build sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
 After you build your extension image you can:
 
 - Push the image to some internal/public registry and import the image on OpenShift using:
-    - imagestream: 
+    - imagestream:
         ```yaml
           ---
           kind: List
@@ -185,9 +185,9 @@ After you build your extension image you can:
                   tags: oracle,extension,jdbc,driver
                   version: '12cR1'
         ```
-        
+
         then import it on OpenShift:
-        ```bash 
+        ```bash
         $ oc create -f my-image-stream.yaml
         ```
 
@@ -195,16 +195,16 @@ After you build your extension image you can:
         ```bash
         $ oc import-image jboss-kie-oracle-extension-openshift-image:12cR1 --from=registry/project/jboss-kie-oracle-extension-openshift-image:12cR1 --confirm
         ```
-        
+
     - push the image directly to the OpenShift registry: https://docs.openshift.com/container-platform/3.11/install_config/registry/accessing_registry.html#access
-    
-    
+
+
 ### How to use the extension images
 
 These extension images were designed to be used with RHPAM images but can be used with any other image since it supports
-s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information. 
+s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information.
 
-We provide a external database [application template](../../rhpam74-kieserver-externaldb.yaml) ready to use the extension images.
+We provide a external database [application template](../../rhpam75-kieserver-externaldb.yaml) ready to use the extension images.
 
 To deploy it using any of the extension images, follow the steps below:
 
@@ -220,23 +220,23 @@ Note that, by default all application templates and imagestreams are installed u
     $ oc get templates -n openshift | grep rhpam43-kieserver-externaldb
   ```
 
-- if it does not return the template, you will need to install the template on OpenShift, the recommend namespace 
+- if it does not return the template, you will need to install the template on OpenShift, the recommend namespace
 to install it is **openshift** but feel free to install it on the preferred namespace.
    ```bash
-     $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam74-kieserver-externaldb.yaml 
-   ``` 
-   
+     $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam75-kieserver-externaldb.yaml
+   ```
+
 - verify if the RHPAM 7.3 imagestreams are available:
   ```bash
-    $ oc get imagestream -n openshift | grep rhpam74
+    $ oc get imagestream -n openshift | grep rhpam75
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
   ```bash
-    $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam74-image-streams.yaml
+    $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam75-image-streams.yaml
   ```
 
-The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml) 
+The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
 as example.
 
 Let's install:
@@ -246,7 +246,7 @@ $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-
 $ oc new-app example-app-secret
 ```
 
-Optional, if you are going to use one of the ready extension images (mysql, mariadb or postgresql) import 
+Optional, if you are going to use one of the ready extension images (mysql, mariadb or postgresql) import
 [this](extension-image-streams.yaml) imagestream:
 
 ```bash
@@ -260,7 +260,7 @@ To create a new app using a extension image, you can go through the OpenShift we
 create it using command line:
 
 ```bash
-$ oc new-app rhpam74-kieserver-externaldb \
+$ oc new-app rhpam75-kieserver-externaldb \
   -p MAVEN_REPO_URL=http://some.mave.repo \
   -p IMAGE_STREAM_NAMESPACE=rhpam-externaldb \
   -p KIE_SERVER_EXTERNALDB_DIALECT=org.jbpm.persistence.jpa.hibernate.DisabledFollowOnLockOracle10gDialect \
@@ -277,4 +277,4 @@ $ oc new-app rhpam74-kieserver-externaldb \
 ```
 Remember to update the parameters according your needs.
 
-If you find any issue feel free to drop an email to bsig-cloud@redhat.com or fill an [issue](https://issues.jboss.org/projects/RHPAM) 
+If you find any issue feel free to drop an email to bsig-cloud@redhat.com or fill an [issue](https://issues.jboss.org/projects/RHPAM)

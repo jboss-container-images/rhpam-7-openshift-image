@@ -6,16 +6,16 @@ metadata:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,authoring,ha
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.4 authoring environment (HA, persistent, with https)
+    openshift.io/display-name: Red Hat Process Automation Manager 7.5 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.4
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.4 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volumes to store data that needs to survive a restart.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.4/html/deploying_a_red_hat_process_automation_manager_7.4_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.5
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.5 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volumes to store data that needs to survive a restart.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.5/html/deploying_a_red_hat_process_automation_manager_7.5_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam74-authoring-ha
+  name: rhpam75-authoring-ha
 labels:
-  template: rhpam74-authoring-ha
+  template: rhpam75-authoring-ha
   rhpam: "1.0"
 message: |-
           A new persistent HA Process Automation Manager application has been created in your project.
@@ -297,14 +297,14 @@ parameters:
   value: openshift
   required: true
 - displayName: Business Central ImageStream Name
-  description: The name of the image stream to use for Business Central. Default is "rhpam74-businesscentral-openshift".
+  description: The name of the image stream to use for Business Central. Default is "rhpam75-businesscentral-openshift".
   name: BUSINESS_CENTRAL_IMAGE_STREAM_NAME
-  value: "rhpam74-businesscentral-openshift"
+  value: "rhpam75-businesscentral-openshift"
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam74-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam74-kieserver-openshift"
+  value: "rhpam75-kieserver-openshift"
   required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".

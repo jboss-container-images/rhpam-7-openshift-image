@@ -6,7 +6,7 @@ This quickstart is intend to be used with the [RHPAM Kie Server](https://github.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam74-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam74-prod-immutable-kieserver.yaml)
+To deploy the Library Process demo you can use the [rhpam75-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam75-prod-immutable-kieserver.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -44,15 +44,15 @@ to build a new example application in Ruby.
 
 Make sure that you have the RHPAM template installed in your OpenShift Instance:
 ```bash
-$ oc get template rhpam74-prod-immutable-kieserver -n openshift
-Error from server (NotFound): templates.template.openshift.io "rhpam74-prod-immutable-kieserver" not found
+$ oc get template rhpam75-prod-immutable-kieserver -n openshift
+Error from server (NotFound): templates.template.openshift.io "rhpam75-prod-immutable-kieserver" not found
 ```
 
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam74-prod-immutable-kieserver.yaml -n openshift
-template.template.openshift.io "rhpam74-prod-immutable-kieserver" created
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam75-prod-immutable-kieserver.yaml -n openshift
+template.template.openshift.io "rhpam75-prod-immutable-kieserver" created
 ```
 
 For this template, we also need to install the secrets, which contain the certificates to configure https:
@@ -78,13 +78,13 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 Before proceed, make sure you have the RHDM imagestreams available under the 'openshift' namespace.
 
 ```bash
-$ oc get imagestream rhpam74-kieserver-openshift -n openshift
-Error from server (NotFound): imagestreams.image.openshift.io "rhpam74-kieserver-openshift" not found
+$ oc get imagestream rhpam75-kieserver-openshift -n openshift
+Error from server (NotFound): imagestreams.image.openshift.io "rhpam75-kieserver-openshift" not found
 
 ```
- If the `rhpam74-kieserver-openshift` is not found, install it under the 'openshift' namespace:
+ If the `rhpam75-kieserver-openshift` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam74-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam75-image-streams.yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information
@@ -93,18 +93,18 @@ please take a look [here](https://access.redhat.com/RegistryAuthentication)
 At this moment we are ready to instantiate the kieserver app:
 
 ```bash
-$ oc new-app rhpam74-prod-immutable-kieserver \
+$ oc new-app rhpam75-prod-immutable-kieserver \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.5.0-SNAPSHOT \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
 -p SOURCE_REPOSITORY_REF=master \
 -p CONTEXT_DIR=quickstarts/library-process/library \
 -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret \
 -p IMAGE_STREAM_NAMESPACE=openshift
---> Deploying template "openshift/rhpam74-prod-immutable-kieserver" to project rhpam-kieserver
+--> Deploying template "openshift/rhpam75-prod-immutable-kieserver" to project rhpam-kieserver
 
-     Red Hat Process Automation Manager 7.4 immutable production environment
+     Red Hat Process Automation Manager 7.5 immutable production environment
      ---------
-     Application template for an immultable KIE server in a production environment, for Red Hat Process Automation Manager 7.4
+     Application template for an immultable KIE server in a production environment, for Red Hat Process Automation Manager 7.5
 
      A new immutable Red Hat Process Automation Manager KIE server have been created in your project.
      The username/password for accessing the KIE server is
@@ -121,7 +121,7 @@ $ oc new-app rhpam74-prod-immutable-kieserver \
         * KIE Server User=executionUser
         * KIE Server Password=MADQFF7! # generated
         * ImageStream Namespace=openshift
-        * KIE Server ImageStream Name=rhpam74-kieserver-openshift
+        * KIE Server ImageStream Name=rhpam75-kieserver-openshift
         * ImageStream Tag=1.1
         * KIE Server Monitor User=monitorUser
         * KIE Server Monitor Password=

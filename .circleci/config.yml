@@ -25,4 +25,4 @@ jobs:
     - run:
         name: Verify the RHPAM imagestream
         command: |
-          ./openshift-template-validator-linux-amd64 validate --file rhpam74-image-streams.yaml
+          ./openshift-template-validator-linux-amd64 validate --file rhpam75-image-streams.yaml
