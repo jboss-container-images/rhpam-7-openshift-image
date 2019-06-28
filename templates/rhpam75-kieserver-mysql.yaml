@@ -652,6 +652,10 @@ objects:
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
 ## MySQL driver settings BEGIN
+          - name: RHPAM_CONNECTION_CHECKER
+            value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"
+          - name: RHPAM_EXCEPTION_SORTER
+            value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"
           - name: RHPAM_DATABASE
             value: "${KIE_SERVER_MYSQL_DB}"
           - name: RHPAM_DRIVER
