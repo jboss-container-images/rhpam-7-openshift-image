@@ -8,7 +8,6 @@ Also includes the application templates.
 
 **rhpam-7-openshift-image** \
 ├── **[businesscentral](businesscentral)**: Business Central image descriptor files.\
-├── **[businesscentral-indexing](businesscentral-indexing)**: Business Central Indexing (elasticsearch) image descriptor files.\
 ├── **[businesscentral-monitoring](businesscentral-monitoring)**: Business Central Monitoring image descriptor files. \
 ├── **[controller](controller)**: RHPAM Controller  image descriptor files. \
 ├── **[kieserver](kieserver)**: Execution Server image descriptor files \
