@@ -8,7 +8,6 @@ Also includes the application templates.
 
 **rhpam-7-openshift-image** \
 ├── **[businesscentral](businesscentral)**: Business Central image descriptor files.\
-├── **[businesscentral-indexing](businesscentral-indexing)**: Business Central Indexing (elasticsearch) image descriptor files.\
 ├── **[businesscentral-monitoring](businesscentral-monitoring)**: Business Central Monitoring image descriptor files. \
 ├── **[controller](controller)**: RHPAM Controller  image descriptor files. \
 ├── **[kieserver](kieserver)**: Execution Server image descriptor files \
@@ -39,7 +38,7 @@ This repo depends directly on 5 repositories, which are:
  - [jboss-eap-image](https://github.com/jboss-container-images/jboss-eap-7-image.git): provides the EAP modules, which is used to install the EAP on the target image.
  - [rhpam-7-image](https://github.com/jboss-container-images/rhpam-7-image.git): provides the RHPAM binaries modules.
  - [jboss-kie-modules](https://github.com/jboss-container-images/jboss-kie-modules): contains all the resources used to configure the RHPAM images.
- 
+
 
 ##### Found a issue?
 Please submit a issue [here](https://issues.jboss.org/projects/RHPAM) with the **Cloud** tag or send us a email: bsig-cloud@redhat.com.
