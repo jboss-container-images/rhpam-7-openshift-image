@@ -135,7 +135,7 @@ parameters:
   example: 4321
   required: false
 - displayName: Non XA datasource
-  description: Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is false.
+  description: Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is true.
   name: KIE_SERVER_EXTERNALDB_NONXA
   example: true
   required: false
