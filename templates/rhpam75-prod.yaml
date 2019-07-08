@@ -562,6 +562,23 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
   roleRef:
     name: view
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-smartrouter"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+     name: "${APPLICATION_NAME}-smartrouter-view"
+     labels:
+       application: "${APPLICATION_NAME}"
+  subjects:
+  - kind: ServiceAccount
+    name: "${APPLICATION_NAME}-smartrouter"
+  roleRef:
+    name: view    
 - kind: Service
   apiVersion: v1
   spec:
@@ -1098,6 +1115,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-smartrouter"
           service: "${APPLICATION_NAME}-smartrouter"
       spec:
+        serviceAccountName: "${APPLICATION_NAME}-smartrouter"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-smartrouter"
