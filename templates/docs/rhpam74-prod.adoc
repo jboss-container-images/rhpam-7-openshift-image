@@ -256,6 +256,7 @@ information.
 |============
 |Deployment | Service Account
 
+|`${APPLICATION_NAME}-smartrouter` | `${APPLICATION_NAME}-smartrouter`
 |`${APPLICATION_NAME}-kieserver-1` | `${APPLICATION_NAME}-kieserver`
 |`${APPLICATION_NAME}-kieserver-2` | `${APPLICATION_NAME}-kieserver`
 |============
@@ -539,12 +540,13 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`POSTGRESQL_PASSWORD` | KIE server PostgreSQL database password. | `${KIE_SERVER_POSTGRESQL_PWD}`
 |`POSTGRESQL_DATABASE` | KIE server PostgreSQL database name. | `${KIE_SERVER_POSTGRESQL_DB}`
 |`POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | Allows the PostgreSQL to handle XA transactions. | `${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}`
-.85+| `${APPLICATION_NAME}-kieserver-2`
-|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
-|`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
+.87+| `${APPLICATION_NAME}-kieserver-2`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
+|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `${KIE_SERVER_MODE}`
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
+|`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
 |`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username. (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password. (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
@@ -583,6 +585,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_PASSWORD` | KIE server PostgreSQL database password. | `${KIE_SERVER_POSTGRESQL_PWD}`
 |`RHPAM_SERVICE_HOST` | -- | `${APPLICATION_NAME}-postgresql-2`
 |`RHPAM_SERVICE_PORT` | -- | 5432
+|`TIMER_SERVICE_DATA_STORE` | -- | `${APPLICATION_NAME}-postgresql-2`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret. | `${KIE_SERVER_HTTPS_KEYSTORE}`

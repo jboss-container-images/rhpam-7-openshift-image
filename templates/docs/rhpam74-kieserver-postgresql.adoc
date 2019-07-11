@@ -260,7 +260,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.80+| `${APPLICATION_NAME}-kieserver`
+.82+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
@@ -299,6 +299,8 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_PERSISTENCE_DIALECT` | KIE server PostgreSQL Hibernate dialect. | `${KIE_SERVER_POSTGRESQL_DIALECT}`
 |`RHPAM_JTA` | -- | true
 |`RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
+|`RHPAM_CONNECTION_CHECKER` | -- | org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
+|`RHPAM_EXCEPTION_SORTER` | -- | org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret. | `${KIE_SERVER_HTTPS_KEYSTORE}`

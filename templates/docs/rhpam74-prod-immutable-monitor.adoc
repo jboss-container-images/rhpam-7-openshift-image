@@ -192,6 +192,7 @@ information.
 |Deployment | Service Account
 
 |`${APPLICATION_NAME}-rhpamcentrmon` | `${APPLICATION_NAME}-rhpamsvc`
+|`${APPLICATION_NAME}-smartrouter` | `${APPLICATION_NAME}-smartrouter`
 |============
 
 
