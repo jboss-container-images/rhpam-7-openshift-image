@@ -104,7 +104,7 @@ artifacts:
     ;;
     mssql)
         DATABASE_TYPE="mssql"
-        VERSION="7.0.0.jre8"
+        VERSION="7.2.2.jre11"
         DRIVERS="MSSQL"
         DRIVER_NAME="mssql"
         DRIVER_MODULE="com.microsoft"
