@@ -34,14 +34,14 @@ The drivers images are based on the supported configurations for Red Hat Process
 |-------------|-------------------------|---------------------------------|
 | IBM DB2     | 11.1                    | jcc-11.1.4.4.jar                |
 | MariaDB     | 10.2                    | mariadb-java-client-2.3.0.jar   |
-| MS SQL      | 2014,2016               | mssql-jdbc-7.0.0.jre8.jar       |
+| MS SQL      | 2014,2016               | mssql-jdbc-7.2.2.jre11.jar       |
 | Oracle DB   | 12c RAC                 | example: ojdbc7.jar             |
 | MySQL       | 5.7                     | mysql-connector-java-8.0.12.jar |
 | PosgtgreSQL | 10.1, 10.1 Enterprise   | postgresql-42.2.5.jar           |
 | Sybase      | 16.0                    | jconn4-16.0_PL05.jar            |
 
 
-For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM73).
+For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM74).
 
 #### Extension Images
 
