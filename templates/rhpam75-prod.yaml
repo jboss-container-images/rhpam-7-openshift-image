@@ -1143,6 +1143,10 @@ objects:
             value: "${KIE_SERVER_ROUTER_ID}"
           - name: KIE_SERVER_ROUTER_NAME
             value: "${KIE_SERVER_ROUTER_NAME}"
+          - name: KIE_SERVER_ROUTER_ROUTE_NAME
+            value: "${APPLICATION_NAME}-smartrouter"
+          - name: KIE_SERVER_ROUTER_SERVICE
+            value: "${APPLICATION_NAME}-smartrouter"
           - name: KIE_SERVER_ROUTER_PROTOCOL
             value: "${KIE_SERVER_ROUTER_PROTOCOL}"
           - name: KIE_SERVER_ROUTER_TLS_KEYSTORE_KEYALIAS
