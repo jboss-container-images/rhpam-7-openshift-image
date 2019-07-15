@@ -259,7 +259,7 @@ tcpSocket on port 3306
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.80+| `${APPLICATION_NAME}-kieserver`
+.82+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
@@ -290,6 +290,8 @@ tcpSocket on port 3306
 |`KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
+|`RHPAM_CONNECTION_CHECKER` | -- | org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker
+|`RHPAM_EXCEPTION_SORTER` | -- | org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
 |`RHPAM_DATABASE` | KIE server MySQL database name. | `${KIE_SERVER_MYSQL_DB}`
 |`RHPAM_DRIVER` | -- | mariadb
 |`KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | `${KIE_SERVER_MYSQL_DIALECT}`
