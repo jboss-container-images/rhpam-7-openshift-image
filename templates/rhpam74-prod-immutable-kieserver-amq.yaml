@@ -257,6 +257,16 @@ parameters:
   name: KIE_SERVER_MGMT_DISABLED
   value: "true"
   required: true
+- displayName: KIE Server JMS Executor
+  description: "Enables the JMS executor, set false to disable it."
+  name: KIE_SERVER_EXECUTOR_JMS
+  value: "true"
+  required: false
+- displayName: KIE Server Transacted Executor
+  description: "Enable transactions for JMS executor, disabled by default"
+  name: KIE_SERVER_EXECUTOR_JMS_TRANSACTED
+  value: "false"
+  required: false
 - displayName: KIE Server JMS Request Queue
   description: "JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST"
   name: KIE_SERVER_JMS_QUEUE_REQUEST
@@ -1035,6 +1045,10 @@ objects:
 ## PostgreSQL driver settings END
           - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
             value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
+          - name: KIE_SERVER_EXECUTOR_JMS
+            value: "${KIE_SERVER_EXECUTOR_JMS}"
+          - name: KIE_SERVER_EXECUTOR_JMS_TRANSACTED
+            value: "${KIE_SERVER_EXECUTOR_JMS_TRANSACTED}"
           - name: KIE_SERVER_JMS_QUEUE_REQUEST
             value: "${KIE_SERVER_JMS_QUEUE_REQUEST}"
           - name: KIE_SERVER_JMS_QUEUE_RESPONSE
