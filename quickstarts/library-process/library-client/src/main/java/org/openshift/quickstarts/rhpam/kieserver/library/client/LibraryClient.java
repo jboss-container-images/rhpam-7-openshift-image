@@ -1,32 +1,5 @@
 package org.openshift.quickstarts.rhpam.kieserver.library.client;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.jms.ConnectionFactory;
-import javax.jms.Queue;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
 import org.kie.api.command.Command;
@@ -56,6 +29,32 @@ import org.openshift.quickstarts.rhpam.kieserver.library.types.SuggestionRespons
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 public class LibraryClient {
 
     private static final Logger logger = LoggerFactory.getLogger(LibraryClient.class);
@@ -65,7 +64,7 @@ public class LibraryClient {
         LibraryClient client = new LibraryClient(new LibraryConfig());
         String command = (args != null && args.length > 0) ? args[0] : null;
         if (!client.runCommand(command, new PrintWriter(System.out, true))) {
-            throw new Exception("Nothing run! Must specify -Dexec.args=runLocal (or runRemoteRest, runRemoteHornetMQ, runRemoteActiveMQ).");
+            throw new Exception("Nothing run! Must specify -Dexec.args=runLocal (or runRemoteRest, runRemoteHornetMQ, runRemoteActiveMQ, runRemoteActiveMQExternal).");
         }
     }
 
@@ -76,7 +75,7 @@ public class LibraryClient {
     }
 
     // package-protected for LibraryServlet
-    boolean runCommand(String command, PrintWriter out) throws Exception {
+    boolean runCommand(String command, PrintWriter out, String... args) throws Exception {
         boolean run = false;
         command = appcfg.trimToNull(command);
         if ("runLocal".equals(command)) {
@@ -91,7 +90,26 @@ public class LibraryClient {
         } else if ("runRemoteActiveMQ".equals(command)) {
             runRemoteActiveMQ(out);
             run = true;
+        } else if ("runRemoteActiveMQExternal".equals(command)) {
+
+            String url = System.getProperty("url");
+            String username = System.getProperty("username");
+            String password = System.getProperty("password");
+
+            if (null == url || null == username || null == password) {
+                throw new IllegalArgumentException("Missing property, -Durl or -Dusername or -Dpassword");
+            } else {
+                appcfg.setHost(url);
+                appcfg.setUsername(username);
+                appcfg.setPassword(password);
+            }
+
+            appcfg.setPort("443");
+            appcfg.setProtocol("failover://ssl");
+            runRemoteActiveMQ(out);
+            run = true;
         }
+
         return run;
     }
 
@@ -139,6 +157,9 @@ public class LibraryClient {
         String password = appcfg.getPassword();
         String qusername = appcfg.getQUsername();
         String qpassword = appcfg.getQPassword();
+        out.println("runRemoteActiveMQ, using properties: url=" + baseurl);
+        out.println("runRemoteActiveMQ, using properties: username=" + username);
+        out.println("runRemoteActiveMQ, using properties: password=" + password);
         Properties props = new Properties();
         props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
         props.setProperty(Context.PROVIDER_URL, baseurl);
@@ -325,16 +346,18 @@ public class LibraryClient {
                     try {
                         SSLContext context = SSLContext.getInstance("TLS");
                         context.init(null, new TrustManager[]{
-                                                              new X509TrustManager() {
+                                new X509TrustManager() {
 
-                                                                  public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                                    }
 
-                                                                  public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                                    }
 
-                                                                  public X509Certificate[] getAcceptedIssuers() {
-                                                                      return null;
-                                                                  }
-                                                              }
+                                    public X509Certificate[] getAcceptedIssuers() {
+                                        return null;
+                                    }
+                                }
                         }, null);
                         sconn.setSSLSocketFactory(context.getSocketFactory());
                     } catch (Exception e) {

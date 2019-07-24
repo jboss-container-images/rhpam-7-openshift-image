@@ -290,5 +290,61 @@ http://eap-app-rhpam-kieserver.<your_openshift_suffix>/library?command=runRemote
 
 The password was generated during the app creation in the previous steps, look for **KIE Server Password**.
 
+
+### JMS integration outside OpenShift
+
+Remember, the certificates are required, for more information about how to configure the AMQ properties, please see:
+https://access.redhat.com/documentation/en-us/red_hat_amq/7.3/html/deploying_amq_broker_on_openshift_container_platform/configure-ssl-broker-ocp#configuring-ssl_broker-ocp
+
+This client allows you to test if your JMS setup is working properly and if you are able to perform JMS calls outside OpenShift
+by using the *library-process* quickstart and this client to interact with ActiveMQ.
+
+First of all, install this quickstart on OpenShift using the [rhpam75-prod-immutable-kieserver-amq.yaml](../../templates/rhpam75-prod-immutable-kieserver-amq.yaml)
+and do not forget to properly configure the S2i build and the AMQ parameters, mainly the credentials.
+
+
+Execute a maven install on the root directory of the library-process:
+```sh
+$pwd .../rhpam-7-openshift-image/quickstarts/library-process
+$ mvn clean install
+```
+
+After the quickstart is properly deployed on OpenShift, execute the following commands
+```bash
+$ mvn exec:java  -Dexec.args=runRemoteActiveMQExternal -Durl=myapp-amq-tcp-ssl-kieserver.apps.test.cloud \
+-Dusername=admin -Dpassword=redhat@123 \
+-Djavax.net.ssl.trustStore=/tmp/broker/client.ts \
+-Djavax.net.ssl.trustStorePassword=123456
+```
+
+Remember to update the properties above properly according your environment. Note that, the url is the exported route for the 
+${APPLICATION_NAME}-amq-tcp-ssl service, which should point to the port *61617*
+Not that, the url should be configured without protocol and port.
+
+If the setup is correct, a similar message will be printed:
+```bash
+...
+runRemoteActiveMQ, using properties: url=failover://ssl://myapp-amq-tcp-ssl-kieserver.apps.test.cloud:443
+runRemoteActiveMQ, using properties: username=admin
+runRemoteActiveMQ, using properties: password=redhat@123
+Using xml MarshallingFormat.JAXB
+Attempting 1st loan for isbn: 978-1-4000-5-80-2
+1st loan approved? true
+Attempting 2nd loan for isbn: 978-1-4000-5-80-2
+2nd loan approved? true
+Returning 1st loan for isbn: 978-1-4000-5-80-2
+1st loan return acknowledged? true
+Re-attempting 2nd loan for isbn: 978-1-4000-5-80-2
+Re-attempt of 2nd loan approved? true
+Received suggestion for book: Pride and Prejudice and Zombies (isbn: 978-1-59474-449-5)
+Attempting 3rd loan for isbn: 978-1-59474-449-5
+3rd loan approved? true
+Returning 2nd loan for isbn: 978-1-4000-5-80-2
+2nd loan return acknowledged? true
+Returning 3rd loan for isbn: 978-1-59474-449-5
+3rd loan return acknowledged? true
+...
+```
+
 #### Found an issue?
 Feel free to report it [here](https://github.com/jboss-container-images/rhpam-7-openshift-image/issues/new).
