@@ -467,7 +467,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, the KIE server will use secure-<application-name>-kieserver vs. <application-name>-kieserver as the KIE server route endpoint for Business Central to report. Therefore, Business Central displays the secure link to the user. | `${KIE_SERVER1_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -560,7 +560,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver-2 vs. APPLICATION_NAME-kieserver-2 as the route name. | `${KIE_SERVER2_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL

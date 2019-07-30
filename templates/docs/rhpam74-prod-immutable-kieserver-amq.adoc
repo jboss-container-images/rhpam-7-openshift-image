@@ -67,6 +67,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit | 1Gi | False
 |`KIE_SERVER_MGMT_DISABLED` | `KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | true | True
+|`KIE_SERVER_EXECUTOR_JMS` | `KIE_SERVER_EXECUTOR_JMS` | Enables the JMS executor, set false to disable it. | true | False
+|`KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | `KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | Enable transactions for JMS executor, disabled by default | false | False
 |`KIE_SERVER_JMS_QUEUE_REQUEST` | `KIE_SERVER_JMS_QUEUE_REQUEST` | JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST | queue/KIE.SERVER.REQUEST | False
 |`KIE_SERVER_JMS_QUEUE_RESPONSE` | `KIE_SERVER_JMS_QUEUE_RESPONSE` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | queue/KIE.SERVER.RESPONSE | False
 |`KIE_SERVER_JMS_QUEUE_EXECUTOR` | `KIE_SERVER_JMS_QUEUE_EXECUTOR` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | queue/KIE.SERVER.EXECUTOR | False
@@ -343,7 +345,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.91+| `${APPLICATION_NAME}-kieserver`
+.93+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
@@ -356,7 +358,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
@@ -379,6 +381,8 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_SERVICE_PORT` | -- | 5432
 |`TIMER_SERVICE_DATA_STORE` | -- | `${APPLICATION_NAME}-postgresql`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
+|`KIE_SERVER_EXECUTOR_JMS` | Enables the JMS executor, set false to disable it. | `${KIE_SERVER_EXECUTOR_JMS}`
+|`KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | Enable transactions for JMS executor, disabled by default | `${KIE_SERVER_EXECUTOR_JMS_TRANSACTED}`
 |`KIE_SERVER_JMS_QUEUE_REQUEST` | JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST | `${KIE_SERVER_JMS_QUEUE_REQUEST}`
 |`KIE_SERVER_JMS_QUEUE_RESPONSE` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | `${KIE_SERVER_JMS_QUEUE_RESPONSE}`
 |`KIE_SERVER_JMS_QUEUE_EXECUTOR` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | `${KIE_SERVER_JMS_QUEUE_EXECUTOR}`
