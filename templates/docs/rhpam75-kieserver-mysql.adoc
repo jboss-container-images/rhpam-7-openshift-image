@@ -18,7 +18,7 @@ toc::[]
 
 Templates allow you to define parameters which take on a value. That value is then substituted wherever the parameter is referenced.
 References can be defined in any text field in the objects list field. Refer to the
-https://docs.openshift.org/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
+https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
 
 |=======================================================================
 |Variable name |Image Environment Variable |Description |Example value |Required
@@ -259,7 +259,7 @@ tcpSocket on port 3306
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.80+| `${APPLICATION_NAME}-kieserver`
+.82+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
@@ -272,7 +272,7 @@ tcpSocket on port 3306
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -290,6 +290,8 @@ tcpSocket on port 3306
 |`KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
+|`RHPAM_CONNECTION_CHECKER` | -- | org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker
+|`RHPAM_EXCEPTION_SORTER` | -- | org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
 |`RHPAM_DATABASE` | KIE server MySQL database name. | `${KIE_SERVER_MYSQL_DB}`
 |`RHPAM_DRIVER` | -- | mariadb
 |`KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | `${KIE_SERVER_MYSQL_DIALECT}`
@@ -376,9 +378,12 @@ more information.
 
 
 
-
 ==== Secrets
 
 This template requires the following secrets to be installed for the application to run.
 
 kieserver-app-secret
+
+
+
+
