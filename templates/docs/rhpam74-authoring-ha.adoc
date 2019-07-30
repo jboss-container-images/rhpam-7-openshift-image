@@ -75,7 +75,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam74-businesscentral-openshift". | rhpam74-businesscentral-openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam74-kieserver-openshift". | rhpam74-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.1". | 1.1 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:*,!repo-rhpamcentr | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
@@ -485,7 +485,7 @@ tcpSocket on port 3306
 =====  Volumes
 
 |=============
-|Deployment |Name  | mountPath | Purpose | readOnly 
+|Deployment |Name  | mountPath | Purpose | readOnly
 
 |`${APPLICATION_NAME}-rhpamcentr` | businesscentral-keystore-volume | `/etc/businesscentral-secret-volume` | ssl certs | True
 |`${APPLICATION_NAME}-kieserver` | kieserver-keystore-volume | `/etc/kieserver-secret-volume` | ssl certs | True
