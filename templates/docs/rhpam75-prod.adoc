@@ -18,7 +18,7 @@ toc::[]
 
 Templates allow you to define parameters which take on a value. That value is then substituted wherever the parameter is referenced.
 References can be defined in any text field in the objects list field. Refer to the
-https://docs.openshift.org/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
+https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
 
 |=======================================================================
 |Variable name |Image Environment Variable |Description |Example value |Required
@@ -256,6 +256,7 @@ information.
 |============
 |Deployment | Service Account
 
+|`${APPLICATION_NAME}-smartrouter` | `${APPLICATION_NAME}-smartrouter`
 |`${APPLICATION_NAME}-kieserver-1` | `${APPLICATION_NAME}-kieserver`
 |`${APPLICATION_NAME}-kieserver-2` | `${APPLICATION_NAME}-kieserver`
 |============
@@ -428,13 +429,15 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.17+| `${APPLICATION_NAME}-smartrouter`
+.19+| `${APPLICATION_NAME}-smartrouter`
 |`KIE_SERVER_ROUTER_HOST` | -- | --
 |`KIE_SERVER_ROUTER_PORT` | -- | 9000
 |`KIE_SERVER_ROUTER_PORT_TLS` | -- | 9443
 |`KIE_SERVER_ROUTER_URL_EXTERNAL` | Public URL where the router can be found. Format http://<host>:<port>  (router property org.kie.server.router.url.external) | `${KIE_SERVER_ROUTER_URL_EXTERNAL}`
 |`KIE_SERVER_ROUTER_ID` | Router ID used when connecting to the controller. (router property org.kie.server.router.id) | `${KIE_SERVER_ROUTER_ID}`
 |`KIE_SERVER_ROUTER_NAME` | Router name used when connecting to the controller. (router property org.kie.server.router.name) | `${KIE_SERVER_ROUTER_NAME}`
+|`KIE_SERVER_ROUTER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-smartrouter`
+|`KIE_SERVER_ROUTER_SERVICE` | -- | `${APPLICATION_NAME}-smartrouter`
 |`KIE_SERVER_ROUTER_PROTOCOL` | KIE server router protocol. (Used to build the org.kie.server.router.url.external property) | `${KIE_SERVER_ROUTER_PROTOCOL}`
 |`KIE_SERVER_ROUTER_TLS_KEYSTORE_KEYALIAS` | The name associated with the server certificate. | `${KIE_SERVER_ROUTER_HTTPS_NAME}`
 |`KIE_SERVER_ROUTER_TLS_KEYSTORE_PASSWORD` | The password for the keystore and certificate. | `${KIE_SERVER_ROUTER_HTTPS_PASSWORD}`
@@ -464,7 +467,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, the KIE server will use secure-<application-name>-kieserver vs. <application-name>-kieserver as the KIE server route endpoint for Business Central to report. Therefore, Business Central displays the secure link to the user. | `${KIE_SERVER1_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -539,12 +542,13 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`POSTGRESQL_PASSWORD` | KIE server PostgreSQL database password. | `${KIE_SERVER_POSTGRESQL_PWD}`
 |`POSTGRESQL_DATABASE` | KIE server PostgreSQL database name. | `${KIE_SERVER_POSTGRESQL_DB}`
 |`POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | Allows the PostgreSQL to handle XA transactions. | `${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}`
-.85+| `${APPLICATION_NAME}-kieserver-2`
-|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
-|`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
+.87+| `${APPLICATION_NAME}-kieserver-2`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
+|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `${KIE_SERVER_MODE}`
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
+|`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
 |`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username. (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password. (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
@@ -556,7 +560,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver-2 vs. APPLICATION_NAME-kieserver-2 as the route name. | `${KIE_SERVER2_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -583,6 +587,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_PASSWORD` | KIE server PostgreSQL database password. | `${KIE_SERVER_POSTGRESQL_PWD}`
 |`RHPAM_SERVICE_HOST` | -- | `${APPLICATION_NAME}-postgresql-2`
 |`RHPAM_SERVICE_PORT` | -- | 5432
+|`TIMER_SERVICE_DATA_STORE` | -- | `${APPLICATION_NAME}-postgresql-2`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`HTTPS_KEYSTORE_DIR` | -- | `/etc/kieserver-secret-volume`
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret. | `${KIE_SERVER_HTTPS_KEYSTORE}`
@@ -669,7 +674,6 @@ more information.
 
 
 
-
 ==== Secrets
 
 This template requires the following secrets to be installed for the application to run.
@@ -677,3 +681,7 @@ This template requires the following secrets to be installed for the application
 businesscentral-app-secret
 smartrouter-app-secret
 kieserver-app-secret
+
+
+
+

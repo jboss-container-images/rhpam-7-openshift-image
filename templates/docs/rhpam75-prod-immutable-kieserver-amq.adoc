@@ -18,7 +18,7 @@ toc::[]
 
 Templates allow you to define parameters which take on a value. That value is then substituted wherever the parameter is referenced.
 References can be defined in any text field in the objects list field. Refer to the
-https://docs.openshift.org/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
+https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
 
 |=======================================================================
 |Variable name |Image Environment Variable |Description |Example value |Required
@@ -67,6 +67,8 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit | 1Gi | False
 |`KIE_SERVER_MGMT_DISABLED` | `KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | true | True
+|`KIE_SERVER_EXECUTOR_JMS` | `KIE_SERVER_EXECUTOR_JMS` | Enables the JMS executor, set false to disable it. | true | False
+|`KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | `KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | Enable transactions for JMS executor, disabled by default | false | False
 |`KIE_SERVER_JMS_QUEUE_REQUEST` | `KIE_SERVER_JMS_QUEUE_REQUEST` | JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST | queue/KIE.SERVER.REQUEST | False
 |`KIE_SERVER_JMS_QUEUE_RESPONSE` | `KIE_SERVER_JMS_QUEUE_RESPONSE` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | queue/KIE.SERVER.RESPONSE | False
 |`KIE_SERVER_JMS_QUEUE_EXECUTOR` | `KIE_SERVER_JMS_QUEUE_EXECUTOR` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | queue/KIE.SERVER.EXECUTOR | False
@@ -80,8 +82,14 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`AMQ_ROLE` | `AMQ_ROLE` | User role for standard broker user. | admin | True
 |`AMQ_QUEUES` | `AMQ_QUEUES` | Queue names, separated by commas. These queues will be automatically created when the broker starts. Also, they will be made accessible as JNDI resources in EAP. These are the default queues needed by KIE Server. If using custom Queues use the same value here than KIE_SERVER_JMS_QUEUE_RESPONSE, KIE_SERVER_JMS_QUEUE_REQUEST, KIE_SERVER_JMS_QUEUE_SIGNAL, KIE_SERVER_JMS_QUEUE_AUDIT  and KIE_SERVER_JMS_QUEUE_EXECUTOR env. | queue/KIE.SERVER.REQUEST,queue/KIE.SERVER.RESPONSE,queue/KIE.SERVER.EXECUTOR,queue/KIE.SERVER.SIGNAL,queue/KIE.SERVER.AUDIT | False
 |`AMQ_GLOBAL_MAX_SIZE` | `AMQ_GLOBAL_MAX_SIZE` | Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system's memory is allocated. | 10 gb | False
+|`AMQ_SECRET` | -- | The name of a secret containing AMQ SSL related files. | broker-app-secret | True
+|`AMQ_TRUSTSTORE` | `AMQ_TRUSTSTORE` | The name of the AMQ SSL Trust Store file. | broker.ts | False
+|`AMQ_TRUSTSTORE_PASSWORD` | `AMQ_TRUSTSTORE_PASSWORD` | The password for the AMQ Trust Store. | changeit | False
+|`AMQ_KEYSTORE` | `AMQ_KEYSTORE` | The name of the AMQ keystore file. | broker.ks | False
+|`AMQ_KEYSTORE_PASSWORD` | `AMQ_KEYSTORE_PASSWORD` | The password for the AMQ keystore and certificate. | changeit | False
 |`AMQ_PROTOCOL` | `AMQ_PROTOCOL` | Broker protocols to configure, separated by commas. Allowed values are: `openwire`, `amqp`, `stomp` and `mqtt`. Only `openwire` is supported by EAP. | openwire | False
 |`AMQ_BROKER_IMAGESTREAM_NAME` | -- | AMQ Broker Image | amq-broker-73-openshift:7.3 | True
+|`AMQ_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat AMQ images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`SSO_URL` | `SSO_URL` | RH-SSO URL | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name | -- | False
 |`KIE_SERVER_SSO_CLIENT` | `SSO_CLIENT` | KIE Server RH-SSO Client name | -- | False
@@ -142,17 +150,29 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 |8161 | amq-jolokia
 .1+| The broker's console and Jolokia port.
 .1+| `${APPLICATION_NAME}-amq-amqp`
-|5672 | amp-amqp
+|5672 | amq-amqp
 .1+| The broker's AMQP port.
+.1+| `${APPLICATION_NAME}-amq-amqp-ssl`
+|5671 | amq-amqp-ssl
+.1+| The broker's AMQP SSL port.
 .1+| `${APPLICATION_NAME}-amq-mqtt`
 |1883 | amq-mqtt
 .1+| The broker's MQTT port.
+.1+| `${APPLICATION_NAME}-amq-mqtt-ssl`
+|8883 | amq-mqtt-ssl
+.1+| The broker's MQTT SSL port.
 .1+| `${APPLICATION_NAME}-amq-stomp`
-|61613 | amp-stomp
+|61613 | amq-stomp
 .1+| The broker's STOMP port.
+.1+| `${APPLICATION_NAME}-amq-stomp-ssl`
+|61612 | amq-stomp-ssl
+.1+| The broker's STOMP SSL port.
 .1+| `${APPLICATION_NAME}-amq-tcp`
 |61616 | amq-tcp
 .1+| The broker's OpenWire port.
+.1+| `${APPLICATION_NAME}-amq-tcp-ssl`
+|61617 | amq-tcp-ssl
+.1+| The broker's OpenWire (SSL) port.
 .1+| `${APPLICATION_NAME}-postgresql`
 |5432 | --
 .1+| The database server's port.
@@ -172,7 +192,7 @@ https://docs.okd.io/latest/architecture/networking/routes.html[Openshift documen
 
 |`${APPLICATION_NAME}-kieserver-http` | none | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`${APPLICATION_NAME}-kieserver-https` | TLS passthrough | `${KIE_SERVER_HOSTNAME_HTTPS}`
-|`${APPLICATION_NAME}-amq-jolokia-console` | none | <default>
+|`${APPLICATION_NAME}-amq-jolokia-console` | TLS passthrough | <default>
 |=============
 
 
@@ -306,12 +326,16 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |ping | 8888 | `TCP`
 .1+| `${APPLICATION_NAME}-postgresql`
 |-- | 5432 | `TCP`
-.5+| `${APPLICATION_NAME}-amq`
+.9+| `${APPLICATION_NAME}-amq`
 |console-jolokia | 8161 | `TCP`
-|amq-amqp | 5672 | `TCP`
-|amq-mqtt | 1883 | `TCP`
-|amq-stomp | 61613 | `TCP`
-|amq-tcp | 61616 | `TCP`
+|amqp | 5672 | `TCP`
+|amqp-ssl | 5671 | `TCP`
+|mqtt | 1883 | `TCP`
+|mqtt-ssl | 8883 | `TCP`
+|stomp | 61613 | `TCP`
+|stomp-ssl | 61612 | `TCP`
+|artemis | 61616 | `TCP`
+|amq-tcp-ssl | 61617 | `TCP`
 |=============
 
 
@@ -321,7 +345,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.92+| `${APPLICATION_NAME}-kieserver`
+.93+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
@@ -334,7 +358,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
@@ -349,7 +373,6 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_DATABASE` | KIE server PostgreSQL database name | `${KIE_SERVER_POSTGRESQL_DB}`
 |`RHPAM_JNDI` | KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`RHPAM_JTA` | -- | true
-|`RHPAM_NONXA` | -- | false
 |`RHPAM_DRIVER` | -- | postgresql
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.PostgreSQLDialect
 |`RHPAM_USERNAME` | KIE server PostgreSQL database username | `${KIE_SERVER_POSTGRESQL_USER}`
@@ -358,6 +381,8 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_SERVICE_PORT` | -- | 5432
 |`TIMER_SERVICE_DATA_STORE` | -- | `${APPLICATION_NAME}-postgresql`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
+|`KIE_SERVER_EXECUTOR_JMS` | Enables the JMS executor, set false to disable it. | `${KIE_SERVER_EXECUTOR_JMS}`
+|`KIE_SERVER_EXECUTOR_JMS_TRANSACTED` | Enable transactions for JMS executor, disabled by default | `${KIE_SERVER_EXECUTOR_JMS_TRANSACTED}`
 |`KIE_SERVER_JMS_QUEUE_REQUEST` | JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST | `${KIE_SERVER_JMS_QUEUE_REQUEST}`
 |`KIE_SERVER_JMS_QUEUE_RESPONSE` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | `${KIE_SERVER_JMS_QUEUE_RESPONSE}`
 |`KIE_SERVER_JMS_QUEUE_EXECUTOR` | JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE | `${KIE_SERVER_JMS_QUEUE_EXECUTOR}`
@@ -419,7 +444,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`POSTGRESQL_PASSWORD` | KIE server PostgreSQL database password | `${KIE_SERVER_POSTGRESQL_PWD}`
 |`POSTGRESQL_DATABASE` | KIE server PostgreSQL database name | `${KIE_SERVER_POSTGRESQL_DB}`
 |`POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | Allows the PostgreSQL to handle XA transactions. | `${POSTGRESQL_MAX_PREPARED_TRANSACTIONS}`
-.10+| `${APPLICATION_NAME}-amq`
+.15+| `${APPLICATION_NAME}-amq`
 |`AMQ_USER` | User name for standard broker user. It is required for connecting to the broker. If left empty, it will be generated. | `${AMQ_USERNAME}`
 |`AMQ_PASSWORD` | Password for standard broker user. It is required for connecting to the broker. If left empty, it will be generated. | `${AMQ_PASSWORD}`
 |`AMQ_ROLE` | User role for standard broker user. | `${AMQ_ROLE}`
@@ -430,6 +455,11 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AMQ_REQUIRE_LOGIN` | -- | false
 |`AMQ_ANYCAST_PREFIX` | -- | --
 |`AMQ_MULTICAST_PREFIX` | -- | --
+|`AMQ_KEYSTORE_TRUSTSTORE_DIR` | -- | `/etc/amq-secret-volume`
+|`AMQ_TRUSTSTORE` | The name of the AMQ SSL Trust Store file. | `${AMQ_TRUSTSTORE}`
+|`AMQ_TRUSTSTORE_PASSWORD` | The password for the AMQ Trust Store. | `${AMQ_TRUSTSTORE_PASSWORD}`
+|`AMQ_KEYSTORE` | The name of the AMQ keystore file. | `${AMQ_KEYSTORE}`
+|`AMQ_KEYSTORE_PASSWORD` | The password for the AMQ keystore and certificate. | `${AMQ_KEYSTORE_PASSWORD}`
 |=======================================================================
 
 
@@ -441,6 +471,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 
 |`${APPLICATION_NAME}-kieserver` | kieserver-keystore-volume | `/etc/kieserver-secret-volume` | ssl certs | True
 |`${APPLICATION_NAME}-postgresql` | `${APPLICATION_NAME}-postgresql-pvol` | `/var/lib/pgsql/data` | postgresql | false
+|`${APPLICATION_NAME}-amq` | broker-secret-volume | `/etc/amq-secret-volume` | ssl certs | True
 |=============
 
 
@@ -462,9 +493,13 @@ more information.
 
 
 
-
 ==== Secrets
 
 This template requires the following secrets to be installed for the application to run.
 
 kieserver-app-secret
+broker-app-secret
+
+
+
+

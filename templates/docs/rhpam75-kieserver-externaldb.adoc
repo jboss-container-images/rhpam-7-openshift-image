@@ -18,7 +18,7 @@ toc::[]
 
 Templates allow you to define parameters which take on a value. That value is then substituted wherever the parameter is referenced.
 References can be defined in any text field in the objects list field. Refer to the
-https://docs.openshift.org/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
+https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
 
 |=======================================================================
 |Variable name |Image Environment Variable |Description |Example value |Required
@@ -44,7 +44,7 @@ https://docs.openshift.org/latest/architecture/core_concepts/templates.html#para
 |`KIE_SERVER_EXTERNALDB_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server external database Hibernate dialect. | org.hibernate.dialect.MySQL57Dialect | True
 |`KIE_SERVER_EXTERNALDB_SERVICE_HOST` | `RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | 10.10.10.1 | False
 |`KIE_SERVER_EXTERNALDB_SERVICE_PORT` | `RHPAM_SERVICE_PORT` | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | 4321 | False
-|`KIE_SERVER_EXTERNALDB_NONXA` | `RHPAM_NONXA` | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is false. | True | False
+|`KIE_SERVER_EXTERNALDB_NONXA` | `RHPAM_NONXA` | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is true. | True | False
 |`KIE_SERVER_EXTERNALDB_URL` | `RHPAM_URL` | Sets the datasource jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter. | jdbc:mysql://127.0.0.1:3306/rhpam | False
 |`KIE_SERVER_EXTERNALDB_DRIVER` | `RHPAM_DRIVER` | The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. | mariadb | True
 |`KIE_SERVER_EXTERNALDB_JNDI` | `KIE_SERVER_PERSISTENCE_DS` | Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS. | java:jboss/datasources/jbpmDS | True
@@ -280,7 +280,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -306,7 +306,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`RHPAM_DRIVER` | The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. | `${KIE_SERVER_EXTERNALDB_DRIVER}`
 |`RHPAM_USERNAME` | KIE server external database username. | `${KIE_SERVER_EXTERNALDB_USER}`
 |`RHPAM_PASSWORD` | KIE server external database password. | `${KIE_SERVER_EXTERNALDB_PWD}`
-|`RHPAM_NONXA` | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is false. | `${KIE_SERVER_EXTERNALDB_NONXA}`
+|`RHPAM_NONXA` | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is true. | `${KIE_SERVER_EXTERNALDB_NONXA}`
 |`RHPAM_URL` | Sets the datasource jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter. | `${KIE_SERVER_EXTERNALDB_URL}`
 |`RHPAM_XA_CONNECTION_PROPERTY_URL` | Sets the datasource jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter. | `${KIE_SERVER_EXTERNALDB_URL}`
 |`RHPAM_MIN_POOL_SIZE` | Sets xa-pool/min-pool-size for the configured datasource. | `${KIE_SERVER_EXTERNALDB_MIN_POOL_SIZE}`
@@ -376,9 +376,12 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 
 
 
-
 ==== Secrets
 
 This template requires the following secrets to be installed for the application to run.
 
 kieserver-app-secret
+
+
+
+
