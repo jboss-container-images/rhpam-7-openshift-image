@@ -542,23 +542,6 @@ objects:
     name: "${APPLICATION_NAME}-kieserver"
   roleRef:
     name: edit
-- kind: ServiceAccount
-  apiVersion: v1
-  metadata:
-    name: "amq-service-account"
-    labels:
-      application: "${APPLICATION_NAME}"
-- kind: RoleBinding
-  apiVersion: v1
-  metadata:
-     name: "amq-service-account-view"
-     labels:
-       application: "${APPLICATION_NAME}"
-  subjects:
-  - kind: ServiceAccount
-    name: "amq-service-account"
-  roleRef:
-    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -821,6 +804,22 @@ objects:
     to:
       kind: "Service"
       name: "${APPLICATION_NAME}-amq-jolokia"
+    tls:
+      termination: passthrough
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-amq-tcp-ssl"
+  metadata:
+    name: amq-tcp-ssl-external
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-amq"
+    annotations:
+      description: "Route for AMQ tcp-ssl Service"
+  spec:
+    to:
+      kind: "Service"
+      name: "${APPLICATION_NAME}-amq-tcp-ssl"
     tls:
       termination: passthrough
 - kind: ImageStream
@@ -1329,7 +1328,7 @@ objects:
           - name: AMQ_GLOBAL_MAX_SIZE
             value: "${AMQ_GLOBAL_MAX_SIZE}"
           - name: AMQ_REQUIRE_LOGIN
-            value: "false"
+            value: "true"
           - name: AMQ_ANYCAST_PREFIX
           - name: AMQ_MULTICAST_PREFIX
           - name: AMQ_KEYSTORE_TRUSTSTORE_DIR

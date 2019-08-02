@@ -30,6 +30,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -96,16 +97,6 @@
 			<groupId>org.kie.server</groupId>
 			<artifactId>kie-server-client</artifactId>
 			<scope>compile</scope>
-			<exclusions>
-			  <exclusion>
-			    <groupId>com.sun.xml.bind</groupId>
-			    <artifactId>jaxb-core</artifactId>
-			  </exclusion>
-			  <exclusion>
-			    <groupId>com.sun.xml.bind</groupId>
-			    <artifactId>jaxb-impl</artifactId>
-			  </exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.openshift.quickstarts</groupId>
@@ -148,11 +139,11 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.4.0</version>
+				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>exec</goal>
+							<goal>java</goal>
 						</goals>
 					</execution>
 				</executions>
