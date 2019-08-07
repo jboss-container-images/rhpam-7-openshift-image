@@ -375,9 +375,6 @@ objects:
     - name: http
       port: 8080
       targetPort: 8080
-    - name: git-ssh
-      port: 8001
-      targetPort: 8001
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
   metadata:
@@ -505,9 +502,6 @@ objects:
             protocol: TCP
           - name: http
             containerPort: 8080
-            protocol: TCP
-          - name: git-ssh
-            containerPort: 8001
             protocol: TCP
           env:
           - name: WORKBENCH_ROUTE_NAME

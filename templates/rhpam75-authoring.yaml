@@ -461,9 +461,6 @@ objects:
     - name: https
       port: 8443
       targetPort: 8443
-    - name: git-ssh
-      port: 8001
-      targetPort: 8001
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
   metadata:
@@ -644,9 +641,6 @@ objects:
             protocol: TCP
           - name: https
             containerPort: 8443
-            protocol: TCP
-          - name: git-ssh
-            containerPort: 8001
             protocol: TCP
           env:
           - name: KIE_ADMIN_USER
