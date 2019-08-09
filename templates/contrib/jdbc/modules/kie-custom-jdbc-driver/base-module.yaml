@@ -1,11 +1,11 @@
+---
 schema_version: 1
-
-name: kie-custom-jdbc-driver
-execute:
-- script: install.sh
-
+name: "kie-custom-jdbc-driver"
+version: "1.0"
 envs:
-  - name: "DRIVER_DIR"
-    value: "${DRIVER_DIR}"
-  - name: "JDBC_ARTIFACT"
-    value: "${DRIVER_JDBC_ARTIFACT_NAME}"
+- name: "DRIVER_DIR"
+  value: "${DRIVER_DIR}"
+- name: "JDBC_ARTIFACT"
+  value: "${DRIVER_JDBC_ARTIFACT_NAME}"
+execute:
+- script: "install.sh"
