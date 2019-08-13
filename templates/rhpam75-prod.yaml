@@ -578,7 +578,7 @@ objects:
   - kind: ServiceAccount
     name: "${APPLICATION_NAME}-smartrouter"
   roleRef:
-    name: view    
+    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -968,6 +968,10 @@ objects:
             containerPort: 8888
             protocol: TCP
           env:
+          - name: APPLICATION_USERS_PROPERTIES
+            value: "/opt/kie/data/configuration/application-users.properties"
+          - name: APPLICATION_ROLES_PROPERTIES
+            value: "/opt/kie/data/configuration/application-roles.properties"
           - name: KIE_ADMIN_PWD
             value: "${KIE_ADMIN_PWD}"
           - name: KIE_ADMIN_USER
