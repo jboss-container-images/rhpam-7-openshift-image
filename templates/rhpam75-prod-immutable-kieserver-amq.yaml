@@ -335,7 +335,7 @@ parameters:
   name: AMQ_GLOBAL_MAX_SIZE
   example: 10 gb
   required: false
-- displayName: AMQ Secret Name 
+- displayName: AMQ Secret Name
   description: The name of a secret containing AMQ SSL related files.
   name: AMQ_SECRET
   required: true
@@ -688,7 +688,7 @@ objects:
         port: 61612
         targetPort: 61612
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-amq"      
+      deploymentConfig: "${APPLICATION_NAME}-amq"
   metadata:
     name: "${APPLICATION_NAME}-amq-stomp-ssl"
     labels:
@@ -723,7 +723,7 @@ objects:
         port: 61617
         targetPort: 61617
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-amq"        
+      deploymentConfig: "${APPLICATION_NAME}-amq"
   metadata:
     name: "${APPLICATION_NAME}-amq-tcp-ssl"
     labels:
@@ -991,7 +991,9 @@ objects:
               fieldRef:
                 fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver"
+            value: "insecure-${APPLICATION_NAME}-kieserver"
+          - name: KIE_SERVER_ROUTER_SERVICE
+            value: "${APPLICATION_NAME}-smartrouter"
           - name: KIE_SERVER_USER
             value: "${KIE_SERVER_USER}"
           - name: KIE_SERVER_PWD
@@ -1343,11 +1345,11 @@ objects:
             value: "${AMQ_KEYSTORE_PASSWORD}"
           volumeMounts:
           - name: broker-secret-volume
-            mountPath: "/etc/amq-secret-volume"            
+            mountPath: "/etc/amq-secret-volume"
             readOnly: true
         volumes:
         - name: broker-secret-volume
-          secret:           
+          secret:
             secretName: "${AMQ_SECRET}"
 ## PostgreSQL persistent volume claim BEGIN
 - apiVersion: v1
