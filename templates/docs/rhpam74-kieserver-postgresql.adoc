@@ -18,7 +18,7 @@ toc::[]
 
 Templates allow you to define parameters which take on a value. That value is then substituted wherever the parameter is referenced.
 References can be defined in any text field in the objects list field. Refer to the
-https://docs.openshift.org/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
+https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[Openshift documentation] for more information.
 
 |=======================================================================
 |Variable name |Image Environment Variable |Description |Example value |Required
@@ -380,14 +380,11 @@ more information.
 
 
 
-
 ==== Secrets
 
 This template requires the following secrets to be installed for the application to run.
 
 kieserver-app-secret
-
-
 
 
 
