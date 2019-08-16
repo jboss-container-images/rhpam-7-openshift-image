@@ -8,8 +8,8 @@ metadata:
     version: "1.0"
     openshift.io/display-name: Red Hat Process Automation Manager 7.5 managed KIE Server with an external database
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a managed KIE Server with an external database, for Red Hat Process Automation Manager 7.5
-    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager KIE server 7.5, including application deployment configuration, secure and insecure http communication, using a external database.
+    description: Application template for a managed KIE Server with an external database, for Red Hat Process Automation Manager 7.5 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager KIE server 7.5, including application deployment configuration, secure and insecure http communication, using a external database. Deprecated in 7.5; using the Red Hat Business Automation Operator is recommended.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.5/html/deploying_a_red_hat_process_automation_manager_7.5_managed_server_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
