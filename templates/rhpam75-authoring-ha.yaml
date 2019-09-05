@@ -231,26 +231,11 @@ parameters:
   name: DATAGRID_VOLUME_CAPACITY
   value: "1Gi"
   required: true
-- displayName: AMQ Scaledown Controller ImageStream Namespace
-  description: Namespace in which the ImageStream for the AMQ Scaledown Controller image is installed. Default is "openshift".
-  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAMESPACE
-  value: "openshift"
-  required: true
-- displayName: AMQ Scaledown Controller ImageStream Name
-  description: The name of the image stream to use for the AMQ Scaledown Controller. Default is "amq-broker-72-scaledown-controller-openshift".
-  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME
-  value: "amq-broker-72-scaledown-controller-openshift"
-  required: true
-- displayName: AMQ Scaledown Controller ImageStream Tag
-  description: The AMQ scaledown controller image stream tag. Default is "1.0".
-  name: AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG
-  required: true
-  value: "1.0"
 - description: AMQ Broker Image
   displayName: Image
   name: AMQ_BROKER_IMAGE
   required: true
-  value: registry.redhat.io/amq-broker-7/amq-broker-73-openshift:7.3
+  value: registry.redhat.io/amq7/amq-broker:7.4
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
@@ -271,6 +256,11 @@ parameters:
   name: AMQ_VOLUME_CAPACITY
   value: 1Gi
   required: true
+- description: Number of broker replicas for a cluster
+  displayName: Number of Replicas
+  name: AMQ_REPLICAS
+  required: true
+  value: "2"
 ## OpenShift Enhancement BEGIN
 - displayName: Enable KIE server global discovery
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
@@ -529,77 +519,6 @@ parameters:
   name: AUTH_ROLE_MAPPER_REPLACE_ROLE
   required: false
 objects:
-- apiVersion: rbac.authorization.k8s.io/v1
-  kind: Role
-  metadata:
-    name: ${APPLICATION_NAME}-amq-role
-    labels:
-      application: ${APPLICATION_NAME}
-  rules:
-  - apiGroups:
-    - ""
-    resources:
-    - endpoints
-    verbs:
-    - create
-    - delete
-    - deletecollection
-    - get
-    - list
-    - patch
-    - update
-    - watch
-  - apiGroups:
-    - ""
-    resources:
-    - namespaces
-    verbs:
-    - get
-    - list
-- apiVersion: rbac.authorization.k8s.io/v1
-  kind: Role
-  metadata:
-    name: ${APPLICATION_NAME}-amq-scaledown-controller-role
-    labels:
-      application: ${APPLICATION_NAME}
-  rules:
-  - apiGroups:
-    - apps
-    resources:
-    - statefulsets
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - ""
-    resources:
-    - pods
-    verbs:
-    - get
-    - list
-    - watch
-    - create
-    - delete
-    - patch
-    - update
-  - apiGroups:
-    - ""
-    resources:
-    - persistentvolumeclaims
-    verbs:
-    - get
-    - list
-    - watch
-    - delete
-  - apiGroups:
-    - ""
-    resources:
-    - events
-    verbs:
-    - get
-    - list
-    - watch
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
@@ -1421,173 +1340,17 @@ objects:
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-mysql-init
           terminationMessagePolicy: FallbackToLogsOnError
-- kind: DeploymentConfig
-  apiVersion: v1
-  metadata:
-    labels:
-      application: ${APPLICATION_NAME}
-      service: ${APPLICATION_NAME}-amq-scaledown-controller
-    name: ${APPLICATION_NAME}-amq-scaledown-controller
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-      template.alpha.openshift.io/wait-for-ready: "true"
-  spec:
-    replicas: 1
-    selector:
-      deploymentConfig: ${APPLICATION_NAME}-amq-scaledown-controller
-    strategy:
-      rollingParams:
-        maxSurge: 0
-      type: Rolling
-    template:
-      metadata:
-        labels:
-          application: ${APPLICATION_NAME}
-          deploymentConfig: ${APPLICATION_NAME}-amq-scaledown-controller
-        name: ${APPLICATION_NAME}-amq-scaledown-controller
-      spec:
-        serviceAccountName: ${APPLICATION_NAME}-amq-scaledown-controller-sa
-        containers:
-        - args:
-          - --localOnly
-          - --v
-          - "3"
-          image: ${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME}
-          imagePullPolicy: IfNotPresent
-          name: ${APPLICATION_NAME}-amq
-        terminationGracePeriodSeconds: 30
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APPLICATION_NAME}-amq
-        from:
-          kind: ImageStreamTag
-          namespace: "${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAMESPACE}"
-          name: "${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME}:${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG}"
-      type: ImageChange
-    - type: ConfigChange
 - kind: StatefulSet
   apiVersion: apps/v1
   metadata:
+    name: ${APPLICATION_NAME}-amq
     annotations:
       alpha.image.policy.openshift.io/resolve-names: '*'
-      statefulsets.kubernetes.io/drainer-pod-template:  |
-        {
-          "metadata": {
-            "labels": {
-              "application": "${APPLICATION_NAME}"
-            },
-            "name": "${APPLICATION_NAME}-amq-drainer-pod"
-          },
-          "spec": {
-            "serviceAccount": "${APPLICATION_NAME}-amq-sa",
-            "serviceAccountName": "${APPLICATION_NAME}-amq-sa",
-            "terminationGracePeriodSeconds": 5,
-            "containers": [
-              {
-                "env": [
-                  {
-                    "name": "AMQ_EXTRA_ARGS",
-                    "value": "--no-autotune"
-                  },
-                  {
-                    "name": "AMQ_USER",
-                    "value": "${APPFORMER_JMS_BROKER_USER}"
-                  },
-                  {
-                    "name": "AMQ_PASSWORD",
-                    "value": "${APPFORMER_JMS_BROKER_PASSWORD}"
-                  },
-                  {
-                    "name": "AMQ_ROLE",
-                    "value": "${AMQ_ROLE}"
-                  },
-                  {
-                    "name": "AMQ_NAME",
-                    "value": "${AMQ_NAME}"
-                  },
-                  {
-                    "name": "AMQ_TRANSPORTS",
-                    "value": "openwire"
-                  },
-                  {
-                    "name": "AMQ_QUEUES",
-                    "value": ""
-                  },
-                  {
-                    "name": "AMQ_GLOBAL_MAX_SIZE",
-                    "value": "${AMQ_GLOBAL_MAX_SIZE}"
-                  },
-                  {
-                    "name": "AMQ_ALLOW_ANONYMOUS",
-                    "value": "${AMQ_ALLOW_ANONYMOUS}"
-                  },
-                  {
-                    "name": "AMQ_DATA_DIR",
-                    "value": "/opt/amq/data"
-                  },
-                  {
-                    "name": "AMQ_DATA_DIR_LOGGING",
-                    "value": "true"
-                  },
-                  {
-                    "name": "AMQ_CLUSTERED",
-                    "value": "true"
-                  },
-                  {
-                    "name": "AMQ_REPLICAS",
-                    "value": "2"
-                  },
-                  {
-                    "name": "AMQ_CLUSTER_USER",
-                    "value": "${APPFORMER_JMS_BROKER_USER}"
-                  },
-                  {
-                    "name": "AMQ_CLUSTER_PASSWORD",
-                    "value": "${APPFORMER_JMS_BROKER_PASSWORD}"
-                  },
-                  {
-                    "name": "POD_NAMESPACE",
-                    "valueFrom": {
-                      "fieldRef": {
-                        "fieldPath": "metadata.namespace"
-                      }
-                    }
-                  },
-                  {
-                    "name": "JGROUPS_PING_PROTOCOL",
-                    "value": "openshift.DNS_PING"
-                  },
-                  {
-                    "name": "OPENSHIFT_DNS_PING_SERVICE_NAME",
-                    "value": "ping"
-                  },
-                  {
-                    "name": "OPENSHIFT_DNS_PING_SERVICE_PORT",
-                    "value": "8888"
-                  }
-                ],
-                "image": "${AMQ_BROKER_IMAGE}",
-                "name": "${APPLICATION_NAME}-amq",
-                "command": ["/bin/sh", "-c", "echo \"Starting the drainer\" ; /opt/amq/bin/drain.sh; echo \"Drain completed! Exit code $?\""],
-                "volumeMounts": [
-                  {
-                    "name": "${APPLICATION_NAME}-amq-pvol",
-                    "mountPath": "/opt/amq/data"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-    generation: 3
     labels:
       application: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}-amq
   spec:
     podManagementPolicy: OrderedReady
-    replicas: 2
+    replicas: ${{AMQ_REPLICAS}}
     revisionHistoryLimit: 10
     selector:
       matchLabels:
@@ -1622,7 +1385,7 @@ objects:
           - name: AMQ_CLUSTERED
             value: "true"
           - name: AMQ_REPLICAS
-            value: "0"
+            value: "${AMQ_REPLICAS}"
           - name: AMQ_CLUSTER_USER
             value: ${APPFORMER_JMS_BROKER_USER}
           - name: AMQ_CLUSTER_PASSWORD
@@ -1686,44 +1449,6 @@ objects:
         resources:
           requests:
             storage: ${AMQ_VOLUME_CAPACITY}
-- apiVersion: rbac.authorization.k8s.io/v1
-  kind: RoleBinding
-  metadata:
-    name: ${APPLICATION_NAME}-amq-scaledown-controller-openshift-rb
-    labels:
-      application: "${APPLICATION_NAME}"
-  subjects:
-    - kind: ServiceAccount
-      name: ${APPLICATION_NAME}-amq-scaledown-controller-sa
-  roleRef:
-    kind: Role
-    name: ${APPLICATION_NAME}-amq-scaledown-controller-role
-    apiGroup: rbac.authorization.k8s.io
-- apiVersion: rbac.authorization.k8s.io/v1
-  kind: RoleBinding
-  metadata:
-    name: ${APPLICATION_NAME}-amq-rb
-    labels:
-      application: ${APPLICATION_NAME}
-  subjects:
-    - kind: ServiceAccount
-      name: ${APPLICATION_NAME}-amq-sa
-  roleRef:
-    kind: Role
-    name: ${APPLICATION_NAME}-amq-role
-    apiGroup: rbac.authorization.k8s.io
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    labels:
-      application: "${APPLICATION_NAME}"
-    name: ${APPLICATION_NAME}-amq-sa
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    labels:
-      application: "${APPLICATION_NAME}"
-    name: ${APPLICATION_NAME}-amq-scaledown-controller-sa
 ## MySQL deployment config BEGIN
 - kind: DeploymentConfig
   apiVersion: v1
