@@ -122,6 +122,7 @@ modules:
             version: "3.6"
           - name: jboss-kie-jdk-clean
             version: "11"
+          - name: jboss-kie-common
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-controller
 packages:
