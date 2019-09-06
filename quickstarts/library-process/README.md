@@ -2,11 +2,11 @@
 
 Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.3.x/quickstarts/library-process)
 
-This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/master/kieserver) image.
+This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.5.x/kieserver) image.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam75-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam75-prod-immutable-kieserver.yaml)
+To deploy the Library Process demo you can use the [rhpam75-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.5.x/templates/rhpam75-prod-immutable-kieserver.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -51,13 +51,13 @@ Error from server (NotFound): templates.template.openshift.io "rhpam75-prod-immu
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam75-prod-immutable-kieserver.yaml -n openshift
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/templates/rhpam75-prod-immutable-kieserver.yaml -n openshift
 template.template.openshift.io "rhpam75-prod-immutable-kieserver" created
 ```
 
 For this template, we also need to install the secrets, which contain the certificates to configure https:
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-app-secret-template.yaml
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/example-app-secret-template.yaml
 template.template.openshift.io "example-app-secret" created
 $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 --> Deploying template "rhpam-kieserver/example-app-secret" to project rhpam-kieserver
@@ -84,7 +84,7 @@ Error from server (NotFound): imagestreams.image.openshift.io "rhpam75-kieserver
 ```
  If the `rhpam75-kieserver-openshift` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam75-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/rhpam75-image-streams.yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information
@@ -96,7 +96,7 @@ At this moment we are ready to instantiate the kieserver app:
 $ oc new-app rhpam75-prod-immutable-kieserver \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.5.0-SNAPSHOT \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=master \
+-p SOURCE_REPOSITORY_REF=7.5.x \
 -p CONTEXT_DIR=quickstarts/library-process/library \
 -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret \
 -p IMAGE_STREAM_NAMESPACE=openshift
@@ -151,7 +151,7 @@ $ oc new-app rhpam75-prod-immutable-kieserver \
         * KIE Server Bypass Auth User=false
         * KIE Server Container Deployment=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.5.0-SNAPSHOT
         * Git Repository URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git
-        * Git Reference=master
+        * Git Reference=7.5.x
         * Context Directory=quickstarts/library-process/library
         * Github Webhook Secret=gS02j8C0 # generated
         * Generic Webhook Secret=NxH5PHEs # generated
@@ -226,7 +226,7 @@ To do so, execute the following commands:
 ```bash
 $ oc new-app eap72-basic-s2i \
     -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
-    -p SOURCE_REPOSITORY_REF=master \
+    -p SOURCE_REPOSITORY_REF=7.5.x \
     -p CONTEXT_DIR=quickstarts/library-process
 ```
 
@@ -244,7 +244,7 @@ As result you should see something like this:
         * Application Name=eap-app
         * Custom http Route Hostname=
         * Git Repository URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git
-        * Git Reference=master
+        * Git Reference=7.5.x
         * Context Directory=quickstarts/library-process
         * Queues=
         * Topics=
@@ -317,7 +317,7 @@ $ mvn exec:java  -Dexec.args=runRemoteActiveMQExternal -Durl=myapp-amq-tcp-ssl-k
 -Djavax.net.ssl.trustStorePassword=123456
 ```
 
-Remember to update the properties above properly according your environment. Note that, the url is the exported route for the 
+Remember to update the properties above properly according your environment. Note that, the url is the exported route for the
 ${APPLICATION_NAME}-amq-tcp-ssl service, which should point to the port *61617*
 Not that, the url should be configured without protocol and port.
 

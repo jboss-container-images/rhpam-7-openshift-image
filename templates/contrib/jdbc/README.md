@@ -223,7 +223,7 @@ Note that, by default all application templates and imagestreams are installed u
 - if it does not return the template, you will need to install the template on OpenShift, the recommend namespace
 to install it is **openshift** but feel free to install it on the preferred namespace.
    ```bash
-     $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam75-kieserver-externaldb.yaml
+     $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/templates/rhpam75-kieserver-externaldb.yaml
    ```
 
 - verify if the RHPAM 7.3 imagestreams are available:
@@ -233,7 +233,7 @@ to install it is **openshift** but feel free to install it on the preferred name
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
   ```bash
-    $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam75-image-streams.yaml
+    $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/rhpam75-image-streams.yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
@@ -242,7 +242,7 @@ as example.
 Let's install:
 
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-app-secret-template.yaml
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/example-app-secret-template.yaml
 $ oc new-app example-app-secret
 ```
 

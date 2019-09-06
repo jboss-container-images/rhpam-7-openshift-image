@@ -1,6 +1,6 @@
 # Red Hat Process Automation Manager 7 - Kie Server OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/master/kieserver[Red Hat Process Automation Manager Execution Server 7.5 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/7.5.x/kieserver[Red Hat Process Automation Manager Execution Server 7.5 container image]
 
 # License
 

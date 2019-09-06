@@ -187,7 +187,7 @@ parameters:
 - displayName: Git Reference
   description: Git branch/tag reference.
   name: SOURCE_REPOSITORY_REF
-  example: master
+  example: 7.5.x
   required: false
 - displayName: Context Directory
   description: Path within Git project to build; empty for root project directory.
