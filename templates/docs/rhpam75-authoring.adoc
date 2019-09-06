@@ -9,7 +9,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.5
+Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.5 - Deprecated
 
 toc::[]
 
@@ -121,11 +121,10 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 |=============
 |Service        |Port  |Name | Description
 
-.3+| `${APPLICATION_NAME}-rhpamcentr`
+.2+| `${APPLICATION_NAME}-rhpamcentr`
 |8080 | http
-.3+| All the Business Central web server's ports.
+.2+| All the Business Central web server's ports.
 |8443 | https
-|8001 | git-ssh
 .2+| `${APPLICATION_NAME}-kieserver`
 |8080 | http
 .2+| All the KIE server web server's ports.
@@ -254,11 +253,10 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=============
 |Deployments | Name  | Port  | Protocol
 
-.4+| `${APPLICATION_NAME}-rhpamcentr`
+.3+| `${APPLICATION_NAME}-rhpamcentr`
 |jolokia | 8778 | `TCP`
 |http | 8080 | `TCP`
 |https | 8443 | `TCP`
-|git-ssh | 8001 | `TCP`
 .3+| `${APPLICATION_NAME}-kieserver`
 |jolokia | 8778 | `TCP`
 |http | 8080 | `TCP`
@@ -272,7 +270,9 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.59+| `${APPLICATION_NAME}-rhpamcentr`
+.61+| `${APPLICATION_NAME}-rhpamcentr`
+|`APPLICATION_USERS_PROPERTIES` | -- | `/opt/kie/data/configuration/application-users.properties`
+|`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`

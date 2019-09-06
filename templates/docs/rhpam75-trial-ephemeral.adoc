@@ -9,7 +9,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.5
+Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.5 - Deprecated
 
 toc::[]
 
@@ -106,10 +106,9 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 |=============
 |Service        |Port  |Name | Description
 
-.2+| `${APPLICATION_NAME}-rhpamcentr`
+.1+| `${APPLICATION_NAME}-rhpamcentr`
 |8080 | http
-.2+| All the Business Central web server's ports.
-|8001 | git-ssh
+.1+| All the Business Central web server's ports.
 .1+| `${APPLICATION_NAME}-kieserver`
 |8080 | --
 .1+| All the KIE server web server's ports.
@@ -235,10 +234,9 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=============
 |Deployments | Name  | Port  | Protocol
 
-.3+| `${APPLICATION_NAME}-rhpamcentr`
+.2+| `${APPLICATION_NAME}-rhpamcentr`
 |jolokia | 8778 | `TCP`
 |http | 8080 | `TCP`
-|git-ssh | 8001 | `TCP`
 .2+| `${APPLICATION_NAME}-kieserver`
 |jolokia | 8778 | `TCP`
 |http | 8080 | `TCP`

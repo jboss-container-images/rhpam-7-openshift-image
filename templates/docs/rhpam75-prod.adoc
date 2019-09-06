@@ -9,7 +9,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.5
+Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.5 - Deprecated
 
 toc::[]
 
@@ -375,7 +375,9 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.53+| `${APPLICATION_NAME}-rhpamcentrmon`
+.55+| `${APPLICATION_NAME}-rhpamcentrmon`
+|`APPLICATION_USERS_PROPERTIES` | -- | `/opt/kie/data/configuration/application-users.properties`
+|`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
