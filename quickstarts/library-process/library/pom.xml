@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Can't have a parent definition because of the way the OpenShift builds 
+	<!-- Can't have a parent definition because of the way the OpenShift builds
 		the kjar application. This project must be independent of its parent. -->
 	<groupId>org.openshift.quickstarts</groupId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>1.6.0-SNAPSHOT</version>
 	<artifactId>rhpam-kieserver-library</artifactId>
 	<packaging>jar</packaging>
 
@@ -17,9 +17,9 @@
 	<properties>
 		<jaxb-api.version>2.3.0.redhat-1</jaxb-api.version>
 		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<!-- Explicitly declaring the source encoding eliminates the following 
+		<!-- Explicitly declaring the source encoding eliminates the following
 			message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
 			resources, i.e. build is platform dependent! -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

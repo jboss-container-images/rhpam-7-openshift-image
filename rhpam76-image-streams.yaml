@@ -1,113 +1,113 @@
 kind: ImageStreamList
 apiVersion: v1
 metadata:
-  name: rhpam75-image-streams
+  name: rhpam76-image-streams
   annotations:
-    description: ImageStream definitions for Red Hat Process Automation Manager 7.5
+    description: ImageStream definitions for Red Hat Process Automation Manager 7.6
     openshift.io/provider-display-name: Red Hat, Inc.
 items:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam75-businesscentral-openshift
+    name: rhpam76-businesscentral-openshift
     annotations:
-      openshift.io/display-name: Red Hat Process Automation Manager Business Central 7.5
+      openshift.io/display-name: Red Hat Process Automation Manager Business Central 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Process Automation Manager 7.5 - Business Central image.
+        description: Red Hat Process Automation Manager 7.6 - Business Central image.
         iconClass: icon-jboss
         tags: rhpam
-        supports: rhpam:7.5
+        supports: rhpam:7.6
         version: '1.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam75-businesscentral-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam76-businesscentral-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam75-businesscentral-monitoring-openshift
+    name: rhpam76-businesscentral-monitoring-openshift
     annotations:
-      openshift.io/display-name: Red Hat Process Automation Manager Business Central Monitoring 7.5
+      openshift.io/display-name: Red Hat Process Automation Manager Business Central Monitoring 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Process Automation Manager 7.5 - Business Central Monitoring image.
+        description: Red Hat Process Automation Manager 7.6 - Business Central Monitoring image.
         iconClass: icon-jboss
         tags: rhpam
-        supports: rhpam:7.5
+        supports: rhpam:7.6
         version: '1.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam75-businesscentral-monitoring-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam76-businesscentral-monitoring-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam75-controller-openshift
+    name: rhpam76-controller-openshift
     annotations:
-      openshift.io/display-name: Red Hat Process Automation Manager Standalone Controller 7.5
+      openshift.io/display-name: Red Hat Process Automation Manager Standalone Controller 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Process Automation Manager 7.5 - Standalone Controller image.
+        description: Red Hat Process Automation Manager 7.6 - Standalone Controller image.
         iconClass: icon-jboss
         tags: rhpam
-        supports: rhpam:7.5
+        supports: rhpam:7.6
         version: '1.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam75-controller-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam76-controller-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam75-kieserver-openshift
+    name: rhpam76-kieserver-openshift
     annotations:
-      openshift.io/display-name: Red Hat Process Automation Manager KIE Server 7.5
+      openshift.io/display-name: Red Hat Process Automation Manager KIE Server 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Process Automation Manager 7.5 - KIE Server image.
+        description: Red Hat Process Automation Manager 7.6 - KIE Server image.
         iconClass: icon-jboss
         tags: rhpam
-        supports: rhpam:7.5
+        supports: rhpam:7.6
         version: '1.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam75-kieserver-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam76-kieserver-openshift:1.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam75-smartrouter-openshift
+    name: rhpam76-smartrouter-openshift
     annotations:
-      openshift.io/display-name: Red Hat Process Automation Manager Smart Router 7.5
+      openshift.io/display-name: Red Hat Process Automation Manager Smart Router 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
     - name: '1.0'
       annotations:
-        description: Red Hat Process Automation Manager 7.5 - Smart Router image.
+        description: Red Hat Process Automation Manager 7.6 - Smart Router image.
         iconClass: icon-jboss
         tags: rhpam
-        supports: rhpam:7.5
+        supports: rhpam:7.6
         version: '1.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam75-smartrouter-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam76-smartrouter-openshift:1.0

@@ -4,12 +4,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (https://github.com/jboss-container-images/jboss-kie-modules/tree/master/tools/gen-template-doc/*.in)
 ////
-= rhpam75-authoring-ha
+= rhpam76-authoring-ha
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.5
+Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.6 - Deprecated
 
 toc::[]
 
@@ -58,23 +58,22 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate for KIE Server. | mykeystorepass | False
 |`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The username to connect to the JMS broker. | jmsBrokerUser | True
 |`APPFORMER_JMS_BROKER_PASSWORD` | `APPFORMER_JMS_BROKER_PASSWORD` | The password to connect to the JMS broker. | -- | True
-|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.1 | True
-|`DATAGRID_MEMORY_LIMIT` | -- | DataGrid Container memory limit | 512Mi | True
+|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.2 | True
+|`DATAGRID_CPU_LIMIT` | -- | DataGrid Container cpu limit. | 1000m | True
+|`DATAGRID_MEMORY_LIMIT` | -- | DataGrid Container memory limit | 2Gi | True
 |`DATAGRID_VOLUME_CAPACITY` | -- | Size of the persistent storage for DataGrid's runtime data. | 1Gi | True
-|`AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the AMQ Scaledown Controller image is installed. Default is "openshift". | openshift | True
-|`AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for the AMQ Scaledown Controller. Default is "amq-broker-72-scaledown-controller-openshift". | amq-broker-72-scaledown-controller-openshift | True
-|`AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_TAG` | -- | The AMQ scaledown controller image stream tag. Default is "1.0". | 1.0 | True
-|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image | registry.redhat.io/amq-broker-7/amq-broker-73-openshift:7.3 | True
+|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image | registry.redhat.io/amq7/amq-broker:7.4 | True
 |`AMQ_ROLE` | -- | User role for standard broker user. | admin | True
 |`AMQ_NAME` | -- | The name of the broker | broker | True
 |`AMQ_GLOBAL_MAX_SIZE` | -- | Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system's memory is allocated. | 10 gb | False
 |`AMQ_VOLUME_CAPACITY` | -- | Size of persistent storage for AMQ broker volume. | 1Gi | True
+|`AMQ_REPLICAS` | -- | Number of broker replicas for a cluster | 2 | True
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | `KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | true | False
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | `KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | 60000 | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam75-businesscentral-openshift". | rhpam75-businesscentral-openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift". | rhpam75-kieserver-openshift | True
+|`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam76-businesscentral-openshift". | rhpam76-businesscentral-openshift | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:*,!repo-rhpamcentr | False
@@ -140,11 +139,10 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 |=============
 |Service        |Port  |Name | Description
 
-.3+| `${APPLICATION_NAME}-rhpamcentr`
+.2+| `${APPLICATION_NAME}-rhpamcentr`
 |8080 | http
-.3+| All the Business Central web server's ports.
+.2+| All the Business Central web server's ports.
 |8443 | https
-|8001 | git-ssh
 .1+| `${APPLICATION_NAME}-rhpamcentr-ping`
 |8888 | ping
 .1+| The JGroups ping port for rhpamcentr clustering.
@@ -206,7 +204,6 @@ https://docs.okd.io/latest/dev_guide/builds/triggering_builds.html#config-change
 
 |`${APPLICATION_NAME}-rhpamcentr` | ImageChange
 |`${APPLICATION_NAME}-kieserver` | ImageChange
-|`${APPLICATION_NAME}-amq-scaledown-controller` | ImageChange
 |`${APPLICATION_NAME}-mysql` | ImageChange
 |============
 
@@ -224,7 +221,6 @@ for more information.
 
 |`${APPLICATION_NAME}-rhpamcentr` | 2
 |`${APPLICATION_NAME}-kieserver` | 2
-|`${APPLICATION_NAME}-amq-scaledown-controller` | 1
 |`${APPLICATION_NAME}-mysql` | 1
 |============
 
@@ -243,7 +239,6 @@ information.
 
 |`${APPLICATION_NAME}-rhpamcentr` | `${APPLICATION_NAME}-rhpamsvc`
 |`${APPLICATION_NAME}-kieserver` | `${APPLICATION_NAME}-rhpamsvc`
-|`${APPLICATION_NAME}-amq-scaledown-controller` | `${APPLICATION_NAME}-amq-scaledown-controller-sa`
 |============
 
 
@@ -255,7 +250,6 @@ information.
 
 |`${APPLICATION_NAME}-rhpamcentr` | `${BUSINESS_CENTRAL_IMAGE_STREAM_NAME}`
 |`${APPLICATION_NAME}-kieserver` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
-|`${APPLICATION_NAME}-amq-scaledown-controller` | `${AMQ_SCALEDOWN_CONTROLLER_IMAGE_STREAM_NAME}`
 |`${APPLICATION_NAME}-mysql` | mysql
 |============
 
@@ -308,11 +302,10 @@ tcpSocket on port 3306
 |=============
 |Deployments | Name  | Port  | Protocol
 
-.5+| `${APPLICATION_NAME}-rhpamcentr`
+.4+| `${APPLICATION_NAME}-rhpamcentr`
 |jolokia | 8778 | `TCP`
 |http | 8080 | `TCP`
 |https | 8443 | `TCP`
-|git-ssh | 8001 | `TCP`
 |ping | 8888 | `TCP`
 .3+| `${APPLICATION_NAME}-kieserver`
 |jolokia | 8778 | `TCP`
@@ -329,7 +322,9 @@ tcpSocket on port 3306
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.68+| `${APPLICATION_NAME}-rhpamcentr`
+.70+| `${APPLICATION_NAME}-rhpamcentr`
+|`APPLICATION_USERS_PROPERTIES` | -- | `/opt/kie/data/configuration/application-users.properties`
+|`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
@@ -398,7 +393,7 @@ tcpSocket on port 3306
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.75+| `${APPLICATION_NAME}-kieserver`
+.76+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`DATASOURCES` | -- | `RHPAM`

@@ -7,7 +7,7 @@
 = Application Templates
 
 This project contains OpenShift v3 application templates which support applications based on RHPAM products.
-Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.5.x/templates[here].
+Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.6.x/templates[here].
 
 :icons: font
 :toc: macro
@@ -17,17 +17,17 @@ toc::[levels=1]
 == rhpam-7-openshift-image/templates
 
 * link:README.adoc[README]
-* link:rhpam75-authoring-ha.adoc[rhpam75-authoring-ha]
-* link:rhpam75-authoring.adoc[rhpam75-authoring]
-* link:rhpam75-kieserver-externaldb.adoc[rhpam75-kieserver-externaldb]
-* link:rhpam75-kieserver-mysql.adoc[rhpam75-kieserver-mysql]
-* link:rhpam75-kieserver-postgresql.adoc[rhpam75-kieserver-postgresql]
-* link:rhpam75-managed.adoc[rhpam75-managed]
-* link:rhpam75-prod-immutable-kieserver-amq.adoc[rhpam75-prod-immutable-kieserver-amq]
-* link:rhpam75-prod-immutable-kieserver.adoc[rhpam75-prod-immutable-kieserver]
-* link:rhpam75-prod-immutable-monitor.adoc[rhpam75-prod-immutable-monitor]
-* link:rhpam75-prod.adoc[rhpam75-prod]
-* link:rhpam75-trial-ephemeral.adoc[rhpam75-trial-ephemeral]
+* link:rhpam76-authoring-ha.adoc[rhpam76-authoring-ha]
+* link:rhpam76-authoring.adoc[rhpam76-authoring]
+* link:rhpam76-kieserver-externaldb.adoc[rhpam76-kieserver-externaldb]
+* link:rhpam76-kieserver-mysql.adoc[rhpam76-kieserver-mysql]
+* link:rhpam76-kieserver-postgresql.adoc[rhpam76-kieserver-postgresql]
+* link:rhpam76-managed.adoc[rhpam76-managed]
+* link:rhpam76-prod-immutable-kieserver-amq.adoc[rhpam76-prod-immutable-kieserver-amq]
+* link:rhpam76-prod-immutable-kieserver.adoc[rhpam76-prod-immutable-kieserver]
+* link:rhpam76-prod-immutable-monitor.adoc[rhpam76-prod-immutable-monitor]
+* link:rhpam76-prod.adoc[rhpam76-prod]
+* link:rhpam76-trial-ephemeral.adoc[rhpam76-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file

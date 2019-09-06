@@ -4,12 +4,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (https://github.com/jboss-container-images/jboss-kie-modules/tree/master/tools/gen-template-doc/*.in)
 ////
-= rhpam75-prod-immutable-monitor
+= rhpam76-prod-immutable-monitor
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.5
+Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.6 - Deprecated
 
 toc::[]
 
@@ -202,8 +202,8 @@ information.
 |============
 |Deployment | Image
 
-|`${APPLICATION_NAME}-rhpamcentrmon` | rhpam75-businesscentral-monitoring-openshift
-|`${APPLICATION_NAME}-smartrouter` | rhpam75-smartrouter-openshift
+|`${APPLICATION_NAME}-rhpamcentrmon` | rhpam76-businesscentral-monitoring-openshift
+|`${APPLICATION_NAME}-smartrouter` | rhpam76-smartrouter-openshift
 |============
 
 
@@ -251,7 +251,9 @@ Http Get on http://localhost:8080/rest/healthy
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.62+| `${APPLICATION_NAME}-rhpamcentrmon`
+.64+| `${APPLICATION_NAME}-rhpamcentrmon`
+|`APPLICATION_USERS_PROPERTIES` | -- | `/opt/kie/data/configuration/application-users.properties`
+|`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_PWD` | KIE administrator password | `${KIE_ADMIN_PWD}`
 |`KIE_ADMIN_USER` | KIE administrator username | `${KIE_ADMIN_USER}`
 |`KIE_SERVER_PWD` | KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`

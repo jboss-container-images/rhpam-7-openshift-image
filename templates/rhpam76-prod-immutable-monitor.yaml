@@ -4,44 +4,46 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,kieserver,mysql
+    tags: rhpam,processserver,jboss,immutable,s2i,monitor
     version: "1.0"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.5 managed KIE Server with a MySQL database
+    openshift.io/display-name: Red Hat Process Automation Manager 7.6 production monitoring environment
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a managed KIE Server with a MySQL database, for Red Hat Process Automation Manager 7.5 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager KIE server 7.5, including application deployment configuration, secure and insecure http communication, using a MySQL database. Deprecated in 7.5; using the Red Hat Business Automation Operator is recommended.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.5/html/deploying_a_red_hat_process_automation_manager_7.5_managed_server_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.6 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed for a router and monitoring console in a production environment for Red Hat Process Automation Manager 7.6, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart. Deprecated in 7.6; using the Red Hat Business Automation Operator is recommended.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.6/html/deploying_a_red_hat_process_automation_manager_7.6_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam75-kieserver-mysql
+  name: rhpam76-prod-immutable-monitor
 labels:
-  template: rhpam75-kieserver-mysql
+  template: rhpam76-prod-immutable-monitor
   rhpam: "1.0"
 message: |-
-          A new Process Automation Manager KIE server application have been created in your project.
-          The username/password for accessing the KIE server
+  A new environment has been set up for Red Hat Process Automation Manager 7.
+  To access the Business Central Monitoring Console use the following credentials
 
-              Username: ${KIE_SERVER_USER}
-              Password: ${KIE_SERVER_PWD}
+      Username: ${KIE_SERVER_MONITOR_USER}
+      Password: ${KIE_SERVER_MONITOR_PWD}
 
-          Please be sure to create the secret named "${KIE_SERVER_HTTPS_SECRET}" containing the ${KIE_SERVER_HTTPS_KEYSTORE} file used for serving secure content.
+  To create a new KIE server and connect to this monitoring console/router, use the following "oc" command:
+  oc new-app -f rhpam76-prod-immutable-kieserver.yaml \
+    -p KIE_ADMIN_USER=${KIE_ADMIN_USER} -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} \
+    -p KIE_SERVER_USER=${KIE_SERVER_USER} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} \
+    -p KIE_SERVER_MONITOR_USER=${KIE_SERVER_MONITOR_USER} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} \
+    -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon \
+    -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter \
+    -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
+    -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
+
+  Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_ROUTER_HTTPS_SECRET}"
+  containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
   name: APPLICATION_NAME
   value: myapp
   required: true
-- displayName: Maven mirror URL
-  description: Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services.
-  name: MAVEN_MIRROR_URL
-  required: false
-- displayName: Maven mirror of
-  description: Maven mirror configuration for KIE server.
-  name: MAVEN_MIRROR_OF
-  value: "external:*"
-  required: false
 - displayName: Maven repository ID
-  description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
+  description: The id to use for the maven repository, if set. Default is generated randomly.
   name: MAVEN_REPO_ID
   value: repo-custom
   required: false
@@ -49,7 +51,7 @@ parameters:
   description: Fully qualified URL to a Maven repository or service.
   name: MAVEN_REPO_URL
   example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
-  required: true
+  required: false
 - displayName: Maven repository username
   description: Username to access the Maven repository, if required.
   name: MAVEN_REPO_USERNAME
@@ -74,27 +76,44 @@ parameters:
   example: "maven1!"
   required: false
 - displayName: KIE Admin User
-  description: KIE administrator username.
+  description: KIE administrator username
   name: KIE_ADMIN_USER
   value: adminUser
   required: false
 - displayName: KIE Admin Password
-  description: KIE administrator password.
+  description: KIE administrator password
   name: KIE_ADMIN_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
 - displayName: KIE Server User
-  description: KIE server username. (Sets the org.kie.server.user system property)
+  description: KIE server username (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
   required: false
 - displayName: KIE Server Password
-  description: KIE server password. (Sets the org.kie.server.pwd system property)
+  description: KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property)
   name: KIE_SERVER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
+## OpenShift Enhancement BEGIN
+- displayName: Enable KIE server global discovery
+  description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
+  name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+  value: "false"
+  required: false
+- displayName: Prefer KIE Server OpenShift Service
+  description: If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
+  name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+  value: "true"
+  required: false
+- displayName: KIE ServerTemplate Cache TTL
+  description: KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)
+  name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
+  value: "60000"
+  required: false
+## OpenShift Enhancement END
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Middleware images are
     installed. These ImageStreams are normally installed in the openshift namespace.
@@ -103,138 +122,118 @@ parameters:
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
-- displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift".
-  name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam75-kieserver-openshift"
-  required: true
 - displayName: ImageStream Tag
   description: A named pointer to an image in an image stream. Default is "1.0".
   name: IMAGE_STREAM_TAG
   value: "1.0"
+  required: false
+- displayName: Smart Router Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: insecure-<application-name>-smartrouter-<project>.<default-domain-suffix>'
+  name: SMART_ROUTER_HOSTNAME_HTTP
+  value: ''
+  required: false
+- displayName: Smart Router Custom https Route Hostname
+  description: 'Custom hostname for https service route. Leave blank for default hostname,
+    e.g.: <application-name>-smartrouter-<project>.<default-domain-suffix>'
+  name: SMART_ROUTER_HOSTNAME_HTTPS
+  value: ''
+  required: false
+- displayName: Smart Router ID
+  description: Router ID used when connecting to the controller. (Router property org.kie.server.router.id)
+  name: KIE_SERVER_ROUTER_ID
+  value: kie-server-router
   required: true
-- displayName: KIE Server Persistence DS
-  description: KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property)
-  name: KIE_SERVER_PERSISTENCE_DS
-  value: java:/jboss/datasources/rhpam
+- displayName: Smart Router protocol
+  description: KIE server router protocol. (Used to build the org.kie.server.router.url.external property)
+  name: KIE_SERVER_ROUTER_PROTOCOL
+  example: "http"
   required: false
-## MySQL database parameters BEGIN
-- displayName: MySQL ImageStream Namespace
-  description: Namespace in which the ImageStream for the MySQL image is
-    installed. The ImageStream is already installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStream in a
-    different namespace/project. Default is "openshift".
-  name: MYSQL_IMAGE_STREAM_NAMESPACE
-  value: "openshift"
+- displayName: Smart Router external URL
+  description: Public URL where the router can be found. Format http://<host>:<port> (Router property org.kie.server.router.url.external)
+  name: KIE_SERVER_ROUTER_URL_EXTERNAL
   required: false
-- displayName: MySQL ImageStream Tag
-  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
-  name: MYSQL_IMAGE_STREAM_TAG
-  value: "5.7"
+- displayName: Smart Router name
+  description: Router name used when connecting to the controller. (Router property org.kie.server.router.name)
+  name: KIE_SERVER_ROUTER_NAME
+  value: KIE Server Router
+  required: true
+- displayName: Smart Router Keystore Secret Name
+  description: The name of the secret containing the keystore file.
+  name: KIE_SERVER_ROUTER_HTTPS_SECRET
+  example: smartrouter-app-secret
+  required: true
+- displayName: Smart Router Keystore Filename
+  description: The name of the keystore file within the secret.
+  name: KIE_SERVER_ROUTER_HTTPS_KEYSTORE
+  value: keystore.jks
   required: false
-- displayName: KIE Server MySQL Database User
-  description: KIE server MySQL database username.
-  name: KIE_SERVER_MYSQL_USER
-  value: rhpam
+- displayName: Smart Router Certificate Name
+  description: The name associated with the server certificate.
+  name: KIE_SERVER_ROUTER_HTTPS_NAME
+  value: jboss
   required: false
-- displayName: KIE Server MySQL Database Password
-  description: KIE server MySQL database password.
-  name: KIE_SERVER_MYSQL_PWD
+- displayName: Smart Router Keystore Password
+  description: The password for the keystore and certificate.
+  name: KIE_SERVER_ROUTER_HTTPS_PASSWORD
+  value: mykeystorepass
+  required: false
+- displayName: KIE Server Monitor User
+  description: KIE server monitor username. (Sets the org.kie.server.controller.user system property)
+  name: KIE_SERVER_MONITOR_USER
+  value: monitorUser
+  required: false
+- displayName: KIE Server Monitor Password
+  description: KIE server monitor password. (Sets the org.kie.server.controller.pwd system property)
+  name: KIE_SERVER_MONITOR_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
-- displayName: KIE Server MySQL Database Name
-  description: KIE server MySQL database name.
-  name: KIE_SERVER_MYSQL_DB
-  value: rhpam7
+- displayName: KIE Server Monitor Token
+  description: KIE server monitor token for bearer authentication. (Sets the org.kie.server.controller.token system property)
+  name: KIE_SERVER_MONITOR_TOKEN
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for the database volume.
-  name: DB_VOLUME_CAPACITY
-  value: 1Gi
-  required: true
-- displayName: KIE Server MySQL Dialect
-  description: KIE server MySQL Hibernate dialect.
-  name: KIE_SERVER_MYSQL_DIALECT
-  value: org.hibernate.dialect.MySQL57Dialect
-  required: true
-## MySQL database parameters END
-- displayName: KIE Server Mode
-  description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)."
-  name: KIE_SERVER_MODE
-  value: "PRODUCTION"
-  required: false
-- displayName: KIE MBeans
-  description: KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties)
-  name: KIE_MBEANS
-  value: enabled
-  required: false
-- displayName: Drools Server Filter Classes
-  description: KIE server class filtering. (Sets the org.drools.server.filter.classes system property)
-  name: DROOLS_SERVER_FILTER_CLASSES
-  value: 'true'
-  required: false
-- displayName: Prometheus Server Extension Disabled
-  description: If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)
-  name: PROMETHEUS_SERVER_EXT_DISABLED
-  example: 'false'
-  required: false
-- displayName: KIE Server Custom http Route Hostname
-  description: 'Custom hostname for http service route. Leave blank for default hostname,
-    e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: KIE_SERVER_HOSTNAME_HTTP
+- displayName: Business Central Custom http Route Hostname
+  description: 'Custom hostname for http service route.  Leave blank for default hostname,
+    e.g.: insecure-<application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
+  name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
-- displayName: KIE Server Custom https Route Hostname
-  description: 'Custom hostname for https service route.  Leave blank for default
-    hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-  name: KIE_SERVER_HOSTNAME_HTTPS
+- displayName: Business Central Custom https Route Hostname
+  description: 'Custom hostname for https service route. Leave blank for default
+    hostname, e.g.: <application-name>-rhpamcentrmon-<project>.<default-domain-suffix>'
+  name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
-- displayName: KIE Server Keystore Secret Name
+- displayName: Business Central Server Keystore Secret Name
   description: The name of the secret containing the keystore file.
-  name: KIE_SERVER_HTTPS_SECRET
-  example: kieserver-app-secret
+  name: BUSINESS_CENTRAL_HTTPS_SECRET
+  example: businesscentral-app-secret
   required: true
-- displayName: KIE Server Keystore Filename
+- displayName: Business Central Server Keystore Filename
   description: The name of the keystore file within the secret.
-  name: KIE_SERVER_HTTPS_KEYSTORE
+  name: BUSINESS_CENTRAL_HTTPS_KEYSTORE
   value: keystore.jks
   required: false
-- displayName: KIE Server Certificate Name
+- displayName: Business Central Server Certificate Name
   description: The name associated with the server certificate.
-  name: KIE_SERVER_HTTPS_NAME
+  name: BUSINESS_CENTRAL_HTTPS_NAME
   value: jboss
   required: false
-- displayName: KIE Server Keystore Password
+- displayName: Business Central Server Keystore Password
   description: The password for the keystore and certificate.
-  name: KIE_SERVER_HTTPS_PASSWORD
+  name: BUSINESS_CENTRAL_HTTPS_PASSWORD
   value: mykeystorepass
   required: false
-- displayName: KIE Server Bypass Auth User
-  description: Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property)
-  name: KIE_SERVER_BYPASS_AUTH_USER
-  value: 'false'
+- displayName: Business Central Container Memory Limit
+  description: Business Central Container memory limit.
+  name: BUSINESS_CENTRAL_MEMORY_LIMIT
+  value: 2Gi
   required: false
-- displayName: "Timer service data store refresh interval (in milliseconds)"
-  description: "Sets refresh-interval for the EJB timer database data-store service."
-  name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
-  value: '30000'
-  required: false
-- displayName: KIE Server Container Memory Limit
-  description: KIE server Container memory limit.
-  name: KIE_SERVER_MEMORY_LIMIT
-  value: 1Gi
-  required: false
-- displayName: KIE Server Container Deployment
-  description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
-  name: KIE_SERVER_CONTAINER_DEPLOYMENT
-  example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.5.0-SNAPSHOT
-  required: false
-- displayName: Disable KIE Server Management
-  description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
-  name: KIE_SERVER_MGMT_DISABLED
-  example: "true"
+- displayName: Smart Router Container Memory Limit
+  description: Smart Router Container memory limit.
+  name: SMART_ROUTER_MEMORY_LIMIT
+  value: 512Mi
   required: false
 - displayName: RH-SSO URL
   description: RH-SSO URL.
@@ -245,13 +244,13 @@ parameters:
   description: RH-SSO Realm name.
   name: SSO_REALM
   required: false
-- displayName: KIE Server RH-SSO Client name
-  description: KIE Server RH-SSO Client name.
-  name: KIE_SERVER_SSO_CLIENT
+- displayName: Business Central Monitoring RH-SSO Client name
+  description: Business Central Monitoring RH-SSO Client name.
+  name: BUSINESS_CENTRAL_SSO_CLIENT
   required: false
-- displayName: KIE Server RH-SSO Client Secret
-  description: KIE Server RH-SSO Client Secret.
-  name: KIE_SERVER_SSO_SECRET
+- displayName: Business Central Monitoring RH-SSO Client Secret
+  description: Business Central Monitoring RH-SSO Client Secret.
+  name: BUSINESS_CENTRAL_SSO_SECRET
   example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
 - displayName: RH-SSO Realm Admin Username
@@ -385,20 +384,37 @@ objects:
 - kind: ServiceAccount
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
     labels:
       application: "${APPLICATION_NAME}"
 - kind: RoleBinding
   apiVersion: v1
   metadata:
-     name: "${APPLICATION_NAME}-kieserver-edit"
+     name: "${APPLICATION_NAME}-rhpamsvc-edit"
      labels:
        application: "${APPLICATION_NAME}"
   subjects:
   - kind: ServiceAccount
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamsvc"
   roleRef:
     name: edit
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-smartrouter"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+     name: "${APPLICATION_NAME}-smartrouter-view"
+     labels:
+       application: "${APPLICATION_NAME}"
+  subjects:
+  - kind: ServiceAccount
+    name: "${APPLICATION_NAME}-smartrouter"
+  roleRef:
+    name: view
 - kind: Service
   apiVersion: v1
   spec:
@@ -410,19 +426,14 @@ objects:
       port: 8443
       targetPort: 8443
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
-    sessionAffinity:
-      ClientIP
-    sessionAffinityConfig:
-      clientIP:
-        timeoutSeconds: 3600
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
-      description: All the KIE server web server's ports.
+      description: All the Business Central Monitoring web server's ports.
 - kind: Service
   apiVersion: v1
   spec:
@@ -432,63 +443,100 @@ objects:
       port: 8888
       targetPort: 8888
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver-ping"
+    name: "${APPLICATION_NAME}-rhpamcentrmon-ping"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
       description: "The JGroups ping port for clustering."
-## MySQL service BEGIN
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      description: The database server's port.
-    labels:
-      application: ${APPLICATION_NAME}
-      service: "${APPLICATION_NAME}-mysql"
-    name: ${APPLICATION_NAME}-mysql
+- kind: Service
+  apiVersion: v1
   spec:
     ports:
-    - port: 3306
-      targetPort: 3306
+    - name: http
+      port: 9000
+      targetPort: 9000
+    - name: https
+      port: 9443
+      targetPort: 9443
     selector:
-      deploymentConfig: ${APPLICATION_NAME}-mysql
-## MySQL service END
-- kind: Route
-  apiVersion: v1
-  id: "insecure-${APPLICATION_NAME}-kieserver-http"
+      deploymentConfig: "${APPLICATION_NAME}-smartrouter"
   metadata:
-    name: "insecure-${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-smartrouter"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
+      service: "${APPLICATION_NAME}-smartrouter"
     annotations:
-      description: Route for KIE server's http service.
-      haproxy.router.openshift.io/balance: source
+      description: The smart router server http and https ports.
+- kind: Route
+  apiVersion: v1
+  id: "insecure-${APPLICATION_NAME}-rhpamcentrmon-http"
+  metadata:
+    name: "insecure-${APPLICATION_NAME}-rhpamcentrmon"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
+    annotations:
+      description: Route for Business Central Monitoring's http service.
+      haproxy.router.openshift.io/timeout: 60s
   spec:
-    host: "${KIE_SERVER_HOSTNAME_HTTP}"
+    host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
-      name: "${APPLICATION_NAME}-kieserver"
+      name: "${APPLICATION_NAME}-rhpamcentrmon"
     port:
       targetPort: http
 - kind: Route
   apiVersion: v1
-  id: "${APPLICATION_NAME}-kieserver-https"
+  id: "${APPLICATION_NAME}-rhpamcentrmon-https"
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
-      description: Route for KIE server's https service.
+      description: Route for Business Central Monitoring's https service.
+      haproxy.router.openshift.io/timeout: 60s
   spec:
-    host: "${KIE_SERVER_HOSTNAME_HTTPS}"
+    host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:
-      name: "${APPLICATION_NAME}-kieserver"
+      name: "${APPLICATION_NAME}-rhpamcentrmon"
+    port:
+      targetPort: https
+    tls:
+      termination: passthrough
+- kind: Route
+  apiVersion: v1
+  id: "insecure-${APPLICATION_NAME}-smartrouter-http"
+  metadata:
+    name: "insecure-${APPLICATION_NAME}-smartrouter"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
+    annotations:
+      description: Route for Smart Router's http service.
+  spec:
+    host: "${SMART_ROUTER_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}-smartrouter"
+    port:
+      targetPort: http
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-smartrouter-https"
+  metadata:
+    name: "${APPLICATION_NAME}-smartrouter"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-smartrouter"
+    annotations:
+      description: Route for Smart Router's https service.
+  spec:
+    host: "${SMART_ROUTER_HOSTNAME_HTTPS}"
+    to:
+      name: "${APPLICATION_NAME}-smartrouter"
     port:
       targetPort: https
     tls:
@@ -496,79 +544,63 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-kieserver"
+    name: "${APPLICATION_NAME}-rhpamcentrmon"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
-      services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
-    revisionHistoryLimit: 10
     strategy:
-      rollingParams:
-        maxSurge: 100%
-        maxUnavailable: 0
-      type: Rolling
+      type: Recreate
     triggers:
     - type: ImageChange
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-kieserver"
+        - "${APPLICATION_NAME}-rhpamcentrmon"
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
+          name: "rhpam76-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-kieserver"
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-kieserver"
+        name: "${APPLICATION_NAME}-rhpamcentrmon"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-kieserver"
+          deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
           application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-kieserver"
-          services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
+          service: "${APPLICATION_NAME}-rhpamcentrmon"
       spec:
-        serviceAccountName: "${APPLICATION_NAME}-kieserver"
-        terminationGracePeriodSeconds: 90
+        serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
+        terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-kieserver"
-          image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
+        - name: "${APPLICATION_NAME}-rhpamcentrmon"
+          image: rhpam76-businesscentral-monitoring-openshift
           imagePullPolicy: Always
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                - /bin/sh
-                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
-            preStop:
-              exec:
-                command:
-                - /bin/sh
-                - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
           resources:
             limits:
-              memory: "${KIE_SERVER_MEMORY_LIMIT}"
+              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
           volumeMounts:
-          - name: kieserver-keystore-volume
-            mountPath: "/etc/kieserver-secret-volume"
+          - name: businesscentral-keystore-volume
+            mountPath: "/etc/businesscentral-secret-volume"
             readOnly: true
+          - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
+            mountPath: "/opt/kie/data"
           livenessProbe:
             httpGet:
-              path: /services/rest/server/healthcheck
+              path: /rest/healthy
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
-            failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /services/rest/server/readycheck
+              path: /rest/ready
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 30
@@ -589,38 +621,18 @@ objects:
             containerPort: 8888
             protocol: TCP
           env:
-          - name: WORKBENCH_SERVICE_NAME
-            value: "${BUSINESS_CENTRAL_SERVICE}"
-          - name: KIE_ADMIN_USER
-            value: "${KIE_ADMIN_USER}"
+          - name: APPLICATION_USERS_PROPERTIES
+            value: "/opt/kie/data/configuration/application-users.properties"
+          - name: APPLICATION_ROLES_PROPERTIES
+            value: "/opt/kie/data/configuration/application-roles.properties"
           - name: KIE_ADMIN_PWD
             value: "${KIE_ADMIN_PWD}"
-          - name: KIE_SERVER_MODE
-            value: "${KIE_SERVER_MODE}"
-          - name: KIE_MBEANS
-            value: "${KIE_MBEANS}"
-          - name: DROOLS_SERVER_FILTER_CLASSES
-            value: "${DROOLS_SERVER_FILTER_CLASSES}"
-          - name: PROMETHEUS_SERVER_EXT_DISABLED
-            value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
-          - name: KIE_SERVER_BYPASS_AUTH_USER
-            value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-          - name: KIE_SERVER_ID
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
-          - name: KIE_SERVER_ROUTE_NAME
-            value: "${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_USER
-            value: "${KIE_SERVER_USER}"
+          - name: KIE_ADMIN_USER
+            value: "${KIE_ADMIN_USER}"
           - name: KIE_SERVER_PWD
             value: "${KIE_SERVER_PWD}"
-          - name: KIE_SERVER_CONTAINER_DEPLOYMENT
-            value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
-          - name: MAVEN_MIRROR_URL
-            value: "${MAVEN_MIRROR_URL}"
-          - name: MAVEN_MIRROR_OF
-            value: "${MAVEN_MIRROR_OF}"
+          - name: KIE_SERVER_USER
+            value: "${KIE_SERVER_USER}"
           - name: MAVEN_REPOS
             value: "RHPAMCENTR,EXTERNAL"
           - name: RHPAMCENTR_MAVEN_REPO_ID
@@ -641,52 +653,34 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: KIE_SERVER_MGMT_DISABLED
-            value: "${KIE_SERVER_MGMT_DISABLED}"
-          - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "OpenShiftStartupStrategy"
-          - name: KIE_SERVER_PERSISTENCE_DS
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
-          - name: DATASOURCES
-            value: "RHPAM"
-          - name: RHPAM_JNDI
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
-## MySQL driver settings BEGIN
-          - name: RHPAM_CONNECTION_CHECKER
-            value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"
-          - name: RHPAM_EXCEPTION_SORTER
-            value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"
-          - name: RHPAM_DATABASE
-            value: "${KIE_SERVER_MYSQL_DB}"
-          - name: RHPAM_DRIVER
-            value: "mariadb"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "${KIE_SERVER_MYSQL_DIALECT}"
-          - name: RHPAM_USERNAME
-            value: "${KIE_SERVER_MYSQL_USER}"
-          - name: RHPAM_PASSWORD
-            value: "${KIE_SERVER_MYSQL_PWD}"
-          - name: RHPAM_SERVICE_HOST
-            value: "${APPLICATION_NAME}-mysql"
-          - name: RHPAM_SERVICE_PORT
-            value: "3306"
-## MySQL driver settings END
-          - name: RHPAM_JTA
+## OpenShift Enhancement BEGIN
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+            value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
+            value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
+          - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
+            value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
+          - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
             value: "true"
-          - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
-            value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
+## OpenShift Enhancement END
+          - name: KIE_SERVER_CONTROLLER_USER
+            value: "${KIE_SERVER_MONITOR_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: HTTPS_KEYSTORE_DIR
-            value: "/etc/kieserver-secret-volume"
+            value: "/etc/businesscentral-secret-volume"
           - name: HTTPS_KEYSTORE
-            value: "${KIE_SERVER_HTTPS_KEYSTORE}"
+            value: "${BUSINESS_CENTRAL_HTTPS_KEYSTORE}"
           - name: HTTPS_NAME
-            value: "${KIE_SERVER_HTTPS_NAME}"
+            value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
-            value: "${KIE_SERVER_HTTPS_PASSWORD}"
+            value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
           - name: JGROUPS_PING_PROTOCOL
             value: "openshift.DNS_PING"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-            value: "${APPLICATION_NAME}-kieserver-ping"
+            value: "${APPLICATION_NAME}-rhpamcentrmon-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
           - name: SSO_URL
@@ -696,9 +690,9 @@ objects:
           - name: SSO_REALM
             value: "${SSO_REALM}"
           - name: SSO_SECRET
-            value: "${KIE_SERVER_SSO_SECRET}"
+            value: "${BUSINESS_CENTRAL_SSO_SECRET}"
           - name: SSO_CLIENT
-            value: "${KIE_SERVER_SSO_CLIENT}"
+            value: "${BUSINESS_CENTRAL_SSO_CLIENT}"
           - name: SSO_USERNAME
             value: "${SSO_USERNAME}"
           - name: SSO_PASSWORD
@@ -708,9 +702,9 @@ objects:
           - name: SSO_PRINCIPAL_ATTRIBUTE
             value: "${SSO_PRINCIPAL_ATTRIBUTE}"
           - name: HOSTNAME_HTTP
-            value: "${KIE_SERVER_HOSTNAME_HTTP}"
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
           - name: HOSTNAME_HTTPS
-            value: "${KIE_SERVER_HOSTNAME_HTTPS}"
+            value: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
           - name: AUTH_LDAP_URL
             value: "${AUTH_LDAP_URL}"
           - name: AUTH_LDAP_BIND_DN
@@ -758,23 +752,19 @@ objects:
           - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
             value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
         volumes:
-        - name: kieserver-keystore-volume
+        - name: businesscentral-keystore-volume
           secret:
-            secretName: "${KIE_SERVER_HTTPS_SECRET}"
-        initContainers:
-        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-mysql && nc -vz ${APPLICATION_NAME}-mysql 3306; do echo waiting for ${APPLICATION_NAME}-mysql; sleep 2; done;']
-          image: busybox
-          imagePullPolicy: IfNotPresent
-          name: ${APPLICATION_NAME}-mysql-init
-          terminationMessagePolicy: FallbackToLogsOnError
-## MySQL deployment config BEGIN
+            secretName: "${BUSINESS_CENTRAL_HTTPS_SECRET}"
+        - name: "${APPLICATION_NAME}-rhpamcentr-pvol"
+          persistentVolumeClaim:
+            claimName: "${APPLICATION_NAME}-rhpamcentr-claim"
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "${APPLICATION_NAME}-mysql"
+    name: ${APPLICATION_NAME}-smartrouter
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-mysql"
+      service: "${APPLICATION_NAME}-smartrouter"
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
@@ -785,73 +775,113 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - "${APPLICATION_NAME}-mysql"
+        - "${APPLICATION_NAME}-smartrouter"
         from:
           kind: ImageStreamTag
-          namespace: "${MYSQL_IMAGE_STREAM_NAMESPACE}"
-          name: "mysql:${MYSQL_IMAGE_STREAM_TAG}"
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "rhpam76-smartrouter-openshift:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: 2
     selector:
-      deploymentConfig: "${APPLICATION_NAME}-mysql"
+      deploymentConfig: "${APPLICATION_NAME}-smartrouter"
     template:
       metadata:
-        name: "${APPLICATION_NAME}-mysql"
+        name: "${APPLICATION_NAME}-smartrouter"
         labels:
-          deploymentConfig: "${APPLICATION_NAME}-mysql"
+          deploymentConfig: "${APPLICATION_NAME}-smartrouter"
           application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-mysql"
+          service: "${APPLICATION_NAME}-smartrouter"
       spec:
+        serviceAccountName: "${APPLICATION_NAME}-smartrouter"
         terminationGracePeriodSeconds: 60
         containers:
-        - name: "${APPLICATION_NAME}-mysql"
-          image: mysql
+        - name: "${APPLICATION_NAME}-smartrouter"
+          image: rhpam76-smartrouter-openshift
           imagePullPolicy: Always
-          livenessProbe:
-            tcpSocket:
-              port: 3306
-            initialDelaySeconds: 30
-            timeoutSeconds: 1
-          readinessProbe:
-            exec:
-              command:
-                - "/bin/sh"
-                - "-i"
-                - "-c"
-                - "MYSQL_PWD=\"$MYSQL_PASSWORD\" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE -e 'SELECT 1'"
-              port: 3306
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: "${SMART_ROUTER_MEMORY_LIMIT}"
           ports:
-          - containerPort: 3306
+          - name: http
+            containerPort: 9000
             protocol: TCP
-          volumeMounts:
-          - mountPath: "/var/lib/mysql/data"
-            name: "${APPLICATION_NAME}-mysql-pvol"
           env:
-          - name: MYSQL_USER
-            value: "${KIE_SERVER_MYSQL_USER}"
-          - name: MYSQL_PASSWORD
-            value: "${KIE_SERVER_MYSQL_PWD}"
-          - name: MYSQL_DATABASE
-            value: "${KIE_SERVER_MYSQL_DB}"
+          - name: KIE_SERVER_ROUTER_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: KIE_SERVER_ROUTER_PORT
+            value: "9000"
+          - name: KIE_SERVER_ROUTER_PORT_TLS
+            value: "9443"
+          - name: KIE_SERVER_ROUTER_URL_EXTERNAL
+            value: "${KIE_SERVER_ROUTER_URL_EXTERNAL}"
+          - name: KIE_SERVER_ROUTER_ID
+            value: "${KIE_SERVER_ROUTER_ID}"
+          - name: KIE_SERVER_ROUTER_NAME
+            value: "${KIE_SERVER_ROUTER_NAME}"
+          - name: KIE_SERVER_ROUTER_ROUTE_NAME
+            value: "${APPLICATION_NAME}-smartrouter"
+          - name: KIE_SERVER_ROUTER_SERVICE
+            value: "${APPLICATION_NAME}-smartrouter"
+          - name: KIE_SERVER_ROUTER_PROTOCOL
+            value: "${KIE_SERVER_ROUTER_PROTOCOL}"
+          - name: KIE_SERVER_ROUTER_TLS_KEYSTORE_KEYALIAS
+            value: "${KIE_SERVER_ROUTER_HTTPS_NAME}"
+          - name: KIE_SERVER_ROUTER_TLS_KEYSTORE_PASSWORD
+            value: "${KIE_SERVER_ROUTER_HTTPS_PASSWORD}"
+          - name: KIE_SERVER_ROUTER_TLS_KEYSTORE
+            value: "/etc/smartrouter-secret-volume/${KIE_SERVER_ROUTER_HTTPS_KEYSTORE}"
+          - name: KIE_SERVER_CONTROLLER_USER
+            value: "${KIE_SERVER_MONITOR_USER}"
+          - name: KIE_SERVER_CONTROLLER_PWD
+            value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_SERVER_CONTROLLER_TOKEN
+            value: "${KIE_SERVER_MONITOR_TOKEN}"
+          - name: KIE_SERVER_CONTROLLER_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentrmon"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "http"
+          - name: KIE_SERVER_ROUTER_REPO
+            value: "/opt/rhpam-smartrouter/data"
+          - name: KIE_SERVER_ROUTER_CONFIG_WATCHER_ENABLED
+            value: "true"
+          volumeMounts:
+          - name: "${APPLICATION_NAME}-smartrouter"
+            mountPath: "/opt/rhpam-smartrouter/data"
+          - name: smartrouter-keystore-volume
+            mountPath: "/etc/smartrouter-secret-volume"
+            readOnly: true
         volumes:
-        - name: "${APPLICATION_NAME}-mysql-pvol"
+        - name: "${APPLICATION_NAME}-smartrouter"
           persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-mysql-claim"
-## MySQL deployment config END
-## MySQL persistent volume claim BEGIN
+            claimName: "${APPLICATION_NAME}-smartrouter-claim"
+        - name: smartrouter-keystore-volume
+          secret:
+            secretName: "${KIE_SERVER_ROUTER_HTTPS_SECRET}"
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: "${APPLICATION_NAME}-mysql-claim"
+    name: "${APPLICATION_NAME}-smartrouter-claim"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-mysql"
+      service: "${APPLICATION_NAME}-smartrouter"
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
-        storage: "${DB_VOLUME_CAPACITY}"
-## MySQL persistent volume claim END
+        storage: "64Mi"
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr-claim"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentrmon"
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: "64Mi"
