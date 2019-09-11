@@ -9,7 +9,7 @@ metadata:
     openshift.io/display-name: Red Hat Process Automation Manager 7.6 production monitoring environment
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.6 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed for a router and monitoring console in a production environment for Red Hat Process Automation Manager 7.6, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart. Deprecated in 7.6; using the Red Hat Business Automation Operator is recommended.
+    template.openshift.io/long-description: This template defines resources needed for a router and monitoring console in a production environment for Red Hat Process Automation Manager 7.6, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
     template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.6/html/deploying_a_red_hat_process_automation_manager_7.6_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
@@ -92,7 +92,7 @@ parameters:
   value: executionUser
   required: false
 - displayName: KIE Server Password
-  description: KIE server password, used to connect to KIE servers. Generated value can be a suggestion to use for thew s2i various (Sets the org.kie.server.pwd system property)
+  description: KIE server password, used to connect to KIE servers. If this parameter is not set, the password is automatically generated. (Sets the org.kie.server.pwd system property)
   name: KIE_SERVER_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
@@ -115,8 +115,8 @@ parameters:
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
-  description: Namespace in which the ImageStreams for Red Hat Middleware images are
-    installed. These ImageStreams are normally installed in the openshift namespace.
+  description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images
+    are installed. These ImageStreams are normally installed in the openshift namespace.
     You should only need to modify this if you installed the ImageStreams in a
     different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
@@ -140,7 +140,7 @@ parameters:
   value: ''
   required: false
 - displayName: Smart Router ID
-  description: Router ID used when connecting to the controller. (Router property org.kie.server.router.id)
+  description: Router ID used in API communication. (Router property org.kie.server.router.id)
   name: KIE_SERVER_ROUTER_ID
   value: kie-server-router
   required: true
@@ -154,7 +154,7 @@ parameters:
   name: KIE_SERVER_ROUTER_URL_EXTERNAL
   required: false
 - displayName: Smart Router name
-  description: Router name used when connecting to the controller. (Router property org.kie.server.router.name)
+  description: Router name used in the Business Central user interface. (Router property org.kie.server.router.name)
   name: KIE_SERVER_ROUTER_NAME
   value: KIE Server Router
   required: true
