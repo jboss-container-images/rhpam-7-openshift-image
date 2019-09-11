@@ -24,7 +24,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |Variable name |Image Environment Variable |Description |Example value |Required
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
-|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
+|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:* | False
 |`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
 |`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | True
@@ -37,7 +37,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_ADMIN_PWD` | `KIE_ADMIN_PWD` | KIE administrator password. | -- | False
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | -- | False
-|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
+|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
@@ -59,7 +59,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret. | keystore.jks | False
 |`KIE_SERVER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate. | jboss | False
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate. | mykeystorepass | False
-|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
+|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT | False
@@ -268,13 +268,13 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
-|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
-|`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
+|`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_ID` | -- | repo-rhpamcentr

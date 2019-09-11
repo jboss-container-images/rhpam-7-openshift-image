@@ -31,7 +31,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | -- | False
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | -- | False
-|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
+|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
 |`KIE_SERVER_PERSISTENCE_DS` | `RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |KIE_SERVER_H2_USER | `RHPAM_USERNAME` | KIE server H2 database username. | sa | False
 |KIE_SERVER_H2_PWD | `RHPAM_PASSWORD` | KIE server H2 database password. | -- | False
@@ -55,7 +55,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | `KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | If OpenShift integration of Business Central is turned on, setting this parameter to true  enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | true | False
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | `KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | 60000 | False
-|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
+|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
@@ -350,7 +350,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
-|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
