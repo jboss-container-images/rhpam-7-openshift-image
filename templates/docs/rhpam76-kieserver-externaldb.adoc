@@ -24,7 +24,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |Variable name |Image Environment Variable |Description |Example value |Required
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
-|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
+|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:* | False
 |`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
 |`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | True
@@ -37,13 +37,13 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_ADMIN_PWD` | `KIE_ADMIN_PWD` | KIE administrator password. | -- | False
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | -- | False
-|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Middleware images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
+|`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`KIE_SERVER_PERSISTENCE_SCHEMA` | `KIE_SERVER_PERSISTENCE_SCHEMA` | Hibernate persistence schema. | bd.schema | False
 |`KIE_SERVER_EXTERNALDB_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server external database Hibernate dialect. | org.hibernate.dialect.MySQL57Dialect | True
-|`KIE_SERVER_EXTERNALDB_SERVICE_HOST` | `RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | 10.10.10.1 | False
-|`KIE_SERVER_EXTERNALDB_SERVICE_PORT` | `RHPAM_SERVICE_PORT` | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | 4321 | False
+|`KIE_SERVER_EXTERNALDB_SERVICE_HOST` | `RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL parameter is set. | 10.10.10.1 | False
+|`KIE_SERVER_EXTERNALDB_SERVICE_PORT` | `RHPAM_SERVICE_PORT` | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL parameter is set. | 4321 | False
 |`KIE_SERVER_EXTERNALDB_NONXA` | `RHPAM_NONXA` | Sets the datasources type. It can be XA or NONXA. For non XA set it to true. Default value is true. | True | False
 |`KIE_SERVER_EXTERNALDB_URL` | `RHPAM_URL` | Sets the datasource jdbc connection url. Note that, if you are using PostgreSQL do not use this field, use the SERVICE_HOST and PORT. If using SERVICE_PORT and HOST there is no need to fill this parameter. | jdbc:mysql://127.0.0.1:3306/rhpam | False
 |`KIE_SERVER_EXTERNALDB_DRIVER` | `RHPAM_DRIVER` | The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. | mariadb | True
@@ -58,7 +58,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION` | `RHPAM_BACKGROUND_VALIDATION` | Sets the sql validation method to background-validation, if set to false the validate-on-match method will be used. | true | False
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS` | `RHPAM_VALIDATION_MILLIS` | Defines the interval for the background-validation check for the jdbc connections. | 10000 | False
 |`KIE_SERVER_EXTERNALDB_DRIVER_TYPE` | `RHPAM_DRIVER_TYPE` | KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2. | 4 | False
-|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. i.e custom-driver-image:1.0. | custom-driver-extension:1.0 | True
+|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:1.0. | custom-driver-extension:1.0 | True
 |`EXTENSIONS_IMAGE_NAMESPACE` | -- | Namespace within which the ImageStream definition for the image containing the drivers and configuration is located. | openshift | True
 |`EXTENSIONS_INSTALL_DIR` | -- | Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.). | `/extensions` | True
 |`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `PRODUCTION` | False
@@ -71,10 +71,10 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret. | keystore.jks | False
 |`KIE_SERVER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate. | jboss | False
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate. | mykeystorepass | False
-|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
+|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT | False
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version\|c2(alias2)=g2:a2:v2 | rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT | False
 |`KIE_SERVER_MGMT_DISABLED` | `KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped. Sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | true | False
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
@@ -275,13 +275,13 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties). | `${KIE_MBEANS}`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering (Sets the org.drools.server.filter.classes system property). | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
-|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
-|`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version\|c2(alias2)=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_ID` | -- | repo-rhpamcentr
@@ -300,8 +300,8 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_PERSISTENCE_DIALECT` | KIE server external database Hibernate dialect. | `${KIE_SERVER_EXTERNALDB_DIALECT}`
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_DATABASE` | KIE server external database name. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | `${KIE_SERVER_EXTERNALDB_DB}`
-|`RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | `${KIE_SERVER_EXTERNALDB_SERVICE_HOST}`
-|`RHPAM_SERVICE_PORT` | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL is set. | `${KIE_SERVER_EXTERNALDB_SERVICE_PORT}`
+|`RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL parameter is set. | `${KIE_SERVER_EXTERNALDB_SERVICE_HOST}`
+|`RHPAM_SERVICE_PORT` | Sets the datasource service port. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL parameter is set. | `${KIE_SERVER_EXTERNALDB_SERVICE_PORT}`
 |`RHPAM_JNDI` | Database JNDI name used by application to resolve the datasource, e.g. java:/jboss/datasources/ExampleDS. | `${KIE_SERVER_EXTERNALDB_JNDI}`
 |`RHPAM_DRIVER` | The predefined driver name, available values are mysql, postgresql or the preferred name for the external driver. | `${KIE_SERVER_EXTERNALDB_DRIVER}`
 |`RHPAM_USERNAME` | KIE server external database username. | `${KIE_SERVER_EXTERNALDB_USER}`
