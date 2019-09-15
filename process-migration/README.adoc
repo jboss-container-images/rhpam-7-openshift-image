@@ -1,0 +1,5 @@
+# Red Hat Process Automation Manager 7 - Process Migration OpenShift container image
+
+## License
+
+See link:../LICENSE[LICENSE] file.
