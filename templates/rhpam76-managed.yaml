@@ -119,7 +119,7 @@ parameters:
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
-  description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images 
+  description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images
     are installed. These ImageStreams are normally installed in the openshift namespace.
     You should only need to modify this if you installed the ImageStreams in a
     different namespace/project.
@@ -596,7 +596,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's http service.
-      haproxy.router.openshift.io/timeout: 60s
+      haproxy.router.openshift.io/timeout: 1h
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
@@ -613,7 +613,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentrmon"
     annotations:
       description: Route for Business Central Monitoring's https service.
-      haproxy.router.openshift.io/timeout: 60s
+      haproxy.router.openshift.io/timeout: 1h
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTPS}"
     to:

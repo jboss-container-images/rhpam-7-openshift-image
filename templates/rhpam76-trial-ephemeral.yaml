@@ -414,7 +414,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       description: Route for Business Central's http service.
-      haproxy.router.openshift.io/timeout: 60s
+      haproxy.router.openshift.io/timeout: 1h
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
     to:
