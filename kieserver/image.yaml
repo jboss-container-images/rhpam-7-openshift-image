@@ -69,7 +69,7 @@ envs:
       description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)"
     - name: "KIE_SERVER_CONTAINER_DEPLOYMENT"
       example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
-      description: "KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2"
+      description: "KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2"
     - name: "KIE_SERVER_CONTAINER_DEPLOYMENT_OVERRIDE"
       example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
       description: "Used to override application template KIE_SERVER_CONTAINER_DEPLOYMENT from .sti/environment. (optional)"
