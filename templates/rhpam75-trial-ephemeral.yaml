@@ -154,7 +154,7 @@ parameters:
   value: "1.0"
   required: true
 - displayName: KIE Server Container Deployment
-  description: 'KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version|c2=g2:a2:v2'
+  description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
   name: KIE_SERVER_CONTAINER_DEPLOYMENT
   value: ''
   required: false
