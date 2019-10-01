@@ -9,5 +9,5 @@ schema_version: 1
 #                      --overrides-file artifact-overrides.yaml
 
 artifacts:
-    - name: "jboss-eap-7.2.1-patch.zip"
-      md5: "ab1dbf214eb2f934bcc3569c7376638c"
+    - name: "jboss-eap-7.2.3-patch.zip"
+      md5: "7aa7c5a52facbe591b7e63194ee52006"
