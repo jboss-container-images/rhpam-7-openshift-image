@@ -6,7 +6,7 @@ version: "1.0"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam76-smartrouter-openshift-rhel8-container"
+      value: "rhpam-7-rhpam76-smartrouter-openshift-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Process Automation Manager Smart Router"
     - name: "io.k8s.display-name"
