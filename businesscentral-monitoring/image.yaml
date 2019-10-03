@@ -156,6 +156,7 @@ packages:
 osbs:
       configuration:
           container_file: container.yaml
+      extra_dir: osbs-extra
       repository:
           name: containers/rhpam-7-businesscentral-monitoring-openshift
           branch: rhba-7.5-openshift-rhel-8
