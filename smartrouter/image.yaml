@@ -108,6 +108,7 @@ packages:
 osbs:
       configuration:
           container_file: container.yaml
+      extra_dir: osbs-extra
       repository:
           name: containers/rhpam-7-smartrouter-openshift
           branch: rhba-7.6-openshift-rhel-8
