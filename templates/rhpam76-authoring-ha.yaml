@@ -765,19 +765,15 @@ objects:
       application: ${APPLICATION_NAME}
   spec:
     podManagementPolicy: OrderedReady
-    replicas: 1
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+    replicas: 2
     selector:
       matchLabels:
         deploymentConfig: ${APPLICATION_NAME}-datagrid
     serviceName: ${APPLICATION_NAME}-datagrid
-    strategy:
-      rollingParams:
-        intervalSeconds: 20
-        maxSurge: 1
-        maxUnavailable: 1
-        timeoutSeconds: 1200
-        updatePeriodSeconds: 20
-      type: Rolling
     template:
       metadata:
         name: ${APPLICATION_NAME}-datagrid
@@ -1356,6 +1352,10 @@ objects:
       application: ${APPLICATION_NAME}
   spec:
     podManagementPolicy: OrderedReady
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
     replicas: ${{AMQ_REPLICAS}}
     revisionHistoryLimit: 10
     selector:
@@ -1444,8 +1444,6 @@ objects:
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 60
-    updateStrategy:
-      type: OnDelete
     volumeClaimTemplates:
     - metadata:
         name: ${APPLICATION_NAME}-amq-pvol
