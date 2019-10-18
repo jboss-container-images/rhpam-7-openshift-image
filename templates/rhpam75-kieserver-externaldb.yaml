@@ -5,7 +5,7 @@ metadata:
   annotations:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,kieserver,externaldb
-    version: "1.0"
+    version: "7.5"
     openshift.io/display-name: Red Hat Process Automation Manager 7.5 managed KIE Server with an external database
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a managed KIE Server with an external database, for Red Hat Process Automation Manager 7.5 - Deprecated
@@ -16,7 +16,7 @@ metadata:
   name: rhpam75-kieserver-externaldb
 labels:
   template: rhpam75-kieserver-externaldb
-  rhpam: "1.0"
+  rhpam: "7.5"
 message: |-
           A new Process Automation Manager KIE server application have been created in your project.
           The username/password for accessing the KIE server
@@ -104,14 +104,14 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam75-kieserver-openshift"
+  value: "rhpam-kieserver-rhel8"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "7.5.0".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
+  value: "7.5.0"
   required: true
 ## External database parameters BEGIN
 - displayName: KIE Server Persistence Schema
