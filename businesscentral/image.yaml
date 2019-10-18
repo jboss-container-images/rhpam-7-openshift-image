@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam76-businesscentral-openshift"
+name: "rhpam-7/rhpam-businesscentral-rhel8"
 description: "Red Hat Business Central 7.6 OpenShift container image"
 version: "1.0"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
-      value: "rhpam-7-rhpam76-businesscentral-openshift-container"
+      value: "rhpam-7-businesscentral-rhel8-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central"
     - name: "io.k8s.display-name"
@@ -206,8 +206,8 @@ osbs:
           container_file: container.yaml
       extra_dir: osbs-extra
       repository:
-          name: containers/rhpam-7-businesscentral-openshift
-          branch: rhba-7.6-openshift-rhel-8
+          name: containers/rhpam-7-businesscentral
+          branch: rhba-7-rhel-8
 run:
       user: 185
       cmd:
