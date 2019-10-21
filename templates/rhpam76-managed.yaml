@@ -5,7 +5,7 @@ metadata:
   annotations:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,prod
-    version: "1.0"
+    version: "7.6"
     openshift.io/display-name: Red Hat Process Automation Manager 7.6 managed production environment.
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.6 - Deprecated
@@ -16,7 +16,7 @@ metadata:
   name: rhpam76-managed
 labels:
   template: rhpam76-managed
-  rhpam: "1.0"
+  rhpam: "7.6"
 message: |-
           A new environment has been set up for Red Hat Process Automation Manager 7.
           The username/password for accessing Business Central Monitoring is
@@ -127,14 +127,14 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam76-kieserver-openshift"
+  value: "rhpam-kieserver-rhel8"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "7.6.0".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
+  value: "7.6.0"
   required: true
 - displayName: KIE Server Controller User
   description: KIE server controller username. (Sets the org.kie.server.controller.user system property)
@@ -683,7 +683,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam76-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam-businesscentral-monitoring-rhel8:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: "${{BUSINESS_CENTRAL_MONITORING_CONTAINER_REPLICAS}}"
     selector:
@@ -700,7 +700,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
-          image: rhpam76-businesscentral-monitoring-openshift
+          image: rhpam-businesscentral-monitoring-rhel8
           imagePullPolicy: Always
           resources:
             limits:

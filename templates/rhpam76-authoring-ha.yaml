@@ -5,7 +5,7 @@ metadata:
   annotations:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,authoring,ha
-    version: "1.0"
+    version: "7.6"
     openshift.io/display-name: Red Hat Process Automation Manager 7.6 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.6 - Deprecated
@@ -16,7 +16,7 @@ metadata:
   name: rhpam76-authoring-ha
 labels:
   template: rhpam76-authoring-ha
-  rhpam: "1.0"
+  rhpam: "7.6"
 message: |-
           A new persistent HA Process Automation Manager application has been created in your project.
           The username/password for accessing the Business Central interface is
@@ -292,19 +292,19 @@ parameters:
   value: openshift
   required: true
 - displayName: Business Central ImageStream Name
-  description: The name of the image stream to use for Business Central. Default is "rhpam76-businesscentral-openshift".
+  description: The name of the image stream to use for Business Central. Default is "rhpam-businesscentral-rhel8".
   name: BUSINESS_CENTRAL_IMAGE_STREAM_NAME
-  value: "rhpam76-businesscentral-openshift"
+  value: "rhpam-businesscentral-rhel8"
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam76-kieserver-openshift"
+  value: "rhpam-kieserver-rhel8"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "7.6.0".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
+  value: "7.6.0"
   required: true
 - displayName: Maven mirror URL
   description: Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services.
