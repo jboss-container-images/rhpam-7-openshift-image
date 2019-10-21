@@ -5,7 +5,7 @@ metadata:
   annotations:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,immutable,s2i,monitor
-    version: "1.0"
+    version: "7.5"
     openshift.io/display-name: Red Hat Process Automation Manager 7.5 production monitoring environment
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a router and monitoring console in a production environment, for Red Hat Process Automation Manager 7.5 - Deprecated
@@ -16,7 +16,7 @@ metadata:
   name: rhpam75-prod-immutable-monitor
 labels:
   template: rhpam75-prod-immutable-monitor
-  rhpam: "1.0"
+  rhpam: "7.5"
 message: |-
   A new environment has been set up for Red Hat Process Automation Manager 7.
   To access the Business Central Monitoring Console use the following credentials
@@ -123,9 +123,9 @@ parameters:
   value: openshift
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "7.5.0".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
+  value: "7.5.0"
   required: false
 - displayName: Smart Router Custom http Route Hostname
   description: 'Custom hostname for http service route.  Leave blank for default hostname,
@@ -562,7 +562,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam75-businesscentral-monitoring-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam-businesscentral-monitoring-rhel8:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -579,7 +579,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentrmon"
-          image: rhpam75-businesscentral-monitoring-openshift
+          image: rhpam-businesscentral-monitoring-rhel8
           imagePullPolicy: Always
           resources:
             limits:
@@ -779,7 +779,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam75-smartrouter-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam-smartrouter-rhel8:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 2
     selector:
@@ -796,7 +796,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-smartrouter"
-          image: rhpam75-smartrouter-openshift
+          image: rhpam-smartrouter-rhel8
           imagePullPolicy: Always
           resources:
             limits:

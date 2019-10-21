@@ -5,7 +5,7 @@ metadata:
   annotations:
     iconClass: icon-jboss
     tags: rhpam,processserver,jboss,authoring
-    version: "1.0"
+    version: "7.5"
     openshift.io/display-name: Red Hat Process Automation Manager 7.5 authoring environment (non-HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
     description: Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.5 - Deprecated
@@ -16,7 +16,7 @@ metadata:
   name: rhpam75-authoring
 labels:
   template: rhpam75-authoring
-  rhpam: "1.0"
+  rhpam: "7.5"
 message: |-
           A new persistent Process Automation Manager application have been created in your project.
           The username/password for accessing the Business Central interface is
@@ -212,14 +212,14 @@ parameters:
   value: openshift
   required: true
 - displayName: KIE Server ImageStream Name
-  description: The name of the image stream to use for KIE server. Default is "rhpam75-kieserver-openshift".
+  description: The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8".
   name: KIE_SERVER_IMAGE_STREAM_NAME
-  value: "rhpam75-kieserver-openshift"
+  value: "rhpam-kieserver-rhel8"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "1.0".
+  description: A named pointer to an image in an image stream. Default is "7.5.0".
   name: IMAGE_STREAM_TAG
-  value: "1.0"
+  value: "7.5.0"
   required: true
 - displayName: Maven mirror URL
   description: Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services.
@@ -587,7 +587,7 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam75-businesscentral-openshift:${IMAGE_STREAM_TAG}"
+          name: "rhpam-businesscentral-rhel8:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
     replicas: 1
     selector:
@@ -604,7 +604,7 @@ objects:
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
-          image: rhpam75-businesscentral-openshift
+          image: rhpam-businesscentral-rhel8
           imagePullPolicy: Always
           resources:
             limits:
