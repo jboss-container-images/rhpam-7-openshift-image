@@ -219,7 +219,7 @@ parameters:
 - displayName: DataGrid Image
   description: DataGrid image.
   name: DATAGRID_IMAGE
-  value: registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.2
+  value: registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.3
   required: true
 - displayName: DataGrid Container CPU Limit
   description: DataGrid Container cpu limit.
@@ -240,7 +240,7 @@ parameters:
   displayName: Image
   name: AMQ_BROKER_IMAGE
   required: true
-  value: registry.redhat.io/amq7/amq-broker:7.4
+  value: registry.redhat.io/amq7/amq-broker:7.5
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE
