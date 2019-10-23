@@ -9,105 +9,105 @@ items:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam76-businesscentral-openshift
+    name: rhpam-businesscentral-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager Business Central 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
-    - name: '1.0'
+    - name: '7.6.0'
       annotations:
         description: Red Hat Process Automation Manager 7.6 - Business Central image.
         iconClass: icon-jboss
         tags: rhpam
         supports: rhpam:7.6
-        version: '1.0'
+        version: '7.6.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam76-businesscentral-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam-businesscentral-rhel8:7.6.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam76-businesscentral-monitoring-openshift
+    name: rhpam-businesscentral-monitoring-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager Business Central Monitoring 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
-    - name: '1.0'
+    - name: '7.6.0'
       annotations:
         description: Red Hat Process Automation Manager 7.6 - Business Central Monitoring image.
         iconClass: icon-jboss
         tags: rhpam
         supports: rhpam:7.6
-        version: '1.0'
+        version: '7.6.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam76-businesscentral-monitoring-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam-businesscentral-monitoring-rhel8:7.6.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam76-controller-openshift
+    name: rhpam-controller-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager Standalone Controller 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
-    - name: '1.0'
+    - name: '7.6.0'
       annotations:
         description: Red Hat Process Automation Manager 7.6 - Standalone Controller image.
         iconClass: icon-jboss
         tags: rhpam
         supports: rhpam:7.6
-        version: '1.0'
+        version: '7.6.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam76-controller-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam-controller-rhel8:7.6.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam76-kieserver-openshift
+    name: rhpam-kieserver-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager KIE Server 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
-    - name: '1.0'
+    - name: '7.6.0'
       annotations:
         description: Red Hat Process Automation Manager 7.6 - KIE Server image.
         iconClass: icon-jboss
         tags: rhpam
         supports: rhpam:7.6
-        version: '1.0'
+        version: '7.6.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam76-kieserver-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam-kieserver-rhel8:7.6.0
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: rhpam76-smartrouter-openshift
+    name: rhpam-smartrouter-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager Smart Router 7.6
       openshift.io/provider-display-name: Red Hat, Inc.
   spec:
     tags:
-    - name: '1.0'
+    - name: '7.6.0'
       annotations:
         description: Red Hat Process Automation Manager 7.6 - Smart Router image.
         iconClass: icon-jboss
         tags: rhpam
         supports: rhpam:7.6
-        version: '1.0'
+        version: '7.6.0'
       referencePolicy:
         type: Local
       from:
         kind: DockerImage
-        name: registry.redhat.io/rhpam-7/rhpam76-smartrouter-openshift:1.0
+        name: registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.6.0
