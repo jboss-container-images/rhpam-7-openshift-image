@@ -203,9 +203,9 @@ parameters:
   required: false
 ## Extension image configuration BEGIN
 - displayName: Drivers Extension Image
-  description: ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:1.0.
+  description: ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:7.5.0.
   name: EXTENSIONS_IMAGE
-  value: custom-driver-extension:1.0
+  value: custom-driver-extension:7.5.0
   required: true
 - displayName: Drivers ImageStream Namespace
   description: Namespace within which the ImageStream definition for the image containing the drivers and configuration is located.

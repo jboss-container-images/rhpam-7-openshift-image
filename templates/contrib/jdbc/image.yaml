@@ -17,3 +17,4 @@ modules:
 
   install:
     - name: kie-custom-jdbc-driver
+      version: "7.5.0"
