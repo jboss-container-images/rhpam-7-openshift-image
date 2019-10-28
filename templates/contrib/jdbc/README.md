@@ -226,9 +226,9 @@ to install it is **openshift** but feel free to install it on the preferred name
      $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam76-kieserver-externaldb.yaml
    ```
 
-- verify if the RHPAM 7.3 imagestreams are available:
+- verify if the RHPAM 7.6 imagestreams are available:
   ```bash
-    $ oc get imagestream -n openshift | grep rhpam76
+    $ oc get imagestream -n openshift | grep rhpam | grep 7.6
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
