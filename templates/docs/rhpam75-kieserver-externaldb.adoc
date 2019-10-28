@@ -58,7 +58,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION` | `RHPAM_BACKGROUND_VALIDATION` | Sets the sql validation method to background-validation, if set to false the validate-on-match method will be used. | true | False
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS` | `RHPAM_VALIDATION_MILLIS` | Defines the interval for the background-validation check for the jdbc connections. | 10000 | False
 |`KIE_SERVER_EXTERNALDB_DRIVER_TYPE` | `RHPAM_DRIVER_TYPE` | KIE server external database driver type, applicable only for DB2, possible values are 4 (default) or 2. | 4 | False
-|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:1.0. | custom-driver-extension:1.0 | True
+|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:7.5.0. | custom-driver-extension:7.5.0 | True
 |`EXTENSIONS_IMAGE_NAMESPACE` | -- | Namespace within which the ImageStream definition for the image containing the drivers and configuration is located. | openshift | True
 |`EXTENSIONS_INSTALL_DIR` | -- | Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.). | `/extensions` | True
 |`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `PRODUCTION` | False
