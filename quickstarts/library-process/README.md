@@ -78,11 +78,11 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 Before proceed, make sure you have the RHDM imagestreams available under the 'openshift' namespace.
 
 ```bash
-$ oc get imagestream rhpam75-kieserver-openshift -n openshift
-Error from server (NotFound): imagestreams.image.openshift.io "rhpam75-kieserver-openshift" not found
+$ oc get imagestream rhpam-kieserver-rhel8 -n openshift
+Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
 
 ```
- If the `rhpam75-kieserver-openshift` is not found, install it under the 'openshift' namespace:
+ If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:
  ```bash
 $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.5.x/rhpam75-image-streams.yaml -n openshift
 ```
@@ -121,8 +121,8 @@ $ oc new-app rhpam75-prod-immutable-kieserver \
         * KIE Server User=executionUser
         * KIE Server Password=MADQFF7! # generated
         * ImageStream Namespace=openshift
-        * KIE Server ImageStream Name=rhpam75-kieserver-openshift
-        * ImageStream Tag=1.1
+        * KIE Server ImageStream Name=rhpam-kieserver-rhel8
+        * ImageStream Tag=7.5.0
         * KIE Server Monitor User=monitorUser
         * KIE Server Monitor Password=
         * KIE Server Monitor Token=
