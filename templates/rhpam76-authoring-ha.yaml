@@ -1337,8 +1337,12 @@ objects:
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
         initContainers:
-        - command: ['sh', '-c', 'until nslookup ${APPLICATION_NAME}-mysql && nc -vz ${APPLICATION_NAME}-mysql 3306; do echo waiting for ${APPLICATION_NAME}-mysql; sleep 2; done;']
-          image: busybox
+        - command:
+            - /bin/bash
+            - '-c'
+            - >-
+              replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-mysql; replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
+          image: openshift3/ose-cli
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-mysql-init
           terminationMessagePolicy: FallbackToLogsOnError
