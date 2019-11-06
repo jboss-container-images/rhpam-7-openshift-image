@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam-businesscentral-rhel8"
 description: "Red Hat Business Central 7.5 OpenShift container image"
-version: "7.5.0"
+version: "7.5.1"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
