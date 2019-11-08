@@ -111,3 +111,24 @@ items:
       from:
         kind: DockerImage
         name: registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.6.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: rhpam-process-migration-rhel8
+    annotations:
+      openshift.io/display-name: Red Hat Process Automation Manager Process Migration 7.6
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+    - name: '7.6.0'
+      annotations:
+        description: Red Hat Process Automation Manager 7.6 - Process Migration image.
+        iconClass: icon-jboss
+        tags: rhpam
+        supports: rhpam:7.6
+        version: '7.6.0'
+      referencePolicy:
+        type: Local
+      from:
+        kind: DockerImage
+        name: registry.redhat.io/rhpam-7/rhpam-process-migration-rhel8:7.6.0
