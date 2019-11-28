@@ -4,12 +4,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (https://github.com/jboss-container-images/jboss-kie-modules/tree/master/tools/gen-template-doc/*.in)
 ////
-= rhpam76-prod
+= rhpam77-prod
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.6 - Deprecated
+Application template for a managed HA production runtime environment, for Red Hat Process Automation Manager 7.7 - Deprecated
 
 toc::[]
 
@@ -38,7 +38,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | -- | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam77-kieserver-openshift". | rhpam77-kieserver-openshift | True
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
 |`SMART_ROUTER_HOSTNAME_HTTP` | -- | Custom hostname for http service route.  Leave blank for default hostname, e.g. <application-name>-smartrouter-<project>.<default-domain-suffix>' | -- | False
 |`SMART_ROUTER_HOSTNAME_HTTPS` | -- | Custom hostname for https service route.  Leave blank for default hostname, e.g. secure-<application-name>-smartrouter-<project>.<default-domain-suffix>' | -- | False
@@ -268,8 +268,8 @@ information.
 |============
 |Deployment | Image
 
-|`${APPLICATION_NAME}-rhpamcentrmon` | rhpam76-businesscentral-monitoring-openshift
-|`${APPLICATION_NAME}-smartrouter` | rhpam76-smartrouter-openshift
+|`${APPLICATION_NAME}-rhpamcentrmon` | rhpam77-businesscentral-monitoring-openshift
+|`${APPLICATION_NAME}-smartrouter` | rhpam77-smartrouter-openshift
 |`${APPLICATION_NAME}-kieserver-1` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
 |`${APPLICATION_NAME}-postgresql-1` | postgresql
 |`${APPLICATION_NAME}-kieserver-2` | `${KIE_SERVER_IMAGE_STREAM_NAME}`
@@ -469,7 +469,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, the KIE server will use secure-<application-name>-kieserver vs. <application-name>-kieserver as the KIE server route endpoint for Business Central to report. Therefore, Business Central displays the secure link to the user. | `${KIE_SERVER1_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
@@ -562,7 +562,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`KIE_SERVER_USE_SECURE_ROUTE_NAME` | If true, will use secure-APPLICATION_NAME-kieserver-2 vs. APPLICATION_NAME-kieserver-2 as the route name. | `${KIE_SERVER2_USE_SECURE_ROUTE_NAME}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- | 
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | -- |
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL

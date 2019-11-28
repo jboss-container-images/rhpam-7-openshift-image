@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-kieserver-rhel8"
-description: "Red Hat Process Automation Manager Kie Server 7.6 container image"
-version: "7.6.0"
+description: "Red Hat Process Automation Manager Kie Server 7.7 container image"
+version: "7.7.0"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Process Automation Manager KIE server"
     - name: "io.k8s.display-name"
-      value: "Red Hat Process Automation Manager KIE server 7.6"
+      value: "Red Hat Process Automation Manager KIE server 7.7"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
@@ -187,7 +187,7 @@ envs:
       description: "If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)"
     - name: "OPTAPLANNER_SERVER_EXT_THREAD_POOL_QUEUE_SIZE"
       example: "4"
-      description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)" 
+      description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
 ports:
     - value: 8080
     - value: 8443
