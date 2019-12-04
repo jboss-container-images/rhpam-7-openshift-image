@@ -19,14 +19,14 @@ labels:
   rhpam: "7.6"
 message: |-
           A new Process Automation Manager trial environment has been created.
-          The username/password for accessing the Business Central interface is
+          The user name/password for accessing the Business Central interface is
 
-              Username: ${KIE_ADMIN_USER}
+              User name: ${KIE_ADMIN_USER}
               Password: ${DEFAULT_PASSWORD}
 
           The user name/password for calls to the KIE server is
 
-              Username: ${KIE_SERVER_USER}
+              User name: ${KIE_SERVER_USER}
               Password: ${DEFAULT_PASSWORD}
 
           Please remember that this is an ephemeral environment and any work will be LOST with a simple pod restart.
@@ -42,12 +42,12 @@ parameters:
   value: RedHat
   required: true
 - displayName: KIE Admin User
-  description: KIE administrator username.
+  description: KIE administrator user name.
   name: KIE_ADMIN_USER
   value: adminUser
   required: false
 - displayName: KIE Server User
-  description: KIE server username. (Sets the org.kie.server.user system property)
+  description: KIE server user name. (Sets the org.kie.server.user system property)
   name: KIE_SERVER_USER
   value: executionUser
   required: false
@@ -57,7 +57,7 @@ parameters:
   value: 'false'
   required: false
 - displayName: KIE Server Controller User
-  description: KIE server controller username. (Sets the org.kie.server.controller.user system property)
+  description: KIE server controller user name. (Sets the org.kie.server.controller.user system property)
   name: KIE_SERVER_CONTROLLER_USER
   value: controllerUser
   required: false
@@ -168,16 +168,16 @@ parameters:
   name: MAVEN_REPO_URL
   example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
   required: false
-- displayName: Maven repository username
-  description: Username to access the Maven repository, if required.
+- displayName: Maven repository user name
+  description: User name for accessing the Maven repository, if required.
   name: MAVEN_REPO_USERNAME
   required: false
 - displayName: Maven repository password
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: Username for the Maven service hosted by Business Central
-  description: Username to access the Maven service hosted by Business Central inside EAP.
+- displayName: User name for the Maven service hosted by Business Central
+  description: User name for accessing the Maven service hosted by Business Central inside EAP.
   name: BUSINESS_CENTRAL_MAVEN_USERNAME
   required: true
   value: mavenUser
@@ -223,8 +223,8 @@ parameters:
   name: KIE_SERVER_SSO_SECRET
   example: "252793ed-7118-4ca8-8dab-5622fa97d892"
   required: false
-- displayName: RH-SSO Realm Admin Username
-  description: RH-SSO Realm Admin Username used to create the Client if it doesn't exist.
+- displayName: RH-SSO Realm admin user name
+  description: RH-SSO Realm admin user name for creating the Client if it doesn't exist.
   name: SSO_USERNAME
   required: false
 - displayName: RH-SSO Realm Admin Password
@@ -237,7 +237,7 @@ parameters:
   value: "false"
   required: false
 - displayName: RH-SSO Principal Attribute
-  description: RH-SSO Principal Attribute to use as username.
+  description: RH-SSO Principal Attribute to use as user name.
   name: SSO_PRINCIPAL_ATTRIBUTE
   value: preferred_username
   required: false
@@ -249,7 +249,7 @@ parameters:
 - displayName: LDAP Bind DN
   description: Bind DN used for authentication.
   name: AUTH_LDAP_BIND_DN
-  example: "uid=admin,ou=users,ou=exmample,ou=com"
+  example: "uid=admin,ou=users,ou=example,ou=com"
   required: false
 - displayName: LDAP Bind Credentials
   description: LDAP Credentials used for authentication.
@@ -286,16 +286,16 @@ parameters:
   example: "distinguishedName"
   required: false
 - displayName: LDAP Parse username
-  description: A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString.
+  description: A flag indicating if the DN is to be parsed for the user name. If set to true, the DN is parsed for the user name. If set to false the DN is not parsed for the user name. This option is used together with usernameBeginString and usernameEndString.
   name: AUTH_LDAP_PARSE_USERNAME
   example: "true"
   required: false
 - displayName: LDAP Username begin string
-  description: Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
+  description: Defines the String which is to be removed from the start of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
   name: AUTH_LDAP_USERNAME_BEGIN_STRING
   required: false
 - displayName: LDAP Username end string
-  description: Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
+  description: Defines the String which is to be removed from the end of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
   name: AUTH_LDAP_USERNAME_END_STRING
   required: false
 - displayName: LDAP Role attributeID
