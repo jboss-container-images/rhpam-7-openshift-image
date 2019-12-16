@@ -847,7 +847,7 @@ objects:
             - '-c'
             - >-
               replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
-          image: openshift3/ose-cli
+          image: registry.redhat.io/openshift3/ose-cli
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-postgresql-init
           terminationMessagePolicy: FallbackToLogsOnError
