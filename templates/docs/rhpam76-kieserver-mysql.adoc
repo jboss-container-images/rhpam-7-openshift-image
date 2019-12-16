@@ -28,22 +28,22 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:* | False
 |`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
 |`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | True
-|`MAVEN_REPO_USERNAME` | `EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | -- | False
+|`MAVEN_REPO_USERNAME` | `EXTERNAL_MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | -- | False
 |`MAVEN_REPO_PASSWORD` | `EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | -- | False
 |`BUSINESS_CENTRAL_SERVICE` | `WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | myapp-rhpamcentr | False
-|`BUSINESS_CENTRAL_MAVEN_USERNAME` | `RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven service hosted by Business Central inside EAP. | mavenUser | False
+|`BUSINESS_CENTRAL_MAVEN_USERNAME` | `RHPAMCENTR_MAVEN_REPO_USERNAME` | User name for accessing the Maven service hosted by Business Central inside EAP. | mavenUser | False
 |`BUSINESS_CENTRAL_MAVEN_PASSWORD` | `RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven service hosted by Business Central inside EAP. | maven1! | False
-|`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator username. | adminUser | False
+|`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator user name. | adminUser | False
 |`KIE_ADMIN_PWD` | `KIE_ADMIN_PWD` | KIE administrator password. | -- | False
-|`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | executionUser | False
+|`KIE_SERVER_USER` | `KIE_SERVER_USER` | KIE server user name. (Sets the org.kie.server.user system property) | executionUser | False
 |`KIE_SERVER_PWD` | `KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | -- | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You should only need to modify this if you installed the ImageStreams in a different namespace/project. | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam76-kieserver-openshift". | rhpam76-kieserver-openshift | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "1.0". | 1.0 | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.6.0". | 7.6.0 | True
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |`MYSQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the MySQL image is installed. The ImageStream is already installed in the openshift namespace. You should only need to modify this if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
 |`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7". | 5.7 | False
-|`KIE_SERVER_MYSQL_USER` | `RHPAM_USERNAME` | KIE server MySQL database username. | rhpam | False
+|`KIE_SERVER_MYSQL_USER` | `RHPAM_USERNAME` | KIE server MySQL database user name. | rhpam | False
 |`KIE_SERVER_MYSQL_PWD` | `RHPAM_PASSWORD` | KIE server MySQL database password. | -- | False
 |`KIE_SERVER_MYSQL_DB` | `RHPAM_DATABASE` | KIE server MySQL database name. | rhpam7 | False
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
@@ -61,18 +61,18 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | 30000 | False
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT | False
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version\|c2(alias2)=g2:a2:v2 | rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT | False
 |`KIE_SERVER_MGMT_DISABLED` | `KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | true | False
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
 |`KIE_SERVER_SSO_CLIENT` | `SSO_CLIENT` | KIE Server RH-SSO Client name. | -- | False
 |`KIE_SERVER_SSO_SECRET` | `SSO_SECRET` | KIE Server RH-SSO Client Secret. | 252793ed-7118-4ca8-8dab-5622fa97d892 | False
-|`SSO_USERNAME` | `SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist. | -- | False
+|`SSO_USERNAME` | `SSO_USERNAME` | RH-SSO Realm admin user name for creating the Client if it doesn't exist. | -- | False
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client. | -- | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | false | False
-|`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | preferred_username | False
+|`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | preferred_username | False
 |`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication. | ldap://myldap.example.com | False
-|`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=exmample,ou=com | False
+|`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | `AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | -- | False
 |`AUTH_LDAP_BASE_CTX_DN` | `AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | ou=users,ou=example,ou=com | False
@@ -80,9 +80,9 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`AUTH_LDAP_SEARCH_SCOPE` | `AUTH_LDAP_SEARCH_SCOPE` | The search scope to use. | `SUBTREE_SCOPE` | False
 |`AUTH_LDAP_SEARCH_TIME_LIMIT` | `AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | 10000 | False
 |`AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | `AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry's DN is used. | distinguishedName | False
-|`AUTH_LDAP_PARSE_USERNAME` | `AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString. | true | False
-|`AUTH_LDAP_USERNAME_BEGIN_STRING` | `AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | -- | False
-|`AUTH_LDAP_USERNAME_END_STRING` | `AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | -- | False
+|`AUTH_LDAP_PARSE_USERNAME` | `AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the user name. If set to true, the DN is parsed for the user name. If set to false the DN is not parsed for the user name. This option is used together with usernameBeginString and usernameEndString. | true | False
+|`AUTH_LDAP_USERNAME_BEGIN_STRING` | `AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | -- | False
+|`AUTH_LDAP_USERNAME_END_STRING` | `AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | -- | False
 |`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | `AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | memberOf | False
 |`AUTH_LDAP_ROLES_CTX_DN` | `AUTH_LDAP_ROLES_CTX_DN` | The fixed DN of the context to search for user roles. This is not the DN where the actual roles are, but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server, this is the DN where the user account is. | ou=groups,ou=example,ou=com | False
 |`AUTH_LDAP_ROLE_FILTER` | `AUTH_LDAP_ROLE_FILTER` | A search filter used to locate the roles associated with the authenticated user. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. The authenticated userDN is substituted into the filter anywhere a {1} is used. An example search filter that matches on the input username is (member={0}). An alternative that matches on the authenticated userDN is (member={1}). | (memberOf={1}) | False
@@ -261,7 +261,7 @@ tcpSocket on port 3306
 
 .82+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
-|`KIE_ADMIN_USER` | KIE administrator username. | `${KIE_ADMIN_USER}`
+|`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | KIE administrator password. | `${KIE_ADMIN_PWD}`
 |`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `${KIE_SERVER_MODE}`
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
@@ -270,20 +270,20 @@ tcpSocket on port 3306
 |`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
-|`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
+|`KIE_SERVER_USER` | KIE server user name. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
-|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration in format: containerId=groupId:artifactId:version\|c2=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
+|`KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version\|c2(alias2)=g2:a2:v2 | `${KIE_SERVER_CONTAINER_DEPLOYMENT}`
 |`MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_ID` | -- | repo-rhpamcentr
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | `${BUSINESS_CENTRAL_SERVICE}`
 |`RHPAMCENTR_MAVEN_REPO_PATH` | -- | `/maven2/`
-|`RHPAMCENTR_MAVEN_REPO_USERNAME` | Username to access the Maven service hosted by Business Central inside EAP. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
+|`RHPAMCENTR_MAVEN_REPO_USERNAME` | User name for accessing the Maven service hosted by Business Central inside EAP. | `${BUSINESS_CENTRAL_MAVEN_USERNAME}`
 |`RHPAMCENTR_MAVEN_REPO_PASSWORD` | Password to access the Maven service hosted by Business Central inside EAP. | `${BUSINESS_CENTRAL_MAVEN_PASSWORD}`
 |`EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | `${MAVEN_REPO_ID}`
 |`EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
-|`EXTERNAL_MAVEN_REPO_USERNAME` | Username to access the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
+|`EXTERNAL_MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
 |`EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | `${MAVEN_REPO_PASSWORD}`
 |`KIE_SERVER_MGMT_DISABLED` | Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy. | `${KIE_SERVER_MGMT_DISABLED}`
 |`KIE_SERVER_STARTUP_STRATEGY` | -- | OpenShiftStartupStrategy
@@ -295,7 +295,7 @@ tcpSocket on port 3306
 |`RHPAM_DATABASE` | KIE server MySQL database name. | `${KIE_SERVER_MYSQL_DB}`
 |`RHPAM_DRIVER` | -- | mariadb
 |`KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | `${KIE_SERVER_MYSQL_DIALECT}`
-|`RHPAM_USERNAME` | KIE server MySQL database username. | `${KIE_SERVER_MYSQL_USER}`
+|`RHPAM_USERNAME` | KIE server MySQL database user name. | `${KIE_SERVER_MYSQL_USER}`
 |`RHPAM_PASSWORD` | KIE server MySQL database password. | `${KIE_SERVER_MYSQL_PWD}`
 |`RHPAM_SERVICE_HOST` | -- | `${APPLICATION_NAME}-mysql`
 |`RHPAM_SERVICE_PORT` | -- | 3306
@@ -313,10 +313,10 @@ tcpSocket on port 3306
 |`SSO_REALM` | RH-SSO Realm name. | `${SSO_REALM}`
 |`SSO_SECRET` | KIE Server RH-SSO Client Secret. | `${KIE_SERVER_SSO_SECRET}`
 |`SSO_CLIENT` | KIE Server RH-SSO Client name. | `${KIE_SERVER_SSO_CLIENT}`
-|`SSO_USERNAME` | RH-SSO Realm Admin Username used to create the Client if it doesn't exist. | `${SSO_USERNAME}`
+|`SSO_USERNAME` | RH-SSO Realm admin user name for creating the Client if it doesn't exist. | `${SSO_USERNAME}`
 |`SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client. | `${SSO_PASSWORD}`
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
-|`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as username. | `${SSO_PRINCIPAL_ATTRIBUTE}`
+|`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTPS}`
 |`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication. | `${AUTH_LDAP_URL}`
@@ -328,9 +328,9 @@ tcpSocket on port 3306
 |`AUTH_LDAP_SEARCH_SCOPE` | The search scope to use. | `${AUTH_LDAP_SEARCH_SCOPE}`
 |`AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | `${AUTH_LDAP_SEARCH_TIME_LIMIT}`
 |`AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE` | The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry's DN is used. | `${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}`
-|`AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the username. If set to true, the DN is parsed for the username. If set to false the DN is not parsed for the username. This option is used together with usernameBeginString and usernameEndString. | `${AUTH_LDAP_PARSE_USERNAME}`
-|`AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_BEGIN_STRING}`
-|`AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the username. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_END_STRING}`
+|`AUTH_LDAP_PARSE_USERNAME` | A flag indicating if the DN is to be parsed for the user name. If set to true, the DN is parsed for the user name. If set to false the DN is not parsed for the user name. This option is used together with usernameBeginString and usernameEndString. | `${AUTH_LDAP_PARSE_USERNAME}`
+|`AUTH_LDAP_USERNAME_BEGIN_STRING` | Defines the String which is to be removed from the start of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_BEGIN_STRING}`
+|`AUTH_LDAP_USERNAME_END_STRING` | Defines the String which is to be removed from the end of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true. | `${AUTH_LDAP_USERNAME_END_STRING}`
 |`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | `${AUTH_LDAP_ROLE_ATTRIBUTE_ID}`
 |`AUTH_LDAP_ROLES_CTX_DN` | The fixed DN of the context to search for user roles. This is not the DN where the actual roles are, but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server, this is the DN where the user account is. | `${AUTH_LDAP_ROLES_CTX_DN}`
 |`AUTH_LDAP_ROLE_FILTER` | A search filter used to locate the roles associated with the authenticated user. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. The authenticated userDN is substituted into the filter anywhere a {1} is used. An example search filter that matches on the input username is (member={0}). An alternative that matches on the authenticated userDN is (member={1}). | `${AUTH_LDAP_ROLE_FILTER}`
@@ -343,7 +343,7 @@ tcpSocket on port 3306
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
 .3+| `${APPLICATION_NAME}-mysql`
-|`MYSQL_USER` | KIE server MySQL database username. | `${KIE_SERVER_MYSQL_USER}`
+|`MYSQL_USER` | KIE server MySQL database user name. | `${KIE_SERVER_MYSQL_USER}`
 |`MYSQL_PASSWORD` | KIE server MySQL database password. | `${KIE_SERVER_MYSQL_PWD}`
 |`MYSQL_DATABASE` | KIE server MySQL database name. | `${KIE_SERVER_MYSQL_DB}`
 |=======================================================================
