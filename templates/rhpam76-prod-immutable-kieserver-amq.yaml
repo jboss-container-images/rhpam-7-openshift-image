@@ -1178,10 +1178,7 @@ objects:
       template.alpha.openshift.io/wait-for-ready: "true"
   spec:
     strategy:
-      rollingParams:
-        maxSurge: 100%
-        maxUnavailable: 0
-      type: Rolling
+      type: Recreate
     triggers:
     - type: ImageChange
       imageChangeParams:
