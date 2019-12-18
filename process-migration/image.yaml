@@ -19,6 +19,12 @@ envs:
     - name: "SCRIPT_DEBUG"
       example: "true"
       description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+    - name: JBOSS_KIE_ADMIN_USER
+      example: "admin"
+      description: "Defines the admin user to access the Process Instance Migration Rest API."
+    - name: JBOSS_KIE_ADMIN_PWD
+      example: "s3cr3t"
+      description: "The admin password."
     - name: JBOSS_KIE_EXTRA_CLASSPATH
       example: "mariadb-java-client-2.4.2.jar,postgresql-42.2.6.jar"
       description: "Comma separated list of libraries to add to the classpath. They must be accessible."
