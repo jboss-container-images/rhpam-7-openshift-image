@@ -1461,8 +1461,8 @@ objects:
             - /bin/bash
             - '-c'
             - >-
-              replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
-          image: openshift3/ose-cli
+              replicas=$(oc get dc ${APPLICATION_NAME}-postgresql-1 -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql-1; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql-1 -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
+          image: registry.redhat.io/openshift3/ose-cli
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-postgresql-init-1
           terminationMessagePolicy: FallbackToLogsOnError
@@ -1809,8 +1809,8 @@ objects:
             - /bin/bash
             - '-c'
             - >-
-              replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
-          image: openshift3/ose-cli
+              replicas=$(oc get dc ${APPLICATION_NAME}-postgresql-2 -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql-2; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql-2 -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
+          image: registry.redhat.io/openshift3/ose-cli
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}-postgresql-init-2
           terminationMessagePolicy: FallbackToLogsOnError
