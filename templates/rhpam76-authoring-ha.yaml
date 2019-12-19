@@ -362,13 +362,28 @@ parameters:
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit.
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
-  value: 2Gi
-  required: false
+  value: "8Gi"
+  required: true
+- displayName: Business Central Container JVM Max Memory Ratio
+  description: Business Central Container JVM max memory ratio. -Xmx is set to a ratio of the container available memory. The default is 80 which means 80% of the available memory is used as an upper boundary. You can skip this mechanism by setting this value to 0 in which case no -Xmx option is added.
+  name: BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO
+  value: "80"
+  required: true
+- displayName: Business Central Container CPU Limit
+  description: Business Central Container cpu limit.
+  name: BUSINESS_CENTRAL_CPU_LIMIT
+  value: "2000m"
+  required: true
 - displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit.
   name: KIE_SERVER_MEMORY_LIMIT
-  value: 1Gi
-  required: false
+  value: "1Gi"
+  required: true
+- displayName: KIE Server Container CPU Limit
+  description: KIE server Container cpu limit.
+  name: KIE_SERVER_CPU_LIMIT
+  value: "1000m"
+  required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL.
   name: SSO_URL
@@ -899,7 +914,11 @@ objects:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
+              cpu: ${BUSINESS_CENTRAL_CPU_LIMIT}
+              memory: ${BUSINESS_CENTRAL_MEMORY_LIMIT}
+            requests:
+              cpu: ${BUSINESS_CENTRAL_CPU_LIMIT}
+              memory: ${BUSINESS_CENTRAL_MEMORY_LIMIT}
           volumeMounts:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
@@ -1011,6 +1030,8 @@ objects:
             value: "${APPFORMER_JMS_BROKER_USER}"
           - name: APPFORMER_JMS_BROKER_PASSWORD
             value: "${APPFORMER_JMS_BROKER_PASSWORD}"
+          - name: JAVA_MAX_MEM_RATIO
+            value: "${BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -1145,7 +1166,11 @@ objects:
                 - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
           resources:
             limits:
-              memory: "${KIE_SERVER_MEMORY_LIMIT}"
+              cpu: ${KIE_SERVER_CPU_LIMIT}
+              memory: ${KIE_SERVER_MEMORY_LIMIT}
+            requests:
+              cpu: ${KIE_SERVER_CPU_LIMIT}
+              memory: ${KIE_SERVER_MEMORY_LIMIT}
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
