@@ -86,8 +86,11 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`GIT_HOOKS_DIR` | `GIT_HOOKS_DIR` | The directory to use for git hooks, if required. | `/opt/kie/data/git/hooks` | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | 60000 | True
 |`BUSINESS_CENTRAL_VOLUME_CAPACITY` | -- | Size of the persistent storage for Business Central runtime data. | 1Gi | True
-|`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit. | 2Gi | False
-|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
+|`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit. | 8Gi | True
+|`BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO` | `JAVA_MAX_MEM_RATIO` | Business Central Container JVM max memory ratio. -Xmx is set to a ratio of the container available memory. The default is 80 which means 80% of the available memory is used as an upper boundary. You can skip this mechanism by setting this value to 0 in which case no -Xmx option is added. | 80 | True
+|`BUSINESS_CENTRAL_CPU_LIMIT` | -- | Business Central Container cpu limit. | 2000m | True
+|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | True
+|`KIE_SERVER_CPU_LIMIT` | -- | KIE server Container cpu limit. | 1000m | True
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
 |`BUSINESS_CENTRAL_SSO_CLIENT` | `SSO_CLIENT` | Business Central RH-SSO Client name. | -- | False
@@ -322,7 +325,7 @@ tcpSocket on port 3306
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.70+| `${APPLICATION_NAME}-rhpamcentr`
+.71+| `${APPLICATION_NAME}-rhpamcentr`
 |`APPLICATION_USERS_PROPERTIES` | -- | `/opt/kie/data/configuration/application-users.properties`
 |`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
@@ -359,6 +362,7 @@ tcpSocket on port 3306
 |`APPFORMER_JMS_BROKER_PORT` | -- | 61616
 |`APPFORMER_JMS_BROKER_USER` | The user name for connecting to the JMS broker. | `${APPFORMER_JMS_BROKER_USER}`
 |`APPFORMER_JMS_BROKER_PASSWORD` | The password to connect to the JMS broker. | `${APPFORMER_JMS_BROKER_PASSWORD}`
+|`JAVA_MAX_MEM_RATIO` | Business Central Container JVM max memory ratio. -Xmx is set to a ratio of the container available memory. The default is 80 which means 80% of the available memory is used as an upper boundary. You can skip this mechanism by setting this value to 0 in which case no -Xmx option is added. | `${BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO}`
 |`SSO_URL` | RH-SSO URL. | `${SSO_URL}`
 |`SSO_OPENIDCONNECT_DEPLOYMENTS` | -- | ROOT.war
 |`SSO_REALM` | RH-SSO Realm name. | `${SSO_REALM}`
