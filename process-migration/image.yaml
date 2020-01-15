@@ -55,6 +55,7 @@ modules:
           - name: os-logging
           - name: jboss-kie-process-migration
 packages:
+      manager: microdnf
       content_sets_file: content_sets.yml
       install:
           - hostname
