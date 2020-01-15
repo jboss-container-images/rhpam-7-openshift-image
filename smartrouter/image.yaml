@@ -19,6 +19,9 @@ envs:
     - name: "SCRIPT_DEBUG"
       example: "true"
       description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+    - name: JAVA_OPTS_APPEND
+      example: "-Dsome.property=foo"
+      description: User specified Java options to be appended to generated options in JAVA_OPTS.
     - name: "KIE_SERVER_ROUTER_ID"
       example: "kie-server-router"
       description: "Router ID used when connecting to the controller (property org.kie.server.router.id)"
