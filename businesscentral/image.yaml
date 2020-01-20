@@ -16,6 +16,8 @@ labels:
     - name: "io.openshift.tags"
       value: "javaee,eap,eap7,rhpam,rhpam7"
 envs:
+    - name: "LOGGER_CATEGORIES"
+      value: "org.infinispan.client.hotrod.impl.protocol.Codec21:ERROR, org.infinispan.protostream.impl.AnnotatedDescriptorImpl:ERROR"
     - name: "HTTPS_ENABLE_HTTP2"
       value: "true"
     - name: "SCRIPT_DEBUG"
