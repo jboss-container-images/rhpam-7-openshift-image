@@ -19,60 +19,25 @@ labels:
   rhpam: "7.7"
 message: |-
           A new persistent HA Process Automation Manager application has been created in your project.
-          The user name/password for accessing the Business Central interface is
+          The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
+          KIE_ADMIN_USER and KIE_ADMIN_PWD
 
-              User name: ${KIE_ADMIN_USER}
-              Password: ${KIE_ADMIN_PWD}
-
-          The user name/password for calls to the KIE server is
-
-              User name: ${KIE_SERVER_USER}
-              Password: ${KIE_SERVER_PWD}
-
-          Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}" containing the
-          ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
+          Please be sure to create the secrets named "${CREDENTIALS_SECRET}", "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}"
+          containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
   name: APPLICATION_NAME
   value: myapp
   required: true
-- displayName: KIE Admin User
-  description: KIE administrator user name.
-  name: KIE_ADMIN_USER
-  value: adminUser
-  required: false
-- displayName: KIE Admin Password
-  description: KIE administrator password.
-  name: KIE_ADMIN_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
-- displayName: KIE Server Controller User
-  description: KIE server controller user name. (Sets the org.kie.server.controller.user system property)
-  name: KIE_SERVER_CONTROLLER_USER
-  value: controllerUser
-  required: false
-- displayName: KIE Server Controller Password
-  description: KIE server controller password. (Sets the org.kie.server.controller.pwd system property)
-  name: KIE_SERVER_CONTROLLER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
+- displayName: Credentials secret
+  description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values
+  name: CREDENTIALS_SECRET
+  example: rhpam-credentials
+  required: true
 - displayName: KIE Server Controller Token
   description: KIE server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property)
   name: KIE_SERVER_CONTROLLER_TOKEN
-  required: false
-- displayName: KIE Server User
-  description: KIE server user name. (Sets the org.kie.server.user system property)
-  name: KIE_SERVER_USER
-  value: executionUser
-  required: false
-- displayName: KIE Server Password
-  description: KIE server password. (Sets the org.kie.server.pwd system property)
-  name: KIE_SERVER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
   required: false
 - displayName: KIE Server Bypass Auth User
   description: Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property)
@@ -333,17 +298,6 @@ parameters:
   description: Password to access the Maven repository, if required.
   name: MAVEN_REPO_PASSWORD
   required: false
-- displayName: User name for the Maven service hosted by Business Central
-  description: User name for accessing the Maven service hosted by Business Central inside EAP.
-  name: BUSINESS_CENTRAL_MAVEN_USERNAME
-  required: true
-  value: mavenUser
-- displayName: Password for the Maven service hosted by Business Central
-  description: Password to access the Maven service hosted by Business Central inside EAP.
-  name: BUSINESS_CENTRAL_MAVEN_PASSWORD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: true
 - displayName: Git hooks directory
   description: The directory to use for git hooks, if required.
   name: GIT_HOOKS_DIR
@@ -961,9 +915,15 @@ objects:
           - name: APPLICATION_ROLES_PROPERTIES
             value: "/opt/kie/data/configuration/application-roles.properties"
           - name: KIE_ADMIN_USER
-            value: "${KIE_ADMIN_USER}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
           - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
@@ -976,16 +936,8 @@ objects:
           - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
             value: "true"
 ## OpenShift Enhancement END
-          - name: KIE_SERVER_CONTROLLER_USER
-            value: "${KIE_SERVER_CONTROLLER_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_CONTROLLER_PWD}"
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_CONTROLLER_TOKEN}"
-          - name: KIE_SERVER_USER
-            value: "${KIE_SERVER_USER}"
-          - name: KIE_SERVER_PWD
-            value: "${KIE_SERVER_PWD}"
           - name: WORKBENCH_ROUTE_NAME
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: MAVEN_MIRROR_URL
@@ -998,10 +950,16 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: KIE_MAVEN_USER
-            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
-          - name: KIE_MAVEN_PWD
-            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: GIT_HOOKS_DIR
             value: "${GIT_HOOKS_DIR}"
           - name: HTTPS_KEYSTORE_DIR
@@ -1233,9 +1191,15 @@ objects:
           - name: RHPAM_JTA
             value: "true"
           - name: KIE_ADMIN_USER
-            value: "${KIE_ADMIN_USER}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
           - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
           - name: KIE_SERVER_MODE
@@ -1254,10 +1218,6 @@ objects:
             value: "${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "OpenShiftStartupStrategy"
-          - name: KIE_SERVER_PWD
-            value: "${KIE_SERVER_PWD}"
-          - name: KIE_SERVER_USER
-            value: "${KIE_SERVER_USER}"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
@@ -1270,10 +1230,6 @@ objects:
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
-          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
-            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
-          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
-            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
           - name: EXTERNAL_MAVEN_REPO_ID
             value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
