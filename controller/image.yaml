@@ -41,10 +41,10 @@ envs:
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
     - name: "KIE_ADMIN_USER"
       example: "adminUser"
-      description: "KIE administrator username"
+      description: "Username for basic authentication used to access the controller externally and to connect with the execution server (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
     - name: "KIE_ADMIN_PWD"
       example: "admin1!"
-      description: "KIE administrator password"
+      description: "Password for basic authentication used to access the controller externally and to connect with the execution server (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
 ports:
     - value: 8080
     - value: 8443
