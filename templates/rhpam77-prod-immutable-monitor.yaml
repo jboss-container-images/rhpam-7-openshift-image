@@ -19,22 +19,18 @@ labels:
   rhpam: "7.7"
 message: |-
   A new environment has been set up for Red Hat Process Automation Manager 7.
-  To access the Business Central Monitoring Console use the following credentials
-
-      User name: ${KIE_SERVER_MONITOR_USER}
-      Password: ${KIE_SERVER_MONITOR_PWD}
+  The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
+  KIE_ADMIN_USER and KIE_ADMIN_PWD
 
   To create a new KIE server and connect to this monitoring console/router, use the following "oc" command:
   oc new-app -f rhpam77-prod-immutable-kieserver.yaml \
-    -p KIE_ADMIN_USER=${KIE_ADMIN_USER} -p KIE_ADMIN_PWD=${KIE_ADMIN_PWD} \
-    -p KIE_SERVER_USER=${KIE_SERVER_USER} -p KIE_SERVER_PWD=${KIE_SERVER_PWD} \
-    -p KIE_SERVER_MONITOR_USER=${KIE_SERVER_MONITOR_USER} -p KIE_SERVER_MONITOR_PWD=${KIE_SERVER_MONITOR_PWD} \
+    -p CREDENTIALS_SECRET=${CREDENTIALS_SECRET} \
     -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon \
     -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter \
     -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
     -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
 
-  Please be sure to create the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_ROUTER_HTTPS_SECRET}"
+  Please be sure to create the secrets named "${CREDENTIALS_SECRET}", "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_ROUTER_HTTPS_SECRET}"
   containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
@@ -65,38 +61,11 @@ parameters:
   name: BUSINESS_CENTRAL_SERVICE
   example: "myapp-rhpamcentr"
   required: false
-- displayName: User name for the Maven service hosted by Business Central
-  description: User name for accessing the Maven service hosted by Business Central inside EAP.
-  name: BUSINESS_CENTRAL_MAVEN_USERNAME
-  example: "mavenUser"
-  required: false
-- displayName: Password for the Maven service hosted by Business Central
-  description: Password to access the Maven service hosted by Business Central inside EAP.
-  name: BUSINESS_CENTRAL_MAVEN_PASSWORD
-  example: "maven1!"
-  required: false
-- displayName: KIE Admin User
-  description: KIE administrator user name
-  name: KIE_ADMIN_USER
-  value: adminUser
-  required: false
-- displayName: KIE Admin Password
-  description: KIE administrator password
-  name: KIE_ADMIN_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
-- displayName: KIE Server User
-  description: KIE server user name (Sets the org.kie.server.user system property)
-  name: KIE_SERVER_USER
-  value: executionUser
-  required: false
-- displayName: KIE Server Password
-  description: KIE server password, used to connect to KIE servers. If this parameter is not set, the password is automatically generated. (Sets the org.kie.server.pwd system property)
-  name: KIE_SERVER_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
-  required: false
+- displayName: Credentials secret
+  description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values
+  name: CREDENTIALS_SECRET
+  example: rhpam-credentials
+  required: true
 ## OpenShift Enhancement BEGIN
 - displayName: Enable KIE server global discovery
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
@@ -177,17 +146,6 @@ parameters:
   description: The password for the keystore and certificate.
   name: KIE_SERVER_ROUTER_HTTPS_PASSWORD
   value: mykeystorepass
-  required: false
-- displayName: KIE Server Monitor User
-  description: KIE server monitor user name. (Sets the org.kie.server.controller.user system property)
-  name: KIE_SERVER_MONITOR_USER
-  value: monitorUser
-  required: false
-- displayName: KIE Server Monitor Password
-  description: KIE server monitor password. (Sets the org.kie.server.controller.pwd system property)
-  name: KIE_SERVER_MONITOR_PWD
-  from: "[a-zA-Z]{6}[0-9]{1}!"
-  generate: expression
   required: false
 - displayName: KIE Server Monitor Token
   description: KIE server monitor token for bearer authentication. (Sets the org.kie.server.controller.token system property)
@@ -628,14 +586,16 @@ objects:
             value: "/opt/kie/data/configuration/application-users.properties"
           - name: APPLICATION_ROLES_PROPERTIES
             value: "/opt/kie/data/configuration/application-roles.properties"
-          - name: KIE_ADMIN_PWD
-            value: "${KIE_ADMIN_PWD}"
           - name: KIE_ADMIN_USER
-            value: "${KIE_ADMIN_USER}"
-          - name: KIE_SERVER_PWD
-            value: "${KIE_SERVER_PWD}"
-          - name: KIE_SERVER_USER
-            value: "${KIE_SERVER_USER}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: KIE_ADMIN_PWD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: MAVEN_REPOS
             value: "RHPAMCENTR,EXTERNAL"
           - name: RHPAMCENTR_MAVEN_REPO_ID
@@ -645,9 +605,15 @@ objects:
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
           - name: RHPAMCENTR_MAVEN_REPO_USERNAME
-            value: "${BUSINESS_CENTRAL_MAVEN_USERNAME}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
           - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
-            value: "${BUSINESS_CENTRAL_MAVEN_PASSWORD}"
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: EXTERNAL_MAVEN_REPO_ID
             value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
@@ -666,10 +632,6 @@ objects:
           - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
             value: "true"
 ## OpenShift Enhancement END
-          - name: KIE_SERVER_CONTROLLER_USER
-            value: "${KIE_SERVER_MONITOR_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_MONITOR_PWD}"
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: HTTPS_KEYSTORE_DIR
@@ -838,10 +800,16 @@ objects:
             value: "${KIE_SERVER_ROUTER_HTTPS_PASSWORD}"
           - name: KIE_SERVER_ROUTER_TLS_KEYSTORE
             value: "/etc/smartrouter-secret-volume/${KIE_SERVER_ROUTER_HTTPS_KEYSTORE}"
-          - name: KIE_SERVER_CONTROLLER_USER
-            value: "${KIE_SERVER_MONITOR_USER}"
-          - name: KIE_SERVER_CONTROLLER_PWD
-            value: "${KIE_SERVER_MONITOR_PWD}"
+          - name: KIE_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: KIE_ADMIN_PWD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_MONITOR_TOKEN}"
           - name: KIE_SERVER_CONTROLLER_SERVICE
