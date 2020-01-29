@@ -625,7 +625,7 @@ objects:
           - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
             value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
           - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-            value: "true"
+            value: "false"
 ## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_CONTROLLER_TOKEN}"
@@ -741,10 +741,7 @@ objects:
   spec:
     revisionHistoryLimit: 10
     strategy:
-      rollingParams:
-        maxSurge: 100%
-        maxUnavailable: 0
-      type: Rolling
+      type: Recreate
     triggers:
     - type: ImageChange
       imageChangeParams:
@@ -869,6 +866,10 @@ objects:
             value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
           - name: KIE_SERVER_BYPASS_AUTH_USER
             value: "${KIE_SERVER_BYPASS_AUTH_USER}"
+          - name: KIE_SERVER_CONTROLLER_SERVICE
+            value: "${APPLICATION_NAME}-rhpamcentr"
+          - name: KIE_SERVER_CONTROLLER_PROTOCOL
+            value: "ws"
           - name: KIE_SERVER_ID
             valueFrom:
               fieldRef:
@@ -878,7 +879,7 @@ objects:
           - name: KIE_SERVER_PERSISTENCE_DS
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "OpenShiftStartupStrategy"
+            value: "ControllerBasedStartupStrategy"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
@@ -1020,7 +1021,7 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
   spec:
     accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
     resources:
       requests:
         storage: "${DB_VOLUME_CAPACITY}"
