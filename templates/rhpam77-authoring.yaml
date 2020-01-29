@@ -165,7 +165,7 @@ parameters:
 - displayName: KIE ServerTemplate Cache TTL
   description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
   name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
-  value: "60000"
+  value: "5000"
   required: false
 ## OpenShift Enhancement END
 - displayName: ImageStream Namespace
