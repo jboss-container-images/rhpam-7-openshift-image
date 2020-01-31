@@ -331,7 +331,7 @@ tcpSocket on port 3306
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | Enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}`
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | `${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}`
-|`KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED` | -- | true
+|`KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED` | -- | false
 |`KIE_SERVER_CONTROLLER_USER` | KIE server controller username. (Sets the org.kie.server.controller.user system property) | `${KIE_SERVER_CONTROLLER_USER}`
 |`KIE_SERVER_CONTROLLER_PWD` | KIE server controller password. (Sets the org.kie.server.controller.pwd system property) | `${KIE_SERVER_CONTROLLER_PWD}`
 |`KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | `${KIE_SERVER_CONTROLLER_TOKEN}`
@@ -414,9 +414,11 @@ tcpSocket on port 3306
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
 |`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
+|`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
-|`KIE_SERVER_STARTUP_STRATEGY` | -- | OpenShiftStartupStrategy
+|`KIE_SERVER_STARTUP_STRATEGY` | -- | ControllerBasedStartupStrategy
 |`KIE_SERVER_PWD` | KIE server password. (Sets the org.kie.server.pwd system property) | `${KIE_SERVER_PWD}`
 |`KIE_SERVER_USER` | KIE server username. (Sets the org.kie.server.user system property) | `${KIE_SERVER_USER}`
 |`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
