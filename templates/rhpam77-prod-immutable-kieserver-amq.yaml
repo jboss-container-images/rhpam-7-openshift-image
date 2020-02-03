@@ -254,12 +254,12 @@ parameters:
   example: queue/KIE.SERVER.EXECUTOR
   required: false
 - displayName: Enable KIE Server JMS Signal Queue
-  description: "JMS queue for signals"
+  description: "Enable the Signal configuration through JMS"
   name: KIE_SERVER_JMS_ENABLE_SIGNAL
   value: "true"
   required: false
 - displayName: KIE Server JMS Signal Queue
-  description: "Enable the Signal configuration through JMS"
+  description: "JMS queue for signals"
   name: KIE_SERVER_JMS_QUEUE_SIGNAL
   example: queue/KIE.SERVER.SIGNAL
   required: false
