@@ -497,14 +497,14 @@ objects:
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
+            value: "true"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
             value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
             value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}"
           - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
             value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
-          - name: KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED
-            value: "true"
 ## OpenShift Enhancement END
           - name: MAVEN_REPO_ID
             value: "${MAVEN_REPO_ID}"

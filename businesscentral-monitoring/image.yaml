@@ -55,9 +55,9 @@ envs:
     - name: "KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL"
       example: "60000"
       description: "KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)"
-    - name: "KIE_WORKBENCH_CONTROLLER_OPENSHIFT_ENABLED"
+    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED"
       example: "true"
-      description: "If set to true, turns on OpenShift integration feature (Sets the org.kie.workbench.controller.openshift.enabled system property)"
+      description: "If set to true, turns on OpenShift integration feature (Sets the org.kie.server.controller.openshift.enabled system property)"
 ## OpenShift Enhancement END
     - name: "KIE_SERVER_TOKEN"
       example: "dasd373egds"
