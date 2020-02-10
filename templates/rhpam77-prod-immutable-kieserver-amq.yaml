@@ -350,10 +350,6 @@ parameters:
   value: openshift
   required: true
 ## End of AMQ configuration
-- displayName: External authentication only
-  description: If set to true, only users defined in the external login module (SSO/LDAP) will be allowed. By default also allow internal application users.
-  name: EXTERNAL_AUTH_ONLY
-  required: false
 - displayName: RH-SSO URL
   description: RH-SSO URL
   name: SSO_URL
@@ -1077,8 +1073,6 @@ objects:
             value: "${APPLICATION_NAME}-kieserver-ping"
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: "8888"
-          - name: EXTERNAL_AUTH_ONLY
-            value: "${EXTERNAL_AUTH_ONLY}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

@@ -233,10 +233,6 @@ parameters:
   name: KIE_SERVER_MEMORY_LIMIT
   value: 1Gi
   required: false
-- displayName: External authentication only
-  description: If set to true, only users defined in the external login module (SSO/LDAP) will be allowed. By default also allow internal application users.
-  name: EXTERNAL_AUTH_ONLY
-  required: false
 - displayName: RH-SSO URL
   description: RH-SSO URL.
   name: SSO_URL
@@ -651,8 +647,6 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
           - name: WORKBENCH_ROUTE_NAME
             value: "${APPLICATION_NAME}-rhpamcentr"
-          - name: EXTERNAL_AUTH_ONLY
-            value: "${EXTERNAL_AUTH_ONLY}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -918,8 +912,6 @@ objects:
             value: "${KIE_SERVER_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${KIE_SERVER_HTTPS_PASSWORD}"
-          - name: EXTERNAL_AUTH_ONLY
-            value: "${EXTERNAL_AUTH_ONLY}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
