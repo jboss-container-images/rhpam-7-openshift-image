@@ -485,7 +485,7 @@ objects:
             protocol: TCP
           env:
           - name: WORKBENCH_ROUTE_NAME
-            value: "${APPLICATION_NAME}-rhpamcentr"
+            value: "insecure-${APPLICATION_NAME}-rhpamcentr"
           - name: KIE_ADMIN_USER
             value: "${KIE_ADMIN_USER}"
           - name: KIE_ADMIN_PWD
