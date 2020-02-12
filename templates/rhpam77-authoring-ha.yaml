@@ -950,16 +950,6 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
-          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: "${CREDENTIALS_SECRET}"
-                key: KIE_ADMIN_USER
-          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: "${CREDENTIALS_SECRET}"
-                key: KIE_ADMIN_PWD
           - name: GIT_HOOKS_DIR
             value: "${GIT_HOOKS_DIR}"
           - name: HTTPS_KEYSTORE_DIR
@@ -1231,6 +1221,16 @@ objects:
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: RHPAMCENTR_MAVEN_REPO_PATH
             value: "/maven2/"
+          - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: EXTERNAL_MAVEN_REPO_ID
             value: "${MAVEN_REPO_ID}"
           - name: EXTERNAL_MAVEN_REPO_URL
