@@ -1092,6 +1092,16 @@ objects:
             containerPort: 9000
             protocol: TCP
           env:
+          - name: KIE_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: KIE_ADMIN_PWD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
           - name: KIE_SERVER_ROUTER_HOST
             valueFrom:
               fieldRef:
