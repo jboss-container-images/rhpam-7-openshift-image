@@ -30,8 +30,7 @@ message: |-
     -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
     -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
 
-  You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secret named "${KIE_SERVER_ROUTER_HTTPS_SECRET}"
-  containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
+  You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secret named "${KIE_SERVER_ROUTER_HTTPS_SECRET}" containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.

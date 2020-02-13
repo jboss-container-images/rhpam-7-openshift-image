@@ -22,7 +22,7 @@ message: |-
           The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
           KIE_ADMIN_USER and KIE_ADMIN_PWD
 
-          You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secrets named  "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}"
+          You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secrets named "${BUSINESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}"
           containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
 - displayName: Application Name
