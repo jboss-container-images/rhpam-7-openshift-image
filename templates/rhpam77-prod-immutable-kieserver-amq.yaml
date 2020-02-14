@@ -22,7 +22,7 @@ message: |-
           The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
           KIE_ADMIN_USER and KIE_ADMIN_PWD
 
-          Please be sure to create the secret named "${CREDENTIALS_SECRET}", "${KIE_SERVER_HTTPS_SECRET}" containing the ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
+          You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secret named "${KIE_SERVER_HTTPS_SECRET}" containing the ${KIE_SERVER_HTTPS_KEYSTORE} file used for serving secure content.
 parameters:
 - displayName: Application Name
   description: The name for the application.
@@ -37,8 +37,8 @@ parameters:
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images
     are installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStreams in a
-    different namespace/project.
+    You need to modify this parameter only if you installed the ImageStream in a
+    different namespace/project. Default is "openshift".
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
@@ -61,7 +61,7 @@ parameters:
 - displayName: PostgreSQL ImageStream Namespace
   description: Namespace in which the ImageStream for the PostgreSQL image is
     installed. The ImageStream is already installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStream in a
+    You need to modify this parameter only if you installed the ImageStream in a
     different namespace/project. Default is "openshift".
   name: POSTGRESQL_IMAGE_STREAM_NAMESPACE
   value: "openshift"
@@ -344,8 +344,8 @@ parameters:
 - displayName: AMQ ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat AMQ images are
     installed. These ImageStreams are normally installed in the openshift namespace.
-    You should only need to modify this if you installed the ImageStreams in a
-    different namespace/project.
+    You need to modify this parameter only if you installed the ImageStream in a
+    different namespace/project. Default is "openshift".
   name: AMQ_IMAGE_STREAM_NAMESPACE
   value: openshift
   required: true
