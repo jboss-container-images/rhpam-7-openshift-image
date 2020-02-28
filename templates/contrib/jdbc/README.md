@@ -263,6 +263,7 @@ create it using command line:
 $ oc new-app rhpam77-kieserver-externaldb \
   -p MAVEN_REPO_URL=http://some.mave.repo \
   -p IMAGE_STREAM_NAMESPACE=rhpam-externaldb \
+  -p CREDENTIALS_SECRET=rhpam-credentials \
   -p KIE_SERVER_EXTERNALDB_DIALECT=org.jbpm.persistence.jpa.hibernate.DisabledFollowOnLockOracle10gDialect \
   -p KIE_SERVER_EXTERNALDB_JNDI=java:jboss/datasources/jbpmDS \
   -p KIE_SERVER_EXTERNALDB_URL=jdbc:oracle:thin:@<ORACLE_DB_ADDRESS>:1521:bpms \
