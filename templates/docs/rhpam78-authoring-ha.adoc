@@ -84,6 +84,8 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`BUSINESS_CENTRAL_CPU_LIMIT` | -- | Business Central Container CPU limit. | 2000m | True
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | True
 |`KIE_SERVER_CPU_LIMIT` | -- | KIE server Container CPU limit. | 1000m | True
+|`BUSINESS_CENTRAL_CONTAINER_REPLICAS` | -- | Business Central Container Replicas, defines how many Business Central containers will be started. | 2 | True
+|`KIE_SERVER_CONTAINER_REPLICAS` | -- | KIE Server Container Replicas, defines how many KIE Server containers will be started. | 2 | True
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
 |`BUSINESS_CENTRAL_SSO_CLIENT` | `SSO_CLIENT` | Business Central RH-SSO Client name. | -- | False
