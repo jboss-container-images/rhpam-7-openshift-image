@@ -205,7 +205,7 @@ parameters:
   displayName: Image
   name: AMQ_BROKER_IMAGE
   required: true
-  value: registry.redhat.io/amq7/amq-broker:7.5
+  value: registry.redhat.io/amq7/amq-broker:7.6
 - displayName: AMQ Role
   description: User role for standard broker user.
   name: AMQ_ROLE

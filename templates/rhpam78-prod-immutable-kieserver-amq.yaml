@@ -340,7 +340,7 @@ parameters:
   description: "AMQ Broker Image"
   name: AMQ_BROKER_IMAGESTREAM_NAME
   required: true
-  value: amq-broker:7.5
+  value: amq-broker:7.6
 - displayName: AMQ ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat AMQ images are
     installed. These ImageStreams are normally installed in the openshift namespace.
