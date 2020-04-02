@@ -338,6 +338,16 @@ parameters:
   name: KIE_SERVER_CPU_LIMIT
   value: "1000m"
   required: true
+- displayName: Business Central Container Replicas
+  description: Business Central Container Replicas, defines how many Business Central containers will be started.
+  name: BUSINESS_CENTRAL_CONTAINER_REPLICAS
+  value: '2'
+  required: true
+- displayName: KIE Server Container Replicas
+  description: KIE Server Container Replicas, defines how many KIE Server containers will be started.
+  name: KIE_SERVER_CONTAINER_REPLICAS
+  value: '2'
+  required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL.
   name: SSO_URL
@@ -850,7 +860,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${BUSINESS_CENTRAL_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 2
+    replicas: "${{BUSINESS_CENTRAL_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
     template:
@@ -1080,7 +1090,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 2
+    replicas: "${{KIE_SERVER_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
     template:
