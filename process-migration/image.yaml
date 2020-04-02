@@ -26,8 +26,8 @@ envs:
       example: "s3cr3t"
       description: "The admin password."
     - name: JBOSS_KIE_EXTRA_CLASSPATH
-      example: "mariadb-java-client-2.4.2.jar,postgresql-42.2.6.jar"
-      description: "Comma separated list of libraries to add to the classpath. They must be accessible."
+      example: "/opt/rhpam-process-migration/drivers/mariadb-java-client.jar;/opt/rhpam-process-migration/drivers/postgresql-jdbc.jar"
+      description: "List of libraries to add to the classpath separated by colon."
     - name: JBOSS_KIE_EXTRA_CONFIG
       example: "/opt/rhpam-process-migration/config-extra/pim-config.yaml"
       description: "Path to a file including a yaml configuration file to override default Thorntail configuration and target KIE Servers"
@@ -55,6 +55,7 @@ modules:
           - name: os-logging
           - name: jboss-kie-process-migration
 packages:
+      manager: microdnf
       content_sets_file: content_sets.yml
       install:
           - hostname
