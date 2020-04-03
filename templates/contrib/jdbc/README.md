@@ -23,7 +23,7 @@ It adds a extra layer on top of the base image which contains:
 
 ##### Pre requisites:
 
-To interact with this repo you should install the CEKit 3.0.1:
+To interact with this repo you should install the CEKit 3.2.0:
 
 - https://docs.cekit.io/en/latest/
 
