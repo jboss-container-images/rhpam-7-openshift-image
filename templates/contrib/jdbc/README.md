@@ -3,7 +3,7 @@
 This repo provide a easy way to build your own JDBC extension driver images to use within Red Hat Process Automation Manager images
 on OpenShift.
 
-#### What is a extension image?
+## About the extension image
 
 The extension image is basically a minimal image that include all the files needed to configure a jdbc driver
 in the image used for deployment.
@@ -11,22 +11,20 @@ in the image used for deployment.
 It adds a extra layer on top of the base image which contains:
 
 - the jdbc driver
-    - needs to respect the JBoss EAP module structure: i.e:
+  - needs to respect the JBoss EAP module structure: i.e:
             */extensions/modules/org/postgresql96/main/*
 - the install.properties which contains the JBoss module information, this file is populated during the build image
  , [here](modules/kie-custom-jdbc-driver/added/base_install.properties) you can find the base file used.
 
 - the install.sh script which is responsible to configure the JBoss module: [install.sh](modules/kie-custom-jdbc-driver/added/install.sh)
 
+## Before you begin
 
-## Before begin
-
-##### Pre requisites:
+### Pre-requisites
 
 To interact with this repo you should install the CEKit 3.2.0:
 
-- https://docs.cekit.io/en/latest/
-
+- [Download latest CEKit](https://docs.cekit.io/en/latest/)
 
 The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
 
@@ -40,15 +38,13 @@ The drivers images are based on the supported configurations for Red Hat Process
 | PosgtgreSQL | 10.1, 10.1 Enterprise   | postgresql-42.2.5.jar           |
 | Sybase      | 16.0                    | jconn4-16.0_PL05.jar            |
 
-
 For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM74).
 
-#### Extension Images
+## Extension Images
 
 There is a few extension images public available on quay.io:
 
-
-##### MySQL:
+### MySQL
 
 Driver version: 8.0.12
 
@@ -56,7 +52,7 @@ Driver version: 8.0.12
 quay.io/kiegroup/jboss-kie-mysql-extension-openshift-image:8.0.12
 ```
 
-##### MariaDB:
+### MariaDB
 
 Driver version: 2.3.0
 
@@ -64,7 +60,7 @@ Driver version: 2.3.0
 quay.io/kiegroup/jboss-kie-mariadb-extension-openshift-image:2.3.0
 ```
 
-##### PostgreSQL:
+### PostgreSQL
 
 Driver version: 42.2.5
 
@@ -75,131 +71,124 @@ quay.io/kiegroup/jboss-kie-postgresql-extension-openshift-image:42.2.5
 You can import these images into you OpenShift instance using the extension-image-streams.yaml with the following command:
 
 ```bash
-$ oc create -f extension-image-streams.yaml -m <NAME_SPACE>
+oc create -f extension-image-streams.yaml -m <NAME_SPACE>
 ```
 
 The namespace is the project that you are working on OpenShift, or, you can also choose a common namespace to install these imagestreams, like `openshift`
 
-
-#### Building a extension image
+## Building a extension image
 
 All you need to do is install cekit2 and execute the `make build` command specifying the image you want to build, i.e.:
 
 ```bash
-$ make build mysql
+make build mysql
 ```
+
 This command will build the mysql extension image with the jdbc driver version 8.0.12.
 
 The artifacts to build the db2, mysql, mariadb, postgresql and mssql are available on maven central.
 
-
 See the examples below on how to build the other extension images:
-
-
-##### DB2
-```bash
-$ make build db2
-```
 
 If you want to specify a custom artifact, use the *artifact* and *version* variables within make command:
 
 ```bash
-$ make build db2 artifact=/tmp/db2-jdbc-driver.jar version=10.1
+make build db2 artifact=/tmp/db2-jdbc-driver.jar version=10.1
 ```
 
-
-##### mysql
-```bash
-$ make build mysql
-```
-
-
-##### mariadb
+### Build MySQL
 
 ```bash
-$ make build mariadb
+make build mysql
 ```
 
+### Build MariaDB
 
-##### postgresql
 ```bash
-$ make build postgresql
+make build mariadb
 ```
 
+### Build PostgreSQL
 
-##### mssql
 ```bash
-$ make build mssql
+make build postgresql
 ```
 
-##### oracle
+### Build MS SQL
+
+```bash
+make build mssql
+```
+
+### Build Oracle DB
 
 Oracle extension image requires you to provide the jdbc jar:
 
 ```bash
-$ make build oracle artifact=/tmp/ojdbc7.jar version=7.0
+make build oracle artifact=/tmp/ojdbc7.jar version=7.0
 ```
 
-##### DB2
+### Build DB2
 
 DB2 extension image requires you to provide the jdbc jar:
 
 ```bash
-$ make build db2 artifact=/tmp/db2jcc4.jar version=10.2
+make build db2 artifact=/tmp/db2jcc4.jar version=10.2
 ```
 
-##### sybase
+### Build Sybase
 
 Sybase extension image requires you to provide the jdbc jar:
 
 ```bash
-$ make build sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
+make build sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
 ```
-
 
 After you build your extension image you can:
 
 - Push the image to some internal/public registry and import the image on OpenShift using:
-    - imagestream:
-        ```yaml
-          ---
-          kind: List
+  - imagestream:
+
+      ```yaml
+        ---
+        kind: List
+        apiVersion: v1
+        metadata:
+          name: jboss-kie-jdbc-extensions-image
+          annotations:
+            description: ImageStream definition for jdbc driver extension
+        items:
+        - kind: ImageStream
           apiVersion: v1
           metadata:
-            name: jboss-kie-jdbc-extensions-image
+            name: jboss-kie-oracle-extension-openshift-image
             annotations:
-              description: ImageStream definition for jdbc driver extension
-          items:
-          - kind: ImageStream
-            apiVersion: v1
-            metadata:
-              name: jboss-kie-oracle-extension-openshift-image
+              openshift.io/display-name: oracle driver extension
+          spec:
+            dockerImageRepository: some.public.registry/projectname/jboss-kie-oracle-extension-openshift-image
+            tags:
+            - name: '12cR1'
               annotations:
-                openshift.io/display-name: oracle driver extension
-            spec:
-              dockerImageRepository: some.public.registry/projectname/jboss-kie-oracle-extension-openshift-image
-              tags:
-              - name: '12cR1'
-                annotations:
-                  description: JBoss KIE custom mysql jdbc extension image, recommended version driver.
-                  tags: oracle,extension,jdbc,driver
-                  version: '12cR1'
-        ```
+                description: JBoss KIE custom mysql jdbc extension image, recommended version driver.
+                tags: oracle,extension,jdbc,driver
+                version: '12cR1'
+      ```
 
-        then import it on OpenShift:
-        ```bash
-        $ oc create -f my-image-stream.yaml
-        ```
+      then import it on OpenShift:
 
-    - import directly on OpenShift:
-        ```bash
-        $ oc import-image jboss-kie-oracle-extension-openshift-image:12cR1 --from=registry/project/jboss-kie-oracle-extension-openshift-image:12cR1 --confirm
-        ```
+      ```bash
+      oc create -f my-image-stream.yaml
+      ```
 
-    - push the image directly to the OpenShift registry: https://docs.openshift.com/container-platform/3.11/install_config/registry/accessing_registry.html#access
+  - import directly on OpenShift:
 
+      ```bash
+      oc import-image jboss-kie-oracle-extension-openshift-image:12cR1 --from=registry/project/jboss-kie-oracle-extension-openshift-image:12cR1 --confirm
+      ```
 
-### How to use the extension images
+  - push the image directly to the OpenShift registry: [Accessing the registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/accessing_registry.html#access)
+
+## How to use the extension images
 
 These extension images were designed to be used with RHPAM images but can be used with any other image since it supports
 s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information.
@@ -209,48 +198,53 @@ We provide a external database [application template](../../rhpam78-kieserver-ex
 To deploy it using any of the extension images, follow the steps below:
 
 - create a new namespace:
+
   ```bash
-    $ oc new-project rhpam-externaldb
+    oc new-project rhpam-externaldb
   ```
 
 Note that, by default all application templates and imagestreams are installed under the **openshift** namespace.
 
 - verify if the external-db template is available on the **openshift** namespace:
+
   ```bash
-    $ oc get templates -n openshift | grep rhpam43-kieserver-externaldb
+    oc get templates -n openshift | grep rhpam43-kieserver-externaldb
   ```
 
 - if it does not return the template, you will need to install the template on OpenShift, the recommend namespace
 to install it is **openshift** but feel free to install it on the preferred namespace.
+
    ```bash
-     $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam78-kieserver-externaldb.yaml
+     oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam78-kieserver-externaldb.yaml
    ```
 
 - verify if the RHPAM 7.8 imagestreams are available:
+
   ```bash
-    $ oc get imagestream -n openshift | grep rhpam | grep 7.8
+    oc get imagestream -n openshift | grep rhpam | grep 7.8
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
+
   ```bash
-    $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam78-image-streams.yaml
+    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam78-image-streams.yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
 as example.
 
-Let's install:
+### Let's install
 
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-app-secret-template.yaml
-$ oc new-app example-app-secret
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-app-secret-template.yaml
+oc new-app example-app-secret
 ```
 
 Optional, if you are going to use one of the ready extension images (mysql, mariadb or postgresql) import
 [this](extension-image-streams.yaml) imagestream:
 
 ```bash
-$ oc create -f extension-image-streams.yaml
+oc create -f extension-image-streams.yaml
 ```
 
 At this point we are ready to create an kieserver application using the extension driver:
@@ -276,6 +270,7 @@ $ oc new-app rhpam78-kieserver-externaldb \
   -p EXTENSIONS_IMAGE_NAMESPACE=rhpam-externaldb \
   -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret
 ```
+
 Remember to update the parameters according your needs.
 
 If you find any issue feel free to drop an email to bsig-cloud@redhat.com or fill an [issue](https://issues.jboss.org/projects/RHPAM)
