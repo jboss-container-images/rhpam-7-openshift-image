@@ -499,6 +499,38 @@ parameters:
   description: Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true.
   name: AUTH_ROLE_MAPPER_REPLACE_ROLE
   required: false
+## AMQ Begin
+- description: AMQ Broker Image.
+  displayName: Image
+  name: AMQ_BROKER_IMAGE
+  required: true
+  value: registry.redhat.io/amq7/amq-broker:7.5
+- displayName: AMQ Role
+  description: User role for standard broker user.
+  name: AMQ_ROLE
+  value: admin
+  required: true
+- displayName: AMQ Name
+  description: The name of the broker.
+  name: AMQ_NAME
+  value: broker
+  required: true
+- displayName: AMQ Global Max Size
+  description: Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated.
+  name: AMQ_GLOBAL_MAX_SIZE
+  example: 10 gb
+  required: false
+- displayName: Broker Volume Capacity
+  description: Size of persistent storage for AMQ broker volume.
+  name: AMQ_VOLUME_CAPACITY
+  value: 1Gi
+  required: true
+- description: Number of broker replicas for a cluster.
+  displayName: Number of Replicas
+  name: AMQ_REPLICAS
+  required: true
+  value: "2"
+## AMQ END
 objects:
 - kind: ServiceAccount
   apiVersion: v1
@@ -590,6 +622,22 @@ objects:
       service: "${APPLICATION_NAME}-smartrouter"
     annotations:
       description: The smart router server http and https ports.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: None
+    ports:
+      - port: 61616
+        targetPort: 61616
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-amq"
+  metadata:
+    name: "${APPLICATION_NAME}-amq-tcp"
+    annotations:
+      description: The broker's OpenWire port.
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-amq-tcp"
 ## KIE server services 1 BEGIN
 - kind: Service
   apiVersion: v1
@@ -1891,3 +1939,114 @@ objects:
     resources:
       requests:
         storage: "64Mi"
+- kind: StatefulSet
+  apiVersion: apps/v1
+  metadata:
+    name: ${APPLICATION_NAME}-amq
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+    labels:
+      application: ${APPLICATION_NAME}
+  spec:
+    podManagementPolicy: OrderedReady
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+    replicas: ${{AMQ_REPLICAS}}
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        deploymentConfig: ${APPLICATION_NAME}-amq
+    serviceName: ${APPLICATION_NAME}-amq-tcp
+    template:
+      metadata:
+        name: ${APPLICATION_NAME}-amq
+        labels:
+          application: ${APPLICATION_NAME}
+          deploymentConfig: ${APPLICATION_NAME}-amq
+      spec:
+        containers:
+          - env:
+              - name: AMQ_USER
+                value: "${APPFORMER_JMS_BROKER_USER}"
+              - name: AMQ_PASSWORD
+                value: "${APPFORMER_JMS_BROKER_PASSWORD}"
+              - name: AMQ_ROLE
+                value: ${AMQ_ROLE}
+              - name: AMQ_NAME
+                value: ${AMQ_NAME}
+              - name: AMQ_TRANSPORTS
+                value: "openwire"
+              - name: AMQ_GLOBAL_MAX_SIZE
+                value: ${AMQ_GLOBAL_MAX_SIZE}
+              - name: AMQ_REQUIRE_LOGIN
+              - name: AMQ_DATA_DIR
+                value: /opt/amq/data
+              - name: AMQ_DATA_DIR_LOGGING
+                value: "true"
+              - name: AMQ_CLUSTERED
+                value: "true"
+              - name: AMQ_REPLICAS
+                value: "${AMQ_REPLICAS}"
+              - name: AMQ_CLUSTER_USER
+                value: ${APPFORMER_JMS_BROKER_USER}
+              - name: AMQ_CLUSTER_PASSWORD
+                value: ${APPFORMER_JMS_BROKER_PASSWORD}
+              - name: AMQ_EXTRA_ARGS
+              - name: AMQ_ANYCAST_PREFIX
+              - name: AMQ_MULTICAST_PREFIX
+              - name: POD_NAMESPACE
+                valueFrom:
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+            image: ${AMQ_BROKER_IMAGE}
+            imagePullPolicy: IfNotPresent
+            name: broker-amq
+            ports:
+              - containerPort: 8161
+                name: jolokia
+                protocol: TCP
+              - containerPort: 5672
+                name: amqp
+                protocol: TCP
+              - containerPort: 1883
+                name: mqtt
+                protocol: TCP
+              - containerPort: 61613
+                name: stomp
+                protocol: TCP
+              - containerPort: 61616
+                name: artemis
+                protocol: TCP
+            readinessProbe:
+              exec:
+                command:
+                  - /bin/bash
+                  - -c
+                  - /opt/amq/bin/readinessProbe.sh
+              failureThreshold: 3
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 1
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+              - mountPath: /opt/amq/data
+                name: "${APPLICATION_NAME}-amq-pvol"
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 60
+    volumeClaimTemplates:
+      - metadata:
+          name: ${APPLICATION_NAME}-amq-pvol
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: ${AMQ_VOLUME_CAPACITY}
