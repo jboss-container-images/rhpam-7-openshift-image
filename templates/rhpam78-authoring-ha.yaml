@@ -1221,8 +1221,6 @@ objects:
             value: "OpenShiftStartupStrategy"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
             value: "true"
-          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
-            value: "true"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
