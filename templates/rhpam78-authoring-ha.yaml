@@ -1218,7 +1218,7 @@ objects:
           - name: KIE_SERVER_ROUTE_NAME
             value: "insecure-${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "ControllerBasedStartupStrategy"
+            value: "OpenShiftStartupStrategy"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
