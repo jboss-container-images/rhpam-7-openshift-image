@@ -1219,6 +1219,10 @@ objects:
             value: "insecure-${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
             value: "OpenShiftStartupStrategy"
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
+            value: "true"
+          - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
+            value: "true"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
