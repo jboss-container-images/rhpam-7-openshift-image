@@ -938,7 +938,7 @@ objects:
             value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
-            value: "false"
+            value: "true"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
             value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
@@ -1218,7 +1218,7 @@ objects:
           - name: KIE_SERVER_ROUTE_NAME
             value: "insecure-${APPLICATION_NAME}-kieserver"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "ControllerBasedStartupStrategy"
+            value: "OpenShiftStartupStrategy"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
