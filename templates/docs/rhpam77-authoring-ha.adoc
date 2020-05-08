@@ -53,7 +53,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate for KIE Server. | mykeystorepass | False
 |`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The user name for connecting to the JMS broker. | jmsBrokerUser | True
 |`APPFORMER_JMS_BROKER_PASSWORD` | `APPFORMER_JMS_BROKER_PASSWORD` | The password to connect to the JMS broker. | -- | True
-|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.4 | True
+|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.5 | True
 |`DATAGRID_CPU_LIMIT` | -- | DataGrid Container CPU limit. | 1000m | True
 |`DATAGRID_MEMORY_LIMIT` | -- | DataGrid Container memory limit. | 2Gi | True
 |`DATAGRID_VOLUME_CAPACITY` | -- | Size of the persistent storage for DataGrid's runtime data. | 1Gi | True
@@ -69,7 +69,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam-businesscentral-rhel8". | rhpam-businesscentral-rhel8 | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.7.0". | 7.7.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.7.1". | 7.7.1 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:*,!repo-rhpamcentr | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
@@ -324,7 +324,7 @@ tcpSocket on port 3306
 |`KIE_ADMIN_USER` | -- | --
 |`KIE_ADMIN_PWD` | -- | --
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | false
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | true
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | Enables connection to KIE Server via OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}`
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | `${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}`

@@ -12,7 +12,8 @@ Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-
 :icons: font
 :toc: macro
 
-toc::[levels=1]
+toc::[levels=1]st
+
 
 == rhpam-7-openshift-image/templates
 
