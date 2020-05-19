@@ -99,7 +99,7 @@ modules:
             version: "11"
           - name: dynamic-resources
           - name: rhpam-7-smartrouter
-          - name: os-logging
+          - name: jboss.container.util.logging.bash
           - name: os-eap-python
             version: "3.6"
           - name: jboss-kie-common

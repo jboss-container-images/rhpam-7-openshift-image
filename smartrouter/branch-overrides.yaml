@@ -6,20 +6,20 @@ schema_version: 1
 #   Usage: cekit build --overrides-file branch-overrides.yaml
 
 modules:
-      repositories:
-          - name: cct_module
-            git:
-                  url: https://github.com/jboss-openshift/cct_module.git
-                  ref: 0.35.1
-          - name: jboss-eap-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: EAP_726_OPENJDK11_CR1
-          - name: rhpam-7-image
-            git:
-                  url: https://github.com/jboss-container-images/rhpam-7-image.git
-                  ref: master
-          - name: jboss-kie-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: master
+  repositories:
+    - name: cct_module
+      git:
+        url: https://github.com/jboss-openshift/cct_module.git
+        ref: 0.39.0
+    - name: jboss-eap-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-modules.git
+        ref: EAP_LP_731_CR2
+    - name: rhpam-7-image
+      git:
+        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        ref: master
+    - name: jboss-kie-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-kie-modules.git
+        ref: master
