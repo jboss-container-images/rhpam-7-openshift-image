@@ -164,8 +164,11 @@ artifacts:
         DRIVERS="SYBASE"
         DRIVER_NAME="sybase"
         DRIVER_MODULE="com.sybase"
-        DRIVER_CLASS="com.sybase.jdbc2.jdbc.SybDataSource"
-        DRIVER_XA_CLASS="com.sybase.jdbc3.jdbc.SybXADataSource"
+        DRIVER_CLASS=${DRIVER_CLASS:-com.sybase.jdbc4.jdbc.SybDataSource}
+        DRIVER_XA_CLASS=${DRIVER_XA_CLASS:-com.sybase.jdbc4.jdbc.SybXADataSource}
+
+        sed -i s/SYBASE_DRIVER_CLASS=REPLACED_BY_PREPARE_SCRIPT/${DRIVER_CLASS}/ tests/features/sybase.feature
+        sed -i s/SYBASE_XA_DATASOURCE_CLASS=REPLACED_BY_PREPARE_SCRIPT/${DRIVER_XA_CLASS}/ tests/features/sybase.feature
 
         # base path is $JBOSS_HOME/modules
         DRIVER_DIR="com/sybase/main"
