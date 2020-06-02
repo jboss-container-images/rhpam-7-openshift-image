@@ -1,4 +1,4 @@
-BUILD_ENGINE ?= podman
+BUILD_ENGINE ?= docker
 
 .PHONY: build
 db2:
@@ -8,8 +8,9 @@ db2:
 
 mariadb:
 	sh prepare.sh mariadb
-	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE} --tag=quay.io/kiegroup/jboss-kie-mariadb-extension-openshift-image:2.4.0
+	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE}
 	cekit --verbose test --overrides-file db-overrides.yaml behave
+	${BUILD_ENGINE} tag kiegroup/jboss-kie-mariadb-extension-openshift-image:2.4.0 quay.io/kiegroup/jboss-kie-mariadb-extension-openshift-image:2.4.0
 
 mssql:
 	sh prepare.sh mssql
@@ -18,8 +19,9 @@ mssql:
 
 mysql:
 	sh prepare.sh mysql
-	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE} --tag=quay.io/kiegroup/jboss-kie-mysql-extension-openshift-image:8.0.12
+	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE}
 	cekit --verbose test --overrides-file db-overrides.yaml behave
+	${BUILD_ENGINE} tag kiegroup/jboss-kie-mysql-extension-openshift-image:8.0.12 quay.io/kiegroup/jboss-kie-mysql-extension-openshift-image:8.0.12
 
 oracle:
 	sh prepare.sh oracle ${artifact} ${version}
@@ -33,9 +35,9 @@ sybase:
 
 postgresql:
 	sh prepare.sh postgresql
-	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE} --tag=quay.io/kiegroup/jboss-kie-postgresql-extension-openshift-image:42.2.5
+	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE}
 	cekit --verbose test --overrides-file db-overrides.yaml behave
-
+	${BUILD_ENGINE} tag kiegroup/jboss-kie-postgresql-extension-openshift-image:42.2.5 quay.io/kiegroup/jboss-kie-postgresql-extension-openshift-image:42.2.5
 
 # build and push to a postgresql, mysql and mariadb and extension images to quay.io
 # permissions are required.

@@ -24,7 +24,22 @@ It adds a extra layer on top of the base image which contains:
 
 To interact with this repo you should install the CEKit 3.2.0:
 
-- [Download latest CEKit](https://docs.cekit.io/en/latest/)
+#### Installing and Configure CeKit
+In this section you'll , step by step, how to install CeKit on Fedora, for other systems please refer to the documentation: 
+To be possible to install the CeKit using dnf, we need to enable it's dnf repository:
+
+Install [CeKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.2 using virtualenv: 
+
+To install, see the following commands:
+
+```bash
+$ mkdir ~/cekit-3.2
+$ vritualenv ~/cekit-3.2
+$ source ~/cekit-3.2/bin/activate # tip create an alias for it, e.g. activate-cekit-3.2
+$ pip install cekit==3.2.0 
+$ pip install odcs docker docker-squash behave
+```
+
 
 The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
 
@@ -78,10 +93,10 @@ The namespace is the project that you are working on OpenShift, or, you can also
 
 ## Building a extension image
 
-All you need to do is install cekit2 and execute the `make build` command specifying the image you want to build, i.e.:
+All you need to do is install cekit2 and execute the `make` command specifying the image you want to build, i.e.:
 
 ```bash
-make build mysql
+make mysql
 ```
 
 This command will build the mysql extension image with the jdbc driver version 8.0.12.
@@ -93,31 +108,31 @@ See the examples below on how to build the other extension images:
 If you want to specify a custom artifact, use the *artifact* and *version* variables within make command:
 
 ```bash
-make build db2 artifact=/tmp/db2-jdbc-driver.jar version=10.1
+make db2 artifact=/tmp/db2-jdbc-driver.jar version=10.1
 ```
 
 ### Build MySQL
 
 ```bash
-make build mysql
+make mysql
 ```
 
 ### Build MariaDB
 
 ```bash
-make build mariadb
+make mariadb
 ```
 
 ### Build PostgreSQL
 
 ```bash
-make build postgresql
+make postgresql
 ```
 
 ### Build MS SQL
 
 ```bash
-make build mssql
+make mssql
 ```
 
 ### Build Oracle DB
@@ -125,7 +140,7 @@ make build mssql
 Oracle extension image requires you to provide the jdbc jar:
 
 ```bash
-make build oracle artifact=/tmp/ojdbc7.jar version=7.0
+make oracle artifact=/tmp/ojdbc7.jar version=7.0
 ```
 
 ### Build DB2
@@ -133,7 +148,7 @@ make build oracle artifact=/tmp/ojdbc7.jar version=7.0
 DB2 extension image requires you to provide the jdbc jar:
 
 ```bash
-make build db2 artifact=/tmp/db2jcc4.jar version=10.2
+make db2 artifact=/tmp/db2jcc4.jar version=10.2
 ```
 
 ### Build Sybase
@@ -141,7 +156,7 @@ make build db2 artifact=/tmp/db2jcc4.jar version=10.2
 Sybase extension image requires you to provide the jdbc jar:
 
 ```bash
-make build sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
+make sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
 ```
 
 After you build your extension image you can:
