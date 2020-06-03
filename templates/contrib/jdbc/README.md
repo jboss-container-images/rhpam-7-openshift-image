@@ -83,7 +83,7 @@ Driver version: 42.2.5
 quay.io/kiegroup/jboss-kie-postgresql-extension-openshift-image:42.2.5
 ```
 
-You can import these images into you OpenShift instance using the extension-image-streams.yaml with the following command:
+You can import these images into your OpenShift instance using the extension-image-streams.yaml with the following command:
 
 ```bash
 oc create -f extension-image-streams.yaml -m <NAME_SPACE>
@@ -91,9 +91,10 @@ oc create -f extension-image-streams.yaml -m <NAME_SPACE>
 
 The namespace is the project that you are working on OpenShift, or, you can also choose a common namespace to install these imagestreams, like `openshift`
 
-## Building a extension image
+## Building an extension image
 
-All you need to do is install cekit2 and execute the `make` command specifying the image you want to build, i.e.:
+After making sure that the [pre requisites](#pre-requisites) are satisfied, all you need to do is execute ```make``` passing
+as parameter the desired option, press `tab` for auto completion, see the example below: 
 
 ```bash
 make mysql
@@ -159,6 +160,13 @@ Sybase extension image requires you to provide the jdbc jar:
 make sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
 ```
 
+If for you need to update the driver xa class or driver class export the `DRIVER_CLASS` or `DRIVER_XA_CLASS` environment
+with the desired class, e.g.:
+
+```bash
+export DRIVER_CLASS=another.class.Sybase && make sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL0
+```
+
 After you build your extension image you can:
 
 - Push the image to some internal/public registry and import the image on OpenShift using:
@@ -208,7 +216,7 @@ After you build your extension image you can:
 These extension images were designed to be used with RHPAM images but can be used with any other image since it supports
 s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information.
 
-We provide a external database [application template](../../rhpam78-kieserver-externaldb.yaml) ready to use the extension images.
+We provide an external database [application template](../../rhpam78-kieserver-externaldb.yaml) ready to use the extension images.
 
 To deploy it using any of the extension images, follow the steps below:
 
@@ -223,10 +231,10 @@ Note that, by default all application templates and imagestreams are installed u
 - verify if the external-db template is available on the **openshift** namespace:
 
   ```bash
-    oc get templates -n openshift | grep rhpam43-kieserver-externaldb
+    oc get templates -n openshift | grep rhpam78-kieserver-externaldb
   ```
 
-- if it does not return the template, you will need to install the template on OpenShift, the recommend namespace
+- if it does not return the template, you will need to install the template on OpenShift, the recommended namespace
 to install it is **openshift** but feel free to install it on the preferred namespace.
 
    ```bash
@@ -246,7 +254,7 @@ to install it is **openshift** but feel free to install it on the preferred name
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
-as example.
+as example, please do not use this in production.
 
 ### Let's install
 
@@ -262,7 +270,7 @@ Optional, if you are going to use one of the ready extension images (mysql, mari
 oc create -f extension-image-streams.yaml
 ```
 
-At this point we are ready to create an kieserver application using the extension driver:
+At this point we are ready to create a Kie Server deployment using the extension driver:
 Note that, the driver name can be found in the respective install-{DB}. properties file, i.e. [mariadb](modules/kie-custom-jdbc-driver/added/install-mariadb.properties)
 
 To create a new app using a extension image, you can go through the OpenShift web console and fill all the needed fields or

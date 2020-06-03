@@ -29,9 +29,11 @@ oracle:
 	cekit --verbose test --overrides-file db-overrides.yaml behave
 
 sybase:
+	cp tests/features/sybase-feature.prepare tests/features/sybase.feature
 	sh prepare.sh sybase ${artifact} ${version}
 	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE}
 	cekit --verbose test --overrides-file db-overrides.yaml behave
+	rm -rfv tests/features/sybase.feature
 
 postgresql:
 	sh prepare.sh postgresql
