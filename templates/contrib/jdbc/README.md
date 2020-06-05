@@ -1,6 +1,6 @@
 # JBoss KIE JDBC Driver Extension Images
 
-This repo provide a easy way to build your own JDBC extension driver images to use within Red Hat Process Automation Manager images
+This repo provides an easy way to build your own JDBC extension driver images to use within Red Hat Process Automation Manager images
 on OpenShift.
 
 ## About the extension image
@@ -14,34 +14,13 @@ It adds a extra layer on top of the base image which contains:
   - needs to respect the JBoss EAP module structure: i.e:
             */extensions/modules/org/postgresql96/main/*
 - the install.properties which contains the JBoss module information, this file is populated during the build image
- , [here](modules/kie-custom-jdbc-driver/added/base_install.properties) you can find the base file used.
+ , [here](cekit/modules/kie-custom-jdbc-driver/added/base_install.properties) you can find the base file used.
 
 - the install.sh script which is responsible to configure the JBoss module: [install.sh](modules/kie-custom-jdbc-driver/added/install.sh)
 
-## Before you begin
-
-### Pre-requisites
-
-To interact with this repo you should install the CEKit 3.2.0:
-
-#### Installing and Configure CeKit
-In this section you'll , step by step, how to install CeKit on Fedora, for other systems please refer to the documentation: 
-To be possible to install the CeKit using dnf, we need to enable it's dnf repository:
-
-Install [CeKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.2 using virtualenv: 
-
-To install, see the following commands:
-
-```bash
-$ mkdir ~/cekit-3.2
-$ vritualenv ~/cekit-3.2
-$ source ~/cekit-3.2/bin/activate # tip create an alias for it, e.g. activate-cekit-3.2
-$ pip install cekit==3.2.0 
-$ pip install odcs docker docker-squash behave
-```
-
 
 The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
+
 
 | Database    | DB Version                                     | JDBC Driver jar/version         |
 |-------------|------------------------------------------------|---------------------------------|
@@ -54,6 +33,7 @@ The drivers images are based on the supported configurations for Red Hat Process
 | Sybase      | 16.0                                           | jconn4-16.0_PL05.jar            |
 
 For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM78).
+
 
 ## Extension Images
 
@@ -93,123 +73,11 @@ The namespace is the project that you are working on OpenShift, or, you can also
 
 ## Building an extension image
 
-After making sure that the [pre requisites](#pre-requisites) are satisfied, all you need to do is execute ```make``` passing
-as parameter the desired option, press `tab` for auto completion, see the example below: 
+There is two possible ways to build an extension image:
 
-```bash
-make mysql
-```
-
-This command will build the mysql extension image with the jdbc driver version 8.0.12.
-
-The artifacts to build the db2, mysql, mariadb, postgresql and mssql are available on maven central.
-
-See the examples below on how to build the other extension images:
-
-If you want to specify a custom artifact, use the *artifact* and *version* variables within make command:
-
-```bash
-make db2 artifact=/tmp/db2-jdbc-driver.jar version=10.1
-```
-
-### Build MySQL
-
-```bash
-make mysql
-```
-
-### Build MariaDB
-
-```bash
-make mariadb
-```
-
-### Build PostgreSQL
-
-```bash
-make postgresql
-```
-
-### Build MS SQL
-
-```bash
-make mssql
-```
-
-### Build Oracle DB
-
-Oracle extension image requires you to provide the jdbc jar:
-
-```bash
-make oracle artifact=/tmp/ojdbc7.jar version=7.0
-```
-
-### Build DB2
-
-DB2 extension image requires you to provide the jdbc jar:
-
-```bash
-make db2 artifact=/tmp/db2jcc4.jar version=10.2
-```
-
-### Build Sybase
-
-Sybase extension image requires you to provide the jdbc jar:
-
-```bash
-make sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL05
-```
-
-If for you need to update the driver xa class or driver class export the `DRIVER_CLASS` or `DRIVER_XA_CLASS` environment
-with the desired class, e.g.:
-
-```bash
-export DRIVER_CLASS=another.class.Sybase && make sybase artifact=/tmp/jconn4-16.0_PL05.jar version=16.0_PL0
-```
-
-After you build your extension image you can:
-
-- Push the image to some internal/public registry and import the image on OpenShift using:
-  - imagestream:
-
-      ```yaml
-        ---
-        kind: List
-        apiVersion: v1
-        metadata:
-          name: jboss-kie-jdbc-extensions-image
-          annotations:
-            description: ImageStream definition for jdbc driver extension
-        items:
-        - kind: ImageStream
-          apiVersion: v1
-          metadata:
-            name: jboss-kie-oracle-extension-openshift-image
-            annotations:
-              openshift.io/display-name: oracle driver extension
-          spec:
-            dockerImageRepository: some.public.registry/projectname/jboss-kie-oracle-extension-openshift-image
-            tags:
-            - name: '12cR1'
-              annotations:
-                description: JBoss KIE custom mysql jdbc extension image, recommended version driver.
-                tags: oracle,extension,jdbc,driver
-                version: '12cR1'
-      ```
-
-      then import it on OpenShift:
-
-      ```bash
-      oc create -f my-image-stream.yaml
-      ```
-
-  - import directly on OpenShift:
-
-      ```bash
-      oc import-image jboss-kie-oracle-extension-openshift-image:12cR1 --from=registry/project/jboss-kie-oracle-extension-openshift-image:12cR1 --confirm
-      ```
-
-  - push the image directly to the OpenShift registry: [Accessing the registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/accessing_registry.html#access)
+- Using [CeKit](cekit/README.md): This is the preferred way as it assures that the built images will contain the expected files
+- Using [Dockerfile](legacy/README.md): legacy way that we had in the past, notice that, the scripts are provided as it is, feel free to use
+it as a point of start and any issue or wrong configuration can lead on issues while using it with the Kie Server image.
 
 ## How to use the extension images
 
@@ -255,6 +123,53 @@ to install it is **openshift** but feel free to install it on the preferred name
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
 as example, please do not use this in production.
+
+
+After you build your extension image you can:
+
+- Push the image to some internal/public registry and import the image on OpenShift using:
+  - imagestream:
+
+      ```yaml
+        ---
+        kind: List
+        apiVersion: v1
+        metadata:
+          name: jboss-kie-jdbc-extensions-image
+          annotations:
+            description: ImageStream definition for jdbc driver extension
+        items:
+        - kind: ImageStream
+          apiVersion: v1
+          metadata:
+            name: jboss-kie-oracle-extension-openshift-image
+            annotations:
+              openshift.io/display-name: oracle driver extension
+          spec:
+            dockerImageRepository: some.public.registry/projectname/jboss-kie-oracle-extension-openshift-image
+            tags:
+            - name: '12cR1'
+              annotations:
+                description: JBoss KIE custom mysql jdbc extension image, recommended version driver.
+                tags: oracle,extension,jdbc,driver
+                version: '12cR1'
+      ```
+
+      then import it on OpenShift:
+
+      ```bash
+      oc create -f my-image-stream.yaml
+      ```
+
+  - import directly on OpenShift:
+
+      ```bash
+      oc import-image jboss-kie-oracle-extension-openshift-image:12cR1 --from=registry/project/jboss-kie-oracle-extension-openshift-image:12cR1 --confirm
+      ```
+
+  - push the image directly to the OpenShift registry: [Accessing the registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/accessing_registry.html#access)
+
+
 
 ### Let's install
 
