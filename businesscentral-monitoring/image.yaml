@@ -79,7 +79,7 @@ modules:
           - name: jboss-eap-7-image
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-                  ref: eap72-dev
+                  ref: eap73-dev
           - name: rhpam-7-image
             git:
                   url: https://github.com/jboss-container-images/rhpam-7-image.git
@@ -92,16 +92,17 @@ modules:
           - name: jboss.container.openjdk.jdk
             version: "11"
           - name: dynamic-resources
-          - name: eap-7.2-latest
+          - name: eap-73-latest
+            version: "7.3-latest"
           - name: rhpam-7-businesscentral-monitoring
           - name: jboss.container.maven.35.bash
             version: "3.5"
           - name: jboss.container.maven.default.bash
-          - name: os-java-jolokia
+          - name: jboss.container.jolokia.bash
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
-          - name: jboss.eap72.openshift
-            version: "1.0-openjdk11"
+          - name: jboss.eap.config.openshift
+            version: "16.0-openjdk11"
           - name: jboss.eap.cd.openshift.modules
           - name: os-eap7-ping
           - name: os-eap-activemq-rar
@@ -124,7 +125,7 @@ modules:
           - name: os-eap-extensions
           - name: openshift-layer
           - name: openshift-passwd
-          - name: os-logging
+          - name: jboss.container.util.logging.bash
           - name: jboss.container.eap.prometheus.config
             version: "7.2"
           - name: os-eap-txnrecovery.run

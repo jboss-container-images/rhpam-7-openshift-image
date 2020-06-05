@@ -52,7 +52,7 @@ modules:
             version: "11"
           - name: dynamic-resources
           - name: rhpam-7-process-migration
-          - name: os-logging
+          - name: jboss.container.util.logging.bash
           - name: jboss-kie-process-migration
 packages:
       manager: microdnf
