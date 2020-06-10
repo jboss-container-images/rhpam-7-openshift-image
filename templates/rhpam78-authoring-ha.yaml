@@ -80,14 +80,14 @@ parameters:
   value: "openshift"
   required: false
 - displayName: MySQL ImageStream Tag
-  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7".
+  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "8.0".
   name: MYSQL_IMAGE_STREAM_TAG
-  value: "5.7"
+  value: "8.0"
   required: false
 - displayName: KIE Server MySQL Dialect
   description: KIE server MySQL Hibernate dialect.
   name: KIE_SERVER_MYSQL_DIALECT
-  value: org.hibernate.dialect.MySQL57Dialect
+  value: org.hibernate.dialect.MySQL8Dialect
   required: true
 ## MySQL database parameters END
 - displayName: KIE Server Mode
@@ -1520,6 +1520,8 @@ objects:
             value: "${MYSQL_PWD}"
           - name: MYSQL_DATABASE
             value: "${MYSQL_DB}"
+          - name: MYSQL_DEFAULT_AUTHENTICATION_PLUGIN
+            value: "mysql_native_password"
         volumes:
         - name: "${APPLICATION_NAME}-mysql-pvol"
           persistentVolumeClaim:
