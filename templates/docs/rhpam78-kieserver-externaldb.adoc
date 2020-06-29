@@ -27,7 +27,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:* | False
 |`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
-|`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | True
+|`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | False
 |`MAVEN_REPO_USERNAME` | `EXTERNAL_MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | -- | False
 |`MAVEN_REPO_PASSWORD` | `EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | -- | False
 |`BUSINESS_CENTRAL_SERVICE` | `WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | myapp-rhpamcentr | False
