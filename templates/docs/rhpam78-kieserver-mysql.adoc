@@ -27,7 +27,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that the KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:* | False
 |`MAVEN_REPO_ID` | `EXTERNAL_MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
-|`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | True
+|`MAVEN_REPO_URL` | `EXTERNAL_MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | False
 |`MAVEN_REPO_USERNAME` | `EXTERNAL_MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | -- | False
 |`MAVEN_REPO_PASSWORD` | `EXTERNAL_MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | -- | False
 |`BUSINESS_CENTRAL_SERVICE` | `WORKBENCH_SERVICE_NAME` | The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required. | myapp-rhpamcentr | False
@@ -37,12 +37,12 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.8.0". | 7.8.0 | True
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |`MYSQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the MySQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
-|`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7". | 5.7 | False
+|`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "8.0". | 8.0 | False
 |`KIE_SERVER_MYSQL_USER` | `RHPAM_USERNAME` | KIE server MySQL database user name. | rhpam | False
 |`KIE_SERVER_MYSQL_PWD` | `RHPAM_PASSWORD` | KIE server MySQL database password. | -- | False
 |`KIE_SERVER_MYSQL_DB` | `RHPAM_DATABASE` | KIE server MySQL database name. | rhpam7 | False
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
-|`KIE_SERVER_MYSQL_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | org.hibernate.dialect.MySQL57Dialect | True
+|`KIE_SERVER_MYSQL_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | org.hibernate.dialect.MySQL8Dialect | True
 |`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `PRODUCTION` | False
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
@@ -335,10 +335,11 @@ tcpSocket on port 3306
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.3+| `${APPLICATION_NAME}-mysql`
+.4+| `${APPLICATION_NAME}-mysql`
 |`MYSQL_USER` | KIE server MySQL database user name. | `${KIE_SERVER_MYSQL_USER}`
 |`MYSQL_PASSWORD` | KIE server MySQL database password. | `${KIE_SERVER_MYSQL_PWD}`
 |`MYSQL_DATABASE` | KIE server MySQL database name. | `${KIE_SERVER_MYSQL_DB}`
+|`MYSQL_DEFAULT_AUTHENTICATION_PLUGIN` | -- | mysql_native_password
 |=======================================================================
 
 
