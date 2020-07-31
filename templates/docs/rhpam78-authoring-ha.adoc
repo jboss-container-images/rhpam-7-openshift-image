@@ -33,8 +33,8 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`MYSQL_DB` | `RHPAM_DATABASE` | MySQL database name. | rhpam7 | False
 |`MYSQL_DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the KIE server database volume. | 1Gi | True
 |`MYSQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the MySQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
-|`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "5.7". | 5.7 | False
-|`KIE_SERVER_MYSQL_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | org.hibernate.dialect.MySQL57Dialect | True
+|`MYSQL_IMAGE_STREAM_TAG` | -- | The MySQL image version, which is intended to correspond to the MySQL version. Default is "8.0". | 8.0 | False
+|`KIE_SERVER_MYSQL_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE server MySQL Hibernate dialect. | org.hibernate.dialect.MySQL8Dialect | True
 |`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `DEVELOPMENT` | False
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
@@ -53,11 +53,11 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate for KIE Server. | mykeystorepass | False
 |`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The user name for connecting to the JMS broker. | jmsBrokerUser | True
 |`APPFORMER_JMS_BROKER_PASSWORD` | `APPFORMER_JMS_BROKER_PASSWORD` | The password to connect to the JMS broker. | -- | True
-|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.4 | True
+|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.5 | True
 |`DATAGRID_CPU_LIMIT` | -- | DataGrid Container CPU limit. | 1000m | True
 |`DATAGRID_MEMORY_LIMIT` | -- | DataGrid Container memory limit. | 2Gi | True
 |`DATAGRID_VOLUME_CAPACITY` | -- | Size of the persistent storage for DataGrid's runtime data. | 1Gi | True
-|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image. | registry.redhat.io/amq7/amq-broker:7.5 | True
+|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image. | registry.redhat.io/amq7/amq-broker:7.6 | True
 |`AMQ_ROLE` | -- | User role for standard broker user. | admin | True
 |`AMQ_NAME` | -- | The name of the broker. | broker | True
 |`AMQ_GLOBAL_MAX_SIZE` | -- | Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system's memory is allocated. | 10 gb | False
@@ -326,7 +326,7 @@ tcpSocket on port 3306
 |`KIE_ADMIN_USER` | -- | --
 |`KIE_ADMIN_PWD` | -- | --
 |`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | false
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | true
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | Enables connection to KIE Server via OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}`
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | `${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}`
@@ -410,7 +410,7 @@ tcpSocket on port 3306
 |`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ID` | -- | --
-|`KIE_SERVER_ROUTE_NAME` | -- | `${APPLICATION_NAME}-kieserver`
+|`KIE_SERVER_ROUTE_NAME` | -- | insecure-${APPLICATION_NAME}-kieserver
 |`KIE_SERVER_STARTUP_STRATEGY` | -- | OpenShiftStartupStrategy
 |`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
@@ -462,10 +462,11 @@ tcpSocket on port 3306
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format of every entry in the file is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.3+| `${APPLICATION_NAME}-mysql`
+.4+| `${APPLICATION_NAME}-mysql`
 |`MYSQL_USER` | MySQL database user name. | `${MYSQL_USER}`
 |`MYSQL_PASSWORD` | MySQL database password. | `${MYSQL_PWD}`
 |`MYSQL_DATABASE` | MySQL database name. | `${MYSQL_DB}`
+|`MYSQL_DEFAULT_AUTHENTICATION_PLUGIN` | -- | mysql_native_password
 |=======================================================================
 
 
