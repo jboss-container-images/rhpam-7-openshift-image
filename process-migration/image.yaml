@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam-process-migration-rhel8"
 description: "Red Hat Process Automation Manager Process Migration 7.8 container image"
-version: "7.8.0"
+version: "7.8.1"
 from: "ubi8-minimal:8-released"
 labels:
     - name: "com.redhat.component"

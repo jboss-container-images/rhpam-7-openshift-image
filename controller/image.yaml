@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam-controller-rhel8"
 description: "Red Hat Process Automation Manager Standalone Controller 7.8 container image"
-version: "7.8.0"
+version: "7.8.1"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"

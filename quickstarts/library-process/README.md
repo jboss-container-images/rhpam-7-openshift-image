@@ -122,7 +122,7 @@ $ oc new-app rhpam78-prod-immutable-kieserver \
         * KIE Server Password=MADQFF7! # generated
         * ImageStream Namespace=openshift
         * KIE Server ImageStream Name=rhpam-kieserver-rhel8
-        * ImageStream Tag=7.8.0
+        * ImageStream Tag=7.8.1
         * KIE Server Monitor User=monitorUser
         * KIE Server Monitor Password=
         * KIE Server Monitor Token=
