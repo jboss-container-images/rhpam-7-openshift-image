@@ -391,9 +391,9 @@ parameters:
   value: preferred_username
   required: false
 - displayName: LDAP Endpoint
-  description: LDAP Endpoint to connect for authentication.
+  description: LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space.
   name: AUTH_LDAP_URL
-  example: "ldap://myldap.example.com"
+  example: "ldap://myldap.example.com:389"
   required: false
 - displayName: LDAP Bind DN
   description: Bind DN used for authentication.
