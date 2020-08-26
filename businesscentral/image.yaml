@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-businesscentral-rhel8"
-description: "Red Hat Business Central 7.8 OpenShift container image"
-version: "7.8.0"
+description: "Red Hat Business Central 7.9 OpenShift container image"
+version: "7.9.0"
 from: "ubi8:8-released"
 labels:
     - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central"
     - name: "io.k8s.display-name"
-      value: "Red Hat Business Central 7.8"
+      value: "Red Hat Business Central 7.9"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
@@ -155,8 +155,6 @@ modules:
           - name: os-eap7-launch
           - name: jboss.eap.cd.openshift.launch
           - name: jboss-kie-db-drivers
-          - name: os-eap-datasource
-            version: "1.0"
           - name: jboss.eap.cd.logging
           - name: jboss.eap.config.mp-config
           - name: jboss.eap.config.jgroups

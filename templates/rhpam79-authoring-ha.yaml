@@ -4,21 +4,21 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,authoring
-    version: "7.8"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.8 authoring environment (non-HA, persistent, with https)
+    tags: rhpam,processserver,jboss,authoring,ha
+    version: "7.9"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.9 authoring environment (HA, persistent, with https)
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a non-HA persistent authoring environment, for Red Hat Process Automation Manager 7.8 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.8, including application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive a restart. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.8/html/deploying_a_red_hat_process_automation_manager_7.8_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.9 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules and Processes on Red Hat Process Automation Manager 7.9 with High Availability enabled as tech preview, including application deployment configuration, secure and insecure http communication and persistent volumes to store data that needs to survive a restart. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.9/html/deploying_a_red_hat_process_automation_manager_7.9_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam78-authoring
+  name: rhpam79-authoring-ha
 labels:
-  template: rhpam78-authoring
-  rhpam: "7.8"
+  template: rhpam79-authoring-ha
+  rhpam: "7.9"
 message: |-
-          A new persistent Process Automation Manager application have been created in your project.
+          A new persistent HA Process Automation Manager application has been created in your project.
           The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
           KIE_ADMIN_USER and KIE_ADMIN_PWD
 
@@ -49,21 +49,49 @@ parameters:
   name: KIE_SERVER_PERSISTENCE_DS
   value: java:/jboss/datasources/rhpam
   required: false
-## H2 database parameters BEGIN
-- displayName: KIE Server H2 Database User
-  description: KIE server H2 database user name.
-  name: KIE_SERVER_H2_USER
-  value: sa
+## MySQL database parameters BEGIN
+- displayName: MySQL Database User
+  description: MySQL database user name.
+  name: MYSQL_USER
+  value: rhpam
   required: false
-- displayName: KIE Server H2 Database Password
-  description: KIE server H2 database password.
-  name: KIE_SERVER_H2_PWD
+- displayName: MySQL Database Password
+  description: MySQL database password.
+  name: MYSQL_PWD
   from: "[a-zA-Z]{6}[0-9]{1}!"
   generate: expression
   required: false
-## H2 database parameters END
+- displayName: MySQL Database Name
+  description: MySQL database name.
+  name: MYSQL_DB
+  value: rhpam7
+  required: false
+- displayName: MySQL Database Volume Capacity
+  description: Size of persistent storage for the KIE server database volume.
+  name: MYSQL_DB_VOLUME_CAPACITY
+  value: 1Gi
+  required: true
+- displayName: MySQL ImageStream Namespace
+  description: Namespace in which the ImageStream for the MySQL image is
+    installed. The ImageStream is already installed in the openshift namespace.
+    You need to modify this parameter only if you installed the ImageStream in a
+    different namespace/project. Default is "openshift".
+  name: MYSQL_IMAGE_STREAM_NAMESPACE
+  value: "openshift"
+  required: false
+- displayName: MySQL ImageStream Tag
+  description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "8.0".
+  name: MYSQL_IMAGE_STREAM_TAG
+  value: "8.0"
+  required: false
+- displayName: KIE Server MySQL Dialect
+  description: KIE server MySQL Hibernate dialect.
+  name: KIE_SERVER_MYSQL_DIALECT
+  value: org.hibernate.dialect.MySQL8Dialect
+  required: true
+## MySQL database parameters END
 - displayName: KIE Server Mode
-  description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)"
+  description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)."
   name: KIE_SERVER_MODE
   value: "DEVELOPMENT"
   required: false
@@ -83,26 +111,22 @@ parameters:
   example: 'false'
   required: false
 - displayName: Business Central Custom http Route Hostname
-  description: 'Custom hostname for the http service route for Business Central. Leave blank
-    for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+  description: 'Custom hostname for http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: Business Central Custom https Route Hostname
-  description: 'Custom hostname for the https service route for Business Central. Leave blank for
-    default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+  description: 'Custom hostname for https service route for Business Central. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix>'
   name: BUSINESS_CENTRAL_HOSTNAME_HTTPS
   value: ''
   required: false
 - displayName: KIE Server Custom http Route Hostname
-  description: 'Custom hostname for the http service route for KIE Server. Leave blank for
-    default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
+  description: 'Custom hostname for http service route for KIE Server. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTP
   value: ''
   required: false
 - displayName: KIE Server Custom https Route Hostname
-  description: 'Custom hostname for the https service route for KIE Server. Leave blank for
-    default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+  description: 'Custom hostname for https service route for KIE Server. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
   name: KIE_SERVER_HOSTNAME_HTTPS
   value: ''
   required: false
@@ -112,45 +136,101 @@ parameters:
   example: businesscentral-app-secret
   required: true
 - displayName: Business Central Server Keystore Filename
-  description: The name of the keystore file within the secret.
+  description: The name of the keystore file within the secret for Business Central.
   name: BUSINESS_CENTRAL_HTTPS_KEYSTORE
   value: keystore.jks
   required: false
 - displayName: Business Central Server Certificate Name
-  description: The name associated with the server certificate.
+  description: The name associated with the server certificate for Business Central.
   name: BUSINESS_CENTRAL_HTTPS_NAME
   value: jboss
   required: false
 - displayName: Business Central Server Keystore Password
-  description: The password for the keystore and certificate.
+  description: The password for the keystore and certificate for Business Central.
   name: BUSINESS_CENTRAL_HTTPS_PASSWORD
   value: mykeystorepass
   required: false
 - displayName: KIE Server Keystore Secret Name
-  description: The name of the secret containing the keystore file for KIE server.
+  description: The name of the secret containing the keystore file for KIE Server.
   name: KIE_SERVER_HTTPS_SECRET
   example: kieserver-app-secret
   required: true
 - displayName: KIE Server Keystore Filename
-  description: The name of the keystore file within the secret.
+  description: The name of the keystore file within the secret for KIE Server.
   name: KIE_SERVER_HTTPS_KEYSTORE
   value: keystore.jks
   required: false
 - displayName: KIE Server Certificate Name
-  description: The name associated with the server certificate.
+  description: The name associated with the server certificate for KIE Server.
   name: KIE_SERVER_HTTPS_NAME
   value: jboss
   required: false
 - displayName: KIE Server Keystore Password
-  description: The password for the keystore and certificate.
+  description: The password for the keystore and certificate for KIE Server.
   name: KIE_SERVER_HTTPS_PASSWORD
   value: mykeystorepass
   required: false
-- displayName: Database Volume Capacity
-  description: Size of persistent storage for the database volume.
-  name: DB_VOLUME_CAPACITY
+- displayName: AppFormer JMS Broker user name.
+  description: The user name for connecting to the JMS broker.
+  name: APPFORMER_JMS_BROKER_USER
+  required: true
+  value: jmsBrokerUser
+- displayName: AppFormer JMS Broker password.
+  description: The password to connect to the JMS broker.
+  name: APPFORMER_JMS_BROKER_PASSWORD
+  from: "[a-zA-Z]{6}[0-9]{1}!"
+  generate: expression
+  required: true
+- displayName: DataGrid Image
+  description: DataGrid image.
+  name: DATAGRID_IMAGE
+  value: registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.6
+  required: true
+- displayName: DataGrid Container CPU Limit
+  description: DataGrid Container CPU limit.
+  name: DATAGRID_CPU_LIMIT
+  value: "1000m"
+  required: true
+- displayName: DataGrid Container Memory Limit
+  description: DataGrid Container memory limit.
+  name: DATAGRID_MEMORY_LIMIT
+  value: "2Gi"
+  required: true
+- displayName: DataGrid Volume Capacity
+  description: Size of the persistent storage for DataGrid's runtime data.
+  name: DATAGRID_VOLUME_CAPACITY
+  value: "1Gi"
+  required: true
+- description: AMQ Broker Image.
+  displayName: Image
+  name: AMQ_BROKER_IMAGE
+  required: true
+  value: registry.redhat.io/amq7/amq-broker:7.7
+- displayName: AMQ Role
+  description: User role for standard broker user.
+  name: AMQ_ROLE
+  value: admin
+  required: true
+- displayName: AMQ Name
+  description: The name of the broker.
+  name: AMQ_NAME
+  value: broker
+  required: true
+- displayName: AMQ Global Max Size
+  description: Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated.
+  name: AMQ_GLOBAL_MAX_SIZE
+  example: 10 gb
+  required: false
+- displayName: Broker Volume Capacity
+  description: Size of persistent storage for AMQ broker volume.
+  name: AMQ_VOLUME_CAPACITY
   value: 1Gi
   required: true
+- description: Number of broker replicas for a cluster.
+  displayName: Number of Replicas
+  name: AMQ_REPLICAS
+  required: true
+  value: "2"
 ## OpenShift Enhancement BEGIN
 - displayName: Enable KIE server global discovery
   description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
@@ -158,7 +238,7 @@ parameters:
   value: "false"
   required: false
 - displayName: Prefer KIE Server OpenShift Service
-  description: If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
+  description: Enables connection to KIE Server via OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)
   name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
   value: "true"
   required: false
@@ -171,10 +251,15 @@ parameters:
 - displayName: ImageStream Namespace
   description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images
     are installed. These ImageStreams are normally installed in the openshift namespace.
-    You need to modify this parameter only if you installed the ImageStream in a
-    different namespace/project. Default is "openshift".
+    You need to modify this parameter only if you installed the ImageStreams in a
+    different namespace/project.
   name: IMAGE_STREAM_NAMESPACE
   value: openshift
+  required: true
+- displayName: Business Central ImageStream Name
+  description: The name of the image stream to use for Business Central. Default is "rhpam-businesscentral-rhel8".
+  name: BUSINESS_CENTRAL_IMAGE_STREAM_NAME
+  value: "rhpam-businesscentral-rhel8"
   required: true
 - displayName: KIE Server ImageStream Name
   description: The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8".
@@ -182,9 +267,9 @@ parameters:
   value: "rhpam-kieserver-rhel8"
   required: true
 - displayName: ImageStream Tag
-  description: A named pointer to an image in an image stream. Default is "7.8.0".
+  description: A named pointer to an image in an image stream. Default is "7.9.0".
   name: IMAGE_STREAM_TAG
-  value: "7.8.0"
+  value: "7.9.0"
   required: true
 - displayName: Maven mirror URL
   description: Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services.
@@ -218,6 +303,11 @@ parameters:
   name: GIT_HOOKS_DIR
   example: /opt/kie/data/git/hooks
   required: false
+- displayName: "Timer service data store refresh interval (in milliseconds)"
+  description: "Sets refresh-interval for the EJB timer database data-store service."
+  name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
+  value: '60000'
+  required: true
 - displayName: Business Central Volume Capacity
   description: Size of the persistent storage for Business Central runtime data.
   name: BUSINESS_CENTRAL_VOLUME_CAPACITY
@@ -226,13 +316,38 @@ parameters:
 - displayName: Business Central Container Memory Limit
   description: Business Central Container memory limit.
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
-  value: 2Gi
-  required: false
+  value: "8Gi"
+  required: true
+- displayName: Business Central Container JVM Max Memory Ratio
+  description: Business Central Container JVM max memory ratio. -Xmx is set to a ratio of the memory available on the container. The default is 80, which means the upper boundary is 80% of the available memory.  To skip adding the -Xmx option, set this value to 0.
+  name: BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO
+  value: "80"
+  required: true
+- displayName: Business Central Container CPU Limit
+  description: Business Central Container CPU limit.
+  name: BUSINESS_CENTRAL_CPU_LIMIT
+  value: "2000m"
+  required: true
 - displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit.
   name: KIE_SERVER_MEMORY_LIMIT
-  value: 1Gi
-  required: false
+  value: "1Gi"
+  required: true
+- displayName: KIE Server Container CPU Limit
+  description: KIE server Container CPU limit.
+  name: KIE_SERVER_CPU_LIMIT
+  value: "1000m"
+  required: true
+- displayName: Business Central Container Replicas
+  description: Business Central Container Replicas, defines how many Business Central containers will be started.
+  name: BUSINESS_CENTRAL_CONTAINER_REPLICAS
+  value: '2'
+  required: true
+- displayName: KIE Server Container Replicas
+  description: KIE Server Container Replicas, defines how many KIE Server containers will be started.
+  name: KIE_SERVER_CONTAINER_REPLICAS
+  value: '2'
+  required: true
 - displayName: RH-SSO URL
   description: RH-SSO URL.
   name: SSO_URL
@@ -279,7 +394,7 @@ parameters:
   value: preferred_username
   required: false
 - displayName: LDAP Endpoint
-  description: LDAP Endpoint to connect for authentication
+  description: LDAP Endpoint to connect for authentication.
   name: AUTH_LDAP_URL
   example: "ldap://myldap.example.com"
   required: false
@@ -380,7 +495,7 @@ parameters:
   name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
   required: false
 - displayName: RoleMapping rolesProperties file path
-  description: When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3
+  description: When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format of every entry in the file is original_role=role1,role2,role3
   name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
   required: false
 - displayName: RoleMapping replaceRole property
@@ -427,6 +542,57 @@ objects:
 - kind: Service
   apiVersion: v1
   spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+      targetPort: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
+  metadata:
+    name: "${APPLICATION_NAME}-rhpamcentr-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-rhpamcentr-ping"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for rhpamcentr clustering."
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}-datagrid-ping
+    labels:
+      application: ${APPLICATION_NAME}
+    annotations:
+      description: "The JGroups ping port for clustering."
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  spec:
+    clusterIP: None
+    ports:
+    - name: ping
+      port: 8888
+      targetPort: 8888
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-datagrid
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}-datagrid
+    labels:
+      application: ${APPLICATION_NAME}
+    annotations:
+      description: Provides a service for accessing the application over Hot Rod protocol.
+      service.alpha.openshift.io/serving-cert-secret-name: datagrid-service-certs
+  spec:
+    ports:
+    - name: hotrod
+      port: 11222
+      targetPort: 11222
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-datagrid
+- kind: Service
+  apiVersion: v1
+  spec:
     ports:
     - name: http
       port: 8080
@@ -448,7 +614,57 @@ objects:
       service: "${APPLICATION_NAME}-kieserver"
     annotations:
       description: All the KIE server web server's ports.
-## Place to add database service
+- apiVersion: v1
+  kind: Service
+  spec:
+    clusterIP: None
+    ports:
+    - port: 61616
+      targetPort: 61616
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-amq"
+  metadata:
+    name: "${APPLICATION_NAME}-amq-tcp"
+    annotations:
+      description: The broker's OpenWire port.
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-amq-tcp"
+- apiVersion: v1
+  kind: Service
+  spec:
+    clusterIP: None
+    ports:
+      - port: 8888
+        protocol: TCP
+        targetPort: 8888
+    selector:
+      deploymentConfig: ${APPLICATION_NAME}-amq
+  metadata:
+    name: ping
+    annotations:
+      description: The JGroups ping port for amq clustering.
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
+    labels:
+      application: ${APPLICATION_NAME}
+      service: ping
+## MySQL service BEGIN
+- apiVersion: v1
+  kind: Service
+  spec:
+    ports:
+    - port: 3306
+      targetPort: 3306
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-mysql"
+  metadata:
+    name: "${APPLICATION_NAME}-mysql"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-mysql"
+    annotations:
+      description: The MySQL server's port.
+## MySQL service END
 - kind: Route
   apiVersion: v1
   id: "insecure-${APPLICATION_NAME}-rhpamcentr-http"
@@ -459,6 +675,7 @@ objects:
       service: "${APPLICATION_NAME}-rhpamcentr"
     annotations:
       description: Route for Business Central's http service.
+      haproxy.router.openshift.io/balance: source
       haproxy.router.openshift.io/timeout: 1h
   spec:
     host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
@@ -520,6 +737,106 @@ objects:
       targetPort: https
     tls:
       termination: passthrough
+- kind: StatefulSet
+  apiVersion: apps/v1
+  metadata:
+    name: ${APPLICATION_NAME}-datagrid
+    labels:
+      application: ${APPLICATION_NAME}
+  spec:
+    podManagementPolicy: OrderedReady
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+    replicas: 2
+    selector:
+      matchLabels:
+        deploymentConfig: ${APPLICATION_NAME}-datagrid
+    serviceName: ${APPLICATION_NAME}-datagrid
+    template:
+      metadata:
+        name: ${APPLICATION_NAME}-datagrid
+        labels:
+          application: ${APPLICATION_NAME}
+          deploymentConfig: ${APPLICATION_NAME}-datagrid
+      spec:
+        containers:
+        - env:
+          - name: SERVICE_NAME
+            value: ${APPLICATION_NAME}-datagrid
+          - name: SERVICE_PROFILE
+            value: ${APPLICATION_NAME}-datagrid
+          - name: JGROUPS_PING_PROTOCOL
+            value: openshift.DNS_PING
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: ${APPLICATION_NAME}-datagrid-ping
+          - name: INFINISPAN_CONNECTORS
+            value: "hotrod"
+          image: ${DATAGRID_IMAGE}
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-datagrid
+          ports:
+          - containerPort: 8888
+            name: ping
+            protocol: TCP
+          - containerPort: 11222
+            name: hotrod
+            protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /opt/datagrid/bin/livenessProbe.sh
+            failureThreshold: 5
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+              - /opt/datagrid/bin/readinessProbe.sh
+            failureThreshold: 5
+            initialDelaySeconds: 17
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources:
+            limits:
+              cpu: ${DATAGRID_CPU_LIMIT}
+              memory: ${DATAGRID_MEMORY_LIMIT}
+            requests:
+              cpu: ${DATAGRID_CPU_LIMIT}
+              memory: ${DATAGRID_MEMORY_LIMIT}
+          volumeMounts:
+          - mountPath: /opt/datagrid/standalone/data
+            name: srv-data
+          - mountPath: /var/run/secrets/java.io/keystores
+            name: datagrid-keystore-volume
+          - mountPath: /var/run/secrets/openshift.io/serviceaccount
+            name: datagrid-service-certs
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - empty-dir: {}
+          name: datagrid-keystore-volume
+        - name: datagrid-service-certs
+          secret:
+            secretName: datagrid-service-certs
+    triggers:
+    - type: ConfigChange
+    volumeClaimTemplates:
+    - metadata:
+        name: srv-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: ${DATAGRID_VOLUME_CAPACITY}
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -541,9 +858,9 @@ objects:
         from:
           kind: ImageStreamTag
           namespace: "${IMAGE_STREAM_NAMESPACE}"
-          name: "rhpam-businesscentral-rhel8:${IMAGE_STREAM_TAG}"
+          name: "${BUSINESS_CENTRAL_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: "${{BUSINESS_CENTRAL_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
     template:
@@ -552,17 +869,20 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
-          service: "${APPLICATION_NAME}-rhpamcentr"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
         containers:
         - name: "${APPLICATION_NAME}-rhpamcentr"
-          image: rhpam-businesscentral-rhel8
+          image: "${BUSINESS_CENTRAL_IMAGE_STREAM_NAME}"
           imagePullPolicy: Always
           resources:
             limits:
-              memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
+              cpu: ${BUSINESS_CENTRAL_CPU_LIMIT}
+              memory: ${BUSINESS_CENTRAL_MEMORY_LIMIT}
+            requests:
+              cpu: ${BUSINESS_CENTRAL_CPU_LIMIT}
+              memory: ${BUSINESS_CENTRAL_MEMORY_LIMIT}
           volumeMounts:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"
@@ -596,6 +916,9 @@ objects:
           - name: https
             containerPort: 8443
             protocol: TCP
+          - name: ping
+            containerPort: 8888
+            protocol: TCP
           env:
           - name: APPLICATION_USERS_PROPERTIES
             value: "/opt/kie/data/configuration/application-users.properties"
@@ -615,7 +938,7 @@ objects:
             value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
-            value: "false"
+            value: "true"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
             value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
           - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
@@ -625,6 +948,8 @@ objects:
 ## OpenShift Enhancement END
           - name: KIE_SERVER_CONTROLLER_TOKEN
             value: "${KIE_SERVER_CONTROLLER_TOKEN}"
+          - name: WORKBENCH_ROUTE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_REPO_ID
@@ -645,8 +970,26 @@ objects:
             value: "${BUSINESS_CENTRAL_HTTPS_NAME}"
           - name: HTTPS_PASSWORD
             value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
-          - name: WORKBENCH_ROUTE_NAME
-            value: "${APPLICATION_NAME}-rhpamcentr"
+          - name: JGROUPS_PING_PROTOCOL
+            value: "openshift.DNS_PING"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-rhpamcentr-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
+          - name: APPFORMER_INFINISPAN_SERVICE_NAME
+            value: "${APPLICATION_NAME}-datagrid"
+          - name: APPFORMER_INFINISPAN_PORT
+            value: "11222"
+          - name: APPFORMER_JMS_BROKER_ADDRESS
+            value: "${APPLICATION_NAME}-amq-tcp"
+          - name: APPFORMER_JMS_BROKER_PORT
+            value: "61616"
+          - name: APPFORMER_JMS_BROKER_USER
+            value: "${APPFORMER_JMS_BROKER_USER}"
+          - name: APPFORMER_JMS_BROKER_PASSWORD
+            value: "${APPFORMER_JMS_BROKER_PASSWORD}"
+          - name: JAVA_MAX_MEM_RATIO
+            value: "${BUSINESS_CENTRAL_JAVA_MAX_MEM_RATIO}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -735,7 +1078,10 @@ objects:
   spec:
     revisionHistoryLimit: 10
     strategy:
-      type: Recreate
+      rollingParams:
+        maxSurge: 100%
+        maxUnavailable: 0
+      type: Rolling
     triggers:
     - type: ImageChange
       imageChangeParams:
@@ -747,7 +1093,7 @@ objects:
           namespace: "${IMAGE_STREAM_NAMESPACE}"
           name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
     - type: ConfigChange
-    replicas: 1
+    replicas: "${{KIE_SERVER_CONTAINER_REPLICAS}}"
     selector:
       deploymentConfig: "${APPLICATION_NAME}-kieserver"
     template:
@@ -778,15 +1124,15 @@ objects:
                 - /opt/eap/bin/launch/jboss-kie-kieserver-hooks.sh
           resources:
             limits:
-              memory: "${KIE_SERVER_MEMORY_LIMIT}"
+              cpu: ${KIE_SERVER_CPU_LIMIT}
+              memory: ${KIE_SERVER_MEMORY_LIMIT}
+            requests:
+              cpu: ${KIE_SERVER_CPU_LIMIT}
+              memory: ${KIE_SERVER_MEMORY_LIMIT}
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
             readOnly: true
-## H2 volume mount BEGIN
-          - name: "${APPLICATION_NAME}-kie-pvol"
-            mountPath: "/opt/kie/data"
-## H2 volume mount END
           livenessProbe:
             httpGet:
               path: /services/rest/server/healthcheck
@@ -818,28 +1164,32 @@ objects:
           env:
           - name: WORKBENCH_SERVICE_NAME
             value: "${APPLICATION_NAME}-rhpamcentr"
+          - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
+            value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
           - name: DATASOURCES
             value: "RHPAM"
+## MySQL driver settings BEGIN
           - name: RHPAM_DATABASE
-            value: "rhpam7"
+            value: "${MYSQL_DB}"
+          - name: RHPAM_DRIVER
+            value: "mariadb"
+          - name: RHPAM_USERNAME
+            value: "${MYSQL_USER}"
+          - name: RHPAM_PASSWORD
+            value: "${MYSQL_PWD}"
+          - name: RHPAM_SERVICE_HOST
+            value: "${APPLICATION_NAME}-mysql"
+          - name: RHPAM_SERVICE_PORT
+            value: "3306"
+          - name: KIE_SERVER_PERSISTENCE_DIALECT
+            value: "${KIE_SERVER_MYSQL_DIALECT}"
+## MySQL driver settings END
+          - name: KIE_SERVER_PERSISTENCE_DS
+            value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JNDI
             value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: RHPAM_JTA
             value: "true"
-## H2 driver settings BEGIN
-          - name: RHPAM_DRIVER
-            value: "h2"
-          - name: RHPAM_USERNAME
-            value: "${KIE_SERVER_H2_USER}"
-          - name: RHPAM_PASSWORD
-            value: "${KIE_SERVER_H2_PWD}"
-          - name: RHPAM_NONXA
-            value: "false"
-          - name: RHPAM_XA_CONNECTION_PROPERTY_URL
-            value: "jdbc:h2:/opt/kie/data/h2/rhpam;AUTO_SERVER=TRUE"
-          - name: KIE_SERVER_PERSISTENCE_DIALECT
-            value: "org.hibernate.dialect.H2Dialect"
-## H2 driver settings END
           - name: KIE_ADMIN_USER
             valueFrom:
               secretKeyRef:
@@ -850,10 +1200,10 @@ objects:
               secretKeyRef:
                 name: "${CREDENTIALS_SECRET}"
                 key: KIE_ADMIN_PWD
-          - name: KIE_SERVER_MODE
-            value: "${KIE_SERVER_MODE}"
           - name: KIE_MBEANS
             value: "${KIE_MBEANS}"
+          - name: KIE_SERVER_MODE
+            value: "${KIE_SERVER_MODE}"
           - name: DROOLS_SERVER_FILTER_CLASSES
             value: "${DROOLS_SERVER_FILTER_CLASSES}"
           - name: PROMETHEUS_SERVER_EXT_DISABLED
@@ -870,10 +1220,8 @@ objects:
                 fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
           - name: KIE_SERVER_ROUTE_NAME
             value: "insecure-${APPLICATION_NAME}-kieserver"
-          - name: KIE_SERVER_PERSISTENCE_DS
-            value: "${KIE_SERVER_PERSISTENCE_DS}"
           - name: KIE_SERVER_STARTUP_STRATEGY
-            value: "ControllerBasedStartupStrategy"
+            value: "OpenShiftStartupStrategy"
           - name: MAVEN_MIRROR_URL
             value: "${MAVEN_MIRROR_URL}"
           - name: MAVEN_MIRROR_OF
@@ -984,37 +1332,224 @@ objects:
         - name: kieserver-keystore-volume
           secret:
             secretName: "${KIE_SERVER_HTTPS_SECRET}"
-## H2 volume settings BEGIN
-        - name: "${APPLICATION_NAME}-kie-pvol"
+        initContainers:
+        - command:
+            - /bin/bash
+            - '-c'
+            - >-
+              replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-mysql; replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
+          image: registry.redhat.io/openshift3/ose-cli
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}-mysql-init
+          terminationMessagePolicy: FallbackToLogsOnError
+- kind: StatefulSet
+  apiVersion: apps/v1
+  metadata:
+    name: ${APPLICATION_NAME}-amq
+    annotations:
+      alpha.image.policy.openshift.io/resolve-names: '*'
+    labels:
+      application: ${APPLICATION_NAME}
+  spec:
+    podManagementPolicy: OrderedReady
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+    replicas: ${{AMQ_REPLICAS}}
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        deploymentConfig: ${APPLICATION_NAME}-amq
+    serviceName: ${APPLICATION_NAME}-amq-tcp
+    template:
+      metadata:
+        name: ${APPLICATION_NAME}-amq
+        labels:
+          application: ${APPLICATION_NAME}
+          deploymentConfig: ${APPLICATION_NAME}-amq
+      spec:
+        containers:
+        - env:
+          - name: AMQ_USER
+            value: "${APPFORMER_JMS_BROKER_USER}"
+          - name: AMQ_PASSWORD
+            value: "${APPFORMER_JMS_BROKER_PASSWORD}"
+          - name: AMQ_ROLE
+            value: ${AMQ_ROLE}
+          - name: AMQ_NAME
+            value: ${AMQ_NAME}
+          - name: AMQ_TRANSPORTS
+            value: "openwire"
+          - name: AMQ_GLOBAL_MAX_SIZE
+            value: ${AMQ_GLOBAL_MAX_SIZE}
+          - name: AMQ_REQUIRE_LOGIN
+          - name: AMQ_DATA_DIR
+            value: /opt/amq/data
+          - name: AMQ_DATA_DIR_LOGGING
+            value: "true"
+          - name: AMQ_CLUSTERED
+            value: "true"
+          - name: AMQ_REPLICAS
+            value: "${AMQ_REPLICAS}"
+          - name: AMQ_CLUSTER_USER
+            value: ${APPFORMER_JMS_BROKER_USER}
+          - name: AMQ_CLUSTER_PASSWORD
+            value: ${APPFORMER_JMS_BROKER_PASSWORD}
+          - name: AMQ_EXTRA_ARGS
+          - name: AMQ_ANYCAST_PREFIX
+          - name: AMQ_MULTICAST_PREFIX
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: ${AMQ_BROKER_IMAGE}
+          imagePullPolicy: IfNotPresent
+          name: broker-amq
+          ports:
+          - containerPort: 8161
+            name: jolokia
+            protocol: TCP
+          - containerPort: 5672
+            name: amqp
+            protocol: TCP
+          - containerPort: 1883
+            name: mqtt
+            protocol: TCP
+          - containerPort: 61613
+            name: stomp
+            protocol: TCP
+          - containerPort: 61616
+            name: artemis
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - /opt/amq/bin/readinessProbe.sh
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/amq/data
+            name: "${APPLICATION_NAME}-amq-pvol"
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 60
+    volumeClaimTemplates:
+    - metadata:
+        name: ${APPLICATION_NAME}-amq-pvol
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: ${AMQ_VOLUME_CAPACITY}
+## MySQL deployment config BEGIN
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-mysql"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-mysql"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+  spec:
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}-mysql"
+        from:
+          kind: ImageStreamTag
+          namespace: "${MYSQL_IMAGE_STREAM_NAMESPACE}"
+          name: "mysql:${MYSQL_IMAGE_STREAM_TAG}"
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-mysql"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}-mysql"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}-mysql"
+          application: "${APPLICATION_NAME}"
+      spec:
+        terminationGracePeriodSeconds: 60
+        containers:
+        - name: "${APPLICATION_NAME}-mysql"
+          image: mysql
+          imagePullPolicy: Always
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+                - "/bin/sh"
+                - "-i"
+                - "-c"
+                - "MYSQL_PWD=\"$MYSQL_PASSWORD\" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE -e 'SELECT 1'"
+              port: 3306
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          volumeMounts:
+          - mountPath: "/var/lib/mysql/data"
+            name: "${APPLICATION_NAME}-mysql-pvol"
+          env:
+          - name: MYSQL_USER
+            value: "${MYSQL_USER}"
+          - name: MYSQL_PASSWORD
+            value: "${MYSQL_PWD}"
+          - name: MYSQL_DATABASE
+            value: "${MYSQL_DB}"
+          - name: MYSQL_DEFAULT_AUTHENTICATION_PLUGIN
+            value: "mysql_native_password"
+        volumes:
+        - name: "${APPLICATION_NAME}-mysql-pvol"
           persistentVolumeClaim:
-            claimName: "${APPLICATION_NAME}-kie-claim"
-## H2 volume settings END
-## Place to add database deployment config
+            claimName: "${APPLICATION_NAME}-mysql-claim"
+## MySQL deployment config END
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     name: "${APPLICATION_NAME}-rhpamcentr-claim"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-rhpamcentr"
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: "${BUSINESS_CENTRAL_VOLUME_CAPACITY}"
-## H2 persistent volume claim BEGIN
+## MySQL persistent volume claim BEGIN
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: "${APPLICATION_NAME}-kie-claim"
+    name: "${APPLICATION_NAME}-mysql-claim"
     labels:
       application: "${APPLICATION_NAME}"
-      service: "${APPLICATION_NAME}-kieserver"
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
       requests:
-        storage: "${DB_VOLUME_CAPACITY}"
-## H2 persistent volume claim END
+        storage: "${MYSQL_DB_VOLUME_CAPACITY}"
+## MySQL persistent volume claim END
