@@ -79,7 +79,7 @@ envs:
       description: "Java log level to apply in the logger configuration, if empty the level used will be INFO"
     - name: "PACKAGES_LOG_LEVEL"
       example: "PACKAGES_LOG_LEVEL='org.kie=DEBUG,org.apache=INFO,org.eclipse=INFO'"
-      description: "fully qualified name with log level, in multiple separated by comma"
+      description: "fully qualified logger name with log level, in multiple separated by comma"
 ports:
     - value: 9000
 modules:
