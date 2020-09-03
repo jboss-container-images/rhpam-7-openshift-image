@@ -84,7 +84,7 @@ Now, build the image:
 $ docker build -t my-smartrouter-ext:1.0 .
 docker build -t my-smartrouter-ext:1.0 .
 Sending build context to Docker daemon   12.8kB
-Step 1/8 : from rhpam-7/rhpam-smartrouter-rhel8:7.8.1
+Step 1/8 : from registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.9.0
  ---> 1822bf9d5565
 Step 2/8 : RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
  ---> Using cache
@@ -112,7 +112,6 @@ Removing intermediate container 5639fe7e585f
  ---> 18a546161039
 Successfully built 18a546161039
 Successfully tagged my-smartrouter-ext:1.0
-
 ```
 
 To verify the built image, check that the `openshift-launch.sh` script was correctly updated:
