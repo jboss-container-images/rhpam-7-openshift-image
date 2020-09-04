@@ -1,5 +1,7 @@
 # Red Hat Process Automation Manager 7 OpenShift images
 
+ignore me
+
 This repository contain all the image descriptors and files necessary to build the RHPAM images.
 It also includes the application templates, however they are deprecated in 7.9. Using the Red Hat Business Automation Operator is recommended.
 
