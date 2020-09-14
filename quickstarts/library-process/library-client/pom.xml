@@ -38,13 +38,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.1_spec</artifactId>
+			<artifactId>jboss-servlet-api_4.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
 			<artifactId>activemq-client</artifactId>
-			<scope>compile</scope>
+			<version>${activemq-client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
@@ -57,8 +57,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-remote-naming</artifactId>
+			<groupId>org.jboss.eap</groupId>
+			<artifactId>wildfly-naming</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
