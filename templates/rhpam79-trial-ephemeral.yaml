@@ -512,6 +512,11 @@ objects:
             value: "${MAVEN_REPO_PASSWORD}"
           - name: GIT_HOOKS_DIR
             value: "${GIT_HOOKS_DIR}"
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -710,6 +715,11 @@ objects:
             value: "${MAVEN_REPO_USERNAME}"
           - name: EXTERNAL_MAVEN_REPO_PASSWORD
             value: "${MAVEN_REPO_PASSWORD}"
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
