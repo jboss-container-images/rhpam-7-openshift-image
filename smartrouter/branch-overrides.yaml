@@ -18,8 +18,8 @@ modules:
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
-        ref: master
+        ref: 7.9.x
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: master
+        ref: 7.9.x
