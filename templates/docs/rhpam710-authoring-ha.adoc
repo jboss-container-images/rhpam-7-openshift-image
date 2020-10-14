@@ -4,12 +4,12 @@
     Changes to .adoc or HTML files may be overwritten! Please change the
     generator or the input template (https://github.com/jboss-container-images/jboss-kie-modules/tree/master/tools/gen-template-doc/*.in)
 ////
-= rhpam79-authoring-ha
+= rhpam710-authoring-ha
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.9 - Deprecated
+Application template for a HA persistent authoring environment, for Red Hat Process Automation Manager 7.10 - Deprecated
 
 toc::[]
 
@@ -53,11 +53,11 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate for KIE Server. | mykeystorepass | False
 |`APPFORMER_JMS_BROKER_USER` | `APPFORMER_JMS_BROKER_USER` | The user name for connecting to the JMS broker. | jmsBrokerUser | True
 |`APPFORMER_JMS_BROKER_PASSWORD` | `APPFORMER_JMS_BROKER_PASSWORD` | The password to connect to the JMS broker. | -- | True
-|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.5 | True
+|`DATAGRID_IMAGE` | -- | DataGrid image. | registry.redhat.io/jboss-datagrid-7/datagrid73-openshift:1.6 | True
 |`DATAGRID_CPU_LIMIT` | -- | DataGrid Container CPU limit. | 1000m | True
 |`DATAGRID_MEMORY_LIMIT` | -- | DataGrid Container memory limit. | 2Gi | True
 |`DATAGRID_VOLUME_CAPACITY` | -- | Size of the persistent storage for DataGrid's runtime data. | 1Gi | True
-|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image. | registry.redhat.io/amq7/amq-broker:7.6 | True
+|`AMQ_BROKER_IMAGE` | -- | AMQ Broker Image. | registry.redhat.io/amq7/amq-broker:7.7 | True
 |`AMQ_ROLE` | -- | User role for standard broker user. | admin | True
 |`AMQ_NAME` | -- | The name of the broker. | broker | True
 |`AMQ_GLOBAL_MAX_SIZE` | -- | Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system's memory is allocated. | 10 gb | False
@@ -69,7 +69,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam-businesscentral-rhel8". | rhpam-businesscentral-rhel8 | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.9.0". | 7.9.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.10.0". | 7.10.0 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:*,!repo-rhpamcentr | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
@@ -96,7 +96,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client. | -- | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | false | False
 |`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | preferred_username | False
-|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication. | ldap://myldap.example.com | False
+|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | ldap://myldap.example.com:389 | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | `AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | -- | False
@@ -363,7 +363,7 @@ tcpSocket on port 3306
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route for Business Central. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
-|`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
@@ -386,7 +386,7 @@ tcpSocket on port 3306
 |`AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK` | If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree. | `${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}`
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format of every entry in the file is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_ROLE_MAPPER_REPLACE_ROLE` | Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true. | `${AUTH_ROLE_MAPPER_REPLACE_ROLE}`
-.75+| `${APPLICATION_NAME}-kieserver`
+.76+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer database data-store service. | `${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}`
 |`DATASOURCES` | -- | `RHPAM`
@@ -428,6 +428,7 @@ tcpSocket on port 3306
 |`HTTPS_KEYSTORE` | The name of the keystore file within the secret for KIE Server. | `${KIE_SERVER_HTTPS_KEYSTORE}`
 |`HTTPS_NAME` | The name associated with the server certificate for KIE Server. | `${KIE_SERVER_HTTPS_NAME}`
 |`HTTPS_PASSWORD` | The password for the keystore and certificate for KIE Server. | `${KIE_SERVER_HTTPS_PASSWORD}`
+|`KUBERNETES_NAMESPACE` | -- | --
 |`SSO_URL` | RH-SSO URL. | `${SSO_URL}`
 |`SSO_OPENIDCONNECT_DEPLOYMENTS` | -- | ROOT.war
 |`SSO_REALM` | RH-SSO Realm name. | `${SSO_REALM}`
@@ -439,7 +440,7 @@ tcpSocket on port 3306
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route for KIE Server. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for https service route for KIE Server. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTPS}`
-|`AUTH_LDAP_URL` | LDAP Endpoint to connect for authentication. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
