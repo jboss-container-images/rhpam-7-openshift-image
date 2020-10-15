@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-process-migration-rhel8"
-description: "Red Hat Process Automation Manager Process Migration 7.9 container image"
-version: "7.9.0"
+description: "Red Hat Process Automation Manager Process Migration 7.10 container image"
+version: "7.10.0"
 from: "ubi8-minimal:8-released"
 labels:
     - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Process Automation Manager Process Migration"
     - name: "io.k8s.display-name"
-      value: "Red Hat Process Automation Manager Process Migration 7.9"
+      value: "Red Hat Process Automation Manager Process Migration 7.10"
     - name: "io.openshift.expose-services"
       value: "8080:http"
     - name: "io.openshift.tags"
