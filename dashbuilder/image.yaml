@@ -1,0 +1,157 @@
+schema_version: 1
+
+name: "rhpam-7/rhpam-dashbuilder-rhel8"
+description: "Red Hat Process Automation Manager Standalone Dashbuilder 7.10 container image"
+version: "7.10.0"
+from: "ubi8-minimal:8-released"
+labels:
+  - name: "com.redhat.component"
+    value: "rhpam-7-dashbuilder-rhel8-container"
+  - name: "io.k8s.description"
+    value: "Platform for running Red Hat Process Automation Manager Standalone Dashbuilder"
+  - name: "io.k8s.display-name"
+    value: "Red Hat Process Automation Manager Standalone Dashbuilder 7.10"
+  - name: "io.openshift.expose-services"
+    value: "8080:http,8443:https"
+  - name: "io.openshift.tags"
+    value: "javaee,eap,eap7,rhpam,rhpam7,dashbuilder"
+envs:
+  - name: "CONFIG_ADJUSTMENT_MODE"
+    value: "xml"
+    description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
+  - name: "SCRIPT_DEBUG"
+    example: "true"
+    description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+  - name: "KIE_ADMIN_USER"
+    example: "adminUser"
+    description: "Username for basic authentication used to access the controller externally and to connect with the execution server (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
+  - name: "KIE_ADMIN_PWD"
+    example: "admin1!"
+    description: "Password for basic authentication used to access the controller externally and to connect with the execution server (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
+  - name: "DASHBUILDER_ALLOW_EXTERNAL_FILE_REGISTER_PROP"
+    example: "true"
+    description: "When true will allow download of external (remote) files into runtime. Sets the 'dashbuilder.runtime.allowExternal' property. Default value is false"
+  - name: "DASHBUILDER_COMPONENT_PARTITION"
+    example: "true"
+    description: "If true components will be partitioned by the Runtime Model ID. Sets the dashbuilder.components.partition property. Default value is false."
+  - name: "DASHBUILDER_DATASET_PARTITION"
+    example: "true"
+    description: "If true datasets IDs will partitioned by the Runtime Model ID.. Sets the dashbuilder.dataset.partition property. Default value is false."
+  - name: "DASHBUILDER_IMPORT_FILE_LOCATION"
+    example: "/opt/mypv/my_static_dsahboard.zip"
+    description: "Set a static dashboard to run with runtime. When this property is set no new imports are allowed. If provided file is not set, Dashbuilder image will fail to start."
+  - name: "DASHBUILDER_IMPORTS_BASE_DIR"
+    example: "/path/to/my/pv/with/dashboards"
+    description: "Base Directory where dashboards ZIPs are stored, if not set or if the provided value does not exist, the '/opt/kie/data/imports' will be used."
+  - name: "DASHBUILDER_MODEL_UPDATE"
+    example: "false"
+    description: "Boolean property that allows Runtime to check model last update in FS to update its content. Sets the dashbuilder.model.update property. Default value is true."
+  - name: "DASHBUILDER_MODEL_FILE_REMOVAL"
+    example: "true"
+    description: "Boolean property when true will also remove actual model file from file system. Sets the dashbuilder.removeModelFile property"
+  - name: "DASHBUILDER_RUNTIME_MULTIPLE_IMPORT"
+    example: true
+    description: "If set to true Runtime will always allow use of new imports (multi tenancy). Sets the dashbuilder.runtime.multi property. Default value is false"
+  - name: "DASHBUILDER_UPLOAD_SIZE"
+    example: "10000000"
+    description: "Limits the size of uploaded dashboards (in kb). Sets the dashbuilder.runtime.upload.size. Default value is 10485760 kb."
+  - name: "DASHBUILDER_COMP_ENABLE"
+    example: true
+    description: "Boolean property that when true enables external components. Sets the dashbuilder.components.enable property. Default value is false"
+  - name: "DASHBUILDER_EXTERNAL_COMP_DIR"
+    example: "/tmp/test"
+    description: "Configures the base directory for dashbuilder components. Sets the dashbuilder.components.dir property. Default value is /opt/kie/components"
+  - name: "DASHBUILDER_CONFIG_MAP_PROPS"
+    example: "/data/config.properties"
+    description: "Properties file with Dashbuilder configurations, if set, uniq properties will be appended and, if a property is set mode than once, the one from this property file will be used."
+  - name: "KIESERVER_DATASETS"
+    example: "dataset_1,dataset_2"
+    description: "Configures the KIE Server Datasets prefix. For multi datasets, use comma separated values. The valid values for this prefix are: ${datasetPrefix}_LOCATION, ${datasetPrefix}_USER, ${datasetPrefix}_PASSWORD, ${datasetPrefix}_TOKEN and ${datasetPrefix}_REPLACE_QUERY. For more information about these properties please take a look on https://docs.jboss.org/jbpm/release/7.45.0.Final/jbpm-docs/html_single/#_kie_server_integration"
+  - name: "KIESERVER_SERVER_TEMPLATES"
+    example: "server_template_1,serverTemplate2"
+    description: "Configures the KIE Server Server Template prefix. For multi serverTemplate, use comma separated values. The valid values for this prefix are: ${serverTemplatePrefix}_LOCATION, ${serverTemplatePrefix}_USER, ${serverTemplatePrefix}_PASSWORD, ${serverTemplatePrefix}_TOKEN and ${datasetPrefix}_REPLACE_QUERY. For more information about these properties please take a look on https://docs.jboss.org/jbpm/release/7.45.0.Final/jbpm-docs/html_single/#_kie_server_integration"
+
+ports:
+  - value: 8080
+  - value: 8443
+  - value: 8778
+modules:
+  repositories:
+    - name: cct_module
+      git:
+        url: https://github.com/jboss-openshift/cct_module.git
+        ref: master
+    - name: jboss-eap-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-modules.git
+        ref: master
+    - name: wildfly-cekit-modules
+      git:
+        url: https://github.com/wildfly/wildfly-cekit-modules.git
+        ref: master
+    - name: jboss-eap-7-image
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+        ref: eap73-dev
+    - name: rhpam-7-image
+      git:
+        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        ref: master
+    - name: jboss-kie-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-kie-modules.git
+        ref: master
+  install:
+    - name: jboss.kie.common.dependencies
+    - name: jboss.container.openjdk.jdk
+      version: "11"
+    - name: eap-73-latest
+      version: "7.3-latest"
+    - name: jboss.container.eap.setup
+    - name: dynamic-resources
+    - name: rhpam-7-dashbuilder
+    - name: jboss.container.jolokia.bash
+    # TODO move the standalone.conf from cd.jolokia module to another place.
+    - name: jboss.eap.cd.jolokia
+      version: "1.0-kie"
+    - name: os-eap7-openshift
+      version: "1.0-kie"
+    - name: jboss.eap.config.openshift
+      version: "EAP7.3.0-kie"
+    # TODO: migrate both when it gets merged:
+    # https://github.com/wildfly/wildfly-cekit-modules/pull/190
+    - name: os-eap-launch
+      version: "1.0-kie"
+    - name: os-eap7-launch
+      version: "1.0-kie"
+    - name: jboss-kie-db-drivers
+    - name: jboss.container.wildfly.launch.json-logging
+    - name: jboss.container.wildfly.launch-config.os
+    - name: jboss.container.wildfly.launch.jgroups
+    - name: jboss.container.wildfly.launch.elytron
+    - name: jboss.container.wildfly.launch.keycloak
+    - name: os-eap70-sso
+    - name: jboss.container.wildfly.launch.deployment-scanner
+    - name: jboss.container.wildfly.launch.extensions
+    - name: openshift-layer
+    - name: jboss.container.util.logging.bash
+    - name: jboss.container.eap.prometheus.config
+      version: "7.2-kie"
+    - name: jboss-kie-jdk-clean
+      version: "11"
+    - name: jboss-kie-wildfly-common
+    - name: jboss-kie-dashbuilder
+packages:
+  manager: microdnf
+  content_sets_file: content_sets.yml
+osbs:
+  configuration:
+    container_file: container.yaml
+  extra_dir: osbs-extra
+  repository:
+    name: containers/rhpam-7-dashbuilder
+    branch: rhba-7-rhel-8
+run:
+  user: 185
+  cmd:
+    - "/opt/eap/bin/openshift-launch.sh"

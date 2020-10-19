@@ -52,6 +52,10 @@ jobs:
         command: |
           ./cekit-image-validator-runner controller/
     - run:
+        name: Validate dashbuilder image files
+        command: |
+          ./cekit-image-validator-runner dashbuilder/
+    - run:
         name: Validate kieserver image files
         command: |
           ./cekit-image-validator-runner kieserver/

@@ -1,0 +1,13 @@
+schema_version: 1
+
+# Purpose: Artifact overrides are for replacing "non-plain" artifacts with
+#          "plain" artifacts. Useful, for example, when referenced modules have
+#          not updated from "path" to "name". See "Artifact types" here:
+#          https://docs.cekit.io/en/latest/descriptor/module.html#artifact-types
+#          Currently used for jenkins builds for continuous integration.
+#   Usage: cekit build --overrides-file branch-overrides.yaml \
+#                      --overrides-file artifact-overrides.yaml
+
+artifacts:
+  - name: "jboss-eap-7.3.3.GA-CR2-patch.zip"
+    md5: "b627b60cd6bff9cfc5e1f09f3d9c69ae"
