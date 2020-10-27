@@ -219,10 +219,26 @@ parameters:
   value: '30000'
   required: false
 - displayName: KIE Server Container Memory Limit
-  description: KIE server Container memory limit
+  description: KIE server Container memory limit.
   name: KIE_SERVER_MEMORY_LIMIT
-  value: 1Gi
-  required: false
+  value: 2Gi
+  required: true
+- displayName: KIE Server Container Memory Request
+  description: KIE server Container memory request.
+  name: KIE_SERVER_MEMORY_REQUEST
+  value: 2Gi
+  required: true
+- displayName: KIE Server Container CPU Limit
+  description: KIE server Container CPU limit.
+  name: KIE_SERVER_CPU_LIMIT
+  value: '1'
+  required: true
+- displayName: KIE Server Container CPU Request
+  description: KIE server Container CPU request.
+  name: KIE_SERVER_CPU_REQUEST
+  value: '1'
+  required: true
+
 - displayName: Disable KIE Server Management
   description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped. (Sets the property org.kie.server.mgmt.api.disabled to true)"
   name: KIE_SERVER_MGMT_DISABLED
@@ -905,6 +921,10 @@ objects:
           resources:
             limits:
               memory: "${KIE_SERVER_MEMORY_LIMIT}"
+              cpu: "${KIE_SERVER_CPU_LIMIT}"
+            requests:
+              memory: "${KIE_SERVER_MEMORY_REQUEST}"
+              cpu: "${KIE_SERVER_CPU_REQUEST}"
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"

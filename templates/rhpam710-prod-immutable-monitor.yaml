@@ -186,7 +186,22 @@ parameters:
   description: Business Central Container memory limit.
   name: BUSINESS_CENTRAL_MEMORY_LIMIT
   value: 2Gi
-  required: false
+  required: true
+- displayName: Business Central Container Memory Request
+  description: Business Central Container memory request.
+  name: BUSINESS_CENTRAL_MEMORY_REQUEST
+  value: 2Gi
+  required: true
+- displayName: Business Central Container CPU Limit
+  description: Business Central Container CPU limit.
+  name: BUSINESS_CENTRAL_CPU_LIMIT
+  value: '1'
+  required: true
+- displayName: Business Central Container CPU Request
+  description: Business Central Container CPU request.
+  name: BUSINESS_CENTRAL_CPU_REQUEST
+  value: '1'
+  required: true
 - displayName: Smart Router Container Memory Limit
   description: Smart Router Container memory limit.
   name: SMART_ROUTER_MEMORY_LIMIT
@@ -544,6 +559,10 @@ objects:
           resources:
             limits:
               memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
+              cpu: "${BUSINESS_CENTRAL_CPU_LIMIT}"
+            requests:
+              memory: "${BUSINESS_CENTRAL_MEMORY_REQUEST}"
+              cpu: "${BUSINESS_CENTRAL_CPU_REQUEST}"
           volumeMounts:
           - name: businesscentral-keystore-volume
             mountPath: "/etc/businesscentral-secret-volume"

@@ -200,8 +200,23 @@ parameters:
 - displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit.
   name: KIE_SERVER_MEMORY_LIMIT
-  value: 1Gi
-  required: false
+  value: 2Gi
+  required: true
+- displayName: KIE Server Container Memory Request
+  description: KIE server Container memory request.
+  name: KIE_SERVER_MEMORY_REQUEST
+  value: 2Gi
+  required: true
+- displayName: KIE Server Container CPU Limit
+  description: KIE server Container CPU limit.
+  name: KIE_SERVER_CPU_LIMIT
+  value: '1'
+  required: true
+- displayName: KIE Server Container CPU Request
+  description: KIE server Container CPU request.
+  name: KIE_SERVER_CPU_REQUEST
+  value: '1'
+  required: true
 - displayName: KIE Server Container Deployment
   description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
   name: KIE_SERVER_CONTAINER_DEPLOYMENT
@@ -529,6 +544,10 @@ objects:
           resources:
             limits:
               memory: "${KIE_SERVER_MEMORY_LIMIT}"
+              cpu: "${KIE_SERVER_CPU_LIMIT}"
+            requests:
+              memory: "${KIE_SERVER_MEMORY_REQUEST}"
+              cpu: "${KIE_SERVER_CPU_REQUEST}"
           volumeMounts:
           - name: kieserver-keystore-volume
             mountPath: "/etc/kieserver-secret-volume"
