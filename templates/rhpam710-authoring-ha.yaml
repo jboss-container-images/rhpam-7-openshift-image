@@ -331,12 +331,12 @@ parameters:
 - displayName: Business Central Container CPU Request
   description: Business Central Container CPU Request.
   name: BUSINESS_CENTRAL_CPU_REQUEST
-  value: '2'
+  value: '1500m'
   required: true
 - displayName: Business Central Container Memory Request
   description: Business Central Container Memory Request.
   name: BUSINESS_CENTRAL_MEMORY_REQUEST
-  value: 4Gi
+  value: 3Gi
   required: true
 - displayName: KIE Server Container Memory Limit
   description: KIE server Container memory limit.
@@ -346,7 +346,7 @@ parameters:
 - displayName: KIE Server Container Memory Request
   description: KIE server Container memory Request.
   name: KIE_SERVER_MEMORY_REQUEST
-  value: 2Gi
+  value: 1.5Gi
   required: true
 - displayName: KIE Server Container CPU Limit
   description: KIE server Container CPU limit.
@@ -356,7 +356,7 @@ parameters:
 - displayName: KIE Server Container CPU Request
   description: KIE server Container CPU Request.
   name: KIE_SERVER_CPU_REQUEST
-  value: '1'
+  value: '750m'
   required: true 
 - displayName: Business Central Container Replicas
   description: Business Central Container Replicas, defines how many Business Central containers will be started.

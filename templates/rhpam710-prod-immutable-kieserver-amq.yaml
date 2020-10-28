@@ -226,7 +226,7 @@ parameters:
 - displayName: KIE Server Container Memory Request
   description: KIE server Container memory request.
   name: KIE_SERVER_MEMORY_REQUEST
-  value: 2Gi
+  value: 1.5Gi
   required: true
 - displayName: KIE Server Container CPU Limit
   description: KIE server Container CPU limit.
@@ -236,7 +236,7 @@ parameters:
 - displayName: KIE Server Container CPU Request
   description: KIE server Container CPU request.
   name: KIE_SERVER_CPU_REQUEST
-  value: '1'
+  value: '750m'
   required: true
 
 - displayName: Disable KIE Server Management
