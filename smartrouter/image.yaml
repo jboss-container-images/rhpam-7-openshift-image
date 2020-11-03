@@ -75,7 +75,7 @@ envs:
       example: "dasd373egds"
       description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
     - name: "LOG_LEVEL"
-      example: "INFO"
+      example: "FINE"
       description: "Java log level to apply in the logger configuration, if empty the level used will be INFO"
     - name: "LOGGER_CATEGORIES"
       example: "org.kie=FINE,org.apache=INFO,org.eclipse=INFO"
