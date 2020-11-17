@@ -106,6 +106,12 @@ envs:
     - name: "WORKBENCH_ROUTE_NAME"
       example: "myapp-rhpamcentr"
       description: "Route name that will be used to query its public address in the Kubernetes API to set the org.appformer.m2repo.url property. This env will only take effect if WORKBENCH_ROUTE_NAME is not empty. To set it to use https use the secure route available in the application template. Usually its name is secure-${APPLICATION_NAME}-rhpamcentr"
+    - name: "KIE_M2_REPO_DIR"
+      example: "/my/persistent/m2/volume"
+      description: "If KIE_PERSIST_MAVEN_REPO is set to true, this path is used for storing Business Central maven artifacts. Default value is /opt/kie/data/m2"
+    - name: "KIE_PERSIST_MAVEN_REPO"
+      example: "true"
+      description: "Enable persistence for Business Central Maven repository, disabled by default. If disable, it will use /home/jboss/.m2/repository."
 ports:
     - value: 8080
     - value: 8443
