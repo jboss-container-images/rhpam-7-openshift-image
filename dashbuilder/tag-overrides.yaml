@@ -1,0 +1,34 @@
+schema_version: 1
+
+# Purpose: Tag overrides are for reliably rebuilding the image per the state of
+#          the branch at the time the tag was created, along with other modules
+#          at reliable and unchanging reference points. Useful for CVE respins.
+#          Warning: Only reliable if referenced via a tag itself!
+#   Usage: cekit build --overrides-file tag-overrides.yaml
+
+modules:
+  repositories:
+    - name: cct_module
+      git:
+        url: https://github.com/jboss-openshift/cct_module.git
+        ref: 0.39.0
+    - name: jboss-eap-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-modules.git
+        ref: EAP_733_CR2
+    - name: jboss-eap-7-image
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+        ref: EAP_733_CR2
+    - name: wildfly-cekit-modules
+      git:
+        url: https://github.com/wildfly/wildfly-cekit-modules.git
+        ref: 0.18.6
+    - name: rhpam-7-image
+      git:
+        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        ref: 7.10.0.GA
+    - name: jboss-kie-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-kie-modules.git
+        ref: rhpam-7.10.0.GA
