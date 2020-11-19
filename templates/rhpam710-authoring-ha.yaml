@@ -917,12 +917,13 @@ objects:
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
+            failureThreshold: 36
           readinessProbe:
             httpGet:
               path: /rest/ready
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 36
