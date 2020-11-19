@@ -934,15 +934,6 @@ objects:
               path: /rest/healthy
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 90
-            timeoutSeconds: 2
-            periodSeconds: 15
-            failureThreshold: 10
-          startupProbe:
-            httpGet:
-              path: /rest/healthy
-              port: 8080
-              scheme: HTTP
             initialDelaySeconds: 180
             timeoutSeconds: 2
             periodSeconds: 15
