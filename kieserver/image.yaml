@@ -96,7 +96,7 @@ envs:
       description: "If the EJB timer is in use, setting this parameter to true enables transactions for EJB timer. Sets the 'org.jbpm.ejb.timer.tx' system property. The default is true"
     - name: "KIE_EJB_TIMER_LOCAL_CACHE"
       example: "true"
-      description: "Set if the EJB timer is in use, if false this property turns off the EJB Timers local cache. Defaults to false"
+      description: "If the EJB timer is in use, setting this parameter to true enables the local cache for the EJB timer. Sets the 'org.jbpm.ejb.timer.local.cache' system property. The default is false"
     - name: "KIE_SERVER_STARTUP_STRATEGY"
       example: "OpenShiftStartupStrategy"
       description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently used shared state from OpenShift API service."
