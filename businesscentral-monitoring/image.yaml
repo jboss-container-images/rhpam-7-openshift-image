@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam-businesscentral-monitoring-rhel8"
 description: "Red Hat Business Central Monitoring 7.10 OpenShift container image"
 version: "7.10.0"
-from: "ubi8:8-released"
+from: "registry.redhat.io/ubi8/ubi:latest"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-businesscentral-monitoring-rhel8-container"
