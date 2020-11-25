@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam-kieserver-rhel8"
 description: "Red Hat Process Automation Manager Kie Server 7.10 container image"
 version: "7.10.0"
-from: "registry.redhat.io/ubi8/ubi:latest"
+from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-kieserver-rhel8-container"
@@ -264,6 +264,7 @@ modules:
           - name: jboss-kie-kieserver
 packages:
       content_sets_file: content_sets.yml
+      manager: microdnf
       install:
           - hostname
 osbs:

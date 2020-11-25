@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam-businesscentral-rhel8"
 description: "Red Hat Business Central 7.10 OpenShift container image"
 version: "7.10.0"
-from: "registry.redhat.io/ubi8/ubi:latest"
+from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-businesscentral-rhel8-container"
@@ -187,6 +187,7 @@ modules:
           - name: jboss-kie-workbench
 packages:
       content_sets_file: content_sets.yml
+      manager: microdnf
       install:
           - hostname
           - git
