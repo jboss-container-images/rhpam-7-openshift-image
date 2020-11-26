@@ -1,0 +1,714 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  annotations:
+    iconClass: icon-jboss
+    tags: rhpam,processserver,jboss,dashbuilder
+    version: "7.10"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.10 Standalone Dashbuilder
+    openshift.io/provider-display-name: Red Hat, Inc.
+    description: Application template for a Standalone Dashbuilder, for Red Hat Process Automation Manager 7.10 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed to run the Standalone Dashbuilder 7.10 Container Image, including application deployment configuration, secure and insecure http communication, this template does not configure any integration with an existing Dashbuilder instance. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.10/html/deploying_a_red_hat_process_automation_manager_7.10_managed_server_environment_on_red_hat_openshift_container_platform/
+    template.openshift.io/support-url: https://access.redhat.com
+    template.openshift.io/bindable: "false"
+  name: rhpam710-standalone-dashbuilder
+labels:
+  template: rhpam710-standalone-dashbuilder
+  rhpam: "7.10"
+message: |-
+          A new Process Automation Manager Dashbuilder Standalone application have been created in your project.
+          The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
+          KIE_ADMIN_USER and KIE_ADMIN_PWD
+
+          You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD
+          values and the secret named "${DASHBUILDER_HTTPS_SECRET}" containing the ${DASHBUILDER_HTTPS_KEYSTORE} file
+          used for serving secure content.
+parameters:
+- displayName: Application Name
+  description: "The name for the application."
+  name: APPLICATION_NAME
+  value: myapp
+  required: true
+- displayName: Credentials secret
+  description: "Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values"
+  name: CREDENTIALS_SECRET
+  example: rhpam-credentials
+  required: true
+- displayName: Dashbuilder allow external file register
+  description: "When true will allow download of external (remote) files into runtime.
+    Sets the 'dashbuilder.runtime.allowExternal' property. Default value is false"
+  name: DASHBUILDER_ALLOW_EXTERNAL_FILE_REGISTER
+  example: "false"
+  required: false
+- displayName: Dashbuilder component partition
+  description: "If true components will be partitioned by the Runtime Model ID.
+    Sets the dashbuilder.components.partition property. Default value is true."
+  name: DASHBUILDER_COMPONENT_PARTITION
+  example: "false"
+  required: false
+- displayName: Dashbuilder dataset partition
+  description: "If true datasets IDs will partitioned by the Runtime Model ID.
+    Sets the dashbuilder.dataset.partition property. Default value is true."
+  name: DASHBUILDER_DATASET_PARTITION
+  example: "false"
+  required: false
+- displayName: Dashbuilder import file location
+  description: "Set a static dashboard to run with runtime. When this property is set no new imports are allowed.
+    If provided file is not set, Dashbuilder image will fail to start."
+  name: DASHBUILDER_IMPORT_FILE_LOCATION
+  example: "/opt/mypv/my_static_dsahboard.zip"
+  required: false
+- displayName: Dashbuilder imports base directory
+  description: "Base Directory where dashboards ZIPs are stored, if not set or if the provided value does not exist,
+    the '/opt/kie/data/imports' will be used."
+  name: DASHBUILDER_IMPORTS_BASE_DIR
+  example: "/path/to/my/pv/with/dashboards"
+  required: false
+- displayName: Dashbuilder model update
+  description: "Boolean property that allows Runtime to check model last update in FS to update its content.
+    Sets the dashbuilder.model.update property. Default value is true."
+  name: DASHBUILDER_MODEL_UPDATE
+  example: "false"
+  required: false
+- displayName: Dashbuilder model file removal
+  description: "Boolean property when true will also remove actual model file from file system.
+    Sets the dashbuilder.removeModelFile property"
+  name: DASHBUILDER_MODEL_FILE_REMOVAL
+  example: "true"
+  required: false
+- displayName: Dashbuilder runtime multiple import
+  description: "If set to true Runtime will always allow use of new imports (multi tenancy).
+    Sets the dashbuilder.runtime.multi property. Default value is false"
+  name: DASHBUILDER_RUNTIME_MULTIPLE_IMPORT
+  example: "true"
+  required: false
+- displayName: Dashbuilder maximum file upload size (kb)
+  description: "Limits the size of uploaded dashboards (in kb). Sets the dashbuilder.runtime.upload.size.
+    Default value is 10485760 kb."
+  name: DASHBUILDER_UPLOAD_SIZE
+  example: "10000000"
+  required: false
+- displayName: Dashbuilder enable components
+  description: "Boolean property that when true enables external components.
+    Sets the dashbuilder.components.enable property. Default value is false"
+  name: DASHBUILDER_COMP_ENABLE
+  example: "true"
+  required: false
+- displayName: Dashbuilder external components directory
+  description: "Configures the base directory for dashbuilder components. Sets the dashbuilder.components.dir property.
+    Default value is /opt/kie/data/components"
+  name: DASHBUILDER_EXTERNAL_COMP_DIR
+  example: "/tmp/test"
+  required: false
+- displayName: Dashbuilder configMap properties
+  description: "Properties file with Dashbuilder configurations, if set, uniq properties will be appended and,
+    if a property is set mode than once, the one from this property file will be used."
+  name: DASHBUILDER_CONFIG_MAP_PROPS
+  example: "/data/config.properties"
+  required: false
+- displayName: Dashbuilder KIE Server Dataset location
+  description: "KIE Server dataset location, url address of the KIE Server."
+  name: DATASET_LOCATION
+  example: "http://myapp-kieserver.cloud.com/"
+  required: false
+- displayName: Dashbuilder KIE Server Dataset username
+  description: "KIE Server dataset username."
+  name: DATASET_USER
+  example: "kieserver"
+  required: false
+- displayName: Dashbuilder KIE Server Dataset password
+  description: "KIE Server dataset password."
+  name: DATASET_PASSWORD
+  required: false
+- displayName: Dashbuilder KIE Server Dataset token
+  description: "KIE Server dataset token."
+  name: DATASET_TOKEN
+  required: false
+- displayName: Dashbuilder KIE Server Dataset replace query
+  description: "KIE Server dataset replace query."
+  name: DATASET_REPLACE_QUERY
+  example: "true"
+  required: false
+- displayName: Dashbuilder KIE Server Template location
+  description: "KIE Server template location, url address of the KIE Server."
+  name: TEMPLATE_LOCATION
+  example: "http://myapp-kieserver.cloud.com/"
+  required: false
+- displayName: Dashbuilder KIE Server Template username
+  description: "KIE Server template username."
+  name: TEMPLATE_USER
+  example: "kieserver"
+  required: false
+- displayName: Dashbuilder KIE Server Template password
+  description: "KIE Server template password."
+  name: TEMPLATE_PASSWORD
+  required: false
+- displayName: Dashbuilder KIE Server Template token
+  description: "KIE Server template token."
+  name: TEMPLATE_TOKEN
+  required: false
+- displayName: Dashbuilder KIE Server Template replace query
+  description: "KIE Server template replace query."
+  name: TEMPLATE_REPLACE_QUERY
+  example: "true"
+  required: false
+- displayName: ImageStream Namespace
+  description: 'Namespace in which the ImageStreams for Red Hat Process Automation Manager images
+    are installed. These ImageStreams are normally installed in the openshift namespace.
+    You need to modify this parameter only if you installed the ImageStream in a
+    different namespace/project. Default is "openshift".'
+  name: IMAGE_STREAM_NAMESPACE
+  value: openshift
+  required: true
+- displayName: ImageStream Tag
+  description: 'A named pointer to an image in an image stream. Default is "7.10.0".'
+  name: IMAGE_STREAM_TAG
+  value: "7.10.0"
+  required: true
+- displayName: Dashbuilder Custom http Route Hostname
+  description: 'Custom hostname for http service route. Leave blank for default hostname,
+    e.g.: insecure-<application-name>-dashbuilder-<project>.<default-domain-suffix>'
+  name: DASHBUILDER_HOSTNAME_HTTP
+  value: ''
+  required: false
+- displayName: Dashbuilder Custom https Route Hostname
+  description: 'Custom hostname for https service route.  Leave blank for default
+    hostname, e.g.: <application-name>-dashbuilder-<project>.<default-domain-suffix>'
+  name: DASHBUILDER_HOSTNAME_HTTPS
+  value: ''
+  required: false
+- displayName: Dashbuilder Keystore Secret Name
+  description: "The name of the secret containing the keystore file."
+  name: DASHBUILDER_HTTPS_SECRET
+  example: dashbuilder-app-secret
+  required: true
+- displayName: Dashbuilder Keystore Filename
+  description: "The name of the keystore file within the secret."
+  name: DASHBUILDER_HTTPS_KEYSTORE
+  value: keystore.jks
+  required: false
+- displayName: Dashbuilder Certificate Name
+  description: "The name associated with the server certificate."
+  name: DASHBUILDER_HTTPS_NAME
+  value: jboss
+  required: false
+- displayName: Dashbuilder Keystore Password
+  description: "The password for the keystore and certificate."
+  name: DASHBUILDER_HTTPS_PASSWORD
+  value: mykeystorepass
+  required: false
+- displayName: Dashbuilder Container Memory Limit
+  description: "Dashbuilder Container memory limit."
+  name: DASHBUILDER_MEMORY_LIMIT
+  value: 2Gi
+  required: true
+- displayName: Dashbuilder Container Memory Request
+  description: "Dashbuilder Container memory request."
+  name: DASHBUILDER_MEMORY_REQUEST
+  value: 1.5Gi
+  required: true
+- displayName: Dashbuilder Container CPU Limit
+  description: "Dashbuilder Container CPU limit."
+  name: DASHBUILDER_CPU_LIMIT
+  value: '1'
+  required: true
+- displayName: Dashbuilder Container CPU Request
+  description: "Dashbuilder Container CPU request."
+  name: DASHBUILDER_CPU_REQUEST
+  value: '750m'
+  required: true
+- displayName: RH-SSO URL
+  description: "RH-SSO URL."
+  name: SSO_URL
+  example: https://rh-sso.example.com/auth
+  required: false
+- displayName: RH-SSO Realm name
+  description: "RH-SSO Realm name."
+  name: SSO_REALM
+  required: false
+- displayName: Dashbuilder RH-SSO Client name
+  description: "Dashbuilder RH-SSO Client name."
+  name: DASHBUILDER_SSO_CLIENT
+  required: false
+- displayName: Dashbuilder RH-SSO Client Secret
+  description: "Dashbuilder RH-SSO Client Secret."
+  name: DASHBUILDER_SSO_SECRET
+  example: "252793ed-7118-4ca8-8dab-5622fa97d892"
+  required: false
+- displayName: RH-SSO Realm admin user name
+  description: "RH-SSO Realm admin user name for creating the Client if it doesn't exist."
+  name: SSO_USERNAME
+  required: false
+- displayName: RH-SSO Realm Admin Password
+  description: "RH-SSO Realm Admin Password used to create the Client."
+  name: SSO_PASSWORD
+  required: false
+- displayName: RH-SSO Disable SSL Certificate Validation
+  description: "RH-SSO Disable SSL Certificate Validation."
+  name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+  value: "false"
+  required: false
+- displayName: RH-SSO Principal Attribute
+  description: "RH-SSO Principal Attribute to use as user name."
+  name: SSO_PRINCIPAL_ATTRIBUTE
+  value: preferred_username
+  required: false
+- displayName: LDAP Endpoint
+  description: "LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated.
+    by space."
+  name: AUTH_LDAP_URL
+  example: "ldap://myldap.example.com:389"
+  required: false
+- displayName: LDAP Bind DN
+  description: "Bind DN used for authentication."
+  name: AUTH_LDAP_BIND_DN
+  example: "uid=admin,ou=users,ou=example,ou=com"
+  required: false
+- displayName: LDAP Bind Credentials
+  description: "LDAP Credentials used for authentication."
+  name: AUTH_LDAP_BIND_CREDENTIAL
+  example: "Password"
+  required: false
+- displayName: LDAP JAAS Security Domain
+  description: "The JMX ObjectName of the JaasSecurityDomain used to decrypt the password."
+  name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
+  required: false
+- displayName: LDAP Base DN
+  description: "LDAP Base DN of the top-level context to begin the user search."
+  name: AUTH_LDAP_BASE_CTX_DN
+  example: "ou=users,ou=example,ou=com"
+  required: false
+- displayName: LDAP Base Search filter
+  description: "LDAP search filter used to locate the context of the user to authenticate.
+    The input username or userDN obtained from the login module callback is substituted into the filter
+    anywhere a {0} expression is used. A common example for the search filter is (uid={0})."
+  name: AUTH_LDAP_BASE_FILTER
+  example: "(uid={0})"
+  required: false
+- displayName: LDAP Search scope
+  description: "The search scope to use."
+  name: AUTH_LDAP_SEARCH_SCOPE
+  example: "SUBTREE_SCOPE"
+  required: false
+- displayName: LDAP Search time limit
+  description: "The timeout in milliseconds for user or role searches."
+  name: AUTH_LDAP_SEARCH_TIME_LIMIT
+  example: "10000"
+  required: false
+- displayName: LDAP DN attribute
+  description: "The name of the attribute in the user entry that contains the DN of the user. This may be necessary
+    if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping.
+    If the attribute does not exist, the entry’s DN is used."
+  name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
+  example: "distinguishedName"
+  required: false
+- displayName: LDAP Parse username
+  description: "A flag indicating if the DN is to be parsed for the user name. If set to true,
+    the DN is parsed for the user name. If set to false the DN is not parsed for the user name.
+    This option is used together with usernameBeginString and usernameEndString."
+  name: AUTH_LDAP_PARSE_USERNAME
+  example: "true"
+  required: false
+- displayName: LDAP Username begin string
+  description: "Defines the String which is to be removed from the start of the DN to reveal the user name.
+    This option is used together with usernameEndString and only taken into account if parseUsername is set to true."
+  name: AUTH_LDAP_USERNAME_BEGIN_STRING
+  required: false
+- displayName: LDAP Username end string
+  description: "Defines the String which is to be removed from the end of the DN to reveal the user name.
+    This option is used together with usernameEndString and only taken into account if parseUsername is set to true."
+  name: AUTH_LDAP_USERNAME_END_STRING
+  required: false
+- displayName: LDAP Role attributeID
+  description: "Name of the attribute containing the user roles."
+  name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
+  example: memberOf
+  required: false
+- displayName: LDAP Roles Search DN
+  description: "The fixed DN of the context to search for user roles. This is not the DN where the actual roles are,
+    but the DN where the objects containing the user roles are. For example, in a Microsoft Active Directory server,
+    this is the DN where the user account is."
+  name: AUTH_LDAP_ROLES_CTX_DN
+  example: "ou=groups,ou=example,ou=com"
+  required: false
+- displayName: LDAP Role search filter
+  description: "A search filter used to locate the roles associated with the authenticated user. The input username
+    or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used.
+    The authenticated userDN is substituted into the filter anywhere a {1} is used.
+    An example search filter that matches on the input username is (member={0}).
+    An alternative that matches on the authenticated userDN is (member={1})."
+  name: AUTH_LDAP_ROLE_FILTER
+  example: "(memberOf={1})"
+  required: false
+- displayName: LDAP Role recursion
+  description: "The number of levels of recursion the role search will go below a matching context.
+    Disable recursion by setting this to 0."
+  name: AUTH_LDAP_ROLE_RECURSION
+  example: "1"
+  required: false
+- displayName: LDAP Default role
+  description: "A role included for all authenticated users."
+  name: AUTH_LDAP_DEFAULT_ROLE
+  example: "user"
+  required: false
+- displayName: LDAP Role name attribute ID
+  description: "Name of the attribute within the roleCtxDN context which contains the role name.
+    If the roleAttributeIsDN property is set to true, this property is used to find the role object’s name attribute."
+  name: AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID
+  example: "name"
+  required: false
+- displayName: LDAP Role DN contains roleNameAttributeID
+  description: "A flag indicating if the DN returned by a query contains the roleNameAttributeID.
+    If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for
+    the roleNameAttributeID. This flag can improve the performance of LDAP queries."
+  name: AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN
+  example: "false"
+  required: false
+- displayName: LDAP Role Attribute ID is DN
+  description: "Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false,
+    the role name is taken from the value of the roleNameAttributeId attribute of the context name.
+    Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true."
+  name: AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN
+  example: "false"
+  required: false
+- displayName: LDAP Referral user attribute ID
+  description: "If you are not using referrals, you can ignore this option. When using referrals,
+    this option denotes the attribute name which contains users defined for a certain role, for example member,
+    if the role object is inside the referral. Users are checked against the content of this attribute name.
+    If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree."
+  name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
+  required: false
+- displayName: RoleMapping rolesProperties file path
+  description: "When present, the RoleMapping Login Module will be configured to use the provided file.
+    This property defines the fully-qualified file path and name of a properties file or resource which maps roles to
+    replacement roles. The format is original_role=role1,role2,role3."
+  name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
+  required: false
+- displayName: RoleMapping replaceRole property
+  description: "Whether to add to the current roles, or replace the current roles with the mapped ones.
+    Replaces if set to true."
+  name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+  required: false
+objects:
+- kind: ServiceAccount
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder"
+    labels:
+      application: "${APPLICATION_NAME}"
+- kind: RoleBinding
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder-edit"
+    labels:
+      application: "${APPLICATION_NAME}"
+  subjects:
+    - kind: ServiceAccount
+      name: "${APPLICATION_NAME}-dashbuilder"
+  roleRef:
+    name: edit
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-dashbuilder"
+    sessionAffinity:
+      ClientIP
+    sessionAffinityConfig:
+      clientIP:
+        timeoutSeconds: 3600
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-dashbuilder"
+    annotations:
+      description: All the Dashbuilder web server's ports.
+- kind: Service
+  apiVersion: v1
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "ping"
+      port: 8888
+      targetPort: 8888
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-dashbuilder"
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder-ping"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-dashbuilder"
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+      description: "The JGroups ping port for clustering."
+- kind: Route
+  apiVersion: v1
+  id: "insecure-${APPLICATION_NAME}-dashbuilder-http"
+  metadata:
+    name: "insecure-${APPLICATION_NAME}-dashbuilder"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-dashbuilder"
+    annotations:
+      description: Route for Dashbuilder's http service.
+      haproxy.router.openshift.io/balance: source
+  spec:
+    host: "${DASHBUILDER_HOSTNAME_HTTP}"
+    to:
+      name: "${APPLICATION_NAME}-dashbuilder"
+    port:
+      targetPort: http
+- kind: Route
+  apiVersion: v1
+  id: "${APPLICATION_NAME}-dashbuilder-https"
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-dashbuilder"
+    annotations:
+      description: Route for Dashbuilder's https service.
+  spec:
+    host: "${DASHBUILDER_HOSTNAME_HTTPS}"
+    to:
+      name: "${APPLICATION_NAME}-dashbuilder"
+    port:
+      targetPort: https
+    tls:
+      termination: passthrough
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-dashbuilder"
+    labels:
+      application: "${APPLICATION_NAME}"
+      service: "${APPLICATION_NAME}-dashbuilder"
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: "true"
+  spec:
+    strategy:
+      type: Recreate
+    triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - "${APPLICATION_NAME}-dashbuilder"
+        from:
+          kind: ImageStreamTag
+          namespace: "${IMAGE_STREAM_NAMESPACE}"
+          name: "rhpam-dashbuilder-rhel8:${IMAGE_STREAM_TAG}"
+    - type: ConfigChange
+    replicas: 1
+    selector:
+      deploymentConfig: "${APPLICATION_NAME}-dashbuilder"
+    template:
+      metadata:
+        name: "${APPLICATION_NAME}-dashbuilder"
+        labels:
+          deploymentConfig: "${APPLICATION_NAME}-dashbuilder"
+          application: "${APPLICATION_NAME}"
+          service: "${APPLICATION_NAME}-dashbuilder"
+      spec:
+        serviceAccountName: "${APPLICATION_NAME}-dashbuilder"
+        terminationGracePeriodSeconds: 90
+        containers:
+        - name: "${APPLICATION_NAME}-dashbuilder"
+          image: rhpam-dashbuilder-rhel8
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "${DASHBUILDER_MEMORY_LIMIT}"
+              cpu: "${DASHBUILDER_CPU_LIMIT}"
+            requests:
+              memory: "${DASHBUILDER_MEMORY_REQUEST}"
+              cpu: "${DASHBUILDER_CPU_REQUEST}"
+          volumeMounts:
+          - name: dashbuilder-keystore-volume
+            mountPath: "/etc/dashbuilder-secret-volume"
+            readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /rest/healthy
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 180
+            timeoutSeconds: 2
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /rest/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 36
+          ports:
+          - name: jolokia
+            containerPort: 8778
+            protocol: TCP
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          - name: https
+            containerPort: 8443
+            protocol: TCP
+          - name: ping
+            containerPort: 8888
+            protocol: TCP
+          env:
+          - name: KIE_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_USER
+          - name: KIE_ADMIN_PWD
+            valueFrom:
+              secretKeyRef:
+                name: "${CREDENTIALS_SECRET}"
+                key: KIE_ADMIN_PWD
+          - name: DASHBUILDER_ALLOW_EXTERNAL_FILE_REGISTER
+            value: "${DASHBUILDER_ALLOW_EXTERNAL_FILE_REGISTER}"
+          - name: DASHBUILDER_COMPONENT_PARTITION
+            value: "${DASHBUILDER_COMPONENT_PARTITION}"
+          - name: DASHBUILDER_DATASET_PARTITION
+            value: "${DASHBUILDER_DATASET_PARTITION}"
+          - name: DASHBUILDER_IMPORT_FILE_LOCATION
+            value: "${DASHBUILDER_IMPORT_FILE_LOCATION}"
+          - name: DASHBUILDER_IMPORTS_BASE_DIR
+            value: "${DASHBUILDER_IMPORTS_BASE_DIR}"
+          - name: DASHBUILDER_MODEL_UPDATE
+            value: "${DASHBUILDER_MODEL_UPDATE}"
+          - name: DASHBUILDER_MODEL_FILE_REMOVAL
+            value: "${DASHBUILDER_MODEL_FILE_REMOVAL}"
+          - name: DASHBUILDER_RUNTIME_MULTIPLE_IMPORT
+            value: "${DASHBUILDER_RUNTIME_MULTIPLE_IMPORT}"
+          - name: DASHBUILDER_UPLOAD_SIZE
+            value: "${DASHBUILDER_UPLOAD_SIZE}"
+          - name: DASHBUILDER_COMP_ENABLE
+            value: "${DASHBUILDER_COMP_ENABLE}"
+          - name: DASHBUILDER_EXTERNAL_COMP_DIR
+            value: "${DASHBUILDER_EXTERNAL_COMP_DIR}"
+          - name: DASHBUILDER_CONFIG_MAP_PROPS
+            value: "${DASHBUILDER_CONFIG_MAP_PROPS}"
+          - name: KIESERVER_DATASETS
+            value: "DATASET"
+          - name: DATASET_LOCATION
+            value: "${DATASET_LOCATION}"
+          - name: DATASET_USER
+            value: "${DATASET_USER}"
+          - name: DATASET_PASSWORD
+            value: "${DATASET_PASSWORD}"
+          - name: DATASET_TOKEN
+            value: "${DATASET_TOKEN}"
+          - name: DATASET_REPLACE_QUERY
+            value: "${DATASET_REPLACE_QUERY}"
+          - name: KIESERVER_SERVER_TEMPLATES
+            value: "TEMPLATE"
+          - name: TEMPLATE_LOCATION
+            value: "${TEMPLATE_LOCATION}"
+          - name: TEMPLATE_USER
+            value: "${TEMPLATE_USER}"
+          - name: TEMPLATE_PASSWORD
+            value: "${TEMPLATE_PASSWORD}"
+          - name: TEMPLATE_TOKEN
+            value: "${TEMPLATE_TOKEN}"
+          - name: TEMPLATE_REPLACE_QUERY
+            value: "${TEMPLATE_REPLACE_QUERY}"
+          - name: HTTPS_KEYSTORE_DIR
+            value: "/etc/dashbuilder-secret-volume"
+          - name: HTTPS_KEYSTORE
+            value: "${DASHBUILDER_HTTPS_KEYSTORE}"
+          - name: HTTPS_NAME
+            value: "${DASHBUILDER_HTTPS_NAME}"
+          - name: HTTPS_PASSWORD
+            value: "${DASHBUILDER_HTTPS_PASSWORD}"
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: SSO_URL
+            value: "${SSO_URL}"
+          - name: SSO_OPENIDCONNECT_DEPLOYMENTS
+            value: "ROOT.war"
+          - name: SSO_REALM
+            value: "${SSO_REALM}"
+          - name: SSO_SECRET
+            value: "${DASHBUILDER_SSO_SECRET}"
+          - name: SSO_CLIENT
+            value: "${DASHBUILDER_SSO_CLIENT}"
+          - name: SSO_USERNAME
+            value: "${SSO_USERNAME}"
+          - name: SSO_PASSWORD
+            value: "${SSO_PASSWORD}"
+          - name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
+            value: "${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}"
+          - name: SSO_PRINCIPAL_ATTRIBUTE
+            value: "${SSO_PRINCIPAL_ATTRIBUTE}"
+          - name: HOSTNAME_HTTP
+            value: "${DASHBUILDER_HOSTNAME_HTTP}"
+          - name: HOSTNAME_HTTPS
+            value: "${DASHBUILDER_HOSTNAME_HTTPS}"
+          - name: AUTH_LDAP_URL
+            value: "${AUTH_LDAP_URL}"
+          - name: AUTH_LDAP_BIND_DN
+            value: "${AUTH_LDAP_BIND_DN}"
+          - name: AUTH_LDAP_BIND_CREDENTIAL
+            value: "${AUTH_LDAP_BIND_CREDENTIAL}"
+          - name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
+            value: "${AUTH_LDAP_JAAS_SECURITY_DOMAIN}"
+          - name: AUTH_LDAP_BASE_CTX_DN
+            value: "${AUTH_LDAP_BASE_CTX_DN}"
+          - name: AUTH_LDAP_BASE_FILTER
+            value: "${AUTH_LDAP_BASE_FILTER}"
+          - name: AUTH_LDAP_SEARCH_SCOPE
+            value: "${AUTH_LDAP_SEARCH_SCOPE}"
+          - name: AUTH_LDAP_SEARCH_TIME_LIMIT
+            value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
+          - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
+            value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
+          - name: AUTH_LDAP_PARSE_USERNAME
+            value: "${AUTH_LDAP_PARSE_USERNAME}"
+          - name: AUTH_LDAP_USERNAME_BEGIN_STRING
+            value: "${AUTH_LDAP_USERNAME_BEGIN_STRING}"
+          - name: AUTH_LDAP_USERNAME_END_STRING
+            value: "${AUTH_LDAP_USERNAME_END_STRING}"
+          - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
+            value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
+          - name: AUTH_LDAP_ROLES_CTX_DN
+            value: "${AUTH_LDAP_ROLES_CTX_DN}"
+          - name: AUTH_LDAP_ROLE_FILTER
+            value: "${AUTH_LDAP_ROLE_FILTER}"
+          - name: AUTH_LDAP_ROLE_RECURSION
+            value: "${AUTH_LDAP_ROLE_RECURSION}"
+          - name: AUTH_LDAP_DEFAULT_ROLE
+            value: "${AUTH_LDAP_DEFAULT_ROLE}"
+          - name: AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID
+            value: "${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}"
+          - name: AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN
+            value: "${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}"
+          - name: AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN
+            value: "${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}"
+          - name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
+            value: "${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}"
+          - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
+            value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
+          - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+            value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
+        volumes:
+        - name: dashbuilder-keystore-volume
+          secret:
+            secretName: "${DASHBUILDER_HTTPS_SECRET}"
