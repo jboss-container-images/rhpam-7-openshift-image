@@ -26,10 +26,10 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
 |`DEFAULT_PASSWORD` | `KIE_ADMIN_PWD` | Default password used for multiple components for user convenience in this trial environment. | RedHat | True
 |`KIE_ADMIN_USER` | `KIE_ADMIN_USER` | KIE administrator user name. | adminUser | False
-|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
-|`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `DEVELOPMENT` | False
-|`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
-|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
+|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
+|`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `DEVELOPMENT` | False
+|`KIE_MBEANS` | `KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
+|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
 |`PROMETHEUS_SERVER_EXT_DISABLED` | `PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | false | False
 |`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | -- | False
 |`KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN` | `AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_VALUE` | Sets the Access-Control-Allow-Origin response header value in the KIE Server (useful for CORS support). | * | False
@@ -38,12 +38,12 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS` | `AC_ALLOW_CREDENTIALS_FILTER_RESPONSE_HEADER_VALUE` | Sets the Access-Control-Allow-Credentials response header value in the KIE Server (useful for CORS support). | true | False
 |`KIE_SERVER_ACCESS_CONTROL_MAX_AGE` | `AC_MAX_AGE_FILTER_RESPONSE_HEADER_VALUE` | Sets the Access-Control-Max-Age response header value in the KIE Server (useful for CORS support). | 1 | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | -- | False
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE Server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | `KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | true | False
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | `KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | 5000 | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.9.0". | 7.9.0 | True
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.9.1". | 7.9.1 | True
 |`KIE_SERVER_CONTAINER_DEPLOYMENT` | `KIE_SERVER_CONTAINER_DEPLOYMENT` | KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version\|c2(alias2)=g2:a2:v2 | -- | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | repo-custom | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | False
@@ -51,7 +51,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | -- | False
 |`GIT_HOOKS_DIR` | `GIT_HOOKS_DIR` | The directory to use for git hooks, if required. | `/opt/kie/data/git/hooks` | False
 |`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit. | 2Gi | False
-|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
+|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE Server Container memory limit. | 1Gi | False
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
 |`BUSINESS_CENTRAL_SSO_CLIENT` | `SSO_CLIENT` | Business Central RH-SSO Client name. | -- | False
@@ -62,7 +62,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client. | -- | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | false | False
 |`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | preferred_username | False
-|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | ldap://myldap.example.com:389 | False
+|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | ldap://myldap.example.com:389 | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | `AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | -- | False
@@ -108,7 +108,7 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 .1+| All the Business Central web server's ports.
 .1+| `${APPLICATION_NAME}-kieserver`
 |8080 | --
-.1+| All the KIE server web server's ports.
+.1+| All the KIE Server web server's ports.
 |=============
 
 
@@ -250,9 +250,9 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`WORKBENCH_ROUTE_NAME` | -- | insecure-${APPLICATION_NAME}-rhpamcentr
 |`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | Default password used for multiple components for user convenience in this trial environment. | `${DEFAULT_PASSWORD}`
-|`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | true
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE Server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}`
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | `${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}`
 |`MAVEN_REPO_ID` | The id to use for the maven repository, if set. Default is generated randomly. | `${MAVEN_REPO_ID}`
@@ -271,7 +271,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
-|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
@@ -298,11 +298,11 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`WORKBENCH_SERVICE_NAME` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | Default password used for multiple components for user convenience in this trial environment. | `${DEFAULT_PASSWORD}`
-|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `${KIE_SERVER_MODE}`
-|`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
-|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
+|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `${KIE_SERVER_MODE}`
+|`KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
-|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | insecure-${APPLICATION_NAME}-kieserver
 |`KIE_SERVER_STARTUP_STRATEGY` | -- | OpenShiftStartupStrategy
@@ -328,7 +328,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | `${SSO_DISABLE_SSL_CERTIFICATE_VALIDATION}`
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
-|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`

@@ -25,14 +25,14 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 
 |`APPLICATION_NAME` | -- | The name for the application. | myapp | True
 |`CREDENTIALS_SECRET` | -- | Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values. | rhpam-credentials | True
-|`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | -- | False
-|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
-|`KIE_SERVER_PERSISTENCE_DS` | `RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
-|KIE_SERVER_H2_USER | `RHPAM_USERNAME` | KIE server H2 database user name. | sa | False
-|KIE_SERVER_H2_PWD | `RHPAM_PASSWORD` | KIE server H2 database password. | -- | False
-|`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property) | `DEVELOPMENT` | False
-|`KIE_MBEANS` | `KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
-|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
+|`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE Server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | -- | False
+|`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
+|`KIE_SERVER_PERSISTENCE_DS` | `RHPAM_JNDI` | KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
+|KIE_SERVER_H2_USER | `RHPAM_USERNAME` | KIE Server H2 database user name. | sa | False
+|KIE_SERVER_H2_PWD | `RHPAM_PASSWORD` | KIE Server H2 database password. | -- | False
+|`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property) | `DEVELOPMENT` | False
+|`KIE_MBEANS` | `KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
+|`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering. (Sets the org.drools.server.filter.classes system property) | true | False
 |`PROMETHEUS_SERVER_EXT_DISABLED` | `PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | false | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for the http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | -- | False
 |`BUSINESS_CENTRAL_HOSTNAME_HTTPS` | `HOSTNAME_HTTPS` | Custom hostname for the https service route for Business Central. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | -- | False
@@ -42,27 +42,33 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`BUSINESS_CENTRAL_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret. | keystore.jks | False
 |`BUSINESS_CENTRAL_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate. | jboss | False
 |`BUSINESS_CENTRAL_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate. | mykeystorepass | False
-|`KIE_SERVER_HTTPS_SECRET` | -- | The name of the secret containing the keystore file for KIE server. | kieserver-app-secret | True
+|`KIE_SERVER_HTTPS_SECRET` | -- | The name of the secret containing the keystore file for KIE Server. | kieserver-app-secret | True
 |`KIE_SERVER_HTTPS_KEYSTORE` | `HTTPS_KEYSTORE` | The name of the keystore file within the secret. | keystore.jks | False
 |`KIE_SERVER_HTTPS_NAME` | `HTTPS_NAME` | The name associated with the server certificate. | jboss | False
 |`KIE_SERVER_HTTPS_PASSWORD` | `HTTPS_PASSWORD` | The password for the keystore and certificate. | mykeystorepass | False
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | `KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE Server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | false | False
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | `KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | true | False
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | `KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | 5000 | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | True
-|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.9.0". | 7.9.0 | True
-|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
-|`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | external:*,!repo-rhpamcentr | False
+|`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.9.1". | 7.9.1 | True
+|`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
+|`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE Server. | external:*,!repo-rhpamcentr | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False
 |`MAVEN_REPO_URL` | `MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/ | False
 |`MAVEN_REPO_USERNAME` | `MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | -- | False
 |`MAVEN_REPO_PASSWORD` | `MAVEN_REPO_PASSWORD` | Password to access the Maven repository, if required. | -- | False
 |`GIT_HOOKS_DIR` | `GIT_HOOKS_DIR` | The directory to use for git hooks, if required. | `/opt/kie/data/git/hooks` | False
 |`BUSINESS_CENTRAL_VOLUME_CAPACITY` | -- | Size of the persistent storage for Business Central runtime data. | 1Gi | True
-|`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit. | 2Gi | False
-|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE server Container memory limit. | 1Gi | False
+|`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Container memory limit. | 4Gi | True
+|`BUSINESS_CENTRAL_CPU_LIMIT` | -- | Business Central Container CPU limit. | 2 | True
+|`BUSINESS_CENTRAL_CPU_REQUEST` | -- | Business Central Container CPU Request. | 1500m | True
+|`BUSINESS_CENTRAL_MEMORY_REQUEST` | -- | Business Central Container Memory Request. | 3Gi | True
+|`KIE_SERVER_MEMORY_LIMIT` | -- | KIE Server Container memory limit. | 2Gi | True
+|`KIE_SERVER_MEMORY_REQUEST` | -- | KIE Server Container memory Request. | 1.5Gi | True
+|`KIE_SERVER_CPU_LIMIT` | -- | KIE Server Container CPU limit. | 1 | True
+|`KIE_SERVER_CPU_REQUEST` | -- | KIE Server Container CPU Request. | 750m | True
 |`SSO_URL` | `SSO_URL` | RH-SSO URL. | https://rh-sso.example.com/auth | False
 |`SSO_REALM` | `SSO_REALM` | RH-SSO Realm name. | -- | False
 |`BUSINESS_CENTRAL_SSO_CLIENT` | `SSO_CLIENT` | Business Central RH-SSO Client name. | -- | False
@@ -73,7 +79,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`SSO_PASSWORD` | `SSO_PASSWORD` | RH-SSO Realm Admin Password used to create the Client. | -- | False
 |`SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | `SSO_DISABLE_SSL_CERTIFICATE_VALIDATION` | RH-SSO Disable SSL Certificate Validation. | false | False
 |`SSO_PRINCIPAL_ATTRIBUTE` | `SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | preferred_username | False
-|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | ldap://myldap.example.com:389 | False
+|`AUTH_LDAP_URL` | `AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | ldap://myldap.example.com:389 | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | `AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | -- | False
@@ -120,7 +126,7 @@ https://cloud.google.com/container-engine/docs/services/[container-engine docume
 |8443 | https
 .2+| `${APPLICATION_NAME}-kieserver`
 |8080 | http
-.2+| All the KIE server web server's ports.
+.2+| All the KIE Server web server's ports.
 |8443 | https
 |=============
 
@@ -268,13 +274,13 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`APPLICATION_ROLES_PROPERTIES` | -- | `/opt/kie/data/configuration/application-roles.properties`
 |`KIE_ADMIN_USER` | -- | --
 |`KIE_ADMIN_PWD` | -- | --
-|`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED` | -- | false
-|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
+|`KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED` | If set to true, turns on KIE Server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}`
 |`KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE` | If OpenShift integration of Business Central is turned on, setting this parameter to true enables connection to KIE Server via an OpenShift internal Service endpoint. (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property) | `${KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE}`
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | `${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}`
-|`KIE_SERVER_CONTROLLER_TOKEN` | KIE server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | `${KIE_SERVER_CONTROLLER_TOKEN}`
-|`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
+|`KIE_SERVER_CONTROLLER_TOKEN` | KIE Server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | `${KIE_SERVER_CONTROLLER_TOKEN}`
+|`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
 |`MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | `${MAVEN_REPO_ID}`
 |`MAVEN_REPO_URL` | Fully qualified URL to a Maven repository or service. | `${MAVEN_REPO_URL}`
 |`MAVEN_REPO_USERNAME` | User name for accessing the Maven repository, if required. | `${MAVEN_REPO_USERNAME}`
@@ -297,7 +303,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for the http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for the https service route for Business Central. Leave blank for default hostname, e.g.: <application-name>-rhpamcentr-<project>.<default-domain-suffix> | `${BUSINESS_CENTRAL_HOSTNAME_HTTPS}`
-|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
@@ -324,29 +330,29 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`WORKBENCH_SERVICE_NAME` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`DATASOURCES` | -- | `RHPAM`
 |`RHPAM_DATABASE` | -- | rhpam7
-|`RHPAM_JNDI` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
+|`RHPAM_JNDI` | KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`RHPAM_JTA` | -- | true
 |`RHPAM_DRIVER` | -- | h2
-|`RHPAM_USERNAME` | KIE server H2 database user name. | `${KIE_SERVER_H2_USER}`
-|`RHPAM_PASSWORD` | KIE server H2 database password. | `${KIE_SERVER_H2_PWD}`
+|`RHPAM_USERNAME` | KIE Server H2 database user name. | `${KIE_SERVER_H2_USER}`
+|`RHPAM_PASSWORD` | KIE Server H2 database password. | `${KIE_SERVER_H2_PWD}`
 |`RHPAM_NONXA` | -- | false
 |`RHPAM_XA_CONNECTION_PROPERTY_URL` | -- | jdbc:h2:/opt/kie/data/h2/rhpam;AUTO_SERVER=TRUE
 |`KIE_SERVER_PERSISTENCE_DIALECT` | -- | org.hibernate.dialect.H2Dialect
 |`KIE_ADMIN_USER` | -- | --
 |`KIE_ADMIN_PWD` | -- | --
-|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property) | `${KIE_SERVER_MODE}`
-|`KIE_MBEANS` | KIE server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
-|`DROOLS_SERVER_FILTER_CLASSES` | KIE server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
+|`KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property) | `${KIE_SERVER_MODE}`
+|`KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
+|`DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering. (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
-|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
+|`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_CONTROLLER_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_SERVER_CONTROLLER_PROTOCOL` | -- | ws
 |`KIE_SERVER_ID` | -- | --
 |`KIE_SERVER_ROUTE_NAME` | -- | insecure-${APPLICATION_NAME}-kieserver
-|`KIE_SERVER_PERSISTENCE_DS` | KIE server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
+|`KIE_SERVER_PERSISTENCE_DS` | KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | `${KIE_SERVER_PERSISTENCE_DS}`
 |`KIE_SERVER_STARTUP_STRATEGY` | -- | ControllerBasedStartupStrategy
-|`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
-|`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE server. | `${MAVEN_MIRROR_OF}`
+|`MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | `${MAVEN_MIRROR_URL}`
+|`MAVEN_MIRROR_OF` | Maven mirror configuration for KIE Server. | `${MAVEN_MIRROR_OF}`
 |`MAVEN_REPOS` | -- | RHPAMCENTR,EXTERNAL
 |`RHPAMCENTR_MAVEN_REPO_ID` | -- | repo-rhpamcentr
 |`RHPAMCENTR_MAVEN_REPO_SERVICE` | -- | `${APPLICATION_NAME}-rhpamcentr`
@@ -373,7 +379,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`SSO_PRINCIPAL_ATTRIBUTE` | RH-SSO Principal Attribute to use as user name. | `${SSO_PRINCIPAL_ATTRIBUTE}`
 |`HOSTNAME_HTTP` | Custom hostname for the http service route for KIE Server. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTP}`
 |`HOSTNAME_HTTPS` | Custom hostname for the https service route for KIE Server. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | `${KIE_SERVER_HOSTNAME_HTTPS}`
-|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
+|`AUTH_LDAP_URL` | LDAP endpoint to connect for authentication. For failover, set two or more LDAP endpoints separated by space. | `${AUTH_LDAP_URL}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_JAAS_SECURITY_DOMAIN` | The JMX ObjectName of the JaasSecurityDomain used to decrypt the password. | `${AUTH_LDAP_JAAS_SECURITY_DOMAIN}`
