@@ -3,7 +3,7 @@ schema_version: 1
 name: "rhpam-7/rhpam-businesscentral-monitoring-rhel8"
 description: "Red Hat Business Central Monitoring 7.10 OpenShift container image"
 version: "7.10.0"
-from: "registry.redhat.io/ubi8/ubi:latest"
+from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
     - name: "com.redhat.component"
       value: "rhpam-7-businesscentral-monitoring-rhel8-container"
@@ -89,6 +89,7 @@ modules:
                   url: https://github.com/jboss-container-images/jboss-kie-modules.git
                   ref: master
       install:
+          - name: jboss.kie.common.dependencies
           - name: jboss.container.openjdk.jdk
             version: "11"
           - name: dynamic-resources
@@ -137,8 +138,8 @@ modules:
           - name: jboss-kie-workbench
 packages:
       content_sets_file: content_sets.yml
+      manager: microdnf
       install:
-          - hostname
           - git
 osbs:
       configuration:
