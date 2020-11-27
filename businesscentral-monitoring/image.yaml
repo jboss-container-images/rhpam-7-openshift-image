@@ -140,7 +140,6 @@ packages:
       content_sets_file: content_sets.yml
       manager: microdnf
       install:
-          - hostname
           - git
 osbs:
       configuration:

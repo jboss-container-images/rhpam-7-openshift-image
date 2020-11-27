@@ -266,8 +266,6 @@ modules:
 packages:
       content_sets_file: content_sets.yml
       manager: microdnf
-      install:
-          - hostname
 osbs:
       configuration:
           container_file: container.yaml
