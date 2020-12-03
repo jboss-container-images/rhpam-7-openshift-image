@@ -14,7 +14,7 @@ modules:
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_733_CR2
+        ref: 7.3.x
     - name: jboss-eap-7-image
       git:
         url: https://github.com/jboss-container-images/jboss-eap-7-image.git

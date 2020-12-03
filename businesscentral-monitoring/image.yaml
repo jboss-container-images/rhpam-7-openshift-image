@@ -9,13 +9,16 @@ labels:
       value: "rhpam-7-businesscentral-monitoring-rhel8-container"
     - name: "io.k8s.description"
       value: "Platform for running Red Hat Business Central Monitoring"
-    - name: "io.k8s.display-name"
+    - name: "io.k8s.display-name"Tendered to authorized agent for final delivery
       value: "Red Hat Business Central Monitoring 7.10"
     - name: "io.openshift.expose-services"
       value: "8080:http,8443:https"
     - name: "io.openshift.tags"
       value: "javaee,eap,eap7,rhpam,rhpam7"
 envs:
+    - name: "CONFIG_ADJUSTMENT_MODE"
+      value: "xml"
+      description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
     - name: "HTTPS_ENABLE_HTTP2"
       value: "true"
     - name: "SCRIPT_DEBUG"
@@ -80,6 +83,10 @@ modules:
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-7-image.git
                   ref: eap73-dev
+          - name: wildfly-cekit-modules
+            git:
+                  url: https://github.com/wildfly/wildfly-cekit-modules.git
+                  ref: master
           - name: rhpam-7-image
             git:
                   url: https://github.com/jboss-container-images/rhpam-7-image.git
@@ -95,6 +102,7 @@ modules:
           - name: dynamic-resources
           - name: eap-73-latest
             version: "7.3-latest"
+          - name: jboss.container.eap.setup
           - name: rhpam-7-businesscentral-monitoring
           - name: jboss.container.maven.35.bash
             version: "3.5"
@@ -103,30 +111,28 @@ modules:
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap.config.openshift
-            version: "16.0-openjdk11"
-          - name: jboss.eap.cd.openshift.modules
-          - name: os-eap7-ping
+            version: "16.0-openjdk11-kie"
+          - name: jboss.container.eap.openshift.modules
           - name: os-eap-activemq-rar
             version: "1.1"
           - name: os-eap-launch
           - name: os-eap7-launch
-          - name: jboss.eap.cd.openshift.launch
           - name: jboss-kie-db-drivers
-          - name: jboss.eap.cd.logging
-          - name: jboss.eap.config.mp-config
-          - name: jboss.eap.config.jgroups
-          - name: jboss.eap.config.elytron
-          - name: jboss.eap.config.tracing
-          - name: os-eap-sso
+          - name: jboss.container.wildfly.launch.json-logging
+          - name: jboss.container.wildfly.launch.mp-config
+          - name: jboss.container.wildfly.launch-config.os
+          - name: jboss.container.wildfly.launch.jgroups
+          - name: jboss.container.wildfly.launch.elytron
+          - name: jboss.container.wildfly.launch.keycloak
+          - name: jboss.container.wildfly.launch.tracing
           - name: os-eap70-sso
-          - name: os-eap-hawkular
-          - name: os-eap-deployment-scanner
-          - name: os-eap-extensions
+          - name: jboss.container.wildfly.launch.deployment-scanner
+          - name: jboss.container.wildfly.launch.extensions
           - name: openshift-layer
           - name: openshift-passwd
           - name: jboss.container.util.logging.bash
           - name: jboss.container.eap.prometheus.config
-            version: "7.2"
+            version: "7.2-kie"
           - name: os-eap-txnrecovery.run
             version: "python3"
           - name: os-eap-python
