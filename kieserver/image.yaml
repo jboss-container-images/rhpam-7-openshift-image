@@ -190,7 +190,7 @@ envs:
       description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
     - name: "KIE_SERVER_MAX_METASPACE_SIZE"
       example: "256"
-      description: "The maximum metaspace for the KIE Server, it will set the GC_MAX_METASPACE_SIZE, its default value is 512mb."
+      description: "The maximum metaspace size, set as integer in megabytes, for the KIE Server. This will overwrite value set by GC_MAX_METASPACE_SIZE. Default max metaspace size for KIE Server is 512mb."
 ports:
     - value: 8080
     - value: 8443
