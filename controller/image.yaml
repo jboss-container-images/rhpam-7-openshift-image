@@ -94,7 +94,7 @@ modules:
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap.config.openshift
-            version: "16.0-openjdk11-kie"
+            version: "EAP7.3.0-kie"
           - name: jboss.container.eap.openshift.modules
           - name: os-eap-activemq-rar
             version: "1.1"
@@ -115,12 +115,12 @@ modules:
           - name: jboss.container.util.logging.bash
           - name: jboss.container.eap.prometheus.config
             version: "7.2-kie"
+          - name: jboss-kie-jdk-clean
+            version: "11"
           - name: os-eap-txnrecovery.run
             version: "python3"
           - name: os-eap-python
             version: "3.6"
-          - name: jboss-kie-jdk-clean
-            version: "11"
           - name: jboss-kie-common
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-controller
