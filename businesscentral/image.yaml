@@ -162,7 +162,6 @@ modules:
           - name: os-eap7-openshift
           - name: jboss.eap.config.openshift
             version: "EAP7.3.0-kie"
-          - name: jboss.container.eap.openshift.modules
           - name: os-eap-activemq-rar
             version: "1.1"
           - name: os-eap-launch
