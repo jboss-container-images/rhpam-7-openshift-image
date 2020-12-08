@@ -115,7 +115,9 @@ modules:
           - name: os-eap-activemq-rar
             version: "1.1"
           - name: os-eap-launch
+            version: "1.0-kie"
           - name: os-eap7-launch
+            version: "1.0-kie"
           - name: jboss-kie-db-drivers
           - name: jboss.container.wildfly.launch.json-logging
           - name: jboss.container.wildfly.launch.mp-config
