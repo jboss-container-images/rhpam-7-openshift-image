@@ -132,15 +132,15 @@ Follow the steps described before to:
  - install the rhpam710-prod-immutable-kieserver-amq.yaml template in the current namespace
  - install the https secret
  - credentials secret
- - Make sure that the Active MQ 7.6 imagestream is available in the `openshift` namespace. 
+ - Make sure that the Active MQ 7.8 imagestream is available in the `openshift` namespace. 
    ```bash
    $ oc replace -n openshift --force  -f \
-     https://raw.githubusercontent.com/jboss-container-images/jboss-amq-7-broker-openshift-image/76-7.6.0.GA/amq-broker-7-image-streams.yaml
+     https://raw.githubusercontent.com/jboss-container-images/jboss-amq-7-broker-openshift-image/78-7.8.0.GA/amq-broker-7-image-streams.yaml
    ```
- - configure the Active MQ self-signed certificates, the steps can be found [here](https://access.redhat.com/documentation/en-us/red_hat_amq/7.6/html/deploying_amq_broker_on_openshift/connecting-external-clients-to-templates-based-brokers_broker-ocp)
+ - configure the Active MQ self-signed certificates, the steps can be found [here](https://access.redhat.com/documentation/en-us/red_hat_amq/2020.q4/html/deploying_amq_broker_on_openshift/deploying_broker-on-ocp-using-templates_broker-ocp#connecting-external-clients-to-template-based-brokers_broker-ocp)
 
 
-After properly configuring the Active-MQ pre requisites, deploy the Kie Server using the AMQ Application template:
+After properly configuring the Active-MQ pre-requisites, deploy the Kie Server using the AMQ Application template:
 To deploy the template execute the following command:
 
 ```bash
