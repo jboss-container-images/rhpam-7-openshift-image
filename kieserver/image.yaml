@@ -18,6 +18,9 @@ labels:
     - name: "io.openshift.s2i.scripts-url"
       value: "image:///usr/local/s2i"
 envs:
+    - name: "CONFIG_ADJUSTMENT_MODE"
+      value: "xml"
+      description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
     - name: "HTTPS_ENABLE_HTTP2"
       value: "true"
     - name: "SCRIPT_DEBUG"
@@ -91,10 +94,10 @@ envs:
     - name: "AUTO_CONFIGURE_EJB_TIMER"
       example: "false"
       description: "Set if the EJB timer datasources should be auto configured, if false, user will need to define the default and the ejb datasources using the DATASOURCES or DB_SERVICE_PREFIX_MAPPING environment variables manually. Default is true"
-    - name: "KIE_EJB_TIMER_TX"
+    - name: "JBPM_EJB_TIMER_TX"
       example: "false"
       description: "If the EJB timer is in use, setting this parameter to true enables transactions for EJB timer. Sets the 'org.jbpm.ejb.timer.tx' system property. The default is true"
-    - name: "KIE_EJB_TIMER_LOCAL_CACHE"
+    - name: "JBPM_EJB_TIMER_LOCAL_CACHE"
       example: "true"
       description: "If the EJB timer is in use, setting this parameter to true enables the local cache for the EJB timer. Sets the 'org.jbpm.ejb.timer.local.cache' system property. The default is false"
     - name: "KIE_SERVER_STARTUP_STRATEGY"
@@ -188,6 +191,9 @@ envs:
     - name: "OPTAPLANNER_SERVER_EXT_THREAD_POOL_QUEUE_SIZE"
       example: "4"
       description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
+    - name: "KIE_SERVER_MAX_METASPACE_SIZE"
+      example: "256"
+      description: "The maximum metaspace size, set as integer in megabytes, for the KIE Server. This will overwrite value set by GC_MAX_METASPACE_SIZE. Default max metaspace size for KIE Server is 512mb."
 ports:
     - value: 8080
     - value: 8443
@@ -206,6 +212,10 @@ modules:
             git:
                   url: https://github.com/jboss-container-images/jboss-eap-7-image.git
                   ref: eap72-dev
+          - name: wildfly-cekit-modules
+            git:
+                  url: https://github.com/wildfly/wildfly-cekit-modules.git
+                  ref: master
           - name: rhpam-7-image
             git:
                   url: https://github.com/jboss-container-images/rhpam-7-image.git
@@ -221,45 +231,45 @@ modules:
           - name: dynamic-resources
           - name: eap-73-latest
             version: "7.3-latest"
+          - name: jboss.container.eap.setup
           - name: rhpam-7-kieserver
           - name: jboss.container.maven.35.bash
             version: "3.5"
           - name: jboss.container.maven.default.bash
-          - name: os-eap-s2i
+          - name: jboss.container.eap.s2i.bash
           - name: jboss.container.jolokia.bash
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
           - name: jboss.eap.config.openshift
-            version: "16.0-openjdk11"
-          - name: jboss.eap.cd.openshift.modules
-          - name: os-eap7-ping
+            version: "EAP7.3.0-kie"
           - name: os-eap-activemq-rar
             version: "1.1"
           - name: os-eap-launch
+            version: "1.0-kie"
           - name: os-eap7-launch
-          - name: jboss.eap.cd.openshift.launch
+            version: "1.0-kie"
           - name: jboss-kie-db-drivers
-          - name: jboss.eap.cd.logging
-          - name: jboss.eap.config.mp-config
-          - name: jboss.eap.config.jgroups
-          - name: jboss.eap.config.elytron
-          - name: jboss.eap.config.tracing
-          - name: os-eap-sso
+          - name: jboss.container.wildfly.launch.json-logging
+          - name: jboss.container.wildfly.launch.mp-config
+          - name: jboss.container.wildfly.launch-config.os
+          - name: jboss.container.wildfly.launch.jgroups
+          - name: jboss.container.wildfly.launch.elytron
+          - name: jboss.container.wildfly.launch.keycloak
+          - name: jboss.container.wildfly.launch.tracing
           - name: os-eap70-sso
-          - name: os-eap-hawkular
-          - name: os-eap-deployment-scanner
-          - name: os-eap-extensions
+          - name: jboss.container.wildfly.launch.deployment-scanner
+          - name: jboss.container.wildfly.launch.extensions
           - name: openshift-layer
           - name: openshift-passwd
           - name: jboss.container.util.logging.bash
           - name: jboss.container.eap.prometheus.config
-            version: "7.2"
+            version: "7.2-kie"
+          - name: jboss-kie-jdk-clean
+            version: "11"
           - name: os-eap-txnrecovery.run
             version: "python3"
           - name: os-eap-python
             version: "3.6"
-          - name: jboss-kie-jdk-clean
-            version: "11"
           - name: jboss-kie-common
           - name: jboss-kie-wildfly-common
           - name: jboss-kie-kieserver
