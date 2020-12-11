@@ -1050,6 +1050,10 @@ objects:
             value: "${KIE_SERVER_HTTPS_PASSWORD}"
           - name: JGROUPS_PING_PROTOCOL
             value: "kubernetes.KUBE_PING"
+          - name: KUBERNETES_NAMESPACE
+            value: metadata.namespace
+          - name: KUBERNETES_LABELS
+            value: "${KUBERNETES_LABELS}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
