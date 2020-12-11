@@ -110,6 +110,7 @@ modules:
           - name: jboss.container.jolokia.bash
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
+            version: "1.0-kie"
           - name: jboss.eap.config.openshift
             version: "EAP7.3.0-kie"
           - name: os-eap-activemq-rar

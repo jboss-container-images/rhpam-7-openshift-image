@@ -115,6 +115,10 @@ envs:
     - name: "KIE_PERSIST_MAVEN_REPO"
       example: "true"
       description: "Enable persistence for Business Central Maven repository, disabled by default. If disable, it will use /home/jboss/.m2/repository."
+    - name: "KIE_DASHBUILDER_RUNTIME_LOCATION"
+      example: "http://dashbuilder:8080"
+      description: "Enable integration between Business Central and Dashbuilder."
+
 ports:
     - value: 8080
     - value: 8443
@@ -160,6 +164,7 @@ modules:
           - name: jboss.container.jolokia.bash
           - name: jboss.eap.cd.jolokia
           - name: os-eap7-openshift
+            version: "1.0-kie"
           - name: jboss.eap.config.openshift
             version: "EAP7.3.0-kie"
           - name: os-eap-activemq-rar
