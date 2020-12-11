@@ -687,6 +687,10 @@ objects:
             value: metadata.namespace
           - name: KUBERNETES_LABELS
             value: "${KUBERNETES_LABELS}"
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value: "${APPLICATION_NAME}-kieserver-ping"
+          - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+            value: "8888"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
