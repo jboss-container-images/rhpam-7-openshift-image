@@ -683,10 +683,7 @@ objects:
           - name: WORKBENCH_ROUTE_NAME
             value: "${APPLICATION_NAME}-rhpamcentr"
           - name: KUBERNETES_NAMESPACE
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
+            value: "${KUBERNETES_NAMESPACE}"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

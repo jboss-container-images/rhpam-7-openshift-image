@@ -795,7 +795,7 @@ objects:
           - name: JGROUPS_PING_PROTOCOL
             value: "kubernetes.KUBE_PING"
           - name: KUBERNETES_NAMESPACE
-            value: metadata.namespace
+            value: "${KUBERNETES_NAMESPACE}"
           - name: KUBERNETES_LABELS
             value: "${KUBERNETES_LABELS}"
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
