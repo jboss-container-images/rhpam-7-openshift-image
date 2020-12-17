@@ -236,6 +236,11 @@ parameters:
   name: AUTH_LDAP_BIND_CREDENTIAL
   example: "Password"
   required: false
+- displayName: LDAP Flag Login Module
+  name: AUTH_LDAP_LOGIN_MODULE
+  description: "A flag to set login module to optional. The default value is required"
+  required: false
+  example: "optional"
 - displayName: LDAP JAAS Security Domain
   description: The JMX ObjectName of the JaasSecurityDomain used to decrypt the password.
   name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
@@ -544,6 +549,8 @@ objects:
             value: "${AUTH_LDAP_BIND_DN}"
           - name: AUTH_LDAP_BIND_CREDENTIAL
             value: "${AUTH_LDAP_BIND_CREDENTIAL}"
+          - name: AUTH_LDAP_LOGIN_MODULE
+            value: "${AUTH_LDAP_LOGIN_MODULE}"
           - name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
             value: "${AUTH_LDAP_JAAS_SECURITY_DOMAIN}"
           - name: AUTH_LDAP_BASE_CTX_DN
@@ -747,6 +754,8 @@ objects:
             value: "${AUTH_LDAP_BIND_DN}"
           - name: AUTH_LDAP_BIND_CREDENTIAL
             value: "${AUTH_LDAP_BIND_CREDENTIAL}"
+          - name: AUTH_LDAP_LOGIN_MODULE
+            value: "${AUTH_LDAP_LOGIN_MODULE}"
           - name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
             value: "${AUTH_LDAP_JAAS_SECURITY_DOMAIN}"
           - name: AUTH_LDAP_BASE_CTX_DN
