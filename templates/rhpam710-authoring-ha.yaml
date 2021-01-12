@@ -871,7 +871,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
-          cluster: "jgrp.k8s.console.${APPLICATION_NAME}"
+          cluster: "jgrp.k8s.console.${APPLICATION_NAME}-rhpamcentr"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
@@ -978,7 +978,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.console.${APPLICATION_NAME}"
+            value: "cluster=jgrp.k8s.console.${APPLICATION_NAME}-rhpamcentr"
           - name: APPFORMER_INFINISPAN_SERVICE_NAME
             value: "${APPLICATION_NAME}-datagrid"
           - name: APPFORMER_INFINISPAN_PORT
@@ -1412,6 +1412,7 @@ objects:
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:
+                apiVersion: v1
                 fieldPath: metadata.namespace
           image: ${AMQ_BROKER_IMAGE}
           imagePullPolicy: IfNotPresent
