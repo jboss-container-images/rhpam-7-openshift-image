@@ -72,6 +72,27 @@ items:
 - kind: ImageStream
   apiVersion: v1
   metadata:
+    name: rhpam-dashbuilder-rhel8
+    annotations:
+      openshift.io/display-name: Red Hat Process Automation Manager Dashbuilder 7.10
+      openshift.io/provider-display-name: Red Hat, Inc.
+  spec:
+    tags:
+      - name: '7.10.0'
+        annotations:
+          description: Red Hat Process Automation Manager 7.10 - Standalone Dashbuilder image.
+          iconClass: icon-jboss
+          tags: rhpam,dashbuilder
+          supports: rhpam:7.10
+          version: '7.10.0'
+        referencePolicy:
+          type: Local
+        from:
+          kind: DockerImage
+          name: registry.redhat.io/rhpam-7/rhpam-dashbuilder-rhel8:7.10.0
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
     name: rhpam-kieserver-rhel8
     annotations:
       openshift.io/display-name: Red Hat Process Automation Manager KIE Server 7.10
