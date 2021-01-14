@@ -531,7 +531,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-rhpamcentrmon"
-          cluster: "jgrp.k8s.consolemon.${APPLICATION_NAME}-rhpamcentrmon"
+          cluster: "jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
@@ -648,7 +648,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.consolemon.${APPLICATION_NAME}-rhpamcentrmon"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

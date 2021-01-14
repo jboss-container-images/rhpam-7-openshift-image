@@ -871,7 +871,7 @@ objects:
         labels:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
           application: "${APPLICATION_NAME}"
-          cluster: "jgrp.k8s.console.${APPLICATION_NAME}-rhpamcentr"
+          cluster: "jgrp.k8s.${APPLICATION_NAME}.rhpamcentr"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 60
@@ -978,7 +978,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.console.${APPLICATION_NAME}-rhpamcentr"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhpamcentr"
           - name: APPFORMER_INFINISPAN_SERVICE_NAME
             value: "${APPLICATION_NAME}-datagrid"
           - name: APPFORMER_INFINISPAN_PORT
@@ -1107,7 +1107,7 @@ objects:
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver"
           services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
-          cluster: "jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+          cluster: "jgrp.k8s.${APPLICATION_NAME}.kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
         terminationGracePeriodSeconds: 90
@@ -1269,7 +1269,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS

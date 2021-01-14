@@ -856,7 +856,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-rhpamcentrmon"
-          cluster: "jgrp.k8s.consolemon.${APPLICATION_NAME}-rhpamcentrmon"
+          cluster: "jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
       spec:
         terminationGracePeriodSeconds: 60
         containers:
@@ -946,7 +946,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.consolemon.${APPLICATION_NAME}-rhpamcentrmon"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -1170,7 +1170,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-1"
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver-1"
-          cluster: "cluster=jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+          cluster: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
@@ -1321,7 +1321,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -1516,7 +1516,7 @@ objects:
           deploymentConfig: "${APPLICATION_NAME}-kieserver-2"
           application: "${APPLICATION_NAME}"
           service: "${APPLICATION_NAME}-kieserver-2"
-          cluster: "cluster=jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+          cluster: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
       spec:
         serviceAccountName: "${APPLICATION_NAME}-kieserver"
         terminationGracePeriodSeconds: 60
@@ -1667,7 +1667,7 @@ objects:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: KUBERNETES_LABELS
-            value: "cluster=jgrp.k8s.kieserver.${APPLICATION_NAME}-kieserver"
+            value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
           - name: SSO_URL
             value: "${SSO_URL}"
           - name: SSO_OPENIDCONNECT_DEPLOYMENTS
