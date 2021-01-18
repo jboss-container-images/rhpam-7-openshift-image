@@ -1,290 +1,290 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-kieserver-rhel8"
-description: "Red Hat Process Automation Manager Kie Server 7.10 container image"
-version: "7.10.0"
+description: "Red Hat Process Automation Manager Kie Server 7.11 container image"
+version: "7.11.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-    - name: "com.redhat.component"
-      value: "rhpam-7-kieserver-rhel8-container"
-    - name: "io.k8s.description"
-      value: "Platform for running Red Hat Process Automation Manager KIE server"
-    - name: "io.k8s.display-name"
-      value: "Red Hat Process Automation Manager KIE server 7.10"
-    - name: "io.openshift.expose-services"
-      value: "8080:http,8443:https"
-    - name: "io.openshift.tags"
-      value: "builder,javaee,eap,eap7,rhpam,rhpam7"
-    - name: "io.openshift.s2i.scripts-url"
-      value: "image:///usr/local/s2i"
+  - name: "com.redhat.component"
+    value: "rhpam-7-kieserver-rhel8-container"
+  - name: "io.k8s.description"
+    value: "Platform for running Red Hat Process Automation Manager KIE server"
+  - name: "io.k8s.display-name"
+    value: "Red Hat Process Automation Manager KIE server 7.11"
+  - name: "io.openshift.expose-services"
+    value: "8080:http,8443:https"
+  - name: "io.openshift.tags"
+    value: "builder,javaee,eap,eap7,rhpam,rhpam7"
+  - name: "io.openshift.s2i.scripts-url"
+    value: "image:///usr/local/s2i"
 envs:
-    - name: "CONFIG_ADJUSTMENT_MODE"
-      value: "xml"
-      description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
-    - name: "HTTPS_ENABLE_HTTP2"
-      value: "true"
-    - name: "SCRIPT_DEBUG"
-      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
-      example: "true"
-    - name: "STI_BUILDER"
-      value: "jee"
-    - name: "KIE_SERVER_ID"
-      example: "business-server"
-      description: "Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property)."
-    - name: "KIE_SERVER_MODE"
-      example: "DEVELOPMENT"
-      description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. (Sets the org.kie.server.mode system property)."
-    - name: "KIE_SERVER_ROUTE_NAME"
-      example: "myapp-kieserver"
-      description: "Route name that will be used to query its public address in the Kubernetes API to set the org.kie.server.location system property."
-    - name: "KIE_SERVER_USE_SECURE_ROUTE_NAME"
-      example: "true"
-      description: "If true, the secure-KIE_SERVER_ROUTE_NAME will be used to query its public address in the Kubernetes API to set the org.kie.server.location system property."
-    - name: "KIE_SERVER_LOCATION"
-      example: "http://myhost:80"
-      description: "KIE server location used to set the org.kie.server.location system property. Overrides all other location parameters if defined (including querying by the KIE_SERVER_ROUTE_NAME)."
-    - name: "KIE_SERVER_URL"
-      example: "http://myhost:80"
-      description: "Legacy parameter for backwards compatibility. Use KIE_SERVER_LOCATION instead, or other location parameters to build the location."
-    - name: "KIE_SERVER_PROTOCOL"
-      example: "http"
-      description: "KIE server protocol used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
-    - name: "KIE_SERVER_HOST"
-      example: "myhost"
-      description: "KIE server host used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
-    - name: "KIE_SERVER_PORT"
-      example: "80"
-      description: "KIE server port used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
-    - name: "KIE_ADMIN_USER"
-      example: "adminUser"
-      description: "Username for basic authentication used to access the execution server and to connect to the controller (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
-    - name: "KIE_ADMIN_PWD"
-      example: "admin1!"
-      description: "Password for basic authentication used to access the execution server and to connect to the controller (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
-    - name: "KIE_SERVER_TOKEN"
-      example: "dasd373egds"
-      description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
-    - name: "KIE_SERVER_DOMAIN"
-      example: "other"
-      description: "KIE server security domain (Sets the org.kie.server.domain system property)"
-    - name: "KIE_SERVER_BYPASS_AUTH_USER"
-      example: "false"
-      description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)"
-    - name: "KIE_SERVER_CONTAINER_DEPLOYMENT"
-      example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
-      description: "KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2"
-    - name: "KIE_SERVER_CONTAINER_DEPLOYMENT_OVERRIDE"
-      example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
-      description: "Used to override application template KIE_SERVER_CONTAINER_DEPLOYMENT from .sti/environment. (optional)"
-    - name: "KIE_SERVER_SYNC_DEPLOY"
-      example: "false"
-      description: "KIE server sync startup with containers; hold the startup until containers are loaded (Sets the org.kie.server.sync.deploy system property)"
-    - name: "KIE_SERVER_PERSISTENCE_DIALECT"
-      example: "org.hibernate.dialect.H2Dialect"
-      description: "KIE server persistence dialect (Sets the org.kie.server.persistence.dialect system property)"
-    - name: "KIE_SERVER_PERSISTENCE_DS"
-      example: "java:/jboss/datasources/ExampleDS"
-      description: "KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)"
-    - name: "KIE_SERVER_PERSISTENCE_SCHEMA"
-      example: "my.db.schema"
-      description: "KIE server persistence default schema (Sets the org.kie.server.persistence.schema system property)"
-    - name: "KIE_SERVER_PERSISTENCE_TM"
-      example: "org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"
-      description: "KIE server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)"
-    - name: "AUTO_CONFIGURE_EJB_TIMER"
-      example: "false"
-      description: "Set if the EJB timer datasources should be auto configured, if false, user will need to define the default and the ejb datasources using the DATASOURCES or DB_SERVICE_PREFIX_MAPPING environment variables manually. Default is true"
-    - name: "JBPM_EJB_TIMER_TX"
-      example: "false"
-      description: "If the EJB timer is in use, setting this parameter to true enables transactions for EJB timer. Sets the 'org.jbpm.ejb.timer.tx' system property. The default is true"
-    - name: "JBPM_EJB_TIMER_LOCAL_CACHE"
-      example: "true"
-      description: "If the EJB timer is in use, setting this parameter to true enables the local cache for the EJB timer. Sets the 'org.jbpm.ejb.timer.local.cache' system property. The default is false"
-    - name: "KIE_SERVER_STARTUP_STRATEGY"
-      example: "OpenShiftStartupStrategy"
-      description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently used shared state from OpenShift API service."
-    - name: "KIE_SERVER_MGMT_DISABLED"
-      example: "true"
-      description: "Turn the KIE server immutable, this setting prevents the controllers to execute tasks like add or remove kie containers."
-    - name: "KIE_EXECUTOR_RETRIES"
-      example: "3"
-      description: "KIE server default executor number of retries (Sets the org.kie.executor.retry.count system property)"
-    - name: "KIE_MBEANS"
-      example: "enabled"
-      description: "KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)"
-    - name: "DROOLS_SERVER_FILTER_CLASSES"
-      example: "true"
-      description: "KIE server class filtering (Sets the org.drools.server.filter.classes system property)"
-    - name: "JBPM_HT_CALLBACK_METHOD"
-      example: "custom"
-      description: "Method used to resolve the user roles when operating with human tasks (Sets the org.jbpm.ht.callback system property)"
-    - name: "JBPM_HT_CALLBACK_CLASS"
-      example: "com.example.MyUserTaskCallback"
-      description: "Java class that resolves the user roles when operating with human tasks, when method is 'custom' (Sets the org.jbpm.ht.custom.callback system property)"
-    - name: "JBPM_LOOP_LEVEL_DISABLED"
-      value: "true"
-      example: "true"
-      description: "Disable the count of node instance iterations in process instance (Sets the jbpm.loop.level.disabled system property)"
-    - name: "KIE_SERVER_CONTROLLER_SERVICE"
-      example: "buscentr-myapp"
-      description: "KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)"
-    - name: "KIE_SERVER_CONTROLLER_PROTOCOL"
-      example: "http"
-      description: "KIE server controller protocol (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_HOST"
-      example: "my-app-controller.os.mycloud.com"
-      description: "KIE server controller host (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_PORT"
-      example: "8080"
-      description: "KIE server controller port (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_TOKEN"
-      example: "dasd373egds"
-      description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
-    - name: "KIE_SERVER_ROUTER_SERVICE"
-      example: "smartrouter-myapp"
-      description: "KIE server router service (Used to set the org.kie.server.router system property if host and port aren't set)"
-    - name: "KIE_SERVER_ROUTER_PROTOCOL"
-      example: "http"
-      description: "KIE server router protocol (Used to set the org.kie.server.router system property)"
-    - name: "KIE_SERVER_ROUTER_HOST"
-      example: "my-app-router.os.mycloud.com"
-      description: "KIE server router host (Used to set the org.kie.server.router system property)"
-    - name: "KIE_SERVER_ROUTER_PORT"
-      example: "9000"
-      description: "KIE server router port (Used to set the org.kie.server.router system property)"
-    - name: "KIE_SERVER_EXECUTOR_JMS"
-      example: "false"
-      description: "Set false to disable the JMS executor, it is enabled by default."
-    - name: "KIE_SERVER_EXECUTOR_JMS_TRANSACTED"
-      example: "true"
-      description: "Enable transactions for JMS executor, disabled by default"
-    - name: "KIE_SERVER_JMS_QUEUE_REQUEST"
-      example: "queue/KIE.SERVER.REQUEST"
-      description: "JNDI name of request queue for JMS."
-    - name: "KIE_SERVER_JMS_QUEUE_RESPONSE"
-      example: "queue/KIE.SERVER.RESPONSE"
-      description: "JNDI name of response queue for JMS."
-    - name: "KIE_SERVER_JMS_QUEUE_EXECUTOR"
-      example: "queue/KIE.SERVER.EXECUTOR"
-      description: "JNDI name of executor queue for JMS."
-    - name: "KIE_SERVER_JMS_ENABLE_SIGNAL"
-      example: "true"
-      description: "Enable the Signal configuration through JMS"
-    - name: "KIE_SERVER_JMS_QUEUE_SIGNAL"
-      example: "queue/KIE.SERVER.SIGNAL"
-      description: "JMS queue for signals"
-    - name: "KIE_SERVER_JMS_ENABLE_AUDIT"
-      example: "true"
-      description: "Enable the Audit logging through JMS"
-    - name: "KIE_SERVER_JMS_QUEUE_AUDIT"
-      example: "queue/KIE.SERVER.AUDIT"
-      description: "JMS queue for audit logging"
-    - name: "KIE_SERVER_JMS_AUDIT_TRANSACTED"
-      example: "false"
-      description: "determines if JMS session is transacted or not - default true."
-    - name: "MYSQL_ENABLED_TLS_PROTOCOLS"
-      example: "TLSv1.1"
-      description: "Configure MySQL/MariaDB URL Connection to include the TLS protocol, defaults to TLSv1.2, for more information please refer to https://access.redhat.com/solutions/3469501"
-    - name: "PROMETHEUS_SERVER_EXT_DISABLED"
-      example: "false"
-      description: "If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)"
-    - name: "OPTAPLANNER_SERVER_EXT_THREAD_POOL_QUEUE_SIZE"
-      example: "4"
-      description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
-    - name: "KIE_SERVER_MAX_METASPACE_SIZE"
-      example: "256"
-      description: "The maximum metaspace size, set as integer in megabytes, for the KIE Server. This will overwrite value set by GC_MAX_METASPACE_SIZE. Default max metaspace size for KIE Server is 512mb."
+  - name: "CONFIG_ADJUSTMENT_MODE"
+    value: "xml"
+    description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
+  - name: "HTTPS_ENABLE_HTTP2"
+    value: "true"
+  - name: "SCRIPT_DEBUG"
+    description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+    example: "true"
+  - name: "STI_BUILDER"
+    value: "jee"
+  - name: "KIE_SERVER_ID"
+    example: "business-server"
+    description: "Business server identifier. Determines the template ID in Business Central or controller. If this parameter is left blank, it is set using the $HOSTNAME environment variable or a random value. (Sets the org.kie.server.id system property)."
+  - name: "KIE_SERVER_MODE"
+    example: "DEVELOPMENT"
+    description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. (Sets the org.kie.server.mode system property)."
+  - name: "KIE_SERVER_ROUTE_NAME"
+    example: "myapp-kieserver"
+    description: "Route name that will be used to query its public address in the Kubernetes API to set the org.kie.server.location system property."
+  - name: "KIE_SERVER_USE_SECURE_ROUTE_NAME"
+    example: "true"
+    description: "If true, the secure-KIE_SERVER_ROUTE_NAME will be used to query its public address in the Kubernetes API to set the org.kie.server.location system property."
+  - name: "KIE_SERVER_LOCATION"
+    example: "http://myhost:80"
+    description: "KIE server location used to set the org.kie.server.location system property. Overrides all other location parameters if defined (including querying by the KIE_SERVER_ROUTE_NAME)."
+  - name: "KIE_SERVER_URL"
+    example: "http://myhost:80"
+    description: "Legacy parameter for backwards compatibility. Use KIE_SERVER_LOCATION instead, or other location parameters to build the location."
+  - name: "KIE_SERVER_PROTOCOL"
+    example: "http"
+    description: "KIE server protocol used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
+  - name: "KIE_SERVER_HOST"
+    example: "myhost"
+    description: "KIE server host used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
+  - name: "KIE_SERVER_PORT"
+    example: "80"
+    description: "KIE server port used to build the org.kie.server.location system property. Acts as a default if KIE_SERVER_ROUTE_NAME is defined."
+  - name: "KIE_ADMIN_USER"
+    example: "adminUser"
+    description: "Username for basic authentication used to access the execution server and to connect to the controller (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
+  - name: "KIE_ADMIN_PWD"
+    example: "admin1!"
+    description: "Password for basic authentication used to access the execution server and to connect to the controller (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
+  - name: "KIE_SERVER_TOKEN"
+    example: "dasd373egds"
+    description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
+  - name: "KIE_SERVER_DOMAIN"
+    example: "other"
+    description: "KIE server security domain (Sets the org.kie.server.domain system property)"
+  - name: "KIE_SERVER_BYPASS_AUTH_USER"
+    example: "false"
+    description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)"
+  - name: "KIE_SERVER_CONTAINER_DEPLOYMENT"
+    example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
+    description: "KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2"
+  - name: "KIE_SERVER_CONTAINER_DEPLOYMENT_OVERRIDE"
+    example: "containerId=groupId:artifactId:version|c2=g2:a2:v2'"
+    description: "Used to override application template KIE_SERVER_CONTAINER_DEPLOYMENT from .sti/environment. (optional)"
+  - name: "KIE_SERVER_SYNC_DEPLOY"
+    example: "false"
+    description: "KIE server sync startup with containers; hold the startup until containers are loaded (Sets the org.kie.server.sync.deploy system property)"
+  - name: "KIE_SERVER_PERSISTENCE_DIALECT"
+    example: "org.hibernate.dialect.H2Dialect"
+    description: "KIE server persistence dialect (Sets the org.kie.server.persistence.dialect system property)"
+  - name: "KIE_SERVER_PERSISTENCE_DS"
+    example: "java:/jboss/datasources/ExampleDS"
+    description: "KIE server persistence datasource (Sets the org.kie.server.persistence.ds system property)"
+  - name: "KIE_SERVER_PERSISTENCE_SCHEMA"
+    example: "my.db.schema"
+    description: "KIE server persistence default schema (Sets the org.kie.server.persistence.schema system property)"
+  - name: "KIE_SERVER_PERSISTENCE_TM"
+    example: "org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"
+    description: "KIE server persistence transaction manager (Sets the org.kie.server.persistence.tm system property)"
+  - name: "AUTO_CONFIGURE_EJB_TIMER"
+    example: "false"
+    description: "Set if the EJB timer datasources should be auto configured, if false, user will need to define the default and the ejb datasources using the DATASOURCES or DB_SERVICE_PREFIX_MAPPING environment variables manually. Default is true"
+  - name: "JBPM_EJB_TIMER_TX"
+    example: "false"
+    description: "If the EJB timer is in use, setting this parameter to true enables transactions for EJB timer. Sets the 'org.jbpm.ejb.timer.tx' system property. The default is true"
+  - name: "JBPM_EJB_TIMER_LOCAL_CACHE"
+    example: "true"
+    description: "If the EJB timer is in use, setting this parameter to true enables the local cache for the EJB timer. Sets the 'org.jbpm.ejb.timer.local.cache' system property. The default is false"
+  - name: "KIE_SERVER_STARTUP_STRATEGY"
+    example: "OpenShiftStartupStrategy"
+    description: "When set to OpenShiftStartupStrategy, allows KIE server to start up independently used shared state from OpenShift API service."
+  - name: "KIE_SERVER_MGMT_DISABLED"
+    example: "true"
+    description: "Turn the KIE server immutable, this setting prevents the controllers to execute tasks like add or remove kie containers."
+  - name: "KIE_EXECUTOR_RETRIES"
+    example: "3"
+    description: "KIE server default executor number of retries (Sets the org.kie.executor.retry.count system property)"
+  - name: "KIE_MBEANS"
+    example: "enabled"
+    description: "KIE server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)"
+  - name: "DROOLS_SERVER_FILTER_CLASSES"
+    example: "true"
+    description: "KIE server class filtering (Sets the org.drools.server.filter.classes system property)"
+  - name: "JBPM_HT_CALLBACK_METHOD"
+    example: "custom"
+    description: "Method used to resolve the user roles when operating with human tasks (Sets the org.jbpm.ht.callback system property)"
+  - name: "JBPM_HT_CALLBACK_CLASS"
+    example: "com.example.MyUserTaskCallback"
+    description: "Java class that resolves the user roles when operating with human tasks, when method is 'custom' (Sets the org.jbpm.ht.custom.callback system property)"
+  - name: "JBPM_LOOP_LEVEL_DISABLED"
+    value: "true"
+    example: "true"
+    description: "Disable the count of node instance iterations in process instance (Sets the jbpm.loop.level.disabled system property)"
+  - name: "KIE_SERVER_CONTROLLER_SERVICE"
+    example: "buscentr-myapp"
+    description: "KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)"
+  - name: "KIE_SERVER_CONTROLLER_PROTOCOL"
+    example: "http"
+    description: "KIE server controller protocol (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_HOST"
+    example: "my-app-controller.os.mycloud.com"
+    description: "KIE server controller host (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_PORT"
+    example: "8080"
+    description: "KIE server controller port (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_TOKEN"
+    example: "dasd373egds"
+    description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
+  - name: "KIE_SERVER_ROUTER_SERVICE"
+    example: "smartrouter-myapp"
+    description: "KIE server router service (Used to set the org.kie.server.router system property if host and port aren't set)"
+  - name: "KIE_SERVER_ROUTER_PROTOCOL"
+    example: "http"
+    description: "KIE server router protocol (Used to set the org.kie.server.router system property)"
+  - name: "KIE_SERVER_ROUTER_HOST"
+    example: "my-app-router.os.mycloud.com"
+    description: "KIE server router host (Used to set the org.kie.server.router system property)"
+  - name: "KIE_SERVER_ROUTER_PORT"
+    example: "9000"
+    description: "KIE server router port (Used to set the org.kie.server.router system property)"
+  - name: "KIE_SERVER_EXECUTOR_JMS"
+    example: "false"
+    description: "Set false to disable the JMS executor, it is enabled by default."
+  - name: "KIE_SERVER_EXECUTOR_JMS_TRANSACTED"
+    example: "true"
+    description: "Enable transactions for JMS executor, disabled by default"
+  - name: "KIE_SERVER_JMS_QUEUE_REQUEST"
+    example: "queue/KIE.SERVER.REQUEST"
+    description: "JNDI name of request queue for JMS."
+  - name: "KIE_SERVER_JMS_QUEUE_RESPONSE"
+    example: "queue/KIE.SERVER.RESPONSE"
+    description: "JNDI name of response queue for JMS."
+  - name: "KIE_SERVER_JMS_QUEUE_EXECUTOR"
+    example: "queue/KIE.SERVER.EXECUTOR"
+    description: "JNDI name of executor queue for JMS."
+  - name: "KIE_SERVER_JMS_ENABLE_SIGNAL"
+    example: "true"
+    description: "Enable the Signal configuration through JMS"
+  - name: "KIE_SERVER_JMS_QUEUE_SIGNAL"
+    example: "queue/KIE.SERVER.SIGNAL"
+    description: "JMS queue for signals"
+  - name: "KIE_SERVER_JMS_ENABLE_AUDIT"
+    example: "true"
+    description: "Enable the Audit logging through JMS"
+  - name: "KIE_SERVER_JMS_QUEUE_AUDIT"
+    example: "queue/KIE.SERVER.AUDIT"
+    description: "JMS queue for audit logging"
+  - name: "KIE_SERVER_JMS_AUDIT_TRANSACTED"
+    example: "false"
+    description: "determines if JMS session is transacted or not - default true."
+  - name: "MYSQL_ENABLED_TLS_PROTOCOLS"
+    example: "TLSv1.1"
+    description: "Configure MySQL/MariaDB URL Connection to include the TLS protocol, defaults to TLSv1.2, for more information please refer to https://access.redhat.com/solutions/3469501"
+  - name: "PROMETHEUS_SERVER_EXT_DISABLED"
+    example: "false"
+    description: "If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)"
+  - name: "OPTAPLANNER_SERVER_EXT_THREAD_POOL_QUEUE_SIZE"
+    example: "4"
+    description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
+  - name: "KIE_SERVER_MAX_METASPACE_SIZE"
+    example: "256"
+    description: "The maximum metaspace size, set as integer in megabytes, for the KIE Server. This will overwrite value set by GC_MAX_METASPACE_SIZE. Default max metaspace size for KIE Server is 512mb."
 ports:
-    - value: 8080
-    - value: 8443
-    - value: 8778
+  - value: 8080
+  - value: 8443
+  - value: 8778
 modules:
-      repositories:
-          - name: cct_module
-            git:
-                  url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
-          - name: jboss-eap-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: master
-          - name: jboss-eap-7-image
-            git:
-                  url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-                  ref: eap73-dev
-          - name: wildfly-cekit-modules
-            git:
-                  url: https://github.com/wildfly/wildfly-cekit-modules.git
-                  ref: master
-          - name: rhpam-7-image
-            git:
-                  url: https://github.com/jboss-container-images/rhpam-7-image.git
-                  ref: master
-          - name: jboss-kie-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: master
-      install:
-          - name: jboss.kie.common.dependencies
-          - name: jboss.container.openjdk.jdk
-            version: "11"
-          - name: dynamic-resources
-          - name: eap-73-latest
-            version: "7.3-latest"
-          - name: jboss.container.eap.setup
-          - name: rhpam-7-kieserver
-          - name: jboss.container.maven.35.bash
-            version: "3.5"
-          - name: jboss.container.maven.default.bash
-          - name: jboss.container.eap.s2i.bash
-          - name: jboss.container.jolokia.bash
-          - name: jboss.eap.cd.jolokia
-          - name: os-eap7-openshift
-            version: "1.0-kie"
-          - name: jboss.eap.config.openshift
-            version: "EAP7.3.0-kie"
-          - name: os-eap-activemq-rar
-            version: "1.1"
-          - name: os-eap-launch
-            version: "1.0-kie"
-          - name: os-eap7-launch
-            version: "1.0-kie"
-          - name: jboss-kie-db-drivers
-          - name: jboss.container.wildfly.launch.json-logging
-          - name: jboss.container.wildfly.launch.mp-config
-          - name: jboss.container.wildfly.launch-config.os
-          - name: jboss.container.wildfly.launch.jgroups
-          - name: jboss.container.wildfly.launch.elytron
-          - name: jboss.container.wildfly.launch.keycloak
-          - name: jboss.container.wildfly.launch.tracing
-          - name: os-eap70-sso
-          - name: jboss.container.wildfly.launch.deployment-scanner
-          - name: jboss.container.wildfly.launch.extensions
-          - name: openshift-layer
-          - name: openshift-passwd
-          - name: jboss.container.util.logging.bash
-          - name: jboss.container.eap.prometheus.config
-            version: "7.2-kie"
-          - name: jboss-kie-jdk-clean
-            version: "11"
-          - name: os-eap-txnrecovery.run
-            version: "python3"
-          - name: os-eap-python
-            version: "3.6"
-          - name: jboss-kie-common
-          - name: jboss-kie-wildfly-common
-          - name: jboss-kie-kieserver
+  repositories:
+    - name: cct_module
+      git:
+        url: https://github.com/jboss-openshift/cct_module.git
+        ref: master
+    - name: jboss-eap-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-modules.git
+        ref: master
+    - name: jboss-eap-7-image
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+        ref: eap73-dev
+    - name: wildfly-cekit-modules
+      git:
+        url: https://github.com/wildfly/wildfly-cekit-modules.git
+        ref: master
+    - name: rhpam-7-image
+      git:
+        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        ref: master
+    - name: jboss-kie-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-kie-modules.git
+        ref: master
+  install:
+    - name: jboss.kie.common.dependencies
+    - name: jboss.container.openjdk.jdk
+      version: "11"
+    - name: dynamic-resources
+    - name: eap-73-latest
+      version: "7.3-latest"
+    - name: jboss.container.eap.setup
+    - name: rhpam-7-kieserver
+    - name: jboss.container.maven.35.bash
+      version: "3.5"
+    - name: jboss.container.maven.default.bash
+    - name: jboss.container.eap.s2i.bash
+    - name: jboss.container.jolokia.bash
+    - name: jboss.eap.cd.jolokia
+    - name: os-eap7-openshift
+      version: "1.0-kie"
+    - name: jboss.eap.config.openshift
+      version: "EAP7.3.0-kie"
+    - name: os-eap-activemq-rar
+      version: "1.1"
+    - name: os-eap-launch
+      version: "1.0-kie"
+    - name: os-eap7-launch
+      version: "1.0-kie"
+    - name: jboss-kie-db-drivers
+    - name: jboss.container.wildfly.launch.json-logging
+    - name: jboss.container.wildfly.launch.mp-config
+    - name: jboss.container.wildfly.launch-config.os
+    - name: jboss.container.wildfly.launch.jgroups
+    - name: jboss.container.wildfly.launch.elytron
+    - name: jboss.container.wildfly.launch.keycloak
+    - name: jboss.container.wildfly.launch.tracing
+    - name: os-eap70-sso
+    - name: jboss.container.wildfly.launch.deployment-scanner
+    - name: jboss.container.wildfly.launch.extensions
+    - name: openshift-layer
+    - name: openshift-passwd
+    - name: jboss.container.util.logging.bash
+    - name: jboss.container.eap.prometheus.config
+      version: "7.2-kie"
+    - name: jboss-kie-jdk-clean
+      version: "11"
+    - name: os-eap-txnrecovery.run
+      version: "python3"
+    - name: os-eap-python
+      version: "3.6"
+    - name: jboss-kie-common
+    - name: jboss-kie-wildfly-common
+    - name: jboss-kie-kieserver
 packages:
-      content_sets_file: content_sets.yml
-      manager: microdnf
+  content_sets_file: content_sets.yml
+  manager: microdnf
 osbs:
-      configuration:
-          container_file: container.yaml
-      extra_dir: osbs-extra
-      repository:
-          name: containers/rhpam-7-kieserver
-          branch: rhba-7-rhel-8
+  configuration:
+    container_file: container.yaml
+  extra_dir: osbs-extra
+  repository:
+    name: containers/rhpam-7-kieserver
+    branch: rhba-7-rhel-8
 run:
-      user: 185
-      cmd:
-          - "/opt/eap/bin/openshift-launch.sh"
+  user: 185
+  cmd:
+    - "/opt/eap/bin/openshift-launch.sh"

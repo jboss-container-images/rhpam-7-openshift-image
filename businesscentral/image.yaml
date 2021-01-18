@@ -1,216 +1,216 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-businesscentral-rhel8"
-description: "Red Hat Business Central 7.10 OpenShift container image"
-version: "7.10.0"
+description: "Red Hat Business Central 7.11 OpenShift container image"
+version: "7.11.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-    - name: "com.redhat.component"
-      value: "rhpam-7-businesscentral-rhel8-container"
-    - name: "io.k8s.description"
-      value: "Platform for running Red Hat Business Central"
-    - name: "io.k8s.display-name"
-      value: "Red Hat Business Central 7.10"
-    - name: "io.openshift.expose-services"
-      value: "8080:http,8443:https"
-    - name: "io.openshift.tags"
-      value: "javaee,eap,eap7,rhpam,rhpam7"
+  - name: "com.redhat.component"
+    value: "rhpam-7-businesscentral-rhel8-container"
+  - name: "io.k8s.description"
+    value: "Platform for running Red Hat Business Central"
+  - name: "io.k8s.display-name"
+    value: "Red Hat Business Central 7.11"
+  - name: "io.openshift.expose-services"
+    value: "8080:http,8443:https"
+  - name: "io.openshift.tags"
+    value: "javaee,eap,eap7,rhpam,rhpam7"
 envs:
-    - name: "CONFIG_ADJUSTMENT_MODE"
-      value: "xml"
-      description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
-    - name: "LOGGER_CATEGORIES"
-      value: "org.infinispan.client.hotrod.impl.protocol.Codec21:ERROR, org.infinispan.protostream.impl.AnnotatedDescriptorImpl:ERROR"
-    - name: "HTTPS_ENABLE_HTTP2"
-      value: "true"
-    - name: "SCRIPT_DEBUG"
-      description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
-      example: "true"
-    - name: "APPFORMER_JMS_BROKER_ADDRESS"
-      description: "Configure the address of the broker host, mandatory piece of configuration to define the appformer-jms-url property. If on OpenShift, the broker service name can also be used."
-      example: "myapp-amq-tcp"
-    - name: "APPFORMER_JMS_BROKER_PASSWORD"
-      description: "he password to connect in the JMS broker. Sets the appformer-jms-password property."
-      example: "RedHat@123"
-    - name: "APPFORMER_JMS_BROKER_PORT"
-      description: "The port to connect in the JMS broker. Defaults to 61616. Mandatory piece of configuration to define the appformer-jms-url property."
-      example: "61617"
-    - name: "APPFORMER_JMS_BROKER_USER"
-      description: "The username to connect in the JMS broker. Sets the appformer-jms-username property."
-      example: "brokerUser"
-    - name: "APPFORMER_JMS_CONNECTION_PARAMS"
-      description: "This var can be used to configure the broker with custom paramenters, the default value is ha=true&retryInterval=1000&retryIntervalMultiplier=1.0&reconnectAttempts=-1"
-      example: "ha=falsee&retryInterval=1000&retryIntervalMultiplier=2.0&reconnectAttempts=10"
-    - name: "APPFORMER_INFINISPAN_SERVICE_NAME"
-      description: "Configures the Infinispan host and port by looking them up via service name, however APPFORMER_INFINISPAN_HOST and APPFORMER_INFINISPAN_PORT will take priority if they are set."
-      example: "myapp-datagrid"
-    - name: "APPFORMER_INFINISPAN_HOST"
-      description: "Configures the Infinispan host. The Infinispan service name can also be used. (Sets the org.appformer.ext.metadata.infinispan.host property)"
-      example: "localhost"
-    - name: "APPFORMER_INFINISPAN_PORT"
-      description: "Configures the Infinispan port (Sets the org.appformer.ext.metadata.infinispan.port property)"
-      example: "11222"
-    - name: "APPFORMER_INFINISPAN_USER"
-      description: "Configures the Infinispan user (Sets the org.appformer.ext.metadata.infinispan.username property)"
-      example: "infinispanUser"
-    - name: "APPFORMER_INFINISPAN_PASSWORD"
-      description: "Configures the Infinispan password (Sets the org.appformer.ext.metadata.infinispan.password property)"
-      example: "infinispan1!"
-    - name: "APPFORMER_INFINISPAN_REALM"
-      description: "Configures the Infinispan realm (Sets the org.appformer.ext.metadata.infinispan.realm property)"
-      example: "ApplicationRealm"
-    - name: "APPFORMER_SSH_KEYS_STORAGE_FOLDER"
-      description: "Configure the ssh key storage (Sets the appformer.ssh.keys.storage.folder property)"
-      example: "/opt/kie/data/security/pkeys"
-    - name: "GIT_HOOKS_DIR"
-      example: "/opt/kie/data/git/hooks"
-      description: "If provided, the specified path will be copied to all the git repositories hooks dir"
-    - name: "KIE_ADMIN_USER"
-      example: "adminUser"
-      description: "Username for basic authentication used to access Business Central and to connect with the execution server (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
-    - name: "KIE_ADMIN_PWD"
-      example: "admin1!"
-      description: "Password for basic authentication used to access Business Central and to connect with the execution server (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
-    - name: "KIE_SERVER_TOKEN"
-      example: "dasd373egds"
-      description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
-    - name: "KIE_SERVER_CONTROLLER_SERVICE"
-      example: "buscentr-myapp"
-      description: "KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)"
-    - name: "KIE_SERVER_CONTROLLER_PROTOCOL"
-      example: "http"
-      description: "KIE server controller protocol (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_HOST"
-      example: "my-app-controller.os.mycloud.com"
-      description: "KIE server controller host (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_PORT"
-      example: "8080"
-      description: "KIE server controller port (Used to set the org.kie.server.controller system property)"
-    - name: "KIE_SERVER_CONTROLLER_TOKEN"
-      example: "dasd373egds"
-      description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
+  - name: "CONFIG_ADJUSTMENT_MODE"
+    value: "xml"
+    description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
+  - name: "LOGGER_CATEGORIES"
+    value: "org.infinispan.client.hotrod.impl.protocol.Codec21:ERROR, org.infinispan.protostream.impl.AnnotatedDescriptorImpl:ERROR"
+  - name: "HTTPS_ENABLE_HTTP2"
+    value: "true"
+  - name: "SCRIPT_DEBUG"
+    description: "If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed."
+    example: "true"
+  - name: "APPFORMER_JMS_BROKER_ADDRESS"
+    description: "Configure the address of the broker host, mandatory piece of configuration to define the appformer-jms-url property. If on OpenShift, the broker service name can also be used."
+    example: "myapp-amq-tcp"
+  - name: "APPFORMER_JMS_BROKER_PASSWORD"
+    description: "he password to connect in the JMS broker. Sets the appformer-jms-password property."
+    example: "RedHat@123"
+  - name: "APPFORMER_JMS_BROKER_PORT"
+    description: "The port to connect in the JMS broker. Defaults to 61616. Mandatory piece of configuration to define the appformer-jms-url property."
+    example: "61617"
+  - name: "APPFORMER_JMS_BROKER_USER"
+    description: "The username to connect in the JMS broker. Sets the appformer-jms-username property."
+    example: "brokerUser"
+  - name: "APPFORMER_JMS_CONNECTION_PARAMS"
+    description: "This var can be used to configure the broker with custom paramenters, the default value is ha=true&retryInterval=1000&retryIntervalMultiplier=1.0&reconnectAttempts=-1"
+    example: "ha=falsee&retryInterval=1000&retryIntervalMultiplier=2.0&reconnectAttempts=10"
+  - name: "APPFORMER_INFINISPAN_SERVICE_NAME"
+    description: "Configures the Infinispan host and port by looking them up via service name, however APPFORMER_INFINISPAN_HOST and APPFORMER_INFINISPAN_PORT will take priority if they are set."
+    example: "myapp-datagrid"
+  - name: "APPFORMER_INFINISPAN_HOST"
+    description: "Configures the Infinispan host. The Infinispan service name can also be used. (Sets the org.appformer.ext.metadata.infinispan.host property)"
+    example: "localhost"
+  - name: "APPFORMER_INFINISPAN_PORT"
+    description: "Configures the Infinispan port (Sets the org.appformer.ext.metadata.infinispan.port property)"
+    example: "11222"
+  - name: "APPFORMER_INFINISPAN_USER"
+    description: "Configures the Infinispan user (Sets the org.appformer.ext.metadata.infinispan.username property)"
+    example: "infinispanUser"
+  - name: "APPFORMER_INFINISPAN_PASSWORD"
+    description: "Configures the Infinispan password (Sets the org.appformer.ext.metadata.infinispan.password property)"
+    example: "infinispan1!"
+  - name: "APPFORMER_INFINISPAN_REALM"
+    description: "Configures the Infinispan realm (Sets the org.appformer.ext.metadata.infinispan.realm property)"
+    example: "ApplicationRealm"
+  - name: "APPFORMER_SSH_KEYS_STORAGE_FOLDER"
+    description: "Configure the ssh key storage (Sets the appformer.ssh.keys.storage.folder property)"
+    example: "/opt/kie/data/security/pkeys"
+  - name: "GIT_HOOKS_DIR"
+    example: "/opt/kie/data/git/hooks"
+    description: "If provided, the specified path will be copied to all the git repositories hooks dir"
+  - name: "KIE_ADMIN_USER"
+    example: "adminUser"
+    description: "Username for basic authentication used to access Business Central and to connect with the execution server (Sets the org.kie.server.user and org.kie.server.controller.user system properties)"
+  - name: "KIE_ADMIN_PWD"
+    example: "admin1!"
+    description: "Password for basic authentication used to access Business Central and to connect with the execution server (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
+  - name: "KIE_SERVER_TOKEN"
+    example: "dasd373egds"
+    description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
+  - name: "KIE_SERVER_CONTROLLER_SERVICE"
+    example: "buscentr-myapp"
+    description: "KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)"
+  - name: "KIE_SERVER_CONTROLLER_PROTOCOL"
+    example: "http"
+    description: "KIE server controller protocol (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_HOST"
+    example: "my-app-controller.os.mycloud.com"
+    description: "KIE server controller host (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_PORT"
+    example: "8080"
+    description: "KIE server controller port (Used to set the org.kie.server.controller system property)"
+  - name: "KIE_SERVER_CONTROLLER_TOKEN"
+    example: "dasd373egds"
+    description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
 ## OpenShift Enhancement BEGIN
-    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED"
-      example: "false"
-      description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
-    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE"
-      example: "true"
-      description: "If set to true, enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)"
-    - name: "KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL"
-      example: "60000"
-      description: "KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)"
-    - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED"
-      example: "true"
-      description: "If set to true, turns on OpenShift integration feature (Sets the org.kie.server.controller.openshift.enabled system property)"
+  - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED"
+    example: "false"
+    description: "If set to true, turns on KIE server global discovery feature (Sets the org.kie.server.controller.openshift.global.discovery.enabled system property)"
+  - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE"
+    example: "true"
+    description: "If set to true, enables connection to KIE Server via OpenShift internal Service endpoint (Sets the org.kie.server.controller.openshift.prefer.kieserver.service system property)"
+  - name: "KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL"
+    example: "60000"
+    description: "KIE ServerTemplate Cache TTL in milliseconds (Sets the org.kie.server.controller.template.cache.ttl system property)"
+  - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED"
+    example: "true"
+    description: "If set to true, turns on OpenShift integration feature (Sets the org.kie.server.controller.openshift.enabled system property)"
 ## OpenShift Enhancement END
-    - name: "WORKBENCH_MAX_METASPACE_SIZE"
-      example: "512"
-      description: "The maximum metaspace for the Business Central, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
-    - name: "WORKBENCH_ROUTE_NAME"
-      example: "myapp-rhpamcentr"
-      description: "Route name that will be used to query its public address in the Kubernetes API to set the org.appformer.m2repo.url property. This env will only take effect if WORKBENCH_ROUTE_NAME is not empty. To set it to use https use the secure route available in the application template. Usually its name is secure-${APPLICATION_NAME}-rhpamcentr"
-    - name: "KIE_M2_REPO_DIR"
-      example: "/my/persistent/m2/volume"
-      description: "If KIE_PERSIST_MAVEN_REPO is set to true, this path is used for storing Business Central maven artifacts. Default value is /opt/kie/data/m2"
-    - name: "KIE_PERSIST_MAVEN_REPO"
-      example: "true"
-      description: "Enable persistence for Business Central Maven repository, disabled by default. If disable, it will use /home/jboss/.m2/repository."
-    - name: "KIE_DASHBUILDER_RUNTIME_LOCATION"
-      example: "http://dashbuilder:8080"
-      description: "Enable integration between Business Central and Dashbuilder."
+  - name: "WORKBENCH_MAX_METASPACE_SIZE"
+    example: "512"
+    description: "The maximum metaspace for the Business Central, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
+  - name: "WORKBENCH_ROUTE_NAME"
+    example: "myapp-rhpamcentr"
+    description: "Route name that will be used to query its public address in the Kubernetes API to set the org.appformer.m2repo.url property. This env will only take effect if WORKBENCH_ROUTE_NAME is not empty. To set it to use https use the secure route available in the application template. Usually its name is secure-${APPLICATION_NAME}-rhpamcentr"
+  - name: "KIE_M2_REPO_DIR"
+    example: "/my/persistent/m2/volume"
+    description: "If KIE_PERSIST_MAVEN_REPO is set to true, this path is used for storing Business Central maven artifacts. Default value is /opt/kie/data/m2"
+  - name: "KIE_PERSIST_MAVEN_REPO"
+    example: "true"
+    description: "Enable persistence for Business Central Maven repository, disabled by default. If disable, it will use /home/jboss/.m2/repository."
+  - name: "KIE_DASHBUILDER_RUNTIME_LOCATION"
+    example: "http://dashbuilder:8080"
+    description: "Enable integration between Business Central and Dashbuilder."
 
 ports:
-    - value: 8080
-    - value: 8443
-    - value: 8778
+  - value: 8080
+  - value: 8443
+  - value: 8778
 modules:
-      repositories:
-          - name: cct_module
-            git:
-                  url: https://github.com/jboss-openshift/cct_module.git
-                  ref: master
-          - name: jboss-eap-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-eap-modules.git
-                  ref: master
-          - name: jboss-eap-7-image
-            git:
-                  url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-                  ref: eap73-dev
-          - name: wildfly-cekit-modules
-            git:
-                  url: https://github.com/wildfly/wildfly-cekit-modules.git
-                  ref: master
-          - name: rhpam-7-image
-            git:
-                  url: https://github.com/jboss-container-images/rhpam-7-image.git
-                  ref: master
-          - name: jboss-kie-modules
-            git:
-                  url: https://github.com/jboss-container-images/jboss-kie-modules.git
-                  ref: master
-      install:
-          - name: jboss.kie.common.dependencies
-          - name: jboss.container.openjdk.jdk
-            version: "11"
-          - name: dynamic-resources
-          - name: eap-73-latest
-            version: "7.3-latest"
-          - name: jboss.container.eap.setup
-          - name: rhpam-7-businesscentral
-          - name: jboss.container.maven.35.bash
-            version: "3.5"
-          - name: jboss.container.maven.default.bash
-          - name: jboss.container.jolokia.bash
-          - name: jboss.eap.cd.jolokia
-          - name: os-eap7-openshift
-            version: "1.0-kie"
-          - name: jboss.eap.config.openshift
-            version: "EAP7.3.0-kie"
-          - name: os-eap-activemq-rar
-            version: "1.1"
-          - name: os-eap-launch
-            version: "1.0-kie"
-          - name: os-eap7-launch
-            version: "1.0-kie"
-          - name: jboss-kie-db-drivers
-          - name: jboss.container.wildfly.launch.json-logging
-          - name: jboss.container.wildfly.launch.mp-config
-          - name: jboss.container.wildfly.launch-config.os
-          - name: jboss.container.wildfly.launch.jgroups
-          - name: jboss.container.wildfly.launch.elytron
-          - name: jboss.container.wildfly.launch.keycloak
-          - name: jboss.container.wildfly.launch.tracing
-          - name: os-eap70-sso
-          - name: jboss.container.wildfly.launch.deployment-scanner
-          - name: jboss.container.wildfly.launch.extensions
-          - name: openshift-layer
-          - name: openshift-passwd
-          - name: jboss.container.util.logging.bash
-          - name: jboss.container.eap.prometheus.config
-            version: "7.2-kie"
-          - name: jboss-kie-jdk-clean
-            version: "11"
-          - name: os-eap-txnrecovery.run
-            version: "python3"
-          - name: os-eap-python
-            version: "3.6"
-          - name: jboss-kie-common
-          - name: jboss-kie-wildfly-common
-          - name: jboss-kie-workbench
+  repositories:
+    - name: cct_module
+      git:
+        url: https://github.com/jboss-openshift/cct_module.git
+        ref: master
+    - name: jboss-eap-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-modules.git
+        ref: master
+    - name: jboss-eap-7-image
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+        ref: eap73-dev
+    - name: wildfly-cekit-modules
+      git:
+        url: https://github.com/wildfly/wildfly-cekit-modules.git
+        ref: master
+    - name: rhpam-7-image
+      git:
+        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        ref: master
+    - name: jboss-kie-modules
+      git:
+        url: https://github.com/jboss-container-images/jboss-kie-modules.git
+        ref: master
+  install:
+    - name: jboss.kie.common.dependencies
+    - name: jboss.container.openjdk.jdk
+      version: "11"
+    - name: dynamic-resources
+    - name: eap-73-latest
+      version: "7.3-latest"
+    - name: jboss.container.eap.setup
+    - name: rhpam-7-businesscentral
+    - name: jboss.container.maven.35.bash
+      version: "3.5"
+    - name: jboss.container.maven.default.bash
+    - name: jboss.container.jolokia.bash
+    - name: jboss.eap.cd.jolokia
+    - name: os-eap7-openshift
+      version: "1.0-kie"
+    - name: jboss.eap.config.openshift
+      version: "EAP7.3.0-kie"
+    - name: os-eap-activemq-rar
+      version: "1.1"
+    - name: os-eap-launch
+      version: "1.0-kie"
+    - name: os-eap7-launch
+      version: "1.0-kie"
+    - name: jboss-kie-db-drivers
+    - name: jboss.container.wildfly.launch.json-logging
+    - name: jboss.container.wildfly.launch.mp-config
+    - name: jboss.container.wildfly.launch-config.os
+    - name: jboss.container.wildfly.launch.jgroups
+    - name: jboss.container.wildfly.launch.elytron
+    - name: jboss.container.wildfly.launch.keycloak
+    - name: jboss.container.wildfly.launch.tracing
+    - name: os-eap70-sso
+    - name: jboss.container.wildfly.launch.deployment-scanner
+    - name: jboss.container.wildfly.launch.extensions
+    - name: openshift-layer
+    - name: openshift-passwd
+    - name: jboss.container.util.logging.bash
+    - name: jboss.container.eap.prometheus.config
+      version: "7.2-kie"
+    - name: jboss-kie-jdk-clean
+      version: "11"
+    - name: os-eap-txnrecovery.run
+      version: "python3"
+    - name: os-eap-python
+      version: "3.6"
+    - name: jboss-kie-common
+    - name: jboss-kie-wildfly-common
+    - name: jboss-kie-workbench
 packages:
-      content_sets_file: content_sets.yml
-      manager: microdnf
-      install:
-          - git
+  content_sets_file: content_sets.yml
+  manager: microdnf
+  install:
+    - git
 osbs:
-      configuration:
-          container_file: container.yaml
-      extra_dir: osbs-extra
-      repository:
-          name: containers/rhpam-7-businesscentral
-          branch: rhba-7-rhel-8
+  configuration:
+    container_file: container.yaml
+  extra_dir: osbs-extra
+  repository:
+    name: containers/rhpam-7-businesscentral
+    branch: rhba-7-rhel-8
 run:
-      user: 185
-      cmd:
-          - "/opt/eap/bin/openshift-launch.sh"
+  user: 185
+  cmd:
+    - "/opt/eap/bin/openshift-launch.sh"
