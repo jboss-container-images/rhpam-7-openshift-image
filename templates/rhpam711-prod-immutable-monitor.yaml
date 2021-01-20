@@ -182,7 +182,7 @@ parameters:
   - displayName: Business Central Container Memory Request
     description: Business Central Container memory request.
     name: BUSINESS_CENTRAL_MEMORY_REQUEST
-    value: 1.5Gi
+    value: 1536Mi
     required: true
   - displayName: Business Central Container CPU Limit
     description: Business Central Container CPU limit.
