@@ -406,24 +406,6 @@ objects:
   - kind: Service
     apiVersion: v1
     spec:
-      clusterIP: "None"
-      ports:
-        - name: "ping"
-          port: 8888
-          targetPort: 8888
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
-    metadata:
-      name: "${APPLICATION_NAME}-rhpamcentrmon-ping"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhpamcentrmon"
-      annotations:
-        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-        description: "The JGroups ping port for clustering."
-  - kind: Service
-    apiVersion: v1
-    spec:
       ports:
         - name: http
           port: 9000
@@ -546,6 +528,7 @@ objects:
             deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
             application: "${APPLICATION_NAME}"
             service: "${APPLICATION_NAME}-rhpamcentrmon"
+            cluster: "jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
         spec:
           serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
           terminationGracePeriodSeconds: 60
@@ -593,9 +576,6 @@ objects:
                   protocol: TCP
                 - name: https
                   containerPort: 8443
-                  protocol: TCP
-                - name: ping
-                  containerPort: 8888
                   protocol: TCP
               env:
                 - name: APPLICATION_USERS_PROPERTIES
@@ -659,11 +639,13 @@ objects:
                 - name: HTTPS_PASSWORD
                   value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
                 - name: JGROUPS_PING_PROTOCOL
-                  value: "openshift.DNS_PING"
-                - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-                  value: "${APPLICATION_NAME}-rhpamcentrmon-ping"
-                - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-                  value: "8888"
+                  value: "kubernetes.KUBE_PING"
+                - name: KUBERNETES_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: KUBERNETES_LABELS
+                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS

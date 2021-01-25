@@ -486,24 +486,6 @@ objects:
         service: "${APPLICATION_NAME}-rhpamcentrmon"
       annotations:
         description: All the Business Central Monitoring web server's ports.
-  - kind: Service
-    apiVersion: v1
-    spec:
-      clusterIP: "None"
-      ports:
-        - name: "ping"
-          port: 8888
-          targetPort: 8888
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
-    metadata:
-      name: "${APPLICATION_NAME}-rhpamcentrmon-ping"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhpamcentrmon"
-      annotations:
-        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-        description: "The JGroups ping port for clustering."
 ## KIE Server services BEGIN
   - kind: Service
     apiVersion: v1
@@ -528,24 +510,6 @@ objects:
         service: "${APPLICATION_NAME}-kieserver"
       annotations:
         description: All the KIE Server web server's ports. (First KIE Server)
-  - kind: Service
-    apiVersion: v1
-    spec:
-      clusterIP: "None"
-      ports:
-        - name: "ping"
-          port: 8888
-          targetPort: 8888
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-kieserver"
-    metadata:
-      name: "${APPLICATION_NAME}-kieserver-ping"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-kieserver"
-      annotations:
-        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-        description: "The JGroups ping port for clustering."
 ## KIE Server services END
 ## PostgreSQL service BEGIN
   - apiVersion: v1
@@ -673,6 +637,7 @@ objects:
             deploymentConfig: "${APPLICATION_NAME}-rhpamcentrmon"
             application: "${APPLICATION_NAME}"
             service: "${APPLICATION_NAME}-rhpamcentrmon"
+            cluster: "jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
         spec:
           serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
           terminationGracePeriodSeconds: 60
@@ -721,9 +686,6 @@ objects:
                 - name: https
                   containerPort: 8443
                   protocol: TCP
-                - name: ping
-                  containerPort: 8888
-                  protocol: TCP
               env:
                 - name: APPLICATION_USERS_PROPERTIES
                   value: "/opt/kie/data/configuration/application-users.properties"
@@ -770,11 +732,13 @@ objects:
                 - name: HTTPS_PASSWORD
                   value: "${BUSINESS_CENTRAL_HTTPS_PASSWORD}"
                 - name: JGROUPS_PING_PROTOCOL
-                  value: "openshift.DNS_PING"
-                - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-                  value: "${APPLICATION_NAME}-rhpamcentrmon-ping"
-                - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-                  value: "8888"
+                  value: "kubernetes.KUBE_PING"
+                - name: KUBERNETES_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: KUBERNETES_LABELS
+                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhpamcentrmon"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -892,6 +856,7 @@ objects:
             application: "${APPLICATION_NAME}"
             service: "${APPLICATION_NAME}-kieserver"
             services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
+            cluster: "jgrp.k8s.${APPLICATION_NAME}.kieserver"
         spec:
           serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
           terminationGracePeriodSeconds: 90
@@ -948,9 +913,6 @@ objects:
                   protocol: TCP
                 - name: https
                   containerPort: 8443
-                  protocol: TCP
-                - name: ping
-                  containerPort: 8888
                   protocol: TCP
               env:
                 - name: WORKBENCH_SERVICE_NAME
@@ -1048,11 +1010,13 @@ objects:
                 - name: HTTPS_PASSWORD
                   value: "${KIE_SERVER_HTTPS_PASSWORD}"
                 - name: JGROUPS_PING_PROTOCOL
-                  value: "openshift.DNS_PING"
-                - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-                  value: "${APPLICATION_NAME}-kieserver-ping"
-                - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-                  value: "8888"
+                  value: "kubernetes.KUBE_PING"
+                - name: KUBERNETES_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: KUBERNETES_LABELS
+                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS
