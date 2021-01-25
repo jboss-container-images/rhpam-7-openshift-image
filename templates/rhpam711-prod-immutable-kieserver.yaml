@@ -739,9 +739,9 @@ objects:
                 - name: JGROUPS_PING_PROTOCOL
                   value: "kubernetes.KUBE_PING"
                 - name: KUBERNETES_NAMESPACE
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: metadata.namespace
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
                 - name: KUBERNETES_LABELS
                   value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
                 - name: SSO_URL
