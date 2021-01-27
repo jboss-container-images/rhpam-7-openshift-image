@@ -104,10 +104,10 @@ modules:
       version: "7.3-latest"
     - name: jboss.container.eap.setup
     - name: rhpam-7-businesscentral-monitoring
-    - name: jboss.container.maven.35.bash
-      version: "3.5"
-    - name: jboss.container.maven.default.bash
-    - name: jboss.container.jolokia.bash
+    - name: jboss.container.maven
+      version: "8.2.3.6"
+    - name: jboss.container.maven.default
+    - name: jboss.container.jolokia
     - name: jboss.eap.cd.jolokia
     - name: os-eap7-openshift
       version: "1.0-kie"
@@ -134,8 +134,8 @@ modules:
     - name: openshift-layer
     - name: openshift-passwd
     - name: jboss.container.util.logging.bash
-    - name: jboss.container.eap.prometheus.config
-      version: "7.2-kie"
+    - name: jboss.container.prometheus
+      version: "8.2"
     - name: jboss-kie-jdk-clean
       version: "11"
     - name: os-eap-txnrecovery.run
