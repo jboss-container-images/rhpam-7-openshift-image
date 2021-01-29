@@ -108,6 +108,7 @@ modules:
       version: "8.2.3.6"
     - name: jboss.container.maven.default
     - name: jboss.container.jolokia
+      version: "7"
     - name: jboss.eap.cd.jolokia
     - name: os-eap7-openshift
       version: "1.0-kie"

@@ -110,10 +110,9 @@ modules:
     - name: jboss.container.eap.setup
     - name: dynamic-resources
     - name: rhpam-7-dashbuilder
-    - name: jboss.container.jolokia.bash
-    # TODO move the standalone.conf from cd.jolokia module to another place.
+    - name: jboss.container.jolokia
+      version: "7"
     - name: jboss.eap.cd.jolokia
-      version: "1.0-kie"
     - name: os-eap7-openshift
       version: "1.0-kie"
     - name: jboss.eap.config.openshift
@@ -136,8 +135,8 @@ modules:
     - name: jboss.container.wildfly.launch.extensions
     - name: openshift-layer
     - name: jboss.container.util.logging.bash
-    - name: jboss.container.eap.prometheus.config
-      version: "7.2-kie"
+    - name: jboss.container.prometheus
+      version: "8.2"
     - name: jboss-kie-jdk-clean
       version: "11"
     - name: jboss-kie-wildfly-common
