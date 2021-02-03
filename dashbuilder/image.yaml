@@ -125,6 +125,7 @@ modules:
     - name: os-eap7-launch
       version: "1.0-kie"
     - name: jboss-kie-db-drivers
+    - name: jboss.container.wildfly.launch.messaging
     - name: jboss.container.wildfly.launch.json-logging
     - name: jboss.container.wildfly.launch-config.os
     - name: jboss.container.wildfly.launch.jgroups
