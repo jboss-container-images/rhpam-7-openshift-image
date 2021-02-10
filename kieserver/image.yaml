@@ -242,7 +242,6 @@ modules:
       version: "1.0"
     - name: jboss.container.java.s2i.bash
       version: "1.0"
-    #- name: jboss.container.eap.s2i.bash
     - name: jboss.container.jolokia
       version: "7"
     - name: jboss.eap.cd.jolokia
