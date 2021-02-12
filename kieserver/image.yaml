@@ -236,9 +236,9 @@ modules:
     - name: jboss.container.maven
       version: "8.2.3.6"
     - name: jboss.container.maven.default
-    - name: jboss.container.maven.s2i
     - name: jboss.container.eap.s2i.bash
-      version: "1.0-kie"
+      version: '1.0-kie'
+    - name: jboss.container.maven.s2i
     - name: jboss.container.jolokia
       version: "7"
     - name: jboss.eap.cd.jolokia
@@ -269,8 +269,6 @@ modules:
     - name: jboss.container.util.logging.bash
     - name: jboss.container.eap.prometheus.config
       version: "7.2-kie"
-    - name: jboss.container.prometheus.bash
-      version: "1.0"
     - name: jboss-kie-jdk-clean
       version: "11"
     - name: os-eap-txnrecovery.run
