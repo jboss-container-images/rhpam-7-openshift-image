@@ -104,9 +104,20 @@ modules:
       version: "7.3-latest"
     - name: jboss.container.eap.setup
     - name: rhpam-7-businesscentral-monitoring
+    - name: jboss.container.maven.module
+      version: "3.5-kie"
     - name: jboss.container.maven.35.bash
-      version: "3.5"
+      version: "3.5-kie"
     - name: jboss.container.maven.default.bash
+      version: "1.0-kie"
+    - name: jboss.container.maven.s2i.bash
+      version: "1.0-kie"
+    - name: jboss.container.eap.s2i.bash
+      version: "1.0-kie"
+    - name: jboss.container.s2i.core.api
+      version: "1.0-kie"
+    - name: jboss.container.s2i.core.bash
+      version: "1.0-kie"
     - name: jboss.container.jolokia.bash
     - name: jboss.eap.cd.jolokia
     - name: os-eap7-openshift
