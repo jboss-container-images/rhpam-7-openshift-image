@@ -404,24 +404,6 @@ objects:
         service: "${APPLICATION_NAME}-kieserver"
       annotations:
         description: All the KIE Server web server's ports.
-  - kind: Service
-    apiVersion: v1
-    spec:
-      clusterIP: "None"
-      ports:
-        - name: "ping"
-          port: 8888
-          targetPort: 8888
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-kieserver"
-    metadata:
-      name: "${APPLICATION_NAME}-kieserver-ping"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-kieserver"
-      annotations:
-        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-        description: "The JGroups ping port for clustering."
 ## MySQL service BEGIN
   - apiVersion: v1
     kind: Service
@@ -513,6 +495,7 @@ objects:
             application: "${APPLICATION_NAME}"
             service: "${APPLICATION_NAME}-kieserver"
             services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
+            cluster: "jgrp.k8s.${APPLICATION_NAME}.kieserver"
         spec:
           serviceAccountName: "${APPLICATION_NAME}-kieserver"
           terminationGracePeriodSeconds: 90
@@ -569,9 +552,6 @@ objects:
                   protocol: TCP
                 - name: https
                   containerPort: 8443
-                  protocol: TCP
-                - name: ping
-                  containerPort: 8888
                   protocol: TCP
               env:
                 - name: WORKBENCH_SERVICE_NAME
@@ -677,11 +657,13 @@ objects:
                 - name: HTTPS_PASSWORD
                   value: "${KIE_SERVER_HTTPS_PASSWORD}"
                 - name: JGROUPS_PING_PROTOCOL
-                  value: "openshift.DNS_PING"
-                - name: OPENSHIFT_DNS_PING_SERVICE_NAME
-                  value: "${APPLICATION_NAME}-kieserver-ping"
-                - name: OPENSHIFT_DNS_PING_SERVICE_PORT
-                  value: "8888"
+                  value: "kubernetes.KUBE_PING"
+                - name: KUBERNETES_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: KUBERNETES_LABELS
+                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS
