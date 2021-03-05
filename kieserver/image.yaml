@@ -194,6 +194,12 @@ envs:
   - name: "KIE_SERVER_MAX_METASPACE_SIZE"
     example: "256"
     description: "The maximum metaspace size, set as integer in megabytes, for the KIE Server. This will overwrite value set by GC_MAX_METASPACE_SIZE. Default max metaspace size for KIE Server is 512mb."
+  - name: "KIE_SERVER_DISABLE_KC_PULL_DEPS"
+    example: "true"
+    description: "Disable Maven pull dependencies for immutable KIE Server configurations for S2I and pre built kjars. Useful for pre-compiled kjar."
+  - name: "KIE_SERVER_DISABLE_KC_VERIFICATION"
+    example: "true"
+    description: "Disable Maven KIE Jar verification. It is recommended to test the kjar manually before disabling this verification."
 ports:
   - value: 8080
   - value: 8443
