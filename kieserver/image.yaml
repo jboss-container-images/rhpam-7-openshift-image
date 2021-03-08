@@ -188,6 +188,12 @@ envs:
     - name: "OPTAPLANNER_SERVER_EXT_THREAD_POOL_QUEUE_SIZE"
       example: "4"
       description: "The default queue size is equal to the number of active CPU cores. (Sets the org.optaplanner.server.ext.thread.pool.queue.size system property)"
+    - name: "KIE_SERVER_DISABLE_KC_PULL_DEPS"
+      example: "true"
+      description: "Disable Maven pull dependencies for immutable KIE Server configurations for S2I and pre built kjars. Useful for pre-compiled kjar."
+    - name: "KIE_SERVER_DISABLE_KC_VERIFICATION"
+      example: "true"
+      description: "Disable Maven KIE Jar verification. It is recommended to test the kjar manually before disabling this verification."
 ports:
     - value: 8080
     - value: 8443
