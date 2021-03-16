@@ -37,7 +37,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | `KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL` | KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property) | 5000 | False
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.10.0". | 7.10.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.10.1". | 7.10.1 | True
 |`KIE_SERVER_CONTROLLER_TOKEN` | `KIE_SERVER_CONTROLLER_TOKEN` | KIE Server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property) | -- | False
 |`KIE_SERVER_PERSISTENCE_DS` | `KIE_SERVER_PERSISTENCE_DS` | KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property) | java:/jboss/datasources/rhpam | False
 |`POSTGRESQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the PostgreSQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
@@ -67,11 +67,11 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_BYPASS_AUTH_USER` | `KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | false | False
 |`TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | `TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL` | Sets refresh-interval for the EJB timer service database-data-store. | 30000 | False
 |`BUSINESS_CENTRAL_MEMORY_LIMIT` | -- | Business Central Monitoring Container memory limit. | 2Gi | True
-|`BUSINESS_CENTRAL_MEMORY_REQUEST` | -- | Business Central Monitoring Container memory request. | 1.5Gi | True
+|`BUSINESS_CENTRAL_MEMORY_REQUEST` | -- | Business Central Monitoring Container memory request. | 1536Mi | True
 |`BUSINESS_CENTRAL_CPU_LIMIT` | -- | Business Central Monitoring Container CPU limit. | 1 | True
 |`BUSINESS_CENTRAL_CPU_REQUEST` | -- | Business Central Monitoring Container CPU request. | 750m | True
 |`KIE_SERVER_MEMORY_LIMIT` | -- | KIE Server Container memory limit. | 2Gi | True
-|`KIE_SERVER_MEMORY_REQUEST` | -- | KIE Server Container memory request. | 1.5Gi | True
+|`KIE_SERVER_MEMORY_REQUEST` | -- | KIE Server Container memory request. | 1536Mi | True
 |`KIE_SERVER_CPU_LIMIT` | -- | KIE Server Container CPU limit. | 1 | True
 |`KIE_SERVER_CPU_REQUEST` | -- | KIE Server Container CPU request. | 750m | True
 |`BUSINESS_CENTRAL_MONITORING_CONTAINER_REPLICAS` | -- | Business Central Monitoring Container Replicas, will define how much Business Central Monitoring containers will be started. | 3 | True
