@@ -127,6 +127,7 @@ modules:
     - name: jboss-kie-db-drivers
     - name: jboss.container.wildfly.launch.messaging
     - name: jboss.container.wildfly.launch.json-logging
+    - name: jboss.container.wildfly.launch-config.config
     - name: jboss.container.wildfly.launch-config.os
     - name: jboss.container.wildfly.launch.jgroups
     - name: jboss.container.wildfly.launch.elytron
