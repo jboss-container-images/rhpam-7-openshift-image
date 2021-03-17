@@ -2,6 +2,6 @@
 
 NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/master/kieserver[Red Hat Process Automation Manager Execution Server 7.10 container image]
 
-# License
+## License
 
 See link:../LICENSE[LICENSE] file.
