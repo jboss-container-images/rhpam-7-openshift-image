@@ -206,6 +206,30 @@ envs:
   - name: "KIE_SERVER_JBPM_CLUSTER_TRANSPORT_LOCK_TIMEOUT"
     example: "70000"
     description: "Jbpm Cache transport lock timeout, value in milliseconds. The default value is 60000 ms."
+  - name: "org.kie.kafka.server.ext.disabled"
+    example: "true"
+    description: "Disable Kafka extension"
+  - name: "org.kie.server.jbpm-kafka.ext.topics"
+    example: "event=events,book=books"
+    description: "message/signal name>=<topicName> for every topic that needs to be mapped globally, by default topic name will be equal to message/signal name"
+  - name: "org.kie.server.jbpm-kafka.ext.bootstrap.servers"
+    example: "localhost:9092"
+    description: " A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster"
+  - name: "org.kie.server.jbpm-kafka.ext.client.id"
+    example: "applicationName"
+    description: "An id string to pass to the server when making requests. Not passed by default (the purpose of this property is to provide a logical application name for logging)"
+  - name: "org.kie.server.jbpm-kafka.ext.allow.auto.create.topics"
+    example: "true"
+    description: "Allow automatic topic creation.Allow automatic topic creation. Enabled by default"
+  - name: "org.kie.server.jbpm-kafka.ext.group.id"
+    example: "jbpm-consumer"
+    description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer'"
+  - name: "org.kie.server.jbpm-kafka.ext.acks"
+    example: "1"
+    description: "The number of acknowledgments the producer requires the leader to have received before considering a request complete. 1 by default, which means the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers"
+  - name: "org.kie.server.jbpm-kafka.ext.max.block.ms"
+    example: "2000"
+    description: "Number of milliseconds that indicates how long publish method will block. Default 2000 (2 seconds)"
 ports:
   - value: 8080
   - value: 8443
@@ -265,14 +289,12 @@ modules:
     - name: jboss.container.wildfly.launch.messaging
     - name: jboss.container.wildfly.launch.json-logging
     - name: jboss.container.wildfly.launch.mp-config
-    - name: jboss.container.wildfly.launch-config.config
     - name: jboss.container.wildfly.launch-config.os
     - name: jboss.container.wildfly.launch.jgroups
     - name: jboss.container.wildfly.launch.elytron
     - name: jboss.container.wildfly.launch.keycloak
     - name: jboss.container.wildfly.launch.tracing
-    - name: os-eap7-sso-adapters
-      version: "7.4.5-kie"
+    - name: os-eap70-sso
     - name: jboss.container.wildfly.launch.deployment-scanner
     - name: jboss.container.wildfly.launch.extensions
     - name: openshift-layer
