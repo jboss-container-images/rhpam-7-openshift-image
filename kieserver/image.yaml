@@ -207,27 +207,29 @@ envs:
     example: "70000"
     description: "Jbpm Cache transport lock timeout, value in milliseconds. The default value is 60000 ms."
   - name: "org.kie.kafka.server.ext.disabled"
+    description: "Disable Maven KIE Jar verification. It is recommended to test the kjar manually before disabling this verification."
+  - name: "KIE_KAFKA_EXT_DISABLED"
     example: "true"
     description: "Disable Kafka extension"
-  - name: "org.kie.server.jbpm-kafka.ext.topics"
+  - name: "KIE_KAFKA_EXT_TOPICS"
     example: "event=events,book=books"
     description: "message/signal name>=<topicName> for every topic that needs to be mapped globally, by default topic name will be equal to message/signal name"
-  - name: "org.kie.server.jbpm-kafka.ext.bootstrap.servers"
+  - name: "KIE_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
     description: " A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster"
-  - name: "org.kie.server.jbpm-kafka.ext.client.id"
+  - name: "KIE_KAFKA_EXT_CLIENT_ID"
     example: "applicationName"
     description: "An id string to pass to the server when making requests. Not passed by default (the purpose of this property is to provide a logical application name for logging)"
-  - name: "org.kie.server.jbpm-kafka.ext.allow.auto.create.topics"
+  - name: "KIE_KAFKA_EXT_AUTOCREATE_TOPICS"
     example: "true"
     description: "Allow automatic topic creation.Allow automatic topic creation. Enabled by default"
-  - name: "org.kie.server.jbpm-kafka.ext.group.id"
+  - name: "KIE_KAFKA_EXT_GROUP_ID"
     example: "jbpm-consumer"
     description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer'"
-  - name: "org.kie.server.jbpm-kafka.ext.acks"
+  - name: "KIE_KAFKA_EXT_ACKS"
     example: "1"
     description: "The number of acknowledgments the producer requires the leader to have received before considering a request complete. 1 by default, which means the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers"
-  - name: "org.kie.server.jbpm-kafka.ext.max.block.ms"
+  - name: "KIE_KAFKA_EXT_MAX_BLOCK_MS"
     example: "2000"
     description: "Number of milliseconds that indicates how long publish method will block. Default 2000 (2 seconds)"
 ports:
@@ -289,6 +291,7 @@ modules:
     - name: jboss.container.wildfly.launch.messaging
     - name: jboss.container.wildfly.launch.json-logging
     - name: jboss.container.wildfly.launch.mp-config
+    - name: jboss.container.wildfly.launch-config.config
     - name: jboss.container.wildfly.launch-config.os
     - name: jboss.container.wildfly.launch.jgroups
     - name: jboss.container.wildfly.launch.elytron
