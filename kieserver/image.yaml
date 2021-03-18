@@ -216,7 +216,7 @@ envs:
     description: "message/signal name>=<topicName> for every topic that needs to be mapped globally, by default topic name will be equal to message/signal name"
   - name: "KIE_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
-    description: " A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster"
+    description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster"
   - name: "KIE_KAFKA_EXT_CLIENT_ID"
     example: "applicationName"
     description: "An id string to pass to the server when making requests. Not passed by default (the purpose of this property is to provide a logical application name for logging)"
