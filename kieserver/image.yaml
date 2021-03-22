@@ -218,7 +218,7 @@ envs:
     example: "true"
     description: "Setting with true enable the others KIE_KAFKA_EXT environments used by Kafka, this env will be used by system prop org.kie.kafka.server.ext.disable with the opposite value"
   - name: "KIE_SERVER_KAFKA_EXT_TOPICS"
-    example: "  example: "org.kie.server.jbpm-kafka.ext.topics.event=events""
+    example: "org.kie.server.jbpm-kafka.ext.topics.event=events"
     description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics."
   - name: "KIE_SERVER_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
