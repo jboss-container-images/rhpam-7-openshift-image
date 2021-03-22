@@ -200,6 +200,9 @@ envs:
   - name: "KIE_SERVER_DISABLE_KC_VERIFICATION"
     example: "true"
     description: "Disable Maven KIE Jar verification. It is recommended to test the kjar manually before disabling this verification."
+  - name: "KIE_SERVER_JBPM_CLUSTER"
+    example: "true"
+    description: "Enable the JPM clustering for Kie-Server fail-over, if less than two replica as confiured one additionl replica will be added"
 ports:
   - value: 8080
   - value: 8443
