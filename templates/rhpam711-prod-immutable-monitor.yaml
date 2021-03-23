@@ -21,15 +21,9 @@ message: |-
   The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
   KIE_ADMIN_USER and KIE_ADMIN_PWD
 
-  To create a new KIE Server and connect to this monitoring console/router, use the following "oc" command:
-  oc new-app -f rhpam711-prod-immutable-kieserver.yaml \
-    -p CREDENTIALS_SECRET=${CREDENTIALS_SECRET} \
-    -p KIE_SERVER_MONITOR_SERVICE=${APPLICATION_NAME}-rhpamcentrmon \
-    -p KIE_SERVER_ROUTER_SERVICE=${APPLICATION_NAME}-smartrouter \
-    -p SOURCE_REPOSITORY_URL=https://example.com/xxxx.git -p CONTEXT_DIR=rootDir \
-    -p KIE_SERVER_CONTAINER_DEPLOYMENT=containerId=G:A:V
-
-  You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secret named "${KIE_SERVER_ROUTER_HTTPS_SECRET}" containing the ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
+  You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and
+  the secret named "${KIE_SERVER_ROUTER_HTTPS_SECRET}" and ${BUSINESS_CENTRAL_HTTPS_SECRET} containing the
+  ${BUSINESS_CENTRAL_HTTPS_KEYSTORE} and ${KIE_SERVER_ROUTER_HTTPS_KEYSTORE} files used for serving secure content.
 parameters:
   - displayName: Application Name
     description: The name for the application.
