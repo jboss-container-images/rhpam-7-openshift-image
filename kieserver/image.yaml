@@ -219,7 +219,7 @@ envs:
     description: "Setting with true enable the others KIE_KAFKA_EXT environments used by Kafka, this env will be used by system prop org.kie.kafka.server.ext.disable with the opposite value"
   - name: "KIE_SERVER_KAFKA_EXT_TOPICS"
     example: "message=topic_name"
-    description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics."
+    description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics, multiple mappings must be provided as an array of string"
   - name: "KIE_SERVER_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
     description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster, this env will be used by system prop org.kie.server.jbpm-kafka.ext.bootstrap.servers"
