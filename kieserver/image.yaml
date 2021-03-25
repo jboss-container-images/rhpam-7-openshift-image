@@ -222,7 +222,7 @@ envs:
     description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics, multiple mappings must be provided separated by a comma"
   - name: "KIE_SERVER_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
-    description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster, this env will be used by system prop org.kie.server.jbpm-kafka.ext.bootstrap.servers"
+    description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.bootstrap.servers system property."
   - name: "KIE_SERVER_KAFKA_EXT_CLIENT_ID"
     example: "applicationName"
     description: "An id string to pass to the server when making requests. Not passed by default (the purpose of this property is to provide a logical application name for logging), this env will be used by system prop org.kie.server.jbpm-kafka.ext.client.id"
