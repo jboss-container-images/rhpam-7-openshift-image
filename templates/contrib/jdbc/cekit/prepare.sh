@@ -44,7 +44,7 @@ finalizeConfiguration() {
         echo "
 artifacts:
   - url: file://${ARTIFACT}
-    md5: $(md5sum ${ARTIFACT} | cut -d" " -f1)" >> db-overrides.yaml
+    md5: $(md5sum ${ARTIFACT} | cut -d" " -f1)" >> modules/kie-custom-jdbc-driver/module.yaml
 
     fi
 
@@ -75,7 +75,7 @@ case ${1} in
             echo "
 artifacts:
   - url: https://repo1.maven.org/maven2/com/ibm/db2/jcc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}
-    md5: $(curl -s https://repo1.maven.org/maven2/com/ibm/db2/jcc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> db-overrides.yaml
+    md5: $(curl -s https://repo1.maven.org/maven2/com/ibm/db2/jcc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> modules/kie-custom-jdbc-driver/module.yaml
 
         fi
 
@@ -99,7 +99,7 @@ artifacts:
         echo "
 artifacts:
   - url: https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}
-    md5: $(curl -s https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> db-overrides.yaml
+    md5: $(curl -s https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> modules/kie-custom-jdbc-driver/module.yaml
 
     ;;
     mssql)
@@ -120,7 +120,7 @@ artifacts:
         echo "
 artifacts:
   - url: https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}
-    md5: $(curl -s https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> db-overrides.yaml
+    md5: $(curl -s https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> modules/kie-custom-jdbc-driver/module.yaml
 
     ;;
     mysql)
@@ -142,7 +142,7 @@ artifacts:
         echo "
 artifacts:
   - url: https://repo1.maven.org/maven2/mysql/mysql-connector-java/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}
-    md5: $(curl -s https://repo1.maven.org/maven2/mysql/mysql-connector-java/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> db-overrides.yaml
+    md5: $(curl -s https://repo1.maven.org/maven2/mysql/mysql-connector-java/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> modules/kie-custom-jdbc-driver/module.yaml
 
     ;;
     oracle)
@@ -195,7 +195,7 @@ artifacts:
         echo "
 artifacts:
   - url: https://repo1.maven.org/maven2/org/postgresql/postgresql/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}
-    md5: $(curl -s https://repo1.maven.org/maven2/org/postgresql/postgresql/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> db-overrides.yaml
+    md5: $(curl -s https://repo1.maven.org/maven2/org/postgresql/postgresql/${VERSION}/${DRIVER_JDBC_ARTIFACT_NAME}.md5)" >> modules/kie-custom-jdbc-driver/module.yaml
 
     ;;
     *)
