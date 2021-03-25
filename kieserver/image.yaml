@@ -228,7 +228,7 @@ envs:
     description: "This configuration allows users to set an ID to provide a logical application name for logging purposes, not set by default.This environment variable will be used to set the org.kie.server.jbpm-kafka.ext.client.id system property."
   - name: "KIE_SERVER_KAFKA_EXT_AUTOCREATE_TOPICS"
     example: "true"
-    description: "Allow automatic topic creation.Allow automatic topic creation. Enabled by default, this env will be used by system prop org.kie.server.jbpm-kafka.ext.allow.auto.create.topics"
+    description: "Allow automatic topic creation. Enabled by default, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.allow.auto.create.topics system property."
   - name: "KIE_SERVER_KAFKA_EXT_GROUP_ID"
     example: "jbpm-consumer"
     description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer' org.kie.server.jbpm-kafka.ext.group.id org.kie.server.jbpm-kafka.ext.group.id"
