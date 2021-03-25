@@ -216,7 +216,7 @@ envs:
     description: "Disable Maven KIE Jar verification. It is recommended to test the kjar manually before disabling this verification."
   - name: "KIE_SERVER_KAFKA_EXT_ENABLED"
     example: "true"
-    description: "Setting with true enable the others KIE_KAFKA_EXT environments used by Kafka, this env will be used by system prop org.kie.kafka.server.ext.disable with the opposite value"
+    description: "Setting to true enables the other KIE Server Kafka environment variables used to configure kafka integration, this environment variable will be used to set the org.kie.kafka.server.ext.disable system property."
   - name: "KIE_SERVER_KAFKA_EXT_TOPICS"
     example: "message=topic_name"
     description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics, multiple mappings must be provided separated by a comma"
