@@ -233,7 +233,7 @@ envs:
     example: "jbpm-consumer"
     description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer'. this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.group.id system property."
   - name: "KIE_SERVER_KAFKA_EXT_ACKS"
-    example: "1"
+    example: "2"
     description: "The number of acknowledgments the producer requires the leader to have received before considering a request complete. 1 by default, which means the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers, this env will be used by system prop org.kie.server.jbpm-kafka.ext.acks"
   - name: "KIE_SERVER_KAFKA_EXT_MAX_BLOCK_MS"
     example: "2000"
