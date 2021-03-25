@@ -205,7 +205,7 @@ envs:
     description: "Enable the KIE Server Jbpm clustering for processes fail-over. If the number of replicas is less than two, one additional replica will be started."
   - name: "KIE_SERVER_JBPM_CLUSTER_TRANSPORT_LOCK_TIMEOUT"
     value: "60000"
-    description: "Cache configuration on wildfly"  
+    description: "Jbpm Cache transport lock timeout, value in milliseconds. The default value is 6000 ms."
 ports:
   - value: 8080
   - value: 8443
