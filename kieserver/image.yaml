@@ -237,7 +237,7 @@ envs:
     description: "The number of acknowledgments that the producer requires the leader to have received before considering a request to be complete. The default value is 1, which means the leader will write the record to its local log but will respond without awaiting full acknowledgment from all followers, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.acks system property."
   - name: "KIE_SERVER_KAFKA_EXT_MAX_BLOCK_MS"
     example: "6000"
-    description: "Number of milliseconds that indicates how long publish method will block. Default 2000 (2 seconds), this env will be used by system prop org.kie.server.jbpm-kafka.ext.max.block.ms"
+    description: "Value in milliseconds that indicates how long the 'publish' method will block the operation. Default 2000 milliseconds (2 seconds), this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.max.block.ms system property."
 ports:
   - value: 8080
   - value: 8443
