@@ -225,7 +225,7 @@ envs:
     description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.bootstrap.servers system property."
   - name: "KIE_SERVER_KAFKA_EXT_CLIENT_ID"
     example: "applicationName"
-    description: "An id string to pass to the server when making requests. Not passed by default (the purpose of this property is to provide a logical application name for logging), this env will be used by system prop org.kie.server.jbpm-kafka.ext.client.id"
+    description: "This configuration allows users to set an ID to provide a logical application name for logging purposes, not set by default.This environment variable will be used to set the org.kie.server.jbpm-kafka.ext.client.id system property."
   - name: "KIE_SERVER_KAFKA_EXT_AUTOCREATE_TOPICS"
     example: "true"
     description: "Allow automatic topic creation.Allow automatic topic creation. Enabled by default, this env will be used by system prop org.kie.server.jbpm-kafka.ext.allow.auto.create.topics"
