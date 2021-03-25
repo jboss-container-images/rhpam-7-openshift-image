@@ -231,7 +231,7 @@ envs:
     description: "Allow automatic topic creation. Enabled by default, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.allow.auto.create.topics system property."
   - name: "KIE_SERVER_KAFKA_EXT_GROUP_ID"
     example: "jbpm-consumer"
-    description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer' org.kie.server.jbpm-kafka.ext.group.id org.kie.server.jbpm-kafka.ext.group.id"
+    description: "A unique string that identifies the group this consumer belongs to. Default to 'jbpm-consumer'. this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.group.id system property."
   - name: "KIE_SERVER_KAFKA_EXT_ACKS"
     example: "1"
     description: "The number of acknowledgments the producer requires the leader to have received before considering a request complete. 1 by default, which means the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers, this env will be used by system prop org.kie.server.jbpm-kafka.ext.acks"
