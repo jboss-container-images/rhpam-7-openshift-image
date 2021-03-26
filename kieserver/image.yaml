@@ -211,7 +211,7 @@ envs:
     description: "Setting to true enables the other KIE Server Kafka environment variables used to configure kafka integration, this environment variable will be used to set the org.kie.kafka.server.ext.disable system property."
   - name: "KIE_SERVER_KAFKA_EXT_TOPICS"
     example: "message=topic_name"
-    description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this env will be used by system prop org.kie.server.jbpm-kafka.ext.topics, multiple mappings must be provided separated by a comma"
+    description: "Contains the mapping message/signal=topicName for every topic that needs to be mapped globally, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.topics system property, to provide more than one mapping use comma separated values."
   - name: "KIE_SERVER_KAFKA_EXT_BOOTSTRAP_SERVERS"
     example: "localhost:9092"
     description: "A comma separated list of host/port pairs to use for establishing the initial connection to the Kafka cluster, this environment variable will be used to set the org.kie.server.jbpm-kafka.ext.bootstrap.servers system property."
