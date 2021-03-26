@@ -13,7 +13,6 @@ cp -v ${ADDED_DIR}/install.properties  ${TARGET_DIR}
 cp -v ${ADDED_DIR}/install.sh  ${TARGET_DIR}
 
 
-ls -lah /tmp/artifacts/
 # create the module
 cp -rv ${SOURCES_DIR}/${JDBC_ARTIFACT} ${MODULE_DIR}
 cp ${ADDED_DIR}/module.xml ${MODULE_DIR}/module.xml
