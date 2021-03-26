@@ -1,6 +1,7 @@
 BUILD_ENGINE ?= docker
 
 .PHONY: build
+build: mariadb mysql postgresql
 db2:
 	sh prepare.sh db2 ${artifact} ${version}
 	cekit --verbose build --overrides-file db-overrides.yaml ${BUILD_ENGINE}

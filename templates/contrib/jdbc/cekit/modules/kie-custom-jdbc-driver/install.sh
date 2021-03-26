@@ -9,7 +9,9 @@ MODULE_DIR=${TARGET_DIR}/modules/${DRIVER_DIR}
 
 mkdir -p ${MODULE_DIR}
 
-cp ${ADDED_DIR}/{install.sh,install.properties}  ${TARGET_DIR}
+cp -v ${ADDED_DIR}/install.properties  ${TARGET_DIR}
+cp -v ${ADDED_DIR}/install.sh  ${TARGET_DIR}
+
 
 # create the module
 cp -rv ${SOURCES_DIR}/${JDBC_ARTIFACT} ${MODULE_DIR}

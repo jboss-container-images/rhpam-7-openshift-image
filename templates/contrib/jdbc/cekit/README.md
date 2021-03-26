@@ -1,29 +1,29 @@
-# JBoss KIE JDBC Driver Extension Images - CeKIT
+# JBoss KIE JDBC Driver Extension Images - CEKit
 
 ## Before you begin
 
-To interact with this repo you should install the CEKit 3.2.0:
+To interact with this repo you should install the CEKit 3.8.0 or higher:
 
-#### Installing and Configure CeKit
-In this section you'll , step by step, how to install CeKit on Fedora, for other systems please refer to the documentation: 
-To be possible to install the CeKit using dnf, we need to enable it's dnf repository:
+#### Installing and Configure CEKit
+In this section you'll , step by step, how to install CEKit on Fedora, for other systems please refer to the documentation: 
+To be possible to install the CEKit using dnf, we need to enable it's dnf repository:
 
-Install [CeKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.2 using virtualenv: 
+Install [CEKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.8 using virtualenv: 
 
 To install, see the following commands:
 
 ```bash
-$ mkdir ~/cekit-3.2
-$ virtualenv ~/cekit-3.2
-$ source ~/cekit-3.2/bin/activate # tip create an alias for it, e.g. activate-cekit-3.2
-$ pip install cekit==3.2.0 
+$ mkdir ~/cekit-3.8
+$ virtualenv ~/cekit-3.8
+$ source ~/cekit-3.8/bin/activate # tip create an alias for it, e.g. activate-cekit-3.8
+$ pip install cekit==3.8.0 
 $ pip install odcs docker docker-squash behave
 ```
 
 
 ## Building an extension image
 
-After you have installed CeKit, all you need to do is execute ```make``` passing
+After you have installed CEKit, all you need to do is execute ```make``` passing
 as parameter the desired option, press `tab` for auto completion, see the example below: 
 
 ```bash
