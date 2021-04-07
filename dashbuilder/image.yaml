@@ -140,8 +140,7 @@ modules:
     - name: jboss.container.util.logging.bash
     - name: jboss.container.eap.prometheus.config
       version: "7.2-kie"
-    - name: jboss-kie-jdk-clean
-      version: "11"
+
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-dashbuilder
 packages:
