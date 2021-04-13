@@ -2,6 +2,7 @@ BUILD_ENGINE := docker
 .DEFAULT_GOAL := all
 # List of all images
 IMAGES=businesscentral businesscentral-monitoring controller dashbuilder kieserver process-migration smartrouter
+OVERRIDES := branch-overrides.yaml
 
 # Build and test all images
 .PHONY: all
@@ -15,14 +16,19 @@ image_name=
 image:
 # if ignore_build is set to true, ignore the build
 ifneq ($(ignore_build),true)
-	cekit --descriptor=${image_name}/image.yaml -v --redhat build --overrides-file ${image_name}/branch-overrides.yaml ${BUILD_ENGINE}
+	cekit --descriptor=${image_name}/image.yaml -v --redhat build --overrides-file ${image_name}/${OVERRIDES} ${BUILD_ENGINE}
 endif
 # if ignore_test is set to true, ignore the tests
 ifneq ($(ignore_test),true)
-	cekit --descriptor=${image_name}/image.yaml -v --redhat test --overrides-file ${image_name}/branch-overrides.yaml behave
+	cekit --descriptor=${image_name}/image.yaml -v --redhat test --overrides-file ${image_name}/${OVERRIDES} behave
 endif
 
 
 .PHONY: list-images
 list-images:
 	@for image in ${IMAGES} ; do echo $$image ; done
+
+
+.PHONY: generate_adocs
+generate_adocs:
+	bash scripts/generate-adocs.sh ${branch}

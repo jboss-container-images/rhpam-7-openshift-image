@@ -102,6 +102,34 @@ With this Makefile you can:
     make list-images
     ```
 
+- Building the images with a different overrides file:
+    This can be done by simpling provide the overrides file name that should reside on the same directory than 
+    the target image.
+    ```bash
+    make OVERRIDES=my-overrides-file-name.yaml
+    ```
+
+
+#### Generate Application Templates docs
+
+The scripts needed to generate the adocs can be found [here](https://github.com/jboss-container-images/jboss-kie-modules/tree/master/tools/gen-template-doc).
+To generate the adocs using the current branch use:
+
+```bash
+make generate_adocs
+```
+
+It will use the `master` branch from *jboss-kie-modules* using the current branch from RHPAM git repository.
+
+To generate the adocs for, example, 7.10.x branch, first, switch the git branch from RHPAM repository then execute the
+following command:
+
+```bash
+make generate_adocs branch=7.10.x
+```
+
+It will use the `7.10.x` branch from *jboss-kie-modules* using the checked out branch on RHPAM repository based from 7.10.x.
+
 ##### Found an issue?
 
 Please submit an issue [here](https://issues.jboss.org/projects/RHPAM) with the **Cloud** tag or 

@@ -17,17 +17,17 @@ toc::[levels=1]
 == rhpam-7-openshift-image/templates
 
 * link:README.adoc[README]
-* link:rhpam710-authoring-ha.adoc[rhpam710-authoring-ha]
-* link:rhpam710-authoring.adoc[rhpam710-authoring]
-* link:rhpam710-kieserver-externaldb.adoc[rhpam710-kieserver-externaldb]
-* link:rhpam710-kieserver-mysql.adoc[rhpam710-kieserver-mysql]
-* link:rhpam710-kieserver-postgresql.adoc[rhpam710-kieserver-postgresql]
-* link:rhpam710-managed.adoc[rhpam710-managed]
-* link:rhpam710-prod-immutable-kieserver-amq.adoc[rhpam710-prod-immutable-kieserver-amq]
-* link:rhpam710-prod-immutable-kieserver.adoc[rhpam710-prod-immutable-kieserver]
-* link:rhpam710-prod-immutable-monitor.adoc[rhpam710-prod-immutable-monitor]
-* link:rhpam710-prod.adoc[rhpam710-prod]
-* link:rhpam710-trial-ephemeral.adoc[rhpam710-trial-ephemeral]
+* link:rhpam711-authoring-ha.adoc[rhpam711-authoring-ha]
+* link:rhpam711-authoring.adoc[rhpam711-authoring]
+* link:rhpam711-kieserver-externaldb.adoc[rhpam711-kieserver-externaldb]
+* link:rhpam711-kieserver-mysql.adoc[rhpam711-kieserver-mysql]
+* link:rhpam711-kieserver-postgresql.adoc[rhpam711-kieserver-postgresql]
+* link:rhpam711-managed.adoc[rhpam711-managed]
+* link:rhpam711-prod-immutable-kieserver-amq.adoc[rhpam711-prod-immutable-kieserver-amq]
+* link:rhpam711-prod-immutable-kieserver.adoc[rhpam711-prod-immutable-kieserver]
+* link:rhpam711-prod-immutable-monitor.adoc[rhpam711-prod-immutable-monitor]
+* link:rhpam711-prod.adoc[rhpam711-prod]
+* link:rhpam711-trial-ephemeral.adoc[rhpam711-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file
