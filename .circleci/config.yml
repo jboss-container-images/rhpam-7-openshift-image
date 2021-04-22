@@ -25,7 +25,7 @@ jobs:
     - run:
         name: Verify the RHPAM imagestream
         command: |
-          ./openshift-template-validator-linux-amd64 validate --file rhpam711-image-streams.yaml
+          ./openshift-template-validator-linux-amd64 validate --file rhpam712-image-streams.yaml
 
   validate-cekit-image-yaml-files:
     docker:
