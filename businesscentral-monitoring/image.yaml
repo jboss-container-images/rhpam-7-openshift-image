@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-businesscentral-monitoring-rhel8"
-description: "Red Hat Business Central Monitoring 7.11 OpenShift container image"
-version: "7.11.0"
+description: "Red Hat Business Central Monitoring 7.12 OpenShift container image"
+version: "7.12.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
   - name: "io.k8s.description"
     value: "Platform for running Red Hat Business Central Monitoring"
   - name: "io.k8s.display-name"
-    value: "Red Hat Business Central Monitoring 7.11"
+    value: "Red Hat Business Central Monitoring 7.12"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"

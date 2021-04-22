@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.kie.server</groupId>
             <artifactId>kie-server-router-proxy</artifactId>
-            <version>7.43.0-SNAPSHOT</version>
+            <version>7.51.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
