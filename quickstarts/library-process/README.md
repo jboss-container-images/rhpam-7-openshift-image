@@ -2,11 +2,11 @@
 
 Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.12.x/quickstarts/library-process)
 
-This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/master/kieserver) image.
+This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam712-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/master/templates/rhpam712-prod-immutable-kieserver.yaml)
+To deploy the Library Process demo you can use the [rhpam712-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/main/templates/rhpam712-prod-immutable-kieserver.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -27,13 +27,13 @@ Error from server (NotFound): templates.template.openshift.io "rhpam712-prod-imm
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/templates/rhpam712-prod-immutable-kieserver.yaml -n openshift
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam712-prod-immutable-kieserver.yaml -n openshift
 template.template.openshift.io "rhpam712-prod-immutable-kieserver" created
 ```
 
 For this template, we also need to install the secrets, which contain the certificates to configure https:
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-app-secret-template.yaml
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/example-app-secret-template.yaml
 $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 ```
 
@@ -46,7 +46,7 @@ Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-r
 
  If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/rhpam712-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam712-image-streams.yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information
@@ -56,7 +56,7 @@ please take a look [here](https://access.redhat.com/RegistryAuthentication)
 Deploy the `credentials secret` provided as example:
 
 ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/master/example-credentials.yaml
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/example-credentials.yaml
 secret/rhpam-credentials created
 ```
 
@@ -71,7 +71,7 @@ At this moment we are ready to instantiate the kieserver app:
 $ oc new-app rhpam712-prod-immutable-kieserver \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=master \
+-p SOURCE_REPOSITORY_REF=main \
 -p CONTEXT_DIR=quickstarts/library-process/library \
 -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret \
 -p CREDENTIALS_SECRET=rhpam-credentials \
@@ -91,7 +91,7 @@ $ oc replace -f https://raw.githubusercontent.com/jboss-container-images/jboss-e
 ```bash
 $ oc new-app eap73-basic-s2i \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=master \
+-p SOURCE_REPOSITORY_REF=main \
 -p CONTEXT_DIR=quickstarts/library-process \
 -p DATASOURCES=RHPAM \
 -p RHPAM_DATABASE=rhpam \
@@ -149,7 +149,7 @@ $ oc new-app rhpam712-prod-immutable-kieserver-amq \
 -p CREDENTIALS_SECRET=rhpam-credentials \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT  \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=master \
+-p SOURCE_REPOSITORY_REF=main \
 -p CONTEXT_DIR=quickstarts/library-process/library \
 -p AMQ_USERNAME=admin -p AMQ_PASSWORD=RedHat \
 -p AMQ_SECRET=<amq_secret_with_trust_and_key_store> \

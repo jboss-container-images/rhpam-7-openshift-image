@@ -10,16 +10,16 @@ modules:
     - name: cct_module
       git:
         url: https://github.com/jboss-openshift/cct_module.git
-        ref: 0.39.3
+        ref: 0.39.x
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_736_CR1
+        ref: 7.3.x
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
-        ref: master
+        ref: main
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: master
+        ref: main

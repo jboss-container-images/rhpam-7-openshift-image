@@ -14,7 +14,7 @@ modules:
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_736_CR1
+        ref: 7.3.x
     - name: jboss-eap-7-image
       git:
         url: https://github.com/jboss-container-images/jboss-eap-7-image.git
@@ -22,12 +22,12 @@ modules:
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
-        ref: 0.18.6
+        ref: 0.18.x
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
-        ref: master
+        ref: main
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: master
+        ref: main

@@ -2,7 +2,7 @@
 
 Note: this is the development branch, the target images might not be available here, instead you can look at the [release branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.12.x/quickstarts/router-ext)
 
-Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/master/smartrouter) image.
+Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
