@@ -2,7 +2,7 @@
 
 JBOSS_KIE_MODULES_REPO="https://github.com/jboss-container-images/jboss-kie-modules.git"
 TOOLS_BASE_DIR="tools/gen-template-doc"
-BRANCH="${1:-master}"
+BRANCH="${1:-main}"
 CURRENT_DIR=$(pwd)
 
 rm -rf /tmp/jboss-kie-modules
