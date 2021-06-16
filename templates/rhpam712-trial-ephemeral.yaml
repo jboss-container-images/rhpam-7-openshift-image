@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,trial
+    tags: rhpam,processserver,jboss,trial,ephemeral
     version: "7.12"
     openshift.io/display-name: Red Hat Process Automation Manager 7.12 ephemeral trial environment
     openshift.io/provider-display-name: Red Hat, Inc.
