@@ -248,6 +248,15 @@ envs:
   - name:  "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_DATE_FORMAT"
     example: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     description: "Date and time format to be sent to Kafka. Default format is yyyy-MM-dd'T'HH:mm:ss.SSSZ, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.date_format' system property."
+  - name: "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_PROCESSES_TOPIC_NAME"
+    example: "my-processes-topic"
+    description: "Custom Processes topic's name, default value is jbpm-processes-events, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.topic.processes' system property."
+  - name: "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_TASKS_TOPIC_NAME"
+    example: "my-tasks-topic"
+    description: "Custom Processes task's name, default value is jbpm-tasks-events, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.topic.tasks' system property."
+  - name: "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_CASES_TOPIC_NAME"
+    example: "my-cases-topic"
+    description: "Custom Processes cases's name, default value is jbpm-cases-events, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.topic.cases' system property."
 ports:
   - value: 8080
   - value: 8443
