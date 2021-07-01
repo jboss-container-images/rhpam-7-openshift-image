@@ -247,7 +247,7 @@ envs:
     description: "Value in milliseconds that indicates how long the 'publish' method will block the operation. Default 2000 milliseconds (2 seconds), this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.max.block.ms' system property."
   - name:  "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_DATE_FORMAT"
     example: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    description: "Date and time format to be sent to Kafka, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.date_format' system property."
+    description: "Date and time format to be sent to Kafka. Default format is yyyy-MM-dd'T'HH:mm:ss.SSSZ, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.date_format' system property."
 ports:
   - value: 8080
   - value: 8443
