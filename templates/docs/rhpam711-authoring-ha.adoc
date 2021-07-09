@@ -69,7 +69,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStreams in a different namespace/project. | openshift | True
 |`BUSINESS_CENTRAL_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for Business Central. Default is "rhpam-businesscentral-rhel8". | rhpam-businesscentral-rhel8 | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.11.0". | 7.11.0 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.11.1". | 7.11.1 | True
 |`MAVEN_MIRROR_URL` | `MAVEN_MIRROR_URL` | Maven mirror that Business Central and KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services. | -- | False
 |`MAVEN_MIRROR_OF` | `MAVEN_MIRROR_OF` | Maven mirror configuration for KIE Server. | external:*,!repo-rhpamcentr | False
 |`MAVEN_REPO_ID` | `MAVEN_REPO_ID` | The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF. | repo-custom | False

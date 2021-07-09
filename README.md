@@ -121,14 +121,14 @@ make generate_adocs
 
 It will use the `master` branch from *jboss-kie-modules* using the current branch from RHPAM git repository.
 
-To generate the adocs for, example, 7.10.x branch, first, switch the git branch from RHPAM repository then execute the
+To generate the adocs for, example, 7.11.x branch, first, switch the git branch from RHPAM repository then execute the
 following command:
 
 ```bash
 make generate_adocs branch=7.11.x
 ```
 
-It will use the `7.10.x` branch from *jboss-kie-modules* using the checked out branch on RHPAM repository based from 7.10.x.
+It will use the `7.11.x` branch from *jboss-kie-modules* using the checked out branch on RHPAM repository based from 7.11.x.
 
 ##### Found an issue?
 

@@ -344,7 +344,7 @@ def update_cekit_jdbc_extension_images(version, confirm):
     :param confirm: if true will save the changes otherwise will print the proposed changes
     """
 
-    print("Updating CeKot JDBC extension image to version {0}".format(version))
+    print("Updating CeKit JDBC extension image to version {0}".format(version))
 
     #files_2_update = ['templates/contrib/jdbc/README.md', 'templates/contrib/jdbc/cekit/image.yaml',
 #                      'templates/contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
