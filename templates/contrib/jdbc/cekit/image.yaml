@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "will-be-populated-by-overrides-file"
 description: "JBoss KIE custom jdbc extension images"
-from: "bash:5.0.3"
+from: "bash:5.1.8"
 version: "will-be-populated-by-overrides-file"
 
 labels:
