@@ -61,11 +61,11 @@ modules:
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: 7.3.x
+        ref: 7.4.x
     - name: jboss-eap-7-image
       git:
         url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-        ref: eap73-dev
+        ref: eap74-dev
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
@@ -83,8 +83,8 @@ modules:
     - name: jboss.container.openjdk.jdk
       version: "11"
     - name: dynamic-resources
-    - name: eap-73-latest
-      version: "7.3-latest"
+    - name: eap-74-latest
+      version: "7.4-latest"
     - name: jboss.container.eap.setup
     - name: rhpam-7-controller
     - name: jboss.container.maven.36.bash
@@ -95,7 +95,7 @@ modules:
     - name: os-eap7-openshift
       version: "1.0-kie"
     - name: jboss.eap.config.openshift
-      version: "EAP7.3.0-kie"
+      version: "EAP7.4.0-kie"
     - name: os-eap-activemq-rar
       version: "1.1"
     - name: os-eap-launch

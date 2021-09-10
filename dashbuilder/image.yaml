@@ -84,15 +84,15 @@ modules:
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: 7.3.x
+        ref: 7.4.x
+    - name: jboss-eap-7-image
+      git:
+        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
+        ref: eap74-dev
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
         ref: 0.18.x
-    - name: jboss-eap-7-image
-      git:
-        url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-        ref: eap73-dev
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
@@ -105,8 +105,8 @@ modules:
     - name: jboss.kie.common.dependencies
     - name: jboss.container.openjdk.jdk
       version: "11"
-    - name: eap-73-latest
-      version: "7.3-latest"
+    - name: eap-74-latest
+      version: "7.4-latest"
     - name: jboss.container.eap.setup
     - name: dynamic-resources
     - name: rhpam-7-dashbuilder
@@ -117,7 +117,7 @@ modules:
     - name: os-eap7-openshift
       version: "1.0-kie"
     - name: jboss.eap.config.openshift
-      version: "EAP7.3.0-kie"
+      version: "EAP7.4.0-kie"
     # TODO: migrate both when it gets merged:
     # https://github.com/wildfly/wildfly-cekit-modules/pull/190
     - name: os-eap-launch
