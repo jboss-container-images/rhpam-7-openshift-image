@@ -2,21 +2,21 @@
 
 ## Before you begin
 
-To interact with this repo you should install the CEKit 3.8.0 or higher:
+To interact with this repo you should install the CEKit 3.11.0 or higher:
 
 #### Installing and Configure CEKit
 In this section you'll , step by step, how to install CEKit on Fedora, for other systems please refer to the documentation: 
 To be possible to install the CEKit using dnf, we need to enable it's dnf repository:
 
-Install [CEKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.8 using virtualenv: 
+Install [CEKit](https://docs.cekit.io/en/latest/handbook/installation/instructions.html#other-systems) 3.11 using virtualenv: 
 
 To install, see the following commands:
 
 ```bash
-$ mkdir ~/cekit-3.8
-$ virtualenv ~/cekit-3.8
-$ source ~/cekit-3.8/bin/activate # tip create an alias for it, e.g. activate-cekit-3.8
-$ pip install cekit==3.8.0 
+$ mkdir ~/cekit-3.11
+$ virtualenv ~/cekit-3.11
+$ source ~/cekit-3.11/bin/activate # tip create an alias for it, e.g. activate-cekit-3.11
+$ pip install cekit==3.11.0 
 $ pip install odcs docker docker-squash behave
 ```
 
