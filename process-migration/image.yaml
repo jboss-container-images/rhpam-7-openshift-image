@@ -14,7 +14,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "io.openshift.tags"
-    value: "javaee,rhpam,rhpam7"
+    value: "javaee,rhpam,rhpam7,quarkus"
 envs:
   - name: "SCRIPT_DEBUG"
     example: "true"
@@ -26,11 +26,15 @@ envs:
     example: "s3cr3t"
     description: "The admin password."
   - name: JBOSS_KIE_EXTRA_CLASSPATH
-    example: "/opt/rhpam-process-migration/drivers/mariadb-java-client.jar;/opt/rhpam-process-migration/drivers/postgresql-jdbc.jar"
-    description: "List of libraries to add to the classpath separated by colon."
-  - name: JBOSS_KIE_EXTRA_CONFIG
-    example: "/opt/rhpam-process-migration/config-extra/pim-config.yaml"
-    description: "Path to a file including a yaml configuration file to override default Thorntail configuration and target KIE Servers"
+    example: "/mount/path/extra-jar-1.jar, /mount/path/extra-jar-2.jar"
+    description: "Allows to add extra jars to the application classpath separated by colon."
+  - name: JAVA_OPTS_APPEND
+    example: "-Dmy.system.property=my-value -Dmy.system.other.property=my-other-value"
+    description: |-
+      Allows to append extra system properties to the PIM startup, only runtime system properties is supported,
+      for build time, use the application.yaml configuration file. The application.yaml file should be mounted on
+      /opt/rhpam-process-migration/quarkus-app/config/application.yaml. When custom user properties needs to be used,
+      provide all needed files using Persistence Volume. For more information see https://quarkus.io/guides/all-config
 ports:
   - value: 8080
 modules:
