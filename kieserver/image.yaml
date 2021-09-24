@@ -257,6 +257,9 @@ envs:
   - name: "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_CASES_TOPIC_NAME"
     example: "my-cases-topic"
     description: "Custom Processes cases's name, default value is jbpm-cases-events, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.topic.cases' system property."
+  - name: "JBOSS_MDB_MAX_SESSIONS"
+    example: "50"
+    description: "Value to set the size of KieExecutorMDB' sessions"
 ports:
   - value: 8080
   - value: 8443
