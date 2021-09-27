@@ -133,7 +133,7 @@ modules:
     - name: jboss.container.wildfly.launch.elytron
     - name: jboss.container.wildfly.launch.keycloak
     - name: os-eap7-sso-adapters
-      version: "7.4.5-kie"
+      version: "7.5.0-kie"
     - name: jboss.container.wildfly.launch.deployment-scanner
     - name: jboss.container.wildfly.launch.extensions
     - name: openshift-layer
