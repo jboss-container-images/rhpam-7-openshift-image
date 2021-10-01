@@ -3,21 +3,21 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,kieserver,immutable,s2i,amq
-    version: "7.12"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.12 immutable production environment with ActiveMQ
+    tags: rhpam,processserver,jboss,kieserver
+    version: "7.13"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.13 managed KIE Server with a PostgreSQL database
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for an immutable KIE Server in a production environment integrated with ActiveMQ, for Red Hat Process Automation Manager 7.12 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed for a immutable production runtime environment for Red Hat Process Automation Manager 7.12, including a source-to-image (S2I) build of your services, application deployment configuration, secure and insecure http communication and persistent volume to store data that needs to survive to a restart. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.12/html/deploying_a_red_hat_process_automation_manager_7.12_immutable_server_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a managed KIE Server with a PostgreSQL database, for Red Hat Process Automation Manager 7.13 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager KIE Server 7.13, including application deployment configuration, secure and insecure http communication using a PostgreSQL database. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_a_red_hat_process_automation_manager_7.13_managed_server_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam712-prod-immutable-kieserver-amq
+  name: rhpam713-kieserver-postgresql
 labels:
-  template: rhpam712-prod-immutable-kieserver-amq
-  rhpam: "7.12"
+  template: rhpam713-kieserver-postgresql
+  rhpam: "7.13"
 message: |-
-  A new immutable Red Hat Process Automation Manager KIE Server have been created in your project.
+  A new Process Automation Manager KIE Server application have been created in your project.
   The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
   KIE_ADMIN_USER and KIE_ADMIN_PWD
 
@@ -28,6 +28,38 @@ parameters:
     name: APPLICATION_NAME
     value: myapp
     required: true
+  - displayName: Maven mirror URL
+    description: Maven mirror that the KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services.
+    name: MAVEN_MIRROR_URL
+    required: false
+  - displayName: Maven mirror of
+    description: Maven mirror configuration for KIE Server.
+    name: MAVEN_MIRROR_OF
+    value: "external:*"
+    required: false
+  - displayName: Maven repository ID
+    description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
+    name: MAVEN_REPO_ID
+    value: repo-custom
+    required: false
+  - displayName: Maven repository URL
+    description: Fully qualified URL to a Maven repository or service.
+    name: MAVEN_REPO_URL
+    example: http://nexus.nexus-project.svc.cluster.local:8081/nexus/content/groups/public/
+    required: false
+  - displayName: Maven repository user name
+    description: User name for accessing the Maven repository, if required.
+    name: MAVEN_REPO_USERNAME
+    required: false
+  - displayName: Maven repository password
+    description: Password to access the Maven repository, if required.
+    name: MAVEN_REPO_PASSWORD
+    required: false
+  - displayName: Name of the Business Central service
+    description: The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required.
+    name: BUSINESS_CENTRAL_SERVICE
+    example: "myapp-rhpamcentr"
+    required: false
   - displayName: Credentials secret
     description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values
     name: CREDENTIALS_SECRET
@@ -44,16 +76,32 @@ parameters:
     value: "rhpam-kieserver-rhel8"
     required: true
   - displayName: ImageStream Tag
-    description: A named pointer to an image in an image stream. Default is "7.12.0".
+    description: A named pointer to an image in an image stream. Default is "7.13.0".
     name: IMAGE_STREAM_TAG
-    value: "7.12.0"
+    value: "7.13.0"
     required: true
   - displayName: KIE Server Persistence DS
-    description: KIE Server persistence datasource (Sets the org.kie.server.persistence.ds system property)
+    description: KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property)
     name: KIE_SERVER_PERSISTENCE_DS
     value: java:/jboss/datasources/rhpam
     required: false
 ## PostgreSQL database parameters BEGIN
+  - displayName: KIE Server PostgreSQL Database User
+    description: KIE Server PostgreSQL database user name.
+    name: KIE_SERVER_POSTGRESQL_USER
+    value: rhpam
+    required: false
+  - displayName: KIE Server PostgreSQL Database Password
+    description: KIE Server PostgreSQL database password.
+    name: KIE_SERVER_POSTGRESQL_PWD
+    from: "[a-zA-Z]{6}[0-9]{1}!"
+    generate: expression
+    required: false
+  - displayName: KIE Server PostgreSQL Database Name
+    description: KIE Server PostgreSQL database name.
+    name: KIE_SERVER_POSTGRESQL_DB
+    value: rhpam7
+    required: false
   - displayName: PostgreSQL ImageStream Namespace
     description: Namespace in which the ImageStream for the PostgreSQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
     name: POSTGRESQL_IMAGE_STREAM_NAMESPACE
@@ -63,22 +111,6 @@ parameters:
     description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "10".
     name: POSTGRESQL_IMAGE_STREAM_TAG
     value: "10"
-    required: false
-  - displayName: KIE Server PostgreSQL Database User
-    description: KIE Server PostgreSQL database user name
-    name: KIE_SERVER_POSTGRESQL_USER
-    value: rhpam
-    required: false
-  - displayName: KIE Server PostgreSQL Database Password
-    description: KIE Server PostgreSQL database password
-    name: KIE_SERVER_POSTGRESQL_PWD
-    from: "[a-zA-Z]{6}[0-9]{1}!"
-    generate: expression
-    required: false
-  - displayName: KIE Server PostgreSQL Database Name
-    description: KIE Server PostgreSQL database name
-    name: KIE_SERVER_POSTGRESQL_DB
-    value: rhpam7
     required: false
   - displayName: PostgreSQL Database max prepared connections
     description: Allows the PostgreSQL to handle XA transactions.
@@ -90,14 +122,24 @@ parameters:
     name: DB_VOLUME_CAPACITY
     value: 1Gi
     required: true
+  - displayName: KIE Server PostgreSQL Dialect
+    description: KIE Server PostgreSQL Hibernate dialect.
+    name: KIE_SERVER_POSTGRESQL_DIALECT
+    value: org.hibernate.dialect.PostgreSQLDialect
+    required: true
 ## PostgreSQL database parameters END
+  - displayName: KIE Server Mode
+    description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)."
+    name: KIE_SERVER_MODE
+    value: "PRODUCTION"
+    required: false
   - displayName: KIE MBeans
-    description: KIE Server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+    description: KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties)
     name: KIE_MBEANS
     value: enabled
     required: false
   - displayName: Drools Server Filter Classes
-    description: KIE Server class filtering (Sets the org.drools.server.filter.classes system property)
+    description: KIE Server class filtering. (Sets the org.drools.server.filter.classes system property)
     name: DROOLS_SERVER_FILTER_CLASSES
     value: 'true'
     required: false
@@ -117,22 +159,22 @@ parameters:
     value: ''
     required: false
   - displayName: KIE Server Keystore Secret Name
-    description: The name of the secret containing the keystore file
+    description: The name of the secret containing the keystore file.
     name: KIE_SERVER_HTTPS_SECRET
     example: kieserver-app-secret
     required: true
   - displayName: KIE Server Keystore Filename
-    description: The name of the keystore file within the secret
+    description: The name of the keystore file within the secret.
     name: KIE_SERVER_HTTPS_KEYSTORE
     value: keystore.jks
     required: false
   - displayName: KIE Server Certificate Name
-    description: The name associated with the server certificate
+    description: The name associated with the server certificate.
     name: KIE_SERVER_HTTPS_NAME
     value: jboss
     required: false
   - displayName: KIE Server Keystore Password
-    description: The password for the keystore and certificate
+    description: The password for the keystore and certificate.
     name: KIE_SERVER_HTTPS_PASSWORD
     value: mykeystorepass
     required: false
@@ -141,71 +183,8 @@ parameters:
     name: KIE_SERVER_BYPASS_AUTH_USER
     value: 'false'
     required: false
-  - displayName: KIE Server Container Deployment
-    description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
-    name: KIE_SERVER_CONTAINER_DEPLOYMENT
-    example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT
-    required: true
-  - displayName: Git Repository URL
-    description: Git source URI for application
-    name: SOURCE_REPOSITORY_URL
-    example: https://github.com/jboss-container-images/rhpam-7-openshift-image.git
-    required: true
-  - displayName: Git Reference
-    description: Git branch/tag reference
-    name: SOURCE_REPOSITORY_REF
-    example: main
-    required: false
-  - displayName: Context Directory
-    description: Path within Git project to build; empty for root project directory.
-    name: CONTEXT_DIR
-    example: quickstarts/library-process/library
-    required: false
-  - displayName: Github Webhook Secret
-    description: GitHub trigger secret
-    name: GITHUB_WEBHOOK_SECRET
-    from: "[a-zA-Z0-9]{8}"
-    generate: expression
-    required: true
-  - displayName: Generic Webhook Secret
-    description: Generic build trigger secret
-    name: GENERIC_WEBHOOK_SECRET
-    from: "[a-zA-Z0-9]{8}"
-    generate: expression
-    required: true
-  - displayName: Maven mirror URL
-    description: Maven mirror to use for S2I builds
-    name: MAVEN_MIRROR_URL
-    required: false
-  - displayName: Maven repository ID
-    description: The id to use for the maven repository, if set. Default is generated randomly.
-    name: MAVEN_REPO_ID
-    example: my-repo-id
-    required: false
-  - displayName: Maven repository URL
-    description: Fully qualified URL to a Maven repository.
-    name: MAVEN_REPO_URL
-    required: false
-  - displayName: Maven repository user name
-    description: User name for accessing the Maven repository, if required.
-    name: MAVEN_REPO_USERNAME
-    required: false
-  - displayName: Maven repository password
-    description: Password to access the Maven repository, if required.
-    name: MAVEN_REPO_PASSWORD
-    required: false
-  - displayName: Name of the Business Central service
-    description: The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required.
-    name: BUSINESS_CENTRAL_SERVICE
-    example: "myapp-rhpamcentr"
-    required: false
-  - displayName: List of directories from which archives will be copied into the deployment folder
-    description: List of directories from which archives will be copied into the deployment folder. If unspecified, all archives in /target will be copied.
-    name: ARTIFACT_DIR
-    value: ''
-    required: false
   - displayName: "Timer service data store refresh interval (in milliseconds)"
-    description: "Sets refresh-interval for the EJB timer service database-data-store."
+    description: "Sets refresh-interval for the EJB timer database data-store service."
     name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
     value: '30000'
     required: false
@@ -229,159 +208,44 @@ parameters:
     name: KIE_SERVER_CPU_REQUEST
     value: '750m'
     required: true
-
+  - displayName: KIE Server Container Deployment
+    description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
+    name: KIE_SERVER_CONTAINER_DEPLOYMENT
+    example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT
+    required: false
   - displayName: Disable KIE Server Management
-    description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped. (Sets the property org.kie.server.mgmt.api.disabled to true)"
+    description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
     name: KIE_SERVER_MGMT_DISABLED
-    value: "true"
-    required: true
-  - displayName: KIE Server JMS Executor
-    description: "Enables the JMS executor, set false to disable it."
-    name: KIE_SERVER_EXECUTOR_JMS
-    value: "true"
+    example: "true"
     required: false
-  - displayName: KIE Server Transacted Executor
-    description: "Enable transactions for JMS executor, disabled by default"
-    name: KIE_SERVER_EXECUTOR_JMS_TRANSACTED
-    value: "false"
-    required: false
-  - displayName: KIE Server JMS Request Queue
-    description: "JNDI name of request queue for JMS. The default value is queue/KIE.SERVER.REQUEST"
-    name: KIE_SERVER_JMS_QUEUE_REQUEST
-    example: queue/KIE.SERVER.REQUEST
-    required: false
-  - displayName: KIE Server JMS Response Queue
-    description: "JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE"
-    name: KIE_SERVER_JMS_QUEUE_RESPONSE
-    example: queue/KIE.SERVER.RESPONSE
-    required: false
-  - displayName: KIE Server JMS Executor Queue
-    description: "JNDI name of response queue for JMS. The default value is queue/KIE.SERVER.RESPONSE"
-    name: KIE_SERVER_JMS_QUEUE_EXECUTOR
-    example: queue/KIE.SERVER.EXECUTOR
-    required: false
-  - displayName: Enable KIE Server JMS Signal Queue
-    description: "Enable the Signal configuration through JMS"
-    name: KIE_SERVER_JMS_ENABLE_SIGNAL
-    value: "true"
-    required: false
-  - displayName: KIE Server JMS Signal Queue
-    description: "JMS queue for signals"
-    name: KIE_SERVER_JMS_QUEUE_SIGNAL
-    example: queue/KIE.SERVER.SIGNAL
-    required: false
-  - displayName: Enable KIE Server JMS Audit
-    description: "Enable the Audit logging through JMS"
-    name: KIE_SERVER_JMS_ENABLE_AUDIT
-    value: "true"
-    required: false
-  - displayName: KIE Server JMS Audit Queue
-    description: "JMS queue for audit logging"
-    name: KIE_SERVER_JMS_QUEUE_AUDIT
-    example: queue/KIE.SERVER.AUDIT
-    required: false
-  - displayName: KIE Server JMS Audit logger transacted
-    description: "determines if JMS session is transacted or not - default true."
-    name: KIE_SERVER_JMS_AUDIT_TRANSACTED
-    example: "false"
-    required: false
-## Begin of AMQ configuration
-  - displayName: AMQ Username
-    description: "User name for standard broker user. It is required for connecting to the broker. If left empty, it will be generated."
-    name: AMQ_USERNAME
-    from: "user[a-zA-Z0-9]{3}"
-    generate: expression
-    required: false
-  - displayName: AMQ Password
-    description: "Password for standard broker user. It is required for connecting to the broker. If left empty, it will be generated."
-    name: AMQ_PASSWORD
-    from: "[a-zA-Z0-9]{8}"
-    generate: expression
-    required: false
-  - displayName: AMQ Role
-    description: User role for standard broker user.
-    name: AMQ_ROLE
-    value: admin
-    required: true
-  - displayName: AMQ Queues
-    description: "Queue names, separated by commas. These queues will be automatically created when the broker starts. Also, they will be made accessible as JNDI resources in EAP. These are the default queues needed by KIE Server. If using custom Queues, use the same values here as in the KIE_SERVER_JMS_QUEUE_RESPONSE, KIE_SERVER_JMS_QUEUE_REQUEST, KIE_SERVER_JMS_QUEUE_SIGNAL, KIE_SERVER_JMS_QUEUE_AUDIT  and KIE_SERVER_JMS_QUEUE_EXECUTOR parameters."
-    name: AMQ_QUEUES
-    value: queue/KIE.SERVER.REQUEST,queue/KIE.SERVER.RESPONSE,queue/KIE.SERVER.EXECUTOR,queue/KIE.SERVER.SIGNAL,queue/KIE.SERVER.AUDIT
-    required: false
-  - displayName: AMQ Global Max Size
-    description: "Specifies the maximum amount of memory that message data can consume. If no value is specified, half of the system’s memory is allocated."
-    name: AMQ_GLOBAL_MAX_SIZE
-    example: 10 gb
-    required: false
-  - displayName: AMQ Secret Name
-    description: The name of a secret containing AMQ SSL related files.
-    name: AMQ_SECRET
-    required: true
-    example: broker-app-secret
-  - displayName: AMQ TRUSTSTORE
-    description: The name of the AMQ SSL Trust Store file.
-    name: AMQ_TRUSTSTORE
-    example: broker.ts
-    required: false
-  - displayName: AMQ TRUSTSTORE PASSWORD
-    description: The password for the AMQ Trust Store.
-    name: AMQ_TRUSTSTORE_PASSWORD
-    example: changeit
-    required: false
-  - displayName: AMQ KEYSTORE
-    description: The name of the AMQ keystore file.
-    name: AMQ_KEYSTORE
-    example: broker.ks
-    required: false
-  - displayName: AMQ KEYSTORE PASSWORD
-    description: The password for the AMQ keystore and certificate.
-    name: AMQ_KEYSTORE_PASSWORD
-    example: changeit
-    required: false
-  - displayName: AMQ Protocols
-    description: "Broker protocols to configure, separated by commas. Allowed values are: `openwire`, `amqp`, `stomp` and `mqtt`. Only `openwire` is supported by EAP."
-    name: AMQ_PROTOCOL
-    value: openwire
-    required: false
-  - displayName: AMQ Broker Image
-    description: "AMQ Broker Image"
-    name: AMQ_BROKER_IMAGESTREAM_NAME
-    required: true
-    value: amq-broker:7.8
-  - displayName: AMQ ImageStream Namespace
-    description: Namespace in which the ImageStreams for Red Hat AMQ images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
-    name: AMQ_IMAGE_STREAM_NAMESPACE
-    value: openshift
-    required: true
-## End of AMQ configuration
   - displayName: RH-SSO URL
-    description: RH-SSO URL
+    description: RH-SSO URL.
     name: SSO_URL
     example: https://rh-sso.example.com/auth
     required: false
   - displayName: RH-SSO Realm name
-    description: RH-SSO Realm name
+    description: RH-SSO Realm name.
     name: SSO_REALM
     required: false
   - displayName: KIE Server RH-SSO Client name
-    description: KIE Server RH-SSO Client name
+    description: KIE Server RH-SSO Client name.
     name: KIE_SERVER_SSO_CLIENT
     required: false
   - displayName: KIE Server RH-SSO Client Secret
-    description: KIE Server RH-SSO Client Secret
+    description: KIE Server RH-SSO Client Secret.
     name: KIE_SERVER_SSO_SECRET
     example: "252793ed-7118-4ca8-8dab-5622fa97d892"
     required: false
   - displayName: RH-SSO Realm admin user name
-    description: RH-SSO Realm admin user name for creating the Client if it doesn't exist
+    description: RH-SSO Realm admin user name for creating the Client if it doesn't exist.
     name: SSO_USERNAME
     required: false
   - displayName: RH-SSO Realm Admin Password
-    description: RH-SSO Realm Admin Password used to create the Client
+    description: RH-SSO Realm Admin Password used to create the Client.
     name: SSO_PASSWORD
     required: false
   - displayName: RH-SSO Disable SSL Certificate Validation
-    description: RH-SSO Disable SSL Certificate Validation
+    description: RH-SSO Disable SSL Certificate Validation.
     name: SSO_DISABLE_SSL_CERTIFICATE_VALIDATION
     value: "false"
     required: false
@@ -396,12 +260,12 @@ parameters:
     example: "ldap://myldap.example.com:389"
     required: false
   - displayName: LDAP Bind DN
-    description: Bind DN used for authentication
+    description: Bind DN used for authentication.
     name: AUTH_LDAP_BIND_DN
     example: "uid=admin,ou=users,ou=example,ou=com"
     required: false
   - displayName: LDAP Bind Credentials
-    description: LDAP Credentials used for authentication
+    description: LDAP Credentials used for authentication.
     name: AUTH_LDAP_BIND_CREDENTIAL
     example: "Password"
     required: false
@@ -497,7 +361,7 @@ parameters:
     name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
     required: false
   - displayName: RoleMapping rolesProperties file path
-    description: When present, the RoleMapping Login Module will be configured to use the provided file. This property defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3
+    description: When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3
     name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
     required: false
   - displayName: RoleMapping replaceRole property
@@ -545,152 +409,6 @@ objects:
         service: "${APPLICATION_NAME}-kieserver"
       annotations:
         description: All the KIE Server web server's ports.
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-jolokia"
-          port: 8161
-          targetPort: 8161
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-jolokia"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's console and Jolokia port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-amqp"
-          port: 5672
-          targetPort: 5672
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-amqp"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's AMQP port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-amqp-ssl"
-          port: 5671
-          targetPort: 5671
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-amqp-ssl"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's AMQP SSL port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-mqtt"
-          port: 1883
-          targetPort: 1883
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-mqtt"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's MQTT port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-mqtt-ssl"
-          port: 8883
-          targetPort: 8883
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-mqtt-ssl"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's MQTT SSL port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-stomp"
-          port: 61613
-          targetPort: 61613
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-stomp"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's STOMP port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-stomp-ssl"
-          port: 61612
-          targetPort: 61612
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-stomp-ssl"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "The broker's STOMP SSL port."
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-tcp"
-          port: 61616
-          targetPort: 61616
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-tcp"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: The broker's OpenWire port.
-        service.alpha.openshift.io/dependencies: '[{"name": "${APPLICATION_NAME}-amq-amqp", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-mqtt", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-stomp", "kind": "Service"}]'
-  - kind: Service
-    apiVersion: v1
-    spec:
-      ports:
-        - name: "amq-tcp-ssl"
-          port: 61617
-          targetPort: 61617
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-    metadata:
-      name: "${APPLICATION_NAME}-amq-tcp-ssl"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: The broker's OpenWire (SSL) port.
-        service.alpha.openshift.io/dependencies: '[{"name": "${APPLICATION_NAME}-amq-tcp", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-amqp", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-mqtt", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-stomp", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-amqp-ssl", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-mqtt-ssl", "kind": "Service"},{"name": "${APPLICATION_NAME}-amq-stomp-ssl", "kind": "Service"}]'
 ## PostgreSQL service BEGIN
   - apiVersion: v1
     kind: Service
@@ -710,7 +428,7 @@ objects:
 ## PostgreSQL service END
   - kind: Route
     apiVersion: v1
-    id: "${APPLICATION_NAME}-kieserver-http"
+    id: "insecure-${APPLICATION_NAME}-kieserver-http"
     metadata:
       name: "insecure-${APPLICATION_NAME}-kieserver"
       labels:
@@ -743,91 +461,6 @@ objects:
         targetPort: https
       tls:
         termination: passthrough
-  - kind: Route
-    apiVersion: v1
-    id: "${APPLICATION_NAME}-amq-jolokia-console"
-    metadata:
-      name: amq-jolokia-console
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "Route for AMQ Jolokia Service"
-    spec:
-      to:
-        kind: "Service"
-        name: "${APPLICATION_NAME}-amq-jolokia"
-      tls:
-        termination: passthrough
-  - kind: Route
-    apiVersion: v1
-    id: "${APPLICATION_NAME}-amq-tcp-ssl"
-    metadata:
-      name: amq-tcp-ssl-external
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        description: "Route for AMQ tcp-ssl Service"
-    spec:
-      to:
-        kind: "Service"
-        name: "${APPLICATION_NAME}-amq-tcp-ssl"
-      tls:
-        termination: passthrough
-  - kind: ImageStream
-    apiVersion: v1
-    metadata:
-      name: "${APPLICATION_NAME}-kieserver"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-kieserver"
-  - kind: BuildConfig
-    apiVersion: v1
-    metadata:
-      name: "${APPLICATION_NAME}-kieserver"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-kieserver"
-        services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
-      annotations:
-        template.alpha.openshift.io/wait-for-ready: "true"
-    spec:
-      source:
-        type: Git
-        git:
-          uri: "${SOURCE_REPOSITORY_URL}"
-          ref: "${SOURCE_REPOSITORY_REF}"
-        contextDir: "${CONTEXT_DIR}"
-      strategy:
-        type: Source
-        sourceStrategy:
-          env:
-            - name: KIE_SERVER_CONTAINER_DEPLOYMENT
-              value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
-            - name: MAVEN_MIRROR_URL
-              value: "${MAVEN_MIRROR_URL}"
-            - name: ARTIFACT_DIR
-              value: "${ARTIFACT_DIR}"
-          forcePull: true
-          from:
-            kind: ImageStreamTag
-            namespace: "${IMAGE_STREAM_NAMESPACE}"
-            name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
-      output:
-        to:
-          kind: ImageStreamTag
-          name: "${APPLICATION_NAME}-kieserver:latest"
-      triggers:
-        - type: GitHub
-          github:
-            secret: "${GITHUB_WEBHOOK_SECRET}"
-        - type: Generic
-          generic:
-            secret: "${GENERIC_WEBHOOK_SECRET}"
-        - type: ImageChange
-          imageChange: {}
-        - type: ConfigChange
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -852,10 +485,11 @@ objects:
             containerNames:
               - "${APPLICATION_NAME}-kieserver"
             from:
-              kind: ImageStream
-              name: "${APPLICATION_NAME}-kieserver"
+              kind: ImageStreamTag
+              namespace: "${IMAGE_STREAM_NAMESPACE}"
+              name: "${KIE_SERVER_IMAGE_STREAM_NAME}:${IMAGE_STREAM_TAG}"
         - type: ConfigChange
-      replicas: 2
+      replicas: 1
       selector:
         deploymentConfig: "${APPLICATION_NAME}-kieserver"
       template:
@@ -872,7 +506,7 @@ objects:
           terminationGracePeriodSeconds: 90
           containers:
             - name: "${APPLICATION_NAME}-kieserver"
-              image: "${APPLICATION_NAME}-kieserver"
+              image: "${KIE_SERVER_IMAGE_STREAM_NAME}"
               imagePullPolicy: Always
               lifecycle:
                 postStart:
@@ -938,7 +572,7 @@ objects:
                       name: "${CREDENTIALS_SECRET}"
                       key: KIE_ADMIN_PWD
                 - name: KIE_SERVER_MODE
-                  value: "DEVELOPMENT"
+                  value: "${KIE_SERVER_MODE}"
                 - name: KIE_MBEANS
                   value: "${KIE_MBEANS}"
                 - name: DROOLS_SERVER_FILTER_CLASSES
@@ -952,13 +586,17 @@ objects:
                     fieldRef:
                       fieldPath: metadata.labels['services.server.kie.org/kie-server-id']
                 - name: KIE_SERVER_ROUTE_NAME
-                  value: "insecure-${APPLICATION_NAME}-kieserver"
-                - name: KIE_SERVER_ROUTER_SERVICE
-                  value: "${APPLICATION_NAME}-smartrouter"
+                  value: "${APPLICATION_NAME}-kieserver"
                 - name: KIE_SERVER_CONTAINER_DEPLOYMENT
                   value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
+                - name: MAVEN_MIRROR_URL
+                  value: "${MAVEN_MIRROR_URL}"
+                - name: MAVEN_MIRROR_OF
+                  value: "${MAVEN_MIRROR_OF}"
                 - name: MAVEN_REPOS
                   value: "RHPAMCENTR,EXTERNAL"
+                - name: RHPAMCENTR_MAVEN_REPO_ID
+                  value: "repo-rhpamcentr"
                 - name: RHPAMCENTR_MAVEN_REPO_SERVICE
                   value: "${BUSINESS_CENTRAL_SERVICE}"
                 - name: RHPAMCENTR_MAVEN_REPO_PATH
@@ -981,21 +619,19 @@ objects:
                   value: "${MAVEN_REPO_USERNAME}"
                 - name: EXTERNAL_MAVEN_REPO_PASSWORD
                   value: "${MAVEN_REPO_PASSWORD}"
+                - name: KIE_SERVER_MGMT_DISABLED
+                  value: "${KIE_SERVER_MGMT_DISABLED}"
+                - name: KIE_SERVER_STARTUP_STRATEGY
+                  value: "OpenShiftStartupStrategy"
                 - name: KIE_SERVER_PERSISTENCE_DS
                   value: "${KIE_SERVER_PERSISTENCE_DS}"
                 - name: DATASOURCES
                   value: "RHPAM"
+## PostgreSQL driver settings BEGIN
                 - name: RHPAM_DATABASE
                   value: "${KIE_SERVER_POSTGRESQL_DB}"
-                - name: RHPAM_JNDI
-                  value: "${KIE_SERVER_PERSISTENCE_DS}"
-                - name: RHPAM_JTA
-                  value: "true"
-## PostgreSQL driver settings BEGIN
                 - name: RHPAM_DRIVER
                   value: "postgresql"
-                - name: KIE_SERVER_PERSISTENCE_DIALECT
-                  value: "org.hibernate.dialect.PostgreSQLDialect"
                 - name: RHPAM_USERNAME
                   value: "${KIE_SERVER_POSTGRESQL_USER}"
                 - name: RHPAM_PASSWORD
@@ -1004,41 +640,19 @@ objects:
                   value: "${APPLICATION_NAME}-postgresql"
                 - name: RHPAM_SERVICE_PORT
                   value: "5432"
-                - name: TIMER_SERVICE_DATA_STORE
-                  value: "${APPLICATION_NAME}-postgresql"
+                - name: KIE_SERVER_PERSISTENCE_DIALECT
+                  value: "${KIE_SERVER_POSTGRESQL_DIALECT}"
 ## PostgreSQL driver settings END
+                - name: RHPAM_JTA
+                  value: "true"
+                - name: RHPAM_JNDI
+                  value: "${KIE_SERVER_PERSISTENCE_DS}"
+                - name: RHPAM_CONNECTION_CHECKER
+                  value: "org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"
+                - name: RHPAM_EXCEPTION_SORTER
+                  value: "org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"
                 - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
                   value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
-                - name: KIE_SERVER_EXECUTOR_JMS
-                  value: "${KIE_SERVER_EXECUTOR_JMS}"
-                - name: KIE_SERVER_EXECUTOR_JMS_TRANSACTED
-                  value: "${KIE_SERVER_EXECUTOR_JMS_TRANSACTED}"
-                - name: KIE_SERVER_JMS_QUEUE_REQUEST
-                  value: "${KIE_SERVER_JMS_QUEUE_REQUEST}"
-                - name: KIE_SERVER_JMS_QUEUE_RESPONSE
-                  value: "${KIE_SERVER_JMS_QUEUE_RESPONSE}"
-                - name: KIE_SERVER_JMS_QUEUE_EXECUTOR
-                  value: "${KIE_SERVER_JMS_QUEUE_EXECUTOR}"
-                - name: KIE_SERVER_JMS_ENABLE_SIGNAL
-                  value: "${KIE_SERVER_JMS_ENABLE_SIGNAL}"
-                - name: KIE_SERVER_JMS_QUEUE_SIGNAL
-                  value: "${KIE_SERVER_JMS_QUEUE_SIGNAL}"
-                - name: KIE_SERVER_JMS_ENABLE_AUDIT
-                  value: "${KIE_SERVER_JMS_ENABLE_AUDIT}"
-                - name: KIE_SERVER_JMS_QUEUE_AUDIT
-                  value: "${KIE_SERVER_JMS_QUEUE_AUDIT}"
-                - name: KIE_SERVER_JMS_AUDIT_TRANSACTED
-                  value: "${KIE_SERVER_JMS_AUDIT_TRANSACTED}"
-                - name: MQ_SERVICE_PREFIX_MAPPING
-                  value: "${APPLICATION_NAME}-amq7=AMQ"
-                - name: AMQ_USERNAME
-                  value: "${AMQ_USERNAME}"
-                - name: AMQ_PASSWORD
-                  value: "${AMQ_PASSWORD}"
-                - name: AMQ_PROTOCOL
-                  value: "tcp"
-                - name: AMQ_QUEUES
-                  value: "${AMQ_QUEUES}"
                 - name: HTTPS_KEYSTORE_DIR
                   value: "/etc/kieserver-secret-volume"
                 - name: HTTPS_KEYSTORE
@@ -1047,10 +661,6 @@ objects:
                   value: "${KIE_SERVER_HTTPS_NAME}"
                 - name: HTTPS_PASSWORD
                   value: "${KIE_SERVER_HTTPS_PASSWORD}"
-                - name: KIE_SERVER_MGMT_DISABLED
-                  value: "${KIE_SERVER_MGMT_DISABLED}"
-                - name: KIE_SERVER_STARTUP_STRATEGY
-                  value: "OpenShiftStartupStrategy"
                 - name: JGROUPS_PING_PROTOCOL
                   value: "kubernetes.KUBE_PING"
                 - name: KUBERNETES_NAMESPACE
@@ -1133,6 +743,16 @@ objects:
             - name: kieserver-keystore-volume
               secret:
                 secretName: "${KIE_SERVER_HTTPS_SECRET}"
+          initContainers:
+            - command:
+                - /bin/bash
+                - '-c'
+                - >-
+                  replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-postgresql; replicas=$(oc get dc ${APPLICATION_NAME}-postgresql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
+              image: registry.redhat.io/openshift3/ose-cli
+              imagePullPolicy: IfNotPresent
+              name: ${APPLICATION_NAME}-postgresql-init
+              terminationMessagePolicy: FallbackToLogsOnError
 ## PostgreSQL deployment config BEGIN
   - kind: DeploymentConfig
     apiVersion: v1
@@ -1206,119 +826,6 @@ objects:
               persistentVolumeClaim:
                 claimName: "${APPLICATION_NAME}-postgresql-claim"
 ## PostgreSQL deployment config END
-  - kind: DeploymentConfig
-    apiVersion: v1
-    metadata:
-      name: ${APPLICATION_NAME}-amq
-      labels:
-        application: ${APPLICATION_NAME}
-        service: "${APPLICATION_NAME}-amq"
-      annotations:
-        template.alpha.openshift.io/wait-for-ready: "true"
-    spec:
-      strategy:
-        rollingParams:
-          maxSurge: 100%
-          maxUnavailable: 0
-        type: Rolling
-      triggers:
-        - imageChangeParams:
-            automatic: true
-            containerNames:
-              - ${APPLICATION_NAME}-amq
-            from:
-              kind: ImageStreamTag
-              name: ${AMQ_BROKER_IMAGESTREAM_NAME}
-              namespace: ${AMQ_IMAGE_STREAM_NAMESPACE}
-          type: ImageChange
-        - type: ConfigChange
-      replicas: 1
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-amq"
-      template:
-        metadata:
-          labels:
-            application: "${APPLICATION_NAME}"
-            deploymentConfig: "${APPLICATION_NAME}-amq"
-            service: "${APPLICATION_NAME}-amq"
-          name: ${APPLICATION_NAME}-amq
-        spec:
-          terminationGracePeriodSeconds: 60
-          containers:
-            - name: ${APPLICATION_NAME}-amq
-              image: ${AMQ_BROKER_IMAGESTREAM_NAME}
-              imagePullPolicy: Always
-              readinessProbe:
-                exec:
-                  command:
-                    - "/bin/bash"
-                    - "-c"
-                    - "/opt/amq/bin/readinessProbe.sh"
-              ports:
-                - containerPort: 8161
-                  name: console-jolokia
-                  protocol: TCP
-                - containerPort: 5672
-                  name: amqp
-                  protocol: TCP
-                - containerPort: 5671
-                  name: amqp-ssl
-                  protocol: TCP
-                - containerPort: 1883
-                  name: mqtt
-                  protocol: TCP
-                - containerPort: 8883
-                  name: mqtt-ssl
-                  protocol: TCP
-                - containerPort: 61613
-                  name: stomp
-                  protocol: TCP
-                - containerPort: 61612
-                  name: stomp-ssl
-                  protocol: TCP
-                - containerPort: 61616
-                  name: artemis
-                  protocol: TCP
-                - containerPort: 61617
-                  name: amq-tcp-ssl
-                  protocol: TCP
-              env:
-                - name: AMQ_USER
-                  value: "${AMQ_USERNAME}"
-                - name: AMQ_PASSWORD
-                  value: "${AMQ_PASSWORD}"
-                - name: AMQ_ROLE
-                  value: "${AMQ_ROLE}"
-                - name: AMQ_NAME
-                  value: "${APPLICATION_NAME}-broker"
-                - name: AMQ_TRANSPORTS
-                  value: "${AMQ_PROTOCOL}"
-                - name: AMQ_QUEUES
-                  value: "${AMQ_QUEUES}"
-                - name: AMQ_GLOBAL_MAX_SIZE
-                  value: "${AMQ_GLOBAL_MAX_SIZE}"
-                - name: AMQ_REQUIRE_LOGIN
-                  value: "true"
-                - name: AMQ_ANYCAST_PREFIX
-                - name: AMQ_MULTICAST_PREFIX
-                - name: AMQ_KEYSTORE_TRUSTSTORE_DIR
-                  value: "/etc/amq-secret-volume"
-                - name: AMQ_TRUSTSTORE
-                  value: "${AMQ_TRUSTSTORE}"
-                - name: AMQ_TRUSTSTORE_PASSWORD
-                  value: "${AMQ_TRUSTSTORE_PASSWORD}"
-                - name: AMQ_KEYSTORE
-                  value: "${AMQ_KEYSTORE}"
-                - name: AMQ_KEYSTORE_PASSWORD
-                  value: "${AMQ_KEYSTORE_PASSWORD}"
-              volumeMounts:
-                - name: broker-secret-volume
-                  mountPath: "/etc/amq-secret-volume"
-                  readOnly: true
-          volumes:
-            - name: broker-secret-volume
-              secret:
-                secretName: "${AMQ_SECRET}"
 ## PostgreSQL persistent volume claim BEGIN
   - apiVersion: v1
     kind: PersistentVolumeClaim

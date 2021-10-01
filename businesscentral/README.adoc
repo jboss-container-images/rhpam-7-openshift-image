@@ -1,6 +1,6 @@
 # Red Hat Process Automation Manager 7 - Business Central OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/businesscentral[Red Hat Business Central 7.12 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/businesscentral[Red Hat Business Central 7.13 container image]
 
 # License
 

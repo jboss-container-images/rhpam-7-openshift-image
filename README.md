@@ -1,7 +1,7 @@
 # Red Hat Process Automation Manager 7 OpenShift images
 
 This repository contains all the image descriptors and files necessary to build the RHPAM images.
-It also includes the application templates, however they are deprecated in 7.12. Using the Red Hat Business Automation Operator is recommended.
+It also includes the application templates, however they are deprecated in 7.13. Using the Red Hat Business Automation Operator is recommended.
 
 
 ### Repo structure:
@@ -33,7 +33,7 @@ Inside each image directory you will find the following files:
 On the root directory you can also find the two files:
 
  - [example-app-secret-template.yaml](example-app-secret-template.yaml): Contains a https certificate to be used as example where https is required.
- - [rhpam-image-streams.yaml](rhpam712-image-streams.yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
+ - [rhpam-image-streams.yaml](rhpam713-image-streams.yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
 
 
 This repo depends directly on 5 repositories, which are:
@@ -120,14 +120,14 @@ make generate_adocs
 
 It will use the `main` branch from *jboss-kie-modules* using the current branch from RHPAM git repository.
 
-To generate the adocs for, example, 7.12.x branch, first, switch the git branch from RHPAM repository then execute the
+To generate the adocs for, example, 7.13.x branch, first, switch the git branch from RHPAM repository then execute the
 following command:
 
 ```bash
-make generate_adocs branch=7.12.x
+make generate_adocs branch=7.13.x
 ```
 
-It will use the `7.12.x` branch from *jboss-kie-modules* using the checked out branch on RHPAM repository based from 7.12.x.
+It will use the `7.13.x` branch from *jboss-kie-modules* using the checked out branch on RHPAM repository based from 7.13.x.
 
 ##### Found an issue?
 
