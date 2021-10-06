@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-dashbuilder-rhel8"
-description: "Red Hat Process Automation Manager Standalone Dashbuilder 7.12 container image"
-version: "7.12.0"
+description: "Red Hat Process Automation Manager Standalone Dashbuilder 7.13 container image"
+version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
   - name: "io.k8s.description"
     value: "Platform for running Red Hat Process Automation Manager Standalone Dashbuilder"
   - name: "io.k8s.display-name"
-    value: "Red Hat Process Automation Manager Standalone Dashbuilder 7.12"
+    value: "Red Hat Process Automation Manager Standalone Dashbuilder 7.13"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
