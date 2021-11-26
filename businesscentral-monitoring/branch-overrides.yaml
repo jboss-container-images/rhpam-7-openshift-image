@@ -22,7 +22,7 @@ modules:
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
-        ref: 0.18.6
+        ref: 0.18.11
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
