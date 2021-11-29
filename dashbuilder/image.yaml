@@ -129,6 +129,7 @@ modules:
       version: "1.0-kie"
     - name: jboss-kie-db-drivers
     - name: jboss.container.wildfly.launch.access-log-valve
+    - name: jboss.container.wildfly.launch.https
     - name: jboss.container.wildfly.launch.messaging
     - name: jboss.container.wildfly.launch.json-logging
     - name: jboss.container.wildfly.launch-config.config
