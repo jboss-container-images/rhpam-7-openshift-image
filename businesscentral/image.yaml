@@ -127,6 +127,9 @@ envs:
   - name: "APPFORMER_INFINISPAN_PASSWORD"
     example: "pass"
     description: "Password used for the Datagrid."
+  - name: "KIE_GIT_CONFIG_PATH"
+    example: "/opt/my_git_config.json"
+    description: "SSO configuration for ssh authentication on Decision Central. Not required, if not set will configure one based on the given SSO properties and will store under /opt/eap/kie_git_config.json"
 
 ports:
   - value: 8080
