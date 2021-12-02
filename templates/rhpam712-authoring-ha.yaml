@@ -520,6 +520,16 @@ parameters:
     description: Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true.
     name: AUTH_ROLE_MAPPER_REPLACE_ROLE
     required: false
+  - name: APPFORMER_INFINISPAN_USERNAME
+    displayName: Appformer infinispan username
+    example: "user"
+    description: "Username used for the Datagrid."
+    required: true
+  - name: APPFORMER_INFINISPAN_PASSWORD
+    displayName: Appformer infinispan password
+    example: "pass"
+    description: "Password used for the Datagrid."
+    required: true
 objects:
   - kind: ServiceAccount
     apiVersion: v1
@@ -762,6 +772,10 @@ objects:
         spec:
           containers:
             - env:
+                - name: USER
+                  value: ${APPFORMER_INFINISPAN_USERNAME}
+                - name: PASS
+                  value: ${APPFORMER_INFINISPAN_PASSWORD}
                 - name: SERVICE_NAME
                   value: ${APPLICATION_NAME}-datagrid
                 - name: SERVICE_PROFILE
@@ -982,6 +996,16 @@ objects:
                   value: "${APPLICATION_NAME}-datagrid"
                 - name: APPFORMER_INFINISPAN_PORT
                   value: "11222"
+                - name: APPFORMER_INFINISPAN_USERNAME
+                  value: "${APPFORMER_INFINISPAN_USERNAME}"
+                - name: APPFORMER_INFINISPAN_PASSWORD
+                  value: "${APPFORMER_INFINISPAN_PASSWORD}"
+                - name: APPFORMER_INFINISPAN_SASL_QOP
+                  value: "auth"
+                - name: APPFORMER_INFINISPAN_SERVER_NAME
+                  value: "infinispan"
+                - name: APPFORMER_INFINISPAN_REALM
+                  value: "default"
                 - name: APPFORMER_JMS_BROKER_ADDRESS
                   value: "${APPLICATION_NAME}-amq-tcp"
                 - name: APPFORMER_JMS_BROKER_PORT
