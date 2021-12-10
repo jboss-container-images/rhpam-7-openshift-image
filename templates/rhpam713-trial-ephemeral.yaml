@@ -220,6 +220,11 @@ parameters:
     name: AUTH_LDAP_URL
     example: "ldap://myldap.example.com:389"
     required: false
+  - displayName: LDAP Flag Login Module
+    name: AUTH_LDAP_LOGIN_MODULE
+    description: "LDAP login module flag, adds backward compatibility with the legacy security subsystem on elytron. 'optional' is the only supported value, if set will create a distributed realm with ldap and filesystem realm with the user added using the KIE_ADMIN_USER."
+    example: "optional"
+    required: false
   - displayName: LDAP Bind DN
     description: Bind DN used for authentication.
     name: AUTH_LDAP_BIND_DN
@@ -229,15 +234,6 @@ parameters:
     description: LDAP Credentials used for authentication.
     name: AUTH_LDAP_BIND_CREDENTIAL
     example: "Password"
-    required: false
-  - displayName: LDAP Flag Login Module
-    name: AUTH_LDAP_LOGIN_MODULE
-    description: "A flag to set login module to optional. The default value is required"
-    required: false
-    example: "optional"
-  - displayName: LDAP JAAS Security Domain
-    description: The JMX ObjectName of the JaasSecurityDomain used to decrypt the password.
-    name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
     required: false
   - displayName: LDAP Base DN
     description: LDAP Base DN of the top-level context to begin the user search.
@@ -249,10 +245,10 @@ parameters:
     name: AUTH_LDAP_BASE_FILTER
     example: "(uid={0})"
     required: false
-  - displayName: LDAP Search scope
-    description: The search scope to use.
-    name: AUTH_LDAP_SEARCH_SCOPE
-    example: "SUBTREE_SCOPE"
+  - displayName: LDAP User resursive search
+    description: Indicates if the user queries are recursive.
+    name: AUTH_LDAP_RECURSIVE_SEARCH
+    example: "true"
     required: false
   - displayName: LDAP Search time limit
     description: The timeout in milliseconds for user or role searches.
@@ -263,19 +259,6 @@ parameters:
     description: The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry’s DN is used.
     name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
     example: "distinguishedName"
-    required: false
-  - displayName: LDAP Parse username
-    description: A flag indicating if the DN is to be parsed for the user name. If set to true, the DN is parsed for the user name. If set to false the DN is not parsed for the user name. This option is used together with usernameBeginString and usernameEndString.
-    name: AUTH_LDAP_PARSE_USERNAME
-    example: "true"
-    required: false
-  - displayName: LDAP Username begin string
-    description: Defines the String which is to be removed from the start of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
-    name: AUTH_LDAP_USERNAME_BEGIN_STRING
-    required: false
-  - displayName: LDAP Username end string
-    description: Defines the String which is to be removed from the end of the DN to reveal the user name. This option is used together with usernameEndString and only taken into account if parseUsername is set to true.
-    name: AUTH_LDAP_USERNAME_END_STRING
     required: false
   - displayName: LDAP Role attributeID
     description: Name of the attribute containing the user roles.
@@ -302,32 +285,27 @@ parameters:
     name: AUTH_LDAP_DEFAULT_ROLE
     example: "user"
     required: false
-  - displayName: LDAP Role name attribute ID
-    description: Name of the attribute within the roleCtxDN context which contains the role name. If the roleAttributeIsDN property is set to true, this property is used to find the role object’s name attribute.
-    name: AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID
-    example: "name"
+  - displayName: Ldap new identity attributes
+    description: "Provide new identities for Ldap  identity mapping, the pattern to be used with this env is 'attribute_name=attribute_value;another_attribute_name=value'"
+    name: AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES
+    example: sn=BlankSurname;cn=BlankCommonName
     required: false
-  - displayName: LDAP Role DN contains roleNameAttributeID
-    description: A flag indicating if the DN returned by a query contains the roleNameAttributeID. If set to true, the DN is checked for the roleNameAttributeID. If set to false, the DN is not checked for the roleNameAttributeID. This flag can improve the performance of LDAP queries.
-    name: AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN
-    example: "false"
+  - displayName: LDAP follow referrals
+    description: "If LDAP referrals should be followed. Corresponds to REFERRAL ('java.naming.referral') environment property. Allowed values: 'ignore', 'follow', 'throw'"
+    name: AUTH_LDAP_REFERRAL_MODE
     required: false
-  - displayName: LDAP Role Attribute ID is DN
-    description: Whether or not the roleAttributeID contains the fully-qualified DN of a role object. If false, the role name is taken from the value of the roleNameAttributeId attribute of the context name. Certain directory schemas, such as Microsoft Active Directory, require this attribute to be set to true.
-    name: AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN
-    example: "false"
-    required: false
-  - displayName: LDAP Referral user attribute ID
-    description: If you are not using referrals, you can ignore this option. When using referrals, this option denotes the attribute name which contains users defined for a certain role, for example member, if the role object is inside the referral. Users are checked against the content of this attribute name. If this option is not set, the check will always fail, so role objects cannot be stored in a referral tree.
-    name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
-    required: false
-  - displayName: RoleMapping rolesProperties file path
-    description: When present, the RoleMapping Login Module will be configured to use the provided file. This parameter defines the fully-qualified file path and name of a properties file or resource which maps roles to replacement roles. The format is original_role=role1,role2,role3
+  - displayName: Role Mapping roles properties file path or one lined roles
+    description: When present, the RoleMapping will be configured to use the provided properties file or roles. This parameter defines the fully-qualified file path and name of a properties file or a set of roles with the following pattern 'role=role1;another-role=role2'. The format of every entry in the file is original_role=role1,role2,role3
+    example: role=role1,role3,role4;role7=role,admin
     name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
     required: false
-  - displayName: RoleMapping replaceRole property
-    description: Whether to add to the current roles, or replace the current roles with the mapped ones. Replaces if set to true.
-    name: AUTH_ROLE_MAPPER_REPLACE_ROLE
+  - displayName: Role Mapper Keep Mapped
+    description: When set to 'true' the mapped roles will retain all roles, that have defined mappings.
+    name: AUTH_LDAP_MAPPER_KEEP_MAPPED
+    required: false
+  - displayName: Role Mapper Keep Mapped
+    description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings.
+    name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
     required: false
 objects:
   - kind: ServiceAccount
@@ -538,30 +516,22 @@ objects:
                   value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
                 - name: AUTH_LDAP_URL
                   value: "${AUTH_LDAP_URL}"
+                - name: AUTH_LDAP_LOGIN_MODULE
+                  value: "${AUTH_LDAP_LOGIN_MODULE}"
                 - name: AUTH_LDAP_BIND_DN
                   value: "${AUTH_LDAP_BIND_DN}"
                 - name: AUTH_LDAP_BIND_CREDENTIAL
                   value: "${AUTH_LDAP_BIND_CREDENTIAL}"
-                - name: AUTH_LDAP_LOGIN_MODULE
-                  value: "${AUTH_LDAP_LOGIN_MODULE}"
-                - name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
-                  value: "${AUTH_LDAP_JAAS_SECURITY_DOMAIN}"
                 - name: AUTH_LDAP_BASE_CTX_DN
                   value: "${AUTH_LDAP_BASE_CTX_DN}"
                 - name: AUTH_LDAP_BASE_FILTER
                   value: "${AUTH_LDAP_BASE_FILTER}"
-                - name: AUTH_LDAP_SEARCH_SCOPE
-                  value: "${AUTH_LDAP_SEARCH_SCOPE}"
+                - name: AUTH_LDAP_RECURSIVE_SEARCH
+                  value: "${AUTH_LDAP_RECURSIVE_SEARCH}"
                 - name: AUTH_LDAP_SEARCH_TIME_LIMIT
                   value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
                 - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
                   value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
-                - name: AUTH_LDAP_PARSE_USERNAME
-                  value: "${AUTH_LDAP_PARSE_USERNAME}"
-                - name: AUTH_LDAP_USERNAME_BEGIN_STRING
-                  value: "${AUTH_LDAP_USERNAME_BEGIN_STRING}"
-                - name: AUTH_LDAP_USERNAME_END_STRING
-                  value: "${AUTH_LDAP_USERNAME_END_STRING}"
                 - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
                   value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
                 - name: AUTH_LDAP_ROLES_CTX_DN
@@ -572,18 +542,16 @@ objects:
                   value: "${AUTH_LDAP_ROLE_RECURSION}"
                 - name: AUTH_LDAP_DEFAULT_ROLE
                   value: "${AUTH_LDAP_DEFAULT_ROLE}"
-                - name: AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID
-                  value: "${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}"
-                - name: AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN
-                  value: "${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}"
-                - name: AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN
-                  value: "${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}"
-                - name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
-                  value: "${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}"
+                - name: AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES
+                  value: "${AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES}"
+                - name: AUTH_LDAP_REFERRAL_MODE
+                  value: "${AUTH_LDAP_REFERRAL_MODE}"
                 - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
                   value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
-                - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
-                  value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
+                - name: AUTH_LDAP_MAPPER_KEEP_MAPPED
+                  value: "${AUTH_LDAP_MAPPER_KEEP_MAPPED}"
+                - name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
+                  value: "${AUTH_LDAP_MAPPER_KEEP_NON_MAPPED}"
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -743,30 +711,24 @@ objects:
                   value: "${KIE_SERVER_HOSTNAME_HTTP}"
                 - name: AUTH_LDAP_URL
                   value: "${AUTH_LDAP_URL}"
+                - name: AUTH_LDAP_LOGIN_MODULE
+                  value: "${AUTH_LDAP_LOGIN_MODULE}"
+                - name: AUTH_LDAP_LOGIN_FAILOVER
+                  value: "${AUTH_LDAP_LOGIN_FAILOVER}"
                 - name: AUTH_LDAP_BIND_DN
                   value: "${AUTH_LDAP_BIND_DN}"
                 - name: AUTH_LDAP_BIND_CREDENTIAL
                   value: "${AUTH_LDAP_BIND_CREDENTIAL}"
-                - name: AUTH_LDAP_LOGIN_MODULE
-                  value: "${AUTH_LDAP_LOGIN_MODULE}"
-                - name: AUTH_LDAP_JAAS_SECURITY_DOMAIN
-                  value: "${AUTH_LDAP_JAAS_SECURITY_DOMAIN}"
                 - name: AUTH_LDAP_BASE_CTX_DN
                   value: "${AUTH_LDAP_BASE_CTX_DN}"
                 - name: AUTH_LDAP_BASE_FILTER
                   value: "${AUTH_LDAP_BASE_FILTER}"
-                - name: AUTH_LDAP_SEARCH_SCOPE
-                  value: "${AUTH_LDAP_SEARCH_SCOPE}"
+                - name: AUTH_LDAP_RECURSIVE_SEARCH
+                  value: "${AUTH_LDAP_RECURSIVE_SEARCH}"
                 - name: AUTH_LDAP_SEARCH_TIME_LIMIT
                   value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
                 - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
                   value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
-                - name: AUTH_LDAP_PARSE_USERNAME
-                  value: "${AUTH_LDAP_PARSE_USERNAME}"
-                - name: AUTH_LDAP_USERNAME_BEGIN_STRING
-                  value: "${AUTH_LDAP_USERNAME_BEGIN_STRING}"
-                - name: AUTH_LDAP_USERNAME_END_STRING
-                  value: "${AUTH_LDAP_USERNAME_END_STRING}"
                 - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
                   value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
                 - name: AUTH_LDAP_ROLES_CTX_DN
@@ -777,18 +739,14 @@ objects:
                   value: "${AUTH_LDAP_ROLE_RECURSION}"
                 - name: AUTH_LDAP_DEFAULT_ROLE
                   value: "${AUTH_LDAP_DEFAULT_ROLE}"
-                - name: AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID
-                  value: "${AUTH_LDAP_ROLE_NAME_ATTRIBUTE_ID}"
-                - name: AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN
-                  value: "${AUTH_LDAP_PARSE_ROLE_NAME_FROM_DN}"
-                - name: AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN
-                  value: "${AUTH_LDAP_ROLE_ATTRIBUTE_IS_DN}"
-                - name: AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK
-                  value: "${AUTH_LDAP_REFERRAL_USER_ATTRIBUTE_ID_TO_CHECK}"
+                - name: AUTH_LDAP_REFERRAL_MODE
+                  value: "${AUTH_LDAP_REFERRAL_MODE}"
                 - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
                   value: "${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}"
-                - name: AUTH_ROLE_MAPPER_REPLACE_ROLE
-                  value: "${AUTH_ROLE_MAPPER_REPLACE_ROLE}"
+                - name: AUTH_LDAP_MAPPER_KEEP_MAPPED
+                  value: "${AUTH_LDAP_MAPPER_KEEP_MAPPED}"
+                - name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
+                  value: "${AUTH_LDAP_MAPPER_KEEP_NON_MAPPED}"
                 - name: FILTERS
                   value: "AC_ALLOW_ORIGIN,AC_ALLOW_METHODS,AC_ALLOW_HEADERS,AC_ALLOW_CREDENTIALS,AC_MAX_AGE"
                 - name: AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_NAME
