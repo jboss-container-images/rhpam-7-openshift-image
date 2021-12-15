@@ -118,6 +118,12 @@ envs:
   - name: "KIE_DASHBUILDER_RUNTIME_LOCATION"
     example: "http://dashbuilder:8080"
     description: "Enable integration between Business Central and Dashbuilder."
+  - name: "APPFORMER_INFINISPAN_USERNAME"
+    example: "user"
+    description: "Username used for the Datagrid."
+  - name: "APPFORMER_INFINISPAN_PASSWORD"
+    example: "pass"
+    description: "Password used for the Datagrid."
 
 ports:
   - value: 8080
