@@ -71,6 +71,9 @@ envs:
   - name: "KIE_ADMIN_PWD"
     example: "admin1!"
     description: "Password for basic authentication used to access Business Central and to connect with the execution server (Sets the org.kie.server.pwd and org.kie.server.controller.pwd system properties)"
+  - name: "KIE_ELYTRON_FS_PATH"
+    example: "/opt/my-elytrom-fs-path"
+    description: "Elytron's Filesystem realm for application authentication and authorization. Defaults to /opt/kie/data/kie-fs-realm-users"
   - name: "KIE_SERVER_TOKEN"
     example: "dasd373egds"
     description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
@@ -124,6 +127,9 @@ envs:
   - name: "APPFORMER_INFINISPAN_PASSWORD"
     example: "pass"
     description: "Password used for the Datagrid."
+  - name: "KIE_GIT_CONFIG_PATH"
+    example: "/opt/my_git_config.json"
+    description: "SSO configuration for ssh authentication on Business Central. Not required, if not set will configure one based on the given SSO properties and will store under /opt/eap/kie_git_config.json"
 
 ports:
   - value: 8080
