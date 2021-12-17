@@ -256,12 +256,12 @@ parameters:
     required: false
   - displayName: LDAP Flag Login Module
     name: AUTH_LDAP_LOGIN_MODULE
-    description: "LDAP login module flag, adds backward compatibility with the legacy security subsystem on elytron. 'optional' is the only supported value, if set will create a distributed realm with ldap and filesystem realm with the user added using the KIE_ADMIN_USER."
+    description: "LDAP login module flag, adds backward compatibility with the legacy security subsystem on Elytron. 'optional' is the only supported value, if set, it will create a distributed realm on Elytron configuration with LDAP and FileSystem realms with the user added using the KIE_ADMIN_USER."
     example: "optional"
     required: false
   - displayName: LDAP login failover
     name: AUTH_LDAP_LOGIN_FAILOVER
-    description: "Enable failover, if Ldap Url is unreachable, it will fail over to the KieFsRealm."
+    description: "Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm."
     example: "true"
     required: false
   - displayName: LDAP Bind DN
@@ -324,8 +324,8 @@ parameters:
     name: AUTH_LDAP_DEFAULT_ROLE
     example: "user"
     required: false
-  - displayName: Ldap new identity attributes
-    description: "Provide new identities for Ldap  identity mapping, the pattern to be used with this env is 'attribute_name=attribute_value;another_attribute_name=value'"
+  - displayName: LDAP new identity attributes
+    description: "Provide new identities for LDAP  identity mapping, the pattern to be used with this env is 'attribute_name=attribute_value;another_attribute_name=value'"
     name: AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES
     example: sn=BlankSurname;cn=BlankCommonName
     required: false
