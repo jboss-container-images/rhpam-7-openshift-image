@@ -373,7 +373,7 @@ parameters:
     description: When set to 'true' the mapped roles will retain all roles, that have defined mappings.
     name: AUTH_LDAP_MAPPER_KEEP_MAPPED
     required: false
-  - displayName: Role Mapper Keep Mapped
+  - displayName: Role Mapper Keep Non Mapped
     description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings.
     name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
     required: false
