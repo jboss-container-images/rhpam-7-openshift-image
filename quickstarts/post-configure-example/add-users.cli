@@ -1,0 +1,13 @@
+embed-server --std-out=echo  --server-config=standalone-openshift.xml
+batch
+
+/subsystem=elytron/filesystem-realm=KieFsRealm:add-identity(identity=user1)
+/subsystem=elytron/filesystem-realm=KieFsRealm:set-password(identity=user1, clear={password="pass123*"})
+/subsystem=elytron/filesystem-realm=KieFsRealm:add-identity-attribute(identity=user1, name=role, value=["kie-server","rest-all","admin","kiemgmt","Administrators","user"])
+
+/subsystem=elytron/filesystem-realm=KieFsRealm:add-identity(identity=user2)
+/subsystem=elytron/filesystem-realm=KieFsRealm:set-password(identity=user2, clear={password="pass123*"})
+/subsystem=elytron/filesystem-realm=KieFsRealm:add-identity-attribute(identity=user2, name=role, value=["kie-server","rest-all","admin","kiemgmt"])
+
+run-batch
+quit
