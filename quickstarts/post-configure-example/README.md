@@ -13,11 +13,11 @@ The steps described on this quickstart will work on the following container imag
 - Dashbuilder
 - RHPAM/DM Controller
 
-Note that, this procedure can be applied to any kid of post configure actions.
+Note: This procedure can be applied to any kind of post configure actions.
 
 ## Preparing the needed files
 
-Before moving forward with the deployments, let's prepare the needed files. You need to have the following files:
+Before deployment, prepare the required files. You must have the following files:
 
 - [add-users.cli](add-users.cli): JBoss CLI Batch script, your script must be added between the commands below:
     - ```bash
@@ -33,7 +33,7 @@ Before moving forward with the deployments, let's prepare the needed files. You 
 
 - [postconfigure.sh](postconfigure.sh): The script that will actually call the JBoss-CLI script.
 
-With these 3 files in place, the next is to create a config-map and mount it under `/opt/eap/extensions` directory on
+With these 3 files in place, the next step is to create a config-map and mount it under `/opt/eap/extensions` directory on
 the target container image(s).
 
 #### Creating the config map
@@ -104,7 +104,7 @@ $ oc set volumes dc/myapp-kieserver --add  \
     --default-mode=0555
 ```
 
-Note, if the target *dc* is other than `myapp-kieserver` remember to update it to fit your needs. This change will make
+Note: If the target *dc* is other than `myapp-kieserver` remember to update it to fit your needs. This change will make
 the running KIE Server be redeployed, after it starts again you should see a message similar to:
 
 ```bash
@@ -184,7 +184,7 @@ The batch executed successfully
 END - users added
 ```
 
-Note that, if the KieApp is already running and the updated pods does not restart automatically, you can just delete the
+Note: If the KieApp is already running and the updated pods does not restart automatically, you can just delete the
 deployment config so the `operator` can start an updated version.
 
 #### Found an issue?
