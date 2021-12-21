@@ -1,6 +1,6 @@
 # JBoss CLI PostConfigure example
 
-This example will explain how to create additional JBoss EAP users using the Post Configure feature available on the 
+This example will explain how to create additional JBoss EAP users using the Post Configure feature available on the
 Container images based on JBoss EAP.
 
 The steps described on this quickstart will work on the following container images:
@@ -13,33 +13,30 @@ The steps described on this quickstart will work on the following container imag
 - Dashbuilder
 - RHPAM/DM Controller
 
-
 Note that, this procedure can be applied to any kid of post configure actions.
 
 ## Preparing the needed files
 
-Before moving forward with the deployments, let's prepare the needed files.
-You need to have the following files:
+Before moving forward with the deployments, let's prepare the needed files. You need to have the following files:
 
 - [add-users.cli](add-users.cli): JBoss CLI Batch script, your script must be added between the commands below:
-  - ```bash
-    embed-server --std-out=echo  --server-config=standalone-openshift.xml
-    batch
+    - ```bash
+  embed-server --std-out=echo --server-config=standalone-openshift.xml batch
 
     <your jboss-cli commands>
 
-    run-batch
-    quit
+  run-batch quit
     ```
-    
-- [delayedpostconfigure.sh](delayedpostconfigure.sh): This empty file is needed until the following jira is not fixed:
+
+- [delayedpostconfigure.sh](delayedpostconfigure.sh): This empty file is needed until the following jira is fixed:
   https://issues.redhat.com/browse/RHPAM-3665
 
 - [postconfigure.sh](postconfigure.sh): The script that will actually call the JBoss-CLI script.
 
+With these 3 files in place, the next is to create a config-map and mount it under `/opt/eap/extensions` directory on
+the target container image(s).
 
-With these 3 files in place, the next step will be creating a config-map and mount it under `/opt/eap/extensions` directory
-on the target container image(s).
+#### Creating the config map
 
 ```bash
 $ oc create configmap postconfigure \
@@ -91,18 +88,14 @@ echo "END - users added"
 Events:  <none>
 ```
 
-
-With the config-map created, you can now proceed with the container configuration.
-In this example there is only one KIE Server running. The steps will be described by using the `operator` and 
-`application templates`.
-
+With the config-map created, you can now proceed with the container configuration. In this example there is only one KIE
+Server running. the steps are different depending on whether you use the `operator` or `application` templates to deploy
+the product.
 
 ### Application Templates method:
 
-When using the `application templates` or an already running RHPAM instance, it turns to be a little easier to 
-configure than using `operators`.
-
-With the config map created, mount it as a `volume` on the desired Deployment Config:
+When using the `application templates` or an already running RHPAM instance, with the config map created, mount it as
+a `volume` on the desired Deployment Config:
 
 ```bash
 $ oc set volumes dc/myapp-kieserver --add  \
@@ -111,8 +104,8 @@ $ oc set volumes dc/myapp-kieserver --add  \
     --default-mode=0555
 ```
 
-Note, if the target *dc* is other than `myapp-kieserver` remember to update it to fit your needs.
-This change will make the running KIE Server be redeployed, after it starts again you should see a message similar to:
+Note, if the target *dc* is other than `myapp-kieserver` remember to update it to fit your needs. This change will make
+the running KIE Server be redeployed, after it starts again you should see a message similar to:
 
 ```bash
 ******  RUNNING ADDITIONAL CONFIGURATIONS WITH JBOSS-CLI - ADDING EXTRA ELYTRON USERS TO KIE FS REALM **********
@@ -127,40 +120,34 @@ END - users added
 
 ### Operator method
 
-When using operator you need to edit the `kieconfig-<current-version>`, in this case, `7.12.0`.
-With the operator already running in the current namespace, follow the steps below:
+To install the operator please follow the steps described in
+this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.12/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
+. After the operator installed and ready to use, you need to edit the `kieconfig-<current-version>`, in this
+case, `7.12.0`. With the operator already running in the current namespace, follow the steps below:
 
+- Create the [config-map](#creating-the-config-map) in the current namespace as described above.
+- Edit the `kieconfigs-7.12.0` config map, you can use either the OCP Web UI or the command line tool, in this example
+  we'll use the command line tool:
 
-Create the config-map in the current namespace:
-```bash
-$ oc create configmap postconfigure \
-    --from-file=add-users.cli=add-users.cli \
-    --from-file=delayedpostconfigure.sh=delayedpostconfigure.sh \
-    --from-file=postconfigure.sh=postconfigure.sh
-configmap/postconfigure created
-```
-
-
-Edit the `kieconfigs-7.12.0` config map, you can use either the OCP Web UI or the command line tool, in this example we'll
-use the command line tool:
-
-```bash
-$ oc edit cm kieconfigs-7.12.0
-```
+  ```bash
+  $ oc edit cm kieconfigs-7.12.0
+  ```
 
 In this case, as we are going to update the KIE Server deployment, you need to update the `servers` section of the
-common.yaml content. If it was for `Business Central, Monitoring or Decision Central`, then the `console` section needs to be updated.
-If it is the `Dashbuilder` then the configMap called `kieconfigs-7.12.0-dashbuilder` needs to be edited.
+common.yaml content. If it was for `Business Central, Monitoring or Decision Central`, then the `console` section needs
+to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.12.0-dashbuilder` needs to be edited.
 
-First, let's locate where is the `servers` section, you can find it around the line **640**.
+First, let's locate where is the `servers` section.
 
 Under `deploymentConfigs.metadata.spec.template.spec.containers.volumeMounts`, add the following:
+
 ```yaml
 - name: postconfigure-mount
   mountPath: /opt/eap/extensions
 ```
 
 And under `deploymentConfigs.metadata.spec.template.spec.volumes`, add the following:
+
 ```yaml
 - name: "postconfigure-mount"
   configMap:
@@ -183,8 +170,8 @@ spec:
   environment: rhpam-trial
 ```
 
-Depending on the environment it could take a while until the volume is mounted and pod started.
-After the KIE Server is started, you should see the same output from templates:
+Depending on the environment it could take a while until the volume is mounted and the pod started. After the KIE Server
+is started, you should see the same output from `application template` method:
 
 ```bash
 ******  RUNNING ADDITIONAL CONFIGURATIONS WITH JBOSS-CLI - ADDING EXTRA ELYTRON USERS TO KIE FS REALM **********
@@ -197,4 +184,11 @@ The batch executed successfully
 END - users added
 ```
 
+Note that, if the KieApp is already running and the updated pods does not restart automatically, you can just delete the
+deployment config so the `operator` can start an updated version.
+
+#### Found an issue?
+
+Please submit an issue [here](https://issues.jboss.org/projects/RHPAM) with the **Cloud** tag or send us a email:
+bsig-cloud@redhat.com.
 
