@@ -452,11 +452,6 @@ parameters:
     name: AUTH_LDAP_SEARCH_TIME_LIMIT
     example: "10000"
     required: false
-  - displayName: LDAP DN attribute
-    description: The name of the attribute in the user entry that contains the DN of the user. This may be necessary if the DN of the user itself contains special characters, backslash for example, that prevent correct user mapping. If the attribute does not exist, the entry’s DN is used.
-    name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
-    example: "distinguishedName"
-    required: false
   - displayName: LDAP Role attributeID
     description: Name of the attribute containing the user roles.
     name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
@@ -962,8 +957,6 @@ objects:
                   value: "${AUTH_LDAP_RECURSIVE_SEARCH}"
                 - name: AUTH_LDAP_SEARCH_TIME_LIMIT
                   value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
-                - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
-                  value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
                 - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
                   value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
                 - name: AUTH_LDAP_ROLES_CTX_DN
@@ -1332,8 +1325,6 @@ objects:
                   value: "${AUTH_LDAP_RECURSIVE_SEARCH}"
                 - name: AUTH_LDAP_SEARCH_TIME_LIMIT
                   value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
-                - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
-                  value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
                 - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
                   value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
                 - name: AUTH_LDAP_ROLES_CTX_DN
@@ -1672,8 +1663,6 @@ objects:
                   value: "${AUTH_LDAP_RECURSIVE_SEARCH}"
                 - name: AUTH_LDAP_SEARCH_TIME_LIMIT
                   value: "${AUTH_LDAP_SEARCH_TIME_LIMIT}"
-                - name: AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE
-                  value: "${AUTH_LDAP_DISTINGUISHED_NAME_ATTRIBUTE}"
                 - name: AUTH_LDAP_ROLE_ATTRIBUTE_ID
                   value: "${AUTH_LDAP_ROLE_ATTRIBUTE_ID}"
                 - name: AUTH_LDAP_ROLES_CTX_DN
