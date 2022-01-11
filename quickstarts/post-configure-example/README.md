@@ -20,13 +20,14 @@ Note: This procedure can be applied to any kind of post configure actions.
 Before deployment, prepare the required files. You must have the following files:
 
 - [add-users.cli](add-users.cli): JBoss CLI Batch script, your script must be added between the commands below:
-    - ```bash
+  ```bash
   embed-server --std-out=echo --server-config=standalone-openshift.xml batch
 
-    <your jboss-cli commands>
+  <your jboss-cli commands>
 
-  run-batch quit
-    ```
+  run-batch 
+  quit
+  ```
 
 - [delayedpostconfigure.sh](delayedpostconfigure.sh): This empty file is needed until the following jira is fixed:
   https://issues.redhat.com/browse/RHPAM-3665
