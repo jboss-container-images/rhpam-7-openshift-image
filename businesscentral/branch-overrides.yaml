@@ -29,5 +29,5 @@ modules:
         ref: main
     - name: jboss-kie-modules
       git:
-        url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: main
+        url: https://github.com/davidesalerno/jboss-kie-modules.git
+        ref: KIECLOUD-592
