@@ -143,8 +143,7 @@ modules:
     - name: openshift-layer
     - name: jboss.container.util.logging.bash
     - name: jboss.container.eap.prometheus.config
-      version: "7.2-kie"
-
+      version: "7.4-kie"
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-dashbuilder
 packages:
