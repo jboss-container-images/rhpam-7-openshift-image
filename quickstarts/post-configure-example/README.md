@@ -21,7 +21,8 @@ Before deployment, prepare the required files. You must have the following files
 
 - [add-users.cli](add-users.cli): JBoss CLI Batch script, your script must be added between the commands below:
   ```bash
-  embed-server --std-out=echo --server-config=standalone-openshift.xml batch
+  embed-server --std-out=echo --server-config=standalone-openshift.xml
+  batch
 
   <your jboss-cli commands>
 
