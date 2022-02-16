@@ -19,8 +19,6 @@ envs:
   - name: "CONFIG_ADJUSTMENT_MODE"
     value: "xml"
     description: "The new modules from wildfly-cekit-modules supports configuration using CLI and XML, for now we still using XML"
-  - name: "LOGGER_CATEGORIES"
-    value: "org.infinispan.client.hotrod.impl.protocol.Codec21:ERROR, org.infinispan.protostream.impl.AnnotatedDescriptorImpl:ERROR"
   - name: "HTTPS_ENABLE_HTTP2"
     value: "true"
   - name: "SCRIPT_DEBUG"
