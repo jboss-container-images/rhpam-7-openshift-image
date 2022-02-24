@@ -58,6 +58,11 @@ parameters:
     name: DROOLS_SERVER_FILTER_CLASSES
     value: 'true'
     required: false
+  - displayName: KIE Server with Decisions only capabilities
+    description: 'KIE Server capabilities filtering to disable everything that it is not related to decisions (i.e jBPM and case management)'
+    name: KIE_SERVER_DECISIONS_ONLY
+    value: 'true'
+    required: false
   - displayName: Prometheus Server Extension Disabled
     description: If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)
     name: PROMETHEUS_SERVER_EXT_DISABLED
@@ -819,6 +824,8 @@ objects:
                   value: "${KIE_MBEANS}"
                 - name: DROOLS_SERVER_FILTER_CLASSES
                   value: "${DROOLS_SERVER_FILTER_CLASSES}"
+                - name: KIE_SERVER_DECISIONS_ONLY
+                  value: "${KIE_SERVER_DECISIONS_ONLY}"
                 - name: PROMETHEUS_SERVER_EXT_DISABLED
                   value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
                 - name: KIE_SERVER_BYPASS_AUTH_USER
