@@ -9,7 +9,7 @@ jobs:
         type: shell
         name: Download openshift-validator-tool
         command: |
-          wget https://github.com/jboss-container-images/jboss-kie-modules/raw/main/tools/openshift-template-validator/openshift-template-validator-linux-amd64
+          wget https://github.com/jboss-container-images/jboss-kie-modules/raw/7.12.x/tools/openshift-template-validator/openshift-template-validator-linux-amd64
     - run:
         name: Add execution permission to openshift-validator-tool
         command: |
