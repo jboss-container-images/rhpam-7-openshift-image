@@ -7,27 +7,35 @@
 = Application Templates
 
 This project contains OpenShift v3 application templates which support applications based on RHPAM products.
-Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/templates[here].
+Source can be found https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/templates[here].
 
 :icons: font
 :toc: macro
 
 toc::[levels=1]
 
-== rhpam-7-openshift-image/templates
+== rhpam-7-openshift-image/templates/decision
 
-* link:README.adoc[README]
-* link:rhpam713-authoring-ha.adoc[rhpam713-authoring-ha]
-* link:rhpam713-authoring.adoc[rhpam713-authoring]
-* link:rhpam713-kieserver-externaldb.adoc[rhpam713-kieserver-externaldb]
-* link:rhpam713-kieserver-mysql.adoc[rhpam713-kieserver-mysql]
-* link:rhpam713-kieserver-postgresql.adoc[rhpam713-kieserver-postgresql]
-* link:rhpam713-managed.adoc[rhpam713-managed]
-* link:rhpam713-prod-immutable-kieserver-amq.adoc[rhpam713-prod-immutable-kieserver-amq]
-* link:rhpam713-prod-immutable-kieserver.adoc[rhpam713-prod-immutable-kieserver]
-* link:rhpam713-prod-immutable-monitor.adoc[rhpam713-prod-immutable-monitor]
-* link:rhpam713-prod.adoc[rhpam713-prod]
-* link:rhpam713-trial-ephemeral.adoc[rhpam713-trial-ephemeral]
+* link:decision/rhdm713-authoring-ha.adoc[rhdm713-authoring-ha]
+* link:decision/rhdm713-authoring.adoc[rhdm713-authoring]
+* link:decision/rhdm713-kieserver.adoc[rhdm713-kieserver]
+* link:decision/rhdm713-prod-immutable-kieserver-amq.adoc[rhdm713-prod-immutable-kieserver-amq]
+* link:decision/rhdm713-prod-immutable-kieserver.adoc[rhdm713-prod-immutable-kieserver]
+* link:decision/rhdm713-trial-ephemeral.adoc[rhdm713-trial-ephemeral]
+
+== rhpam-7-openshift-image/templates/process
+
+* link:process/rhpam713-authoring-ha.adoc[rhpam713-authoring-ha]
+* link:process/rhpam713-authoring.adoc[rhpam713-authoring]
+* link:process/rhpam713-kieserver-externaldb.adoc[rhpam713-kieserver-externaldb]
+* link:process/rhpam713-kieserver-mysql.adoc[rhpam713-kieserver-mysql]
+* link:process/rhpam713-kieserver-postgresql.adoc[rhpam713-kieserver-postgresql]
+* link:process/rhpam713-managed.adoc[rhpam713-managed]
+* link:process/rhpam713-prod-immutable-kieserver-amq.adoc[rhpam713-prod-immutable-kieserver-amq]
+* link:process/rhpam713-prod-immutable-kieserver.adoc[rhpam713-prod-immutable-kieserver]
+* link:process/rhpam713-prod-immutable-monitor.adoc[rhpam713-prod-immutable-monitor]
+* link:process/rhpam713-prod.adoc[rhpam713-prod]
+* link:process/rhpam713-trial-ephemeral.adoc[rhpam713-trial-ephemeral]
 
 ////
   the source for the release notes part of this page is in the file
