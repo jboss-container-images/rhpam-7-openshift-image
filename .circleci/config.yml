@@ -19,9 +19,13 @@ jobs:
         command: |
           ./openshift-template-validator-linux-amd64 --version
     - run:
-        name: Verify the templates
+        name: Verify the RHPAM Process templates
         command: |
-          ./openshift-template-validator-linux-amd64 validate -d templates/
+          ./openshift-template-validator-linux-amd64 validate -d templates/process
+    - run:
+        name: Verify the RHPAM Decisions templates
+        command: |
+          ./openshift-template-validator-linux-amd64 validate -d templates/decision
     - run:
         name: Verify the RHPAM imagestream
         command: |
