@@ -102,7 +102,7 @@ parameters:
   - displayName: KIE Server Container Deployment
     description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
     name: KIE_SERVER_CONTAINER_DEPLOYMENT
-    example: rhdm-kieserver-hellorules=org.openshift.quickstarts:rhdm-kieserver-hellorules:1.6.0-SNAPSHOT
+    example: rhdm-kieserver-hellorules=org.openshift.quickstarts:rhpam-kieserver-decisions:1.6.0-SNAPSHOT
     required: true
   - displayName: Git Repository URL
     description: Git source URI for application.
