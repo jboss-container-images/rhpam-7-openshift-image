@@ -260,6 +260,9 @@ envs:
   - name: "KIE_SERVER_KAFKA_JBPM_EVENT_EMITTER_CASES_TOPIC_NAME"
     example: "my-cases-topic"
     description: "Custom Processes cases's name, default value is jbpm-cases-events, this environment variable will be used to set the 'org.kie.jbpm.event.emitters.kafka.topic.cases' system property."
+  - name: "KIE_EXECUTOR_MDB_MAX_SESSIONS"
+    example: "10"
+    description: 'Number of max KIE Executor sessions, it must be lower than the value of max-pool-size, by default is max-pool-size set to 60. Max pool size can be set by system property jboss.mdb.strict.max.pool.size (using JAVA_OPTS_APPEND "-Djboss.mdb.strict.max.pool.size=40"), for more information see https://access.redhat.com/solutions/2955481.'
 ports:
   - value: 8080
   - value: 8443
