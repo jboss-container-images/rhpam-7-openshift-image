@@ -48,6 +48,9 @@ envs:
   - name: "KIE_SERVER_CONTROLLER_TOKEN"
     example: "dasd373egds"
     description: "KIE server controller token for bearer authentication (Sets the org.kie.server.controller.token system property)"
+  - name: "KIE_SERVER_BYPASS_AUTH_USER"
+    example: "false"
+    description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property). Defaults to false."
 ## OpenShift Enhancement BEGIN
   - name: "KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED"
     example: "false"
