@@ -77,7 +77,7 @@ envs:
     description: "KIE server token for bearer authentication (Sets the org.kie.server.token system property)"
   - name: "KIE_SERVER_BYPASS_AUTH_USER"
     example: "false"
-    description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property)"
+    description: "KIE server bypass auth user (Sets the org.kie.server.bypass.auth.user system property). Defaults to false."
   - name: "KIE_SERVER_CONTROLLER_SERVICE"
     example: "buscentr-myapp"
     description: "KIE server controller service (Used to set the org.kie.server.controller system property if host and port aren't set)"
