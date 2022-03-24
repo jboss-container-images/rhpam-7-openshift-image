@@ -415,6 +415,11 @@ parameters:
     name: AUTH_LDAP_BIND_CREDENTIAL
     example: "Password"
     required: false
+  - displayName: Allow Empty Passwords
+    description: Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false.
+    name: AUTH_LDAP_ALLOW_EMPTY_PASSWORDS
+    example: "true"
+    required: false
   - displayName: LDAP Base DN
     description: LDAP Base DN of the top-level context to begin the user search.
     name: AUTH_LDAP_BASE_CTX_DN
@@ -1069,6 +1074,8 @@ objects:
                   value: "${AUTH_LDAP_BIND_DN}"
                 - name: AUTH_LDAP_BIND_CREDENTIAL
                   value: "${AUTH_LDAP_BIND_CREDENTIAL}"
+                - name: AUTH_LDAP_ALLOW_EMPTY_PASSWORDS
+                  value: "${AUTH_LDAP_ALLOW_EMPTY_PASSWORDS}"
                 - name: AUTH_LDAP_BASE_CTX_DN
                   value: "${AUTH_LDAP_BASE_CTX_DN}"
                 - name: AUTH_LDAP_BASE_FILTER

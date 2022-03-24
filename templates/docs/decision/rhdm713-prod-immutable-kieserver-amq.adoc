@@ -30,6 +30,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.13.0". | 7.13.0 | True
 |`KIE_MBEANS` | `KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | enabled | False
 |`DROOLS_SERVER_FILTER_CLASSES` | `DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering (Sets the org.drools.server.filter.classes system property) | true | False
+|`KIE_SERVER_DECISIONS_ONLY` | `KIE_SERVER_DECISIONS_ONLY` | KIE Server capabilities filtering to disable everything that it is not related to decisions (i.e jBPM and case management) | true | False
 |`PROMETHEUS_SERVER_EXT_DISABLED` | `PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | false | False
 |`KIE_SERVER_HOSTNAME_HTTP` | `HOSTNAME_HTTP` | Custom hostname for http service route. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix> | -- | False
 |`KIE_SERVER_HOSTNAME_HTTPS` | `HOSTNAME_HTTPS` | Custom hostname for https service route.  Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix> | -- | False
@@ -84,6 +85,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`AUTH_LDAP_LOGIN_FAILOVER` | `AUTH_LDAP_LOGIN_FAILOVER` | Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm. | true | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | Password | False
+|`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | `AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | true | False
 |`AUTH_LDAP_BASE_CTX_DN` | `AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BASE_FILTER` | `AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | (uid={0}) | False
 |`AUTH_LDAP_RECURSIVE_SEARCH` | `AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | true | False
@@ -301,13 +303,14 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.66+| `${APPLICATION_NAME}-kieserver`
+.68+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | The Service name for the optional Decision Central, where it can be reached, to allow service lookups (for example, maven repo usage), if required. | `${DECISION_CENTRAL_SERVICE}`
 |`KIE_ADMIN_USER` | -- | --
 |`KIE_ADMIN_PWD` | -- | --
 |`KIE_SERVER_MODE` | -- | `DEVELOPMENT`
 |`KIE_MBEANS` | KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties) | `${KIE_MBEANS}`
 |`DROOLS_SERVER_FILTER_CLASSES` | KIE Server class filtering (Sets the org.drools.server.filter.classes system property) | `${DROOLS_SERVER_FILTER_CLASSES}`
+|`KIE_SERVER_DECISIONS_ONLY` | KIE Server capabilities filtering to disable everything that it is not related to decisions (i.e jBPM and case management) | `${KIE_SERVER_DECISIONS_ONLY}`
 |`PROMETHEUS_SERVER_EXT_DISABLED` | If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property) | `${PROMETHEUS_SERVER_EXT_DISABLED}`
 |`KIE_SERVER_BYPASS_AUTH_USER` | Allows the KIE Server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property) | `${KIE_SERVER_BYPASS_AUTH_USER}`
 |`KIE_SERVER_ID` | -- | --
@@ -354,6 +357,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_LDAP_LOGIN_FAILOVER` | Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm. | `${AUTH_LDAP_LOGIN_FAILOVER}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication | `${AUTH_LDAP_BIND_CREDENTIAL}`
+|`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | `${AUTH_LDAP_ALLOW_EMPTY_PASSWORDS}`
 |`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
 |`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
 |`AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | `${AUTH_LDAP_RECURSIVE_SEARCH}`

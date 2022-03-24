@@ -67,6 +67,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`AUTH_LDAP_LOGIN_FAILOVER` | `AUTH_LDAP_LOGIN_FAILOVER` | Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm. | true | False
 |`AUTH_LDAP_BIND_DN` | `AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | uid=admin,ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
+|`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | `AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | true | False
 |`AUTH_LDAP_BASE_CTX_DN` | `AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | ou=users,ou=example,ou=com | False
 |`AUTH_LDAP_BASE_FILTER` | `AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | (uid={0}) | False
 |`AUTH_LDAP_RECURSIVE_SEARCH` | `AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | true | False
@@ -242,7 +243,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |=======================================================================
 |Deployment |Variable name |Description |Example value
 
-.43+| `${APPLICATION_NAME}-rhpamcentr`
+.44+| `${APPLICATION_NAME}-rhpamcentr`
 |`WORKBENCH_ROUTE_NAME` | -- | insecure-${APPLICATION_NAME}-rhpamcentr
 |`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | Default password used for multiple components for user convenience in this trial environment. | `${DEFAULT_PASSWORD}`
@@ -272,6 +273,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_LDAP_LOGIN_FAILOVER` | Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm. | `${AUTH_LDAP_LOGIN_FAILOVER}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
+|`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | `${AUTH_LDAP_ALLOW_EMPTY_PASSWORDS}`
 |`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
 |`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
 |`AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | `${AUTH_LDAP_RECURSIVE_SEARCH}`
@@ -286,7 +288,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_ROLE_MAPPER_ROLES_PROPERTIES` | When present, the RoleMapping will be configured to use the provided properties file or roles. This parameter defines the fully-qualified file path and name of a properties file or a set of roles with the following pattern 'role=role1;another-role=role2'. The format of every entry in the file is original_role=role1,role2,role3 | `${AUTH_ROLE_MAPPER_ROLES_PROPERTIES}`
 |`AUTH_LDAP_MAPPER_KEEP_MAPPED` | When set to 'true' the mapped roles will retain all roles, that have defined mappings. | `${AUTH_LDAP_MAPPER_KEEP_MAPPED}`
 |`AUTH_LDAP_MAPPER_KEEP_NON_MAPPED` | When set to 'true' the mapped roles will retain all roles, that have no defined mappings. | `${AUTH_LDAP_MAPPER_KEEP_NON_MAPPED}`
-.62+| `${APPLICATION_NAME}-kieserver`
+.63+| `${APPLICATION_NAME}-kieserver`
 |`WORKBENCH_SERVICE_NAME` | -- | `${APPLICATION_NAME}-rhpamcentr`
 |`KIE_ADMIN_USER` | KIE administrator user name. | `${KIE_ADMIN_USER}`
 |`KIE_ADMIN_PWD` | Default password used for multiple components for user convenience in this trial environment. | `${DEFAULT_PASSWORD}`
@@ -325,6 +327,7 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_LDAP_LOGIN_FAILOVER` | Enable failover, if LDAP Url is unreachable, it will fail over to the KieFsRealm. | `${AUTH_LDAP_LOGIN_FAILOVER}`
 |`AUTH_LDAP_BIND_DN` | Bind DN used for authentication. | `${AUTH_LDAP_BIND_DN}`
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
+|`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | `${AUTH_LDAP_ALLOW_EMPTY_PASSWORDS}`
 |`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
 |`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
 |`AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | `${AUTH_LDAP_RECURSIVE_SEARCH}`
