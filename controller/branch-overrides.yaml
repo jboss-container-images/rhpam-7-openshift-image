@@ -10,15 +10,15 @@ modules:
     - name: cct_module
       git:
         url: https://github.com/jboss-openshift/cct_module.git
-        ref: 0.39.4
+        ref: 0.39.6
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_741_CR1
+        ref: EAP_743_CR3
     - name: jboss-eap-7-image
       git:
         url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-        ref: EAP_LP_741
+        ref: EAP_743_CR3
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
