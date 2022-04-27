@@ -31,6 +31,7 @@ SHORTENED_VERSION_REGEX = re.compile(r'\b7[.](?:[0-3][0-8])\b|7[.](?:[0-3][0-8])
 # 000 is just a place holder, yaml suffix will be appended when needed
 IMAGESTREAM = "rhpam000-image-streams"
 RHPAM_PREFIX_REGEX = re.compile(r'rhpam\d{3}\b')
+RHDM_PREFIX_REGEX = re.compile(r'rhdm\d{3}\b')
 NO_DOTS_VERSION = re.compile(r'7\d{2}')
 
 
@@ -55,15 +56,26 @@ def get_current_imagestream_filename():
         return name
 
 
-def get_current_application_templates():
+def get_current_process_application_templates():
     templates = []
-    for template in glob.glob("templates/rhpam*.yaml"):
+    for template in glob.glob("templates/process/rhpam*.yaml"):
+        templates.append(template)
+    return templates
+
+
+def get_current_decision_application_templates():
+    templates = []
+    for template in glob.glob("templates/decision/rhdm*.yaml"):
         templates.append(template)
     return templates
 
 
 def get_updated_rhpam_prefix(version):
     return "rhpam{0}".format(get_shortened_version(version).replace(".", ""))
+
+
+def get_updated_rhdm_prefix(version):
+    return "rhdm{0}".format(get_shortened_version(version).replace(".", ""))
 
 
 def get_updated_no_dotes_version(version):
@@ -303,7 +315,7 @@ def update_application_templates(version, confirm):
 
     print("Updating application templates to version {0}".format(version))
 
-    for template in get_current_application_templates():
+    for template in get_current_process_application_templates():
         try:
             with open(template) as tmpl:
                 # replace all occurrences of shortened version first
@@ -327,7 +339,40 @@ def update_application_templates(version, confirm):
                 with open(template, 'w') as tmpl:
                     yaml_loader().dump(data, tmpl)
 
-                template_updated_name_with_extension = os.path.join("templates/", template_updated_name + ".yaml")
+                template_updated_name_with_extension = os.path.join("templates/process", template_updated_name + ".yaml")
+                print("  --> Application Template file will renamed from {0} to {1}".
+                      format(template, template_updated_name_with_extension))
+
+                os.renames(template, template_updated_name_with_extension)
+
+        except TypeError:
+            raise
+
+    for template in get_current_decision_application_templates():
+        try:
+            with open(template) as tmpl:
+                # replace all occurrences of shortened version first
+                plain = SHORTENED_VERSION_REGEX.sub(get_shortened_version(version), tmpl.read())
+                # then update all full version everywhere
+                plain = VERSION_REGEX.sub(version, plain)
+                plain = RHDM_PREFIX_REGEX.sub(get_updated_rhdm_prefix(version), plain)
+                data = yaml_loader().load(plain)
+                template_updated_name = RHPAM_PREFIX_REGEX.sub(get_updated_rhdm_prefix(version),
+                                                               data['metadata']['name'])
+
+                data['metadata']['name'] = template_updated_name
+                data['labels']['template'] = template_updated_name
+
+                if not confirm:
+                    print("Applied changes on template {0} -> {1}.yaml: \n".format(tmpl, template_updated_name))
+                    print(data)
+                    print("\n----------------------------------\n")
+
+            if confirm:
+                with open(template, 'w') as tmpl:
+                    yaml_loader().dump(data, tmpl)
+
+                template_updated_name_with_extension = os.path.join("templates/decision/", template_updated_name + ".yaml")
                 print("  --> Application Template file will renamed from {0} to {1}".
                       format(template, template_updated_name_with_extension))
 
