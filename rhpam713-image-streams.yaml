@@ -1,5 +1,5 @@
 kind: ImageStreamList
-apiVersion: v1
+apiVersion: image.openshift.io/v1
 metadata:
   name: rhpam713-image-streams
   annotations:
@@ -7,7 +7,7 @@ metadata:
     openshift.io/provider-display-name: Red Hat, Inc.
 items:
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-businesscentral-rhel8
       annotations:
@@ -28,7 +28,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-businesscentral-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-businesscentral-monitoring-rhel8
       annotations:
@@ -49,7 +49,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-businesscentral-monitoring-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-controller-rhel8
       annotations:
@@ -70,7 +70,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-controller-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-dashbuilder-rhel8
       annotations:
@@ -91,7 +91,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-dashbuilder-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-kieserver-rhel8
       annotations:
@@ -112,7 +112,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-kieserver-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-smartrouter-rhel8
       annotations:
@@ -133,7 +133,7 @@ items:
             kind: DockerImage
             name: registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.0
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: rhpam-process-migration-rhel8
       annotations:

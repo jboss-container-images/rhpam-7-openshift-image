@@ -1,5 +1,5 @@
 kind: Template
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 metadata:
   annotations:
     iconClass: icon-jboss
@@ -486,7 +486,7 @@ objects:
       tls:
         termination: passthrough
   - kind: ImageStream
-    apiVersion: v1
+    apiVersion: image.openshift.io/v1
     metadata:
       name: "${APPLICATION_NAME}-kieserver"
       labels:
