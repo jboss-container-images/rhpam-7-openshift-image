@@ -3,21 +3,21 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,processserver,jboss,kieserver
-    version: "7.13"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.13 managed KIE Server with a MySQL database
+    tags: rhdm,decision,jboss,kieserver
+    version: "7.14"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.14 managed KIE Server for decisions
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a managed KIE Server with a MySQL database, for Red Hat Process Automation Manager 7.13 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed to execute Rules and Processes on Red Hat Process Automation Manager KIE Server 7.13, including application deployment configuration, secure and insecure http communication, using a MySQL database. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_a_red_hat_process_automation_manager_7.13_managed_server_environment_on_red_hat_openshift_container_platform/
+    description: Application template for a managed KIE Server for decision, for Red Hat Process Automation Manager 7.14 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed to execute Rules on Red Hat Process Automation Manager KIE Server 7.14, including application deployment configuration, secure and insecure http communication. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Decision Manager version 7.5; consider using the Red Hat Business Automation Operator.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.14/html/deploying_a_red_hat_process_automation_manager_7.14_managed_server_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhpam713-kieserver-mysql
+  name: rhdm714-kieserver
 labels:
-  template: rhpam713-kieserver-mysql
-  rhpam: "7.13"
+  template: rhdm714-kieserver
+  rhdm: "7.14"
 message: |-
-  A new Process Automation Manager KIE Server application have been created in your project.
+  A new Red Hat Process Automation Manager KIE Server application for decision has been created in your project.
   The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
   KIE_ADMIN_USER and KIE_ADMIN_PWD
 
@@ -29,7 +29,7 @@ parameters:
     value: myapp
     required: true
   - displayName: Maven mirror URL
-    description: Maven mirror that the KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services.
+    description: Maven mirror that KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for deploying your services.
     name: MAVEN_MIRROR_URL
     required: false
   - displayName: Maven mirror of
@@ -38,7 +38,7 @@ parameters:
     value: "external:*"
     required: false
   - displayName: Maven repository ID
-    description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhpamcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
+    description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhdmcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
     name: MAVEN_REPO_ID
     value: repo-custom
     required: false
@@ -55,18 +55,18 @@ parameters:
     description: Password to access the Maven repository, if required.
     name: MAVEN_REPO_PASSWORD
     required: false
-  - displayName: Name of the Business Central service
-    description: The Service name for the optional Business Central, where it can be reached, to allow service lookups (for example,  maven repo usage), if required.
-    name: BUSINESS_CENTRAL_SERVICE
-    example: "myapp-rhpamcentr"
+  - displayName: Name of the Decision Central service
+    description: The Service name for the optional Decision Central, where it can be reached, to allow service lookups (for example, maven repo usage), if required.
+    name: DECISION_CENTRAL_SERVICE
+    example: "myapp-rhdmcentr"
     required: false
   - displayName: Credentials secret
-    description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values
+    description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values.
     name: CREDENTIALS_SECRET
     example: rhpam-credentials
     required: true
   - displayName: ImageStream Namespace
-    description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
+    description: Namespace in which the ImageStreams for Red Hat Decision Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStreams in a different namespace/project.
     name: IMAGE_STREAM_NAMESPACE
     value: openshift
     required: true
@@ -76,53 +76,10 @@ parameters:
     value: "rhpam-kieserver-rhel8"
     required: true
   - displayName: ImageStream Tag
-    description: A named pointer to an image in an image stream. Default is "7.13.0".
+    description: A named pointer to an image in an image stream. Default is "7.14.0".
     name: IMAGE_STREAM_TAG
-    value: "7.13.0"
+    value: "7.14.0"
     required: true
-  - displayName: KIE Server Persistence DS
-    description: KIE Server persistence datasource. (Sets the org.kie.server.persistence.ds system property)
-    name: KIE_SERVER_PERSISTENCE_DS
-    value: java:/jboss/datasources/rhpam
-    required: false
-## MySQL database parameters BEGIN
-  - displayName: MySQL ImageStream Namespace
-    description: Namespace in which the ImageStream for the MySQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
-    name: MYSQL_IMAGE_STREAM_NAMESPACE
-    value: "openshift"
-    required: false
-  - displayName: MySQL ImageStream Tag
-    description: The MySQL image version, which is intended to correspond to the MySQL version. Default is "8.0".
-    name: MYSQL_IMAGE_STREAM_TAG
-    value: "8.0"
-    required: false
-  - displayName: KIE Server MySQL Database User
-    description: KIE Server MySQL database user name.
-    name: KIE_SERVER_MYSQL_USER
-    value: rhpam
-    required: false
-  - displayName: KIE Server MySQL Database Password
-    description: KIE Server MySQL database password.
-    name: KIE_SERVER_MYSQL_PWD
-    from: "[a-zA-Z]{6}[0-9]{1}!"
-    generate: expression
-    required: false
-  - displayName: KIE Server MySQL Database Name
-    description: KIE Server MySQL database name.
-    name: KIE_SERVER_MYSQL_DB
-    value: rhpam7
-    required: false
-  - displayName: Database Volume Capacity
-    description: Size of persistent storage for the database volume.
-    name: DB_VOLUME_CAPACITY
-    value: 1Gi
-    required: true
-  - displayName: KIE Server MySQL Dialect
-    description: KIE Server MySQL Hibernate dialect.
-    name: KIE_SERVER_MYSQL_DIALECT
-    value: org.hibernate.dialect.MySQL8Dialect
-    required: true
-## MySQL database parameters END
   - displayName: KIE Server Mode
     description: "The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property)."
     name: KIE_SERVER_MODE
@@ -138,6 +95,11 @@ parameters:
     name: DROOLS_SERVER_FILTER_CLASSES
     value: 'true'
     required: false
+  - displayName: KIE Server with Decision only capabilities
+    description: 'KIE Server capabilities filtering to disable everything that it is not related to decisions (i.e jBPM and case management)'
+    name: KIE_SERVER_DECISIONS_ONLY
+    value: 'true'
+    required: false
   - displayName: Prometheus Server Extension Disabled
     description: If set to false, the prometheus server extension will be enabled. (Sets the org.kie.prometheus.server.ext.disabled system property)
     name: PROMETHEUS_SERVER_EXT_DISABLED
@@ -149,7 +111,7 @@ parameters:
     value: ''
     required: false
   - displayName: KIE Server Custom https Route Hostname
-    description: 'Custom hostname for https service route.  Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
+    description: 'Custom hostname for https service route. Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
     name: KIE_SERVER_HOSTNAME_HTTPS
     value: ''
     required: false
@@ -178,18 +140,13 @@ parameters:
     name: KIE_SERVER_BYPASS_AUTH_USER
     value: 'false'
     required: false
-  - displayName: "Timer service data store refresh interval (in milliseconds)"
-    description: "Sets refresh-interval for the EJB timer database data-store service."
-    name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
-    value: '30000'
-    required: false
   - displayName: KIE Server Container Memory Limit
     description: KIE Server Container memory limit.
     name: KIE_SERVER_MEMORY_LIMIT
     value: 2Gi
     required: true
   - displayName: KIE Server Container Memory Request
-    description: KIE Server Container memory request.
+    description: KIE Server Container memory Request.
     name: KIE_SERVER_MEMORY_REQUEST
     value: 1536Mi
     required: true
@@ -199,17 +156,17 @@ parameters:
     value: '1'
     required: true
   - displayName: KIE Server Container CPU Request
-    description: KIE Server Container CPU request.
+    description: KIE Server Container CPU Request.
     name: KIE_SERVER_CPU_REQUEST
     value: '750m'
     required: true
   - displayName: KIE Server Container Deployment
     description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
     name: KIE_SERVER_CONTAINER_DEPLOYMENT
-    example: rhpam-kieserver-library=org.openshift.quickstarts:rhpam-kieserver-library:1.6.0-SNAPSHOT
+    example: rhdm-kieserver-library=org.openshift.quickstarts:rhdm-kieserver-library:1.6.0-SNAPSHOT
     required: false
   - displayName: Disable KIE Server Management
-    description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
+    description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped. Sets the property org.kie.server.mgmt.api.disabled to true and org.kie.server.startup.strategy to LocalContainersStartupStrategy."
     name: KIE_SERVER_MGMT_DISABLED
     example: "true"
     required: false
@@ -227,12 +184,12 @@ parameters:
     name: KIE_SERVER_SSO_CLIENT
     required: false
   - displayName: KIE Server RH-SSO Client Secret
-    description: KIE Server RH-SSO Client Secret.
+    description: KIE Server RH-SSO Client Secret
     name: KIE_SERVER_SSO_SECRET
     example: "252793ed-7118-4ca8-8dab-5622fa97d892"
     required: false
   - displayName: RH-SSO Realm admin user name
-    description: RH-SSO Realm admin user name for creating the Client if it doesn't exist.
+    description: RH-SSO Realm admin user name used to create the Client if it doesn't exist.
     name: SSO_USERNAME
     required: false
   - displayName: RH-SSO Realm Admin Password
@@ -339,11 +296,11 @@ parameters:
     name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
     required: false
   - displayName: Role Mapper Keep Mapped
-    description: When set to 'true' the mapped roles will retain all roles, that have defined mappings.
+    description: When set to 'true' the mapped roles will retain all roles, that have defined mappings. Defaults to false.
     name: AUTH_LDAP_MAPPER_KEEP_MAPPED
     required: false
   - displayName: Role Mapper Keep Non Mapped
-    description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings.
+    description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings. Defaults to false.
     name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
     required: false
 objects:
@@ -387,23 +344,6 @@ objects:
         service: "${APPLICATION_NAME}-kieserver"
       annotations:
         description: All the KIE Server web server's ports.
-## MySQL service BEGIN
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      annotations:
-        description: The database server's port.
-      labels:
-        application: ${APPLICATION_NAME}
-        service: "${APPLICATION_NAME}-mysql"
-      name: ${APPLICATION_NAME}-mysql
-    spec:
-      ports:
-        - port: 3306
-          targetPort: 3306
-      selector:
-        deploymentConfig: ${APPLICATION_NAME}-mysql
-## MySQL service END
   - kind: Route
     apiVersion: v1
     id: "insecure-${APPLICATION_NAME}-kieserver-http"
@@ -538,7 +478,7 @@ objects:
                   protocol: TCP
               env:
                 - name: WORKBENCH_SERVICE_NAME
-                  value: "${BUSINESS_CENTRAL_SERVICE}"
+                  value: "${DECISION_CENTRAL_SERVICE}"
                 - name: KIE_ADMIN_USER
                   valueFrom:
                     secretKeyRef:
@@ -555,6 +495,8 @@ objects:
                   value: "${KIE_MBEANS}"
                 - name: DROOLS_SERVER_FILTER_CLASSES
                   value: "${DROOLS_SERVER_FILTER_CLASSES}"
+                - name: KIE_SERVER_DECISIONS_ONLY
+                  value: "${KIE_SERVER_DECISIONS_ONLY}"
                 - name: PROMETHEUS_SERVER_EXT_DISABLED
                   value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
                 - name: KIE_SERVER_BYPASS_AUTH_USER
@@ -572,19 +514,19 @@ objects:
                 - name: MAVEN_MIRROR_OF
                   value: "${MAVEN_MIRROR_OF}"
                 - name: MAVEN_REPOS
-                  value: "RHPAMCENTR,EXTERNAL"
-                - name: RHPAMCENTR_MAVEN_REPO_ID
-                  value: "repo-rhpamcentr"
-                - name: RHPAMCENTR_MAVEN_REPO_SERVICE
-                  value: "${BUSINESS_CENTRAL_SERVICE}"
-                - name: RHPAMCENTR_MAVEN_REPO_PATH
+                  value: "RHDMCENTR,EXTERNAL"
+                - name: RHDMCENTR_MAVEN_REPO_ID
+                  value: "repo-rhdmcentr"
+                - name: RHDMCENTR_MAVEN_REPO_SERVICE
+                  value: "${DECISION_CENTRAL_SERVICE}"
+                - name: RHDMCENTR_MAVEN_REPO_PATH
                   value: "/maven2/"
-                - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+                - name: RHDMCENTR_MAVEN_REPO_USERNAME
                   valueFrom:
                     secretKeyRef:
                       name: "${CREDENTIALS_SECRET}"
                       key: KIE_ADMIN_USER
-                - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+                - name: RHDMCENTR_MAVEN_REPO_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: "${CREDENTIALS_SECRET}"
@@ -601,36 +543,6 @@ objects:
                   value: "${KIE_SERVER_MGMT_DISABLED}"
                 - name: KIE_SERVER_STARTUP_STRATEGY
                   value: "OpenShiftStartupStrategy"
-                - name: KIE_SERVER_PERSISTENCE_DS
-                  value: "${KIE_SERVER_PERSISTENCE_DS}"
-                - name: DATASOURCES
-                  value: "RHPAM"
-                - name: RHPAM_JNDI
-                  value: "${KIE_SERVER_PERSISTENCE_DS}"
-## MySQL driver settings BEGIN
-                - name: RHPAM_CONNECTION_CHECKER
-                  value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"
-                - name: RHPAM_EXCEPTION_SORTER
-                  value: "org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"
-                - name: RHPAM_DATABASE
-                  value: "${KIE_SERVER_MYSQL_DB}"
-                - name: RHPAM_DRIVER
-                  value: "mariadb"
-                - name: KIE_SERVER_PERSISTENCE_DIALECT
-                  value: "${KIE_SERVER_MYSQL_DIALECT}"
-                - name: RHPAM_USERNAME
-                  value: "${KIE_SERVER_MYSQL_USER}"
-                - name: RHPAM_PASSWORD
-                  value: "${KIE_SERVER_MYSQL_PWD}"
-                - name: RHPAM_SERVICE_HOST
-                  value: "${APPLICATION_NAME}-mysql"
-                - name: RHPAM_SERVICE_PORT
-                  value: "3306"
-## MySQL driver settings END
-                - name: RHPAM_JTA
-                  value: "true"
-                - name: TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL
-                  value: "${TIMER_SERVICE_DATA_STORE_REFRESH_INTERVAL}"
                 - name: HTTPS_KEYSTORE_DIR
                   value: "/etc/kieserver-secret-volume"
                 - name: HTTPS_KEYSTORE
@@ -713,103 +625,3 @@ objects:
             - name: kieserver-keystore-volume
               secret:
                 secretName: "${KIE_SERVER_HTTPS_SECRET}"
-          initContainers:
-            - command:
-                - /bin/bash
-                - '-c'
-                - >-
-                  replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); until "[" $replicas -gt 0 "]"; do echo waiting for ${APPLICATION_NAME}-mysql; replicas=$(oc get dc ${APPLICATION_NAME}-mysql -o=jsonpath='{.status.availableReplicas}'); sleep 2; done;
-              image: registry.redhat.io/openshift3/ose-cli
-              imagePullPolicy: IfNotPresent
-              name: ${APPLICATION_NAME}-mysql-init
-              terminationMessagePolicy: FallbackToLogsOnError
-## MySQL deployment config BEGIN
-  - kind: DeploymentConfig
-    apiVersion: v1
-    metadata:
-      name: "${APPLICATION_NAME}-mysql"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-mysql"
-      annotations:
-        template.alpha.openshift.io/wait-for-ready: "true"
-    spec:
-      strategy:
-        type: Recreate
-      triggers:
-        - type: ImageChange
-          imageChangeParams:
-            automatic: true
-            containerNames:
-              - "${APPLICATION_NAME}-mysql"
-            from:
-              kind: ImageStreamTag
-              namespace: "${MYSQL_IMAGE_STREAM_NAMESPACE}"
-              name: "mysql:${MYSQL_IMAGE_STREAM_TAG}"
-        - type: ConfigChange
-      replicas: 1
-      selector:
-        deploymentConfig: "${APPLICATION_NAME}-mysql"
-      template:
-        metadata:
-          name: "${APPLICATION_NAME}-mysql"
-          labels:
-            deploymentConfig: "${APPLICATION_NAME}-mysql"
-            application: "${APPLICATION_NAME}"
-            service: "${APPLICATION_NAME}-mysql"
-        spec:
-          terminationGracePeriodSeconds: 60
-          containers:
-            - name: "${APPLICATION_NAME}-mysql"
-              image: mysql
-              imagePullPolicy: Always
-              livenessProbe:
-                tcpSocket:
-                  port: 3306
-                initialDelaySeconds: 30
-                timeoutSeconds: 1
-              readinessProbe:
-                exec:
-                  command:
-                    - "/bin/sh"
-                    - "-i"
-                    - "-c"
-                    - "MYSQL_PWD=\"$MYSQL_PASSWORD\" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE -e 'SELECT 1'"
-                  port: 3306
-                initialDelaySeconds: 5
-                timeoutSeconds: 1
-              ports:
-                - containerPort: 3306
-                  protocol: TCP
-              volumeMounts:
-                - mountPath: "/var/lib/mysql/data"
-                  name: "${APPLICATION_NAME}-mysql-pvol"
-              env:
-                - name: MYSQL_USER
-                  value: "${KIE_SERVER_MYSQL_USER}"
-                - name: MYSQL_PASSWORD
-                  value: "${KIE_SERVER_MYSQL_PWD}"
-                - name: MYSQL_DATABASE
-                  value: "${KIE_SERVER_MYSQL_DB}"
-                - name: MYSQL_DEFAULT_AUTHENTICATION_PLUGIN
-                  value: "mysql_native_password"
-          volumes:
-            - name: "${APPLICATION_NAME}-mysql-pvol"
-              persistentVolumeClaim:
-                claimName: "${APPLICATION_NAME}-mysql-claim"
-## MySQL deployment config END
-## MySQL persistent volume claim BEGIN
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: "${APPLICATION_NAME}-mysql-claim"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-mysql"
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: "${DB_VOLUME_CAPACITY}"
-## MySQL persistent volume claim END

@@ -3,43 +3,45 @@ apiVersion: v1
 metadata:
   annotations:
     iconClass: icon-jboss
-    tags: rhpam,decision,jboss,authoring
-    version: "7.13"
-    openshift.io/display-name: Red Hat Process Automation Manager 7.13 authoring environment (non-HA, persistent, with https) for decisions.
+    tags: rhpam,processserver,jboss,trial,ephemeral
+    version: "7.14"
+    openshift.io/display-name: Red Hat Process Automation Manager 7.14 ephemeral trial environment
     openshift.io/provider-display-name: Red Hat, Inc.
-    description: Application template for a non-HA persistent authoring environment for decision, for Red Hat Process Automation Manager 7.13 - Deprecated
-    template.openshift.io/long-description: This template defines resources needed to develop and execute Rules on Red Hat Process Automation Manager 7.13, including application deployment configuration, secure and insecure http communication and a persistent volume to store data that needs to survive to a restart. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Decision Manager version 7.5; consider using the Red Hat Business Automation Operator.
-    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_a_red_hat_process_automation_manager_7.13_authoring_environment_on_red_hat_openshift_container_platform/
+    description: Application template for an ephemeral authoring and testing environment, for Red Hat Process Automation Manager 7.14 - Deprecated
+    template.openshift.io/long-description: This template defines resources needed for an ephemeral authoring and testing environment for Red Hat Process Automation Manager 7.14, including application deployment configuration, secure and insecure http communication. Template for Red Hat OpenShift Container Platform version 3.11. Deprecated since Red Hat Process Automation Manager version 7.5; consider using the Red Hat Business Automation Operator.
+    template.openshift.io/documentation-url: https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.14/html/deploying_a_red_hat_process_automation_manager_7.14_authoring_environment_on_red_hat_openshift_container_platform/
     template.openshift.io/support-url: https://access.redhat.com
     template.openshift.io/bindable: "false"
-  name: rhdm713-authoring
+  name: rhpam714-trial-ephemeral
 labels:
-  template: rhdm713-authoring
-  rhdm: "7.13"
+  template: rhpam714-trial-ephemeral
+  rhpam: "7.14"
 message: |-
-  A new persistent Process Automation Manager application for Decision has been created in your project.
-  The username/password needed for accessing the application are stored in "${CREDENTIALS_SECRET}" secret as
-  KIE_ADMIN_USER and KIE_ADMIN_PWD
+  A new Process Automation Manager trial environment has been created.
+  The user name/password for accessing the Business Central interface and calls to the KIE Server is
 
-  You must create the secret named "${CREDENTIALS_SECRET}" containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values and the secrets named "${BUSIDECISION_CENTRAL_HTTPS_SECRETNESS_CENTRAL_HTTPS_SECRET}" and "${KIE_SERVER_HTTPS_SECRET}"
-  containing the ${DECISION_CENTRAL_HTTPS_SECRET} and ${KIE_SERVER_HTTPS_KEYSTORE} files used for serving secure content.
+      User name: ${KIE_ADMIN_USER}
+      Password: ${DEFAULT_PASSWORD}
+
+  Please remember that this is an ephemeral environment and any work will be LOST with a simple pod restart.
 parameters:
   - displayName: Application Name
     description: The name for the application.
     name: APPLICATION_NAME
     value: myapp
     required: true
-  - displayName: Credentials secret
-    description: Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values.
-    name: CREDENTIALS_SECRET
-    example: rhpam-credentials
+  - displayName: Default Password
+    description: Default password used for multiple components for user convenience in this trial environment.
+    name: DEFAULT_PASSWORD
+    value: RedHat
     required: true
-  - displayName: KIE Server Controller Token
-    description: KIE Server controller token for bearer authentication. (Sets the org.kie.server.controller.token system property)
-    name: KIE_SERVER_CONTROLLER_TOKEN
+  - displayName: KIE Admin User
+    description: KIE administrator user name.
+    name: KIE_ADMIN_USER
+    value: adminUser
     required: false
   - displayName: KIE Server Bypass Auth User
-    description: Allows the KIE Server to bypass the authenticated user for task-related operations, for example, queries. (Sets the org.kie.server.bypass.auth.user system property)
+    description: Allows the KIE Server to bypass the authenticated user for task-related operations e.g. queries. (Sets the org.kie.server.bypass.auth.user system property)
     name: KIE_SERVER_BYPASS_AUTH_USER
     value: 'false'
     required: false
@@ -49,18 +51,13 @@ parameters:
     value: "DEVELOPMENT"
     required: false
   - displayName: KIE MBeans
-    description: KIE Server mbeans enabled/disabled (Sets the kie.mbeans and kie.scanner.mbeans system properties)
+    description: KIE Server mbeans enabled/disabled. (Sets the kie.mbeans and kie.scanner.mbeans system properties)
     name: KIE_MBEANS
     value: enabled
     required: false
   - displayName: Drools Server Filter Classes
-    description: KIE Server class filtering (Sets the org.drools.server.filter.classes system property)
+    description: KIE Server class filtering. (Sets the org.drools.server.filter.classes system property)
     name: DROOLS_SERVER_FILTER_CLASSES
-    value: 'true'
-    required: false
-  - displayName: KIE Server with Decisions only capabilities
-    description: 'KIE Server capabilities filtering to disable everything that it is not related to decisions (i.e jBPM and case management)'
-    name: KIE_SERVER_DECISIONS_ONLY
     value: 'true'
     required: false
   - displayName: Prometheus Server Extension Disabled
@@ -68,65 +65,40 @@ parameters:
     name: PROMETHEUS_SERVER_EXT_DISABLED
     example: 'false'
     required: false
-  - displayName: Decision Central Custom http Route Hostname
-    description: 'Custom hostname for http service route for Decision Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhdmcentr-<project>.<default-domain-suffix>'
-    name: DECISION_CENTRAL_HOSTNAME_HTTP
-    value: ''
-    required: false
-  - displayName: Decision Central Custom https Route Hostname
-    description: 'Custom hostname for https service route for Decision Central.  Leave blank for default hostname, e.g.: <application-name>-rhdmcentr-<project>.<default-domain-suffix>'
-    name: DECISION_CENTRAL_HOSTNAME_HTTPS
-    value: ''
-    required: false
   - displayName: KIE Server Custom http Route Hostname
-    description: 'Custom hostname for http service route for KIE Server. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
+    description: 'Custom hostname for http service route. Leave blank for default hostname, e.g.: insecure-<application-name>-kieserver-<project>.<default-domain-suffix>'
     name: KIE_SERVER_HOSTNAME_HTTP
     value: ''
     required: false
-  - displayName: KIE Server Custom https Route Hostname
-    description: 'Custom hostname for https service route for KIE Server.  Leave blank for default hostname, e.g.: <application-name>-kieserver-<project>.<default-domain-suffix>'
-    name: KIE_SERVER_HOSTNAME_HTTPS
+  - displayName: KIE Server Access-Control-Allow-Origin response header
+    description: Sets the Access-Control-Allow-Origin response header value in the KIE Server (useful for CORS support).
+    name: KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN
+    value: "*"
+    required: false
+  - displayName: KIE Server Access-Control-Allow-Methods response header
+    description: Sets the Access-Control-Allow-Methods response header value in the KIE Server (useful for CORS support).
+    name: KIE_SERVER_ACCESS_CONTROL_ALLOW_METHODS
+    value: "GET, POST, OPTIONS, PUT"
+    required: false
+  - displayName: KIE Server Access-Control-Allow-Headers response header
+    description: Sets the Access-Control-Allow-Headers response header value in the KIE Server (useful for CORS support).
+    name: KIE_SERVER_ACCESS_CONTROL_ALLOW_HEADERS
+    value: "Accept, Authorization, Content-Type, X-Requested-With"
+    required: false
+  - displayName: KIE Server Access-Control-Allow-Credentials response header
+    description: Sets the Access-Control-Allow-Credentials response header value in the KIE Server (useful for CORS support).
+    name: KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS
+    value: "true"
+    required: false
+  - displayName: KIE Server Access-Control-Max-Age response header
+    description: Sets the Access-Control-Max-Age response header value in the KIE Server (useful for CORS support).
+    name: KIE_SERVER_ACCESS_CONTROL_MAX_AGE
+    value: "1"
+    required: false
+  - displayName: Business Central Custom http Route Hostname
+    description: 'Custom hostname for http service route for Business Central. Leave blank for default hostname, e.g.: insecure-<application-name>-rhpamcentr-<project>.<default-domain-suffix>'
+    name: BUSINESS_CENTRAL_HOSTNAME_HTTP
     value: ''
-    required: false
-  - displayName: Decision Central Server Keystore Secret Name
-    description: The name of the secret containing the keystore file for Decision Central.
-    name: DECISION_CENTRAL_HTTPS_SECRET
-    example: decisioncentral-app-secret
-    required: true
-  - displayName: Decision Central Server Keystore Filename
-    description: The name of the keystore file within the secret.
-    name: DECISION_CENTRAL_HTTPS_KEYSTORE
-    value: keystore.jks
-    required: false
-  - displayName: Decision Central Server Certificate Name
-    description: The name associated with the server certificate.
-    name: DECISION_CENTRAL_HTTPS_NAME
-    value: jboss
-    required: false
-  - displayName: Decision Central Server Keystore Password
-    description: The password for the keystore and certificate.
-    name: DECISION_CENTRAL_HTTPS_PASSWORD
-    value: mykeystorepass
-    required: false
-  - displayName: KIE Server Keystore Secret Name
-    description: The name of the secret containing the keystore file.
-    name: KIE_SERVER_HTTPS_SECRET
-    example: kieserver-app-secret
-    required: true
-  - displayName: KIE Server Keystore Filename
-    description: The name of the keystore file within the secret.
-    name: KIE_SERVER_HTTPS_KEYSTORE
-    value: keystore.jks
-    required: false
-  - displayName: KIE Server Certificate Name
-    description: The name associated with the server certificate.
-    name: KIE_SERVER_HTTPS_NAME
-    value: jboss
-    required: false
-  - displayName: KIE Server Keystore Password
-    description: The password for the keystore and certificate.
-    name: KIE_SERVER_HTTPS_PASSWORD
-    value: mykeystorepass
     required: false
 ## OpenShift Enhancement BEGIN
   - displayName: Enable KIE Server global discovery
@@ -142,11 +114,11 @@ parameters:
   - displayName: KIE ServerTemplate Cache TTL
     description: KIE ServerTemplate Cache TTL in milliseconds. (Sets the org.kie.server.controller.template.cache.ttl system property)
     name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
-    value: "60000"
+    value: "5000"
     required: false
 ## OpenShift Enhancement END
   - displayName: ImageStream Namespace
-    description: Namespace in which the ImageStreams for Red Hat Decision Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStreams in a different namespace/project.
+    description: Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
     name: IMAGE_STREAM_NAMESPACE
     value: openshift
     required: true
@@ -156,21 +128,17 @@ parameters:
     value: "rhpam-kieserver-rhel8"
     required: true
   - displayName: ImageStream Tag
-    description: A named pointer to an image in an image stream. Default is "7.13.0".
+    description: A named pointer to an image in an image stream. Default is "7.14.0".
     name: IMAGE_STREAM_TAG
-    value: "7.13.0"
+    value: "7.14.0"
     required: true
-  - displayName: Maven mirror URL
-    description: Maven mirror that Decision Central and KIE Server must use. If you configure a mirror, this mirror must contain all artifacts that are required for building and deploying your services.
-    name: MAVEN_MIRROR_URL
-    required: false
-  - displayName: Maven mirror of
-    description: Maven mirror configuration for KIE Server.
-    name: MAVEN_MIRROR_OF
-    value: "external:*,!repo-rhdmcentr"
+  - displayName: KIE Server Container Deployment
+    description: 'KIE Server Container deployment configuration with optional alias. Format: containerId=groupId:artifactId:version|c2(alias2)=g2:a2:v2'
+    name: KIE_SERVER_CONTAINER_DEPLOYMENT
+    value: ''
     required: false
   - displayName: Maven repository ID
-    description: "The id to use for the maven repository. If set, it can be excluded from the optionally configured mirror by adding it to MAVEN_MIRROR_OF. For example: external:*,!repo-rhdmcentr,!repo-custom. If MAVEN_MIRROR_URL is set but MAVEN_MIRROR_ID is not set, an id will be generated randomly, but won't be usable in MAVEN_MIRROR_OF."
+    description: The id to use for the maven repository, if set. Default is generated randomly.
     name: MAVEN_REPO_ID
     value: repo-custom
     required: false
@@ -192,51 +160,16 @@ parameters:
     name: GIT_HOOKS_DIR
     example: /opt/kie/data/git/hooks
     required: false
-  - displayName: Decision Central Volume Capacity
-    description: Size of the persistent storage for Decision Central's runtime data.
-    name: DECISION_CENTRAL_VOLUME_CAPACITY
-    value: 1Gi
-    required: true
-  - displayName: Decision Central Container Memory Limit
-    description: Decision Central Container memory limit.
-    name: DECISION_CENTRAL_MEMORY_LIMIT
-    value: 4Gi
-    required: true
-  - displayName: Decision Central Container CPU Limit
-    description: Decision Central Container CPU limit.
-    name: DECISION_CENTRAL_CPU_LIMIT
-    value: "2"
-    required: true
-  - displayName: Decision Central Container Memory Request
-    description: Decision Central Container memory request.
-    name: DECISION_CENTRAL_MEMORY_REQUEST
-    value: 3Gi
-    required: true
-  - displayName: Decision Central Container CPU Request
-    description: Decision Central Container CPU request.
-    name: DECISION_CENTRAL_CPU_REQUEST
-    value: '1500m'
-    required: true
+  - displayName: Business Central Container Memory Limit
+    description: Business Central Container memory limit.
+    name: BUSINESS_CENTRAL_MEMORY_LIMIT
+    value: 2Gi
+    required: false
   - displayName: KIE Server Container Memory Limit
     description: KIE Server Container memory limit.
     name: KIE_SERVER_MEMORY_LIMIT
-    value: 2Gi
-    required: true
-  - displayName: KIE Server Container Memory Request
-    description: KIE Server Container memory Request.
-    name: KIE_SERVER_MEMORY_REQUEST
-    value: 1536Mi
-    required: true
-  - displayName: KIE Server Container CPU Limit
-    description: KIE Server Container CPU limit.
-    name: KIE_SERVER_CPU_LIMIT
-    value: '1'
-    required: true
-  - displayName: KIE Server Container CPU Request
-    description: KIE Server Container CPU Request.
-    name: KIE_SERVER_CPU_REQUEST
-    value: '750m'
-    required: true
+    value: 1Gi
+    required: false
   - displayName: RH-SSO URL
     description: RH-SSO URL.
     name: SSO_URL
@@ -246,13 +179,13 @@ parameters:
     description: RH-SSO Realm name.
     name: SSO_REALM
     required: false
-  - displayName: Decision Central RH-SSO Client name
-    description: Decision Central RH-SSO Client name
-    name: DECISION_CENTRAL_SSO_CLIENT
+  - displayName: Business Central RH-SSO Client name
+    description: Business Central RH-SSO Client name.
+    name: BUSINESS_CENTRAL_SSO_CLIENT
     required: false
-  - displayName: Decision Central RH-SSO Client Secret
-    description: Decision Central RH-SSO Client Secret.
-    name: DECISION_CENTRAL_SSO_SECRET
+  - displayName: Business Central RH-SSO Client Secret
+    description: Business Central RH-SSO Client Secret.
+    name: BUSINESS_CENTRAL_SSO_SECRET
     example: "252793ed-7118-4ca8-8dab-5622fa97d892"
     required: false
   - displayName: KIE Server RH-SSO Client name
@@ -265,7 +198,7 @@ parameters:
     example: "252793ed-7118-4ca8-8dab-5622fa97d892"
     required: false
   - displayName: RH-SSO Realm admin user name
-    description: RH-SSO Realm admin user name used to create the Client if it doesn't exist.
+    description: RH-SSO Realm admin user name for creating the Client if it doesn't exist.
     name: SSO_USERNAME
     required: false
   - displayName: RH-SSO Realm Admin Password
@@ -353,7 +286,7 @@ parameters:
     example: "1"
     required: false
   - displayName: LDAP Default role
-    description: A role included for all authenticated users
+    description: A role included for all authenticated users.
     name: AUTH_LDAP_DEFAULT_ROLE
     example: "user"
     required: false
@@ -372,29 +305,29 @@ parameters:
     name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
     required: false
   - displayName: Role Mapper Keep Mapped
-    description: When set to 'true' the mapped roles will retain all roles, that have defined mappings. Defaults to false.
+    description: When set to 'true' the mapped roles will retain all roles, that have defined mappings.
     name: AUTH_LDAP_MAPPER_KEEP_MAPPED
     required: false
   - displayName: Role Mapper Keep Non Mapped
-    description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings. Defaults to false.
+    description: When set to 'true' the mapped roles will retain all roles, that have no defined mappings.
     name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
     required: false
 objects:
   - kind: ServiceAccount
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}-rhdmsvc"
+      name: "${APPLICATION_NAME}-rhpamsvc"
       labels:
         application: "${APPLICATION_NAME}"
   - kind: RoleBinding
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}-rhdmsvc-edit"
+      name: "${APPLICATION_NAME}-rhpamsvc-edit"
       labels:
         application: "${APPLICATION_NAME}"
     subjects:
       - kind: ServiceAccount
-        name: "${APPLICATION_NAME}-rhdmsvc"
+        name: "${APPLICATION_NAME}-rhpamsvc"
     roleRef:
       name: edit
   - kind: Service
@@ -404,28 +337,21 @@ objects:
         - name: http
           port: 8080
           targetPort: 8080
-        - name: https
-          port: 8443
-          targetPort: 8443
       selector:
-        deploymentConfig: "${APPLICATION_NAME}-rhdmcentr"
+        deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
     metadata:
-      name: "${APPLICATION_NAME}-rhdmcentr"
+      name: "${APPLICATION_NAME}-rhpamcentr"
       labels:
         application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhdmcentr"
+        service: "${APPLICATION_NAME}-rhpamcentr"
       annotations:
-        description: All the Decision Central web server's ports.
+        description: All the Business Central web server's ports.
   - kind: Service
     apiVersion: v1
     spec:
       ports:
-        - name: http
-          port: 8080
+        - port: 8080
           targetPort: 8080
-        - name: https
-          port: 8443
-          targetPort: 8443
       selector:
         deploymentConfig: "${APPLICATION_NAME}-kieserver"
       sessionAffinity: ClientIP
@@ -441,40 +367,21 @@ objects:
         description: All the KIE Server web server's ports.
   - kind: Route
     apiVersion: v1
-    id: "insecure-${APPLICATION_NAME}-rhdmcentr-http"
+    id: "insecure-${APPLICATION_NAME}-rhpamcentr-http"
     metadata:
-      name: "insecure-${APPLICATION_NAME}-rhdmcentr"
+      name: "insecure-${APPLICATION_NAME}-rhpamcentr"
       labels:
         application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhdmcentr"
+        service: "${APPLICATION_NAME}-rhpamcentr"
       annotations:
-        description: Route for Decision Central's http service.
+        description: Route for Business Central's http service.
         haproxy.router.openshift.io/timeout: 1h
     spec:
-      host: "${DECISION_CENTRAL_HOSTNAME_HTTP}"
+      host: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
       to:
-        name: "${APPLICATION_NAME}-rhdmcentr"
+        name: "${APPLICATION_NAME}-rhpamcentr"
       port:
         targetPort: http
-  - kind: Route
-    apiVersion: v1
-    id: "${APPLICATION_NAME}-rhdmcentr-https"
-    metadata:
-      name: "${APPLICATION_NAME}-rhdmcentr"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhdmcentr"
-      annotations:
-        description: Route for Decision Central's https service.
-        haproxy.router.openshift.io/timeout: 1h
-    spec:
-      host: "${DECISION_CENTRAL_HOSTNAME_HTTPS}"
-      to:
-        name: ${APPLICATION_NAME}-rhdmcentr
-      port:
-        targetPort: https
-      tls:
-        termination: passthrough
   - kind: Route
     apiVersion: v1
     id: "insecure-${APPLICATION_NAME}-kieserver-http"
@@ -490,33 +397,13 @@ objects:
       host: "${KIE_SERVER_HOSTNAME_HTTP}"
       to:
         name: "${APPLICATION_NAME}-kieserver"
-      port:
-        targetPort: http
-  - kind: Route
-    apiVersion: v1
-    id: "${APPLICATION_NAME}-kieserver-https"
-    metadata:
-      name: "${APPLICATION_NAME}-kieserver"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-kieserver"
-      annotations:
-        description: Route for KIE Server's https service.
-    spec:
-      host: "${KIE_SERVER_HOSTNAME_HTTPS}"
-      to:
-        name: ${APPLICATION_NAME}-kieserver
-      port:
-        targetPort: https
-      tls:
-        termination: passthrough
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}-rhdmcentr"
+      name: "${APPLICATION_NAME}-rhpamcentr"
       labels:
         application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhdmcentr"
+        service: "${APPLICATION_NAME}-rhpamcentr"
       annotations:
         template.alpha.openshift.io/wait-for-ready: "true"
     spec:
@@ -527,7 +414,7 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - "${APPLICATION_NAME}-rhdmcentr"
+              - "${APPLICATION_NAME}-rhpamcentr"
             from:
               kind: ImageStreamTag
               namespace: "${IMAGE_STREAM_NAMESPACE}"
@@ -535,35 +422,24 @@ objects:
         - type: ConfigChange
       replicas: 1
       selector:
-        deploymentConfig: "${APPLICATION_NAME}-rhdmcentr"
+        deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
       template:
         metadata:
-          name: "${APPLICATION_NAME}-rhdmcentr"
+          name: "${APPLICATION_NAME}-rhpamcentr"
           labels:
-            deploymentConfig: "${APPLICATION_NAME}-rhdmcentr"
+            deploymentConfig: "${APPLICATION_NAME}-rhpamcentr"
             application: "${APPLICATION_NAME}"
-            service: "${APPLICATION_NAME}-rhdmcentr"
-            cluster: "jgrp.k8s.${APPLICATION_NAME}.rhdmcentr"
+            service: "${APPLICATION_NAME}-rhpamcentr"
         spec:
-          serviceAccountName: "${APPLICATION_NAME}-rhdmsvc"
+          serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
           terminationGracePeriodSeconds: 60
           containers:
-            - name: "${APPLICATION_NAME}-rhdmcentr"
+            - name: "${APPLICATION_NAME}-rhpamcentr"
               image: rhpam-businesscentral-rhel8
               imagePullPolicy: Always
               resources:
                 limits:
-                  memory: "${DECISION_CENTRAL_MEMORY_LIMIT}"
-                  cpu: "${DECISION_CENTRAL_CPU_LIMIT}"
-                requests:
-                  memory: "${DECISION_CENTRAL_MEMORY_REQUEST}"
-                  cpu: "${DECISION_CENTRAL_CPU_REQUEST}"
-              volumeMounts:
-                - name: decisioncentral-keystore-volume
-                  mountPath: "/etc/decisioncentral-secret-volume"
-                  readOnly: true
-                - name: "${APPLICATION_NAME}-rhdmcentr-pvol"
-                  mountPath: "/opt/kie/data"
+                  memory: "${BUSINESS_CENTRAL_MEMORY_LIMIT}"
               livenessProbe:
                 httpGet:
                   path: /rest/healthy
@@ -589,29 +465,18 @@ objects:
                 - name: http
                   containerPort: 8080
                   protocol: TCP
-                - name: https
-                  containerPort: 8443
-                  protocol: TCP
               env:
-                - name: APPLICATION_USERS_PROPERTIES
-                  value: "/opt/kie/data/configuration/application-users.properties"
-                - name: APPLICATION_ROLES_PROPERTIES
-                  value: "/opt/kie/data/configuration/application-roles.properties"
+                - name: WORKBENCH_ROUTE_NAME
+                  value: "insecure-${APPLICATION_NAME}-rhpamcentr"
                 - name: KIE_ADMIN_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_USER
+                  value: "${KIE_ADMIN_USER}"
                 - name: KIE_ADMIN_PWD
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_PWD
+                  value: "${DEFAULT_PASSWORD}"
                 - name: KIE_MBEANS
                   value: "${KIE_MBEANS}"
 ## OpenShift Enhancement BEGIN
                 - name: KIE_SERVER_CONTROLLER_OPENSHIFT_ENABLED
-                  value: "false"
+                  value: "true"
                 - name: KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED
                   value: "${KIE_SERVER_CONTROLLER_OPENSHIFT_GLOBAL_DISCOVERY_ENABLED}"
                 - name: KIE_SERVER_CONTROLLER_OPENSHIFT_PREFER_KIESERVER_SERVICE
@@ -619,12 +484,6 @@ objects:
                 - name: KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL
                   value: "${KIE_SERVER_CONTROLLER_TEMPLATE_CACHE_TTL}"
 ## OpenShift Enhancement END
-                - name: KIE_SERVER_CONTROLLER_TOKEN
-                  value: "${KIE_SERVER_CONTROLLER_TOKEN}"
-                - name: WORKBENCH_ROUTE_NAME
-                  value: "${APPLICATION_NAME}-rhdmcentr"
-                - name: MAVEN_MIRROR_URL
-                  value: "${MAVEN_MIRROR_URL}"
                 - name: MAVEN_REPO_ID
                   value: "${MAVEN_REPO_ID}"
                 - name: MAVEN_REPO_URL
@@ -635,20 +494,11 @@ objects:
                   value: "${MAVEN_REPO_PASSWORD}"
                 - name: GIT_HOOKS_DIR
                   value: "${GIT_HOOKS_DIR}"
-                - name: HTTPS_KEYSTORE_DIR
-                  value: "/etc/decisioncentral-secret-volume"
-                - name: HTTPS_KEYSTORE
-                  value: "${DECISION_CENTRAL_HTTPS_KEYSTORE}"
-                - name: HTTPS_NAME
-                  value: "${DECISION_CENTRAL_HTTPS_NAME}"
-                - name: HTTPS_PASSWORD
-                  value: "${DECISION_CENTRAL_HTTPS_PASSWORD}"
                 - name: KUBERNETES_NAMESPACE
                   valueFrom:
                     fieldRef:
+                      apiVersion: v1
                       fieldPath: metadata.namespace
-                - name: KUBERNETES_LABELS
-                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.rhdmcentr"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -656,9 +506,9 @@ objects:
                 - name: SSO_REALM
                   value: "${SSO_REALM}"
                 - name: SSO_SECRET
-                  value: "${DECISION_CENTRAL_SSO_SECRET}"
+                  value: "${BUSINESS_CENTRAL_SSO_SECRET}"
                 - name: SSO_CLIENT
-                  value: "${DECISION_CENTRAL_SSO_CLIENT}"
+                  value: "${BUSINESS_CENTRAL_SSO_CLIENT}"
                 - name: SSO_USERNAME
                   value: "${SSO_USERNAME}"
                 - name: SSO_PASSWORD
@@ -668,9 +518,7 @@ objects:
                 - name: SSO_PRINCIPAL_ATTRIBUTE
                   value: "${SSO_PRINCIPAL_ATTRIBUTE}"
                 - name: HOSTNAME_HTTP
-                  value: "${DECISION_CENTRAL_HOSTNAME_HTTP}"
-                - name: HOSTNAME_HTTPS
-                  value: "${DECISION_CENTRAL_HOSTNAME_HTTPS}"
+                  value: "${BUSINESS_CENTRAL_HOSTNAME_HTTP}"
                 - name: AUTH_LDAP_URL
                   value: "${AUTH_LDAP_URL}"
                 - name: AUTH_LDAP_LOGIN_MODULE
@@ -711,13 +559,6 @@ objects:
                   value: "${AUTH_LDAP_MAPPER_KEEP_MAPPED}"
                 - name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
                   value: "${AUTH_LDAP_MAPPER_KEEP_NON_MAPPED}"
-          volumes:
-            - name: decisioncentral-keystore-volume
-              secret:
-                secretName: "${DECISION_CENTRAL_HTTPS_SECRET}"
-            - name: "${APPLICATION_NAME}-rhdmcentr-pvol"
-              persistentVolumeClaim:
-                claimName: "${APPLICATION_NAME}-rhdmcentr-claim"
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -731,7 +572,10 @@ objects:
     spec:
       revisionHistoryLimit: 10
       strategy:
-        type: Recreate
+        rollingParams:
+          maxSurge: 100%
+          maxUnavailable: 0
+        type: Rolling
       triggers:
         - type: ImageChange
           imageChangeParams:
@@ -754,9 +598,8 @@ objects:
             application: "${APPLICATION_NAME}"
             service: "${APPLICATION_NAME}-kieserver"
             services.server.kie.org/kie-server-id: "${APPLICATION_NAME}-kieserver"
-            cluster: "jgrp.k8s.${APPLICATION_NAME}.kieserver"
         spec:
-          serviceAccountName: "${APPLICATION_NAME}-rhdmsvc"
+          serviceAccountName: "${APPLICATION_NAME}-rhpamsvc"
           terminationGracePeriodSeconds: 90
           containers:
             - name: "${APPLICATION_NAME}-kieserver"
@@ -776,14 +619,6 @@ objects:
               resources:
                 limits:
                   memory: "${KIE_SERVER_MEMORY_LIMIT}"
-                  cpu: "${KIE_SERVER_CPU_LIMIT}"
-                requests:
-                  memory: "${KIE_SERVER_MEMORY_REQUEST}"
-                  cpu: "${KIE_SERVER_CPU_REQUEST}"
-              volumeMounts:
-                - name: kieserver-keystore-volume
-                  mountPath: "/etc/kieserver-secret-volume"
-                  readOnly: true
               livenessProbe:
                 httpGet:
                   path: /services/rest/server/healthcheck
@@ -809,38 +644,23 @@ objects:
                 - name: http
                   containerPort: 8080
                   protocol: TCP
-                - name: https
-                  containerPort: 8443
-                  protocol: TCP
               env:
                 - name: WORKBENCH_SERVICE_NAME
-                  value: "${APPLICATION_NAME}-rhdmcentr"
+                  value: "${APPLICATION_NAME}-rhpamcentr"
                 - name: KIE_ADMIN_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_USER
+                  value: "${KIE_ADMIN_USER}"
                 - name: KIE_ADMIN_PWD
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_PWD
+                  value: "${DEFAULT_PASSWORD}"
                 - name: KIE_SERVER_MODE
                   value: "${KIE_SERVER_MODE}"
                 - name: KIE_MBEANS
                   value: "${KIE_MBEANS}"
                 - name: DROOLS_SERVER_FILTER_CLASSES
                   value: "${DROOLS_SERVER_FILTER_CLASSES}"
-                - name: KIE_SERVER_DECISIONS_ONLY
-                  value: "${KIE_SERVER_DECISIONS_ONLY}"
                 - name: PROMETHEUS_SERVER_EXT_DISABLED
                   value: "${PROMETHEUS_SERVER_EXT_DISABLED}"
                 - name: KIE_SERVER_BYPASS_AUTH_USER
                   value: "${KIE_SERVER_BYPASS_AUTH_USER}"
-                - name: KIE_SERVER_CONTROLLER_SERVICE
-                  value: "${APPLICATION_NAME}-rhdmcentr"
-                - name: KIE_SERVER_CONTROLLER_PROTOCOL
-                  value: "ws"
                 - name: KIE_SERVER_ID
                   valueFrom:
                     fieldRef:
@@ -848,29 +668,21 @@ objects:
                 - name: KIE_SERVER_ROUTE_NAME
                   value: "insecure-${APPLICATION_NAME}-kieserver"
                 - name: KIE_SERVER_STARTUP_STRATEGY
-                  value: "ControllerBasedStartupStrategy"
-                - name: MAVEN_MIRROR_URL
-                  value: "${MAVEN_MIRROR_URL}"
-                - name: MAVEN_MIRROR_OF
-                  value: "${MAVEN_MIRROR_OF}"
+                  value: "OpenShiftStartupStrategy"
+                - name: KIE_SERVER_CONTAINER_DEPLOYMENT
+                  value: "${KIE_SERVER_CONTAINER_DEPLOYMENT}"
                 - name: MAVEN_REPOS
-                  value: "RHDMCENTR,EXTERNAL"
-                - name: RHDMCENTR_MAVEN_REPO_ID
-                  value: "repo-rhdmcentr"
-                - name: RHDMCENTR_MAVEN_REPO_SERVICE
-                  value: "${APPLICATION_NAME}-rhdmcentr"
-                - name: RHDMCENTR_MAVEN_REPO_PATH
+                  value: "RHPAMCENTR,EXTERNAL"
+                - name: RHPAMCENTR_MAVEN_REPO_ID
+                  value: "repo-rhpamcentr"
+                - name: RHPAMCENTR_MAVEN_REPO_SERVICE
+                  value: "${APPLICATION_NAME}-rhpamcentr"
+                - name: RHPAMCENTR_MAVEN_REPO_PATH
                   value: "/maven2/"
-                - name: RHDMCENTR_MAVEN_REPO_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_USER
-                - name: RHDMCENTR_MAVEN_REPO_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: "${CREDENTIALS_SECRET}"
-                      key: KIE_ADMIN_PWD
+                - name: RHPAMCENTR_MAVEN_REPO_USERNAME
+                  value: "${KIE_ADMIN_USER}"
+                - name: RHPAMCENTR_MAVEN_REPO_PASSWORD
+                  value: "${DEFAULT_PASSWORD}"
                 - name: EXTERNAL_MAVEN_REPO_ID
                   value: "${MAVEN_REPO_ID}"
                 - name: EXTERNAL_MAVEN_REPO_URL
@@ -879,21 +691,11 @@ objects:
                   value: "${MAVEN_REPO_USERNAME}"
                 - name: EXTERNAL_MAVEN_REPO_PASSWORD
                   value: "${MAVEN_REPO_PASSWORD}"
-                - name: HTTPS_KEYSTORE_DIR
-                  value: "/etc/kieserver-secret-volume"
-                - name: HTTPS_KEYSTORE
-                  value: "${KIE_SERVER_HTTPS_KEYSTORE}"
-                - name: HTTPS_NAME
-                  value: "${KIE_SERVER_HTTPS_NAME}"
-                - name: HTTPS_PASSWORD
-                  value: "${KIE_SERVER_HTTPS_PASSWORD}"
                 - name: KUBERNETES_NAMESPACE
                   valueFrom:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: metadata.namespace
-                - name: KUBERNETES_LABELS
-                  value: "cluster=jgrp.k8s.${APPLICATION_NAME}.kieserver"
                 - name: SSO_URL
                   value: "${SSO_URL}"
                 - name: SSO_OPENIDCONNECT_DEPLOYMENTS
@@ -914,8 +716,6 @@ objects:
                   value: "${SSO_PRINCIPAL_ATTRIBUTE}"
                 - name: HOSTNAME_HTTP
                   value: "${KIE_SERVER_HOSTNAME_HTTP}"
-                - name: HOSTNAME_HTTPS
-                  value: "${KIE_SERVER_HOSTNAME_HTTPS}"
                 - name: AUTH_LDAP_URL
                   value: "${AUTH_LDAP_URL}"
                 - name: AUTH_LDAP_LOGIN_MODULE
@@ -946,8 +746,6 @@ objects:
                   value: "${AUTH_LDAP_ROLE_RECURSION}"
                 - name: AUTH_LDAP_DEFAULT_ROLE
                   value: "${AUTH_LDAP_DEFAULT_ROLE}"
-                - name: AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES
-                  value: "${AUTH_LDAP_NEW_IDENTITY_ATTRIBUTES}"
                 - name: AUTH_LDAP_REFERRAL_MODE
                   value: "${AUTH_LDAP_REFERRAL_MODE}"
                 - name: AUTH_ROLE_MAPPER_ROLES_PROPERTIES
@@ -956,20 +754,25 @@ objects:
                   value: "${AUTH_LDAP_MAPPER_KEEP_MAPPED}"
                 - name: AUTH_LDAP_MAPPER_KEEP_NON_MAPPED
                   value: "${AUTH_LDAP_MAPPER_KEEP_NON_MAPPED}"
-          volumes:
-            - name: kieserver-keystore-volume
-              secret:
-                secretName: "${KIE_SERVER_HTTPS_SECRET}"
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: "${APPLICATION_NAME}-rhdmcentr-claim"
-      labels:
-        application: "${APPLICATION_NAME}"
-        service: "${APPLICATION_NAME}-rhdmcentr"
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: "${DECISION_CENTRAL_VOLUME_CAPACITY}"
+                - name: FILTERS
+                  value: "AC_ALLOW_ORIGIN,AC_ALLOW_METHODS,AC_ALLOW_HEADERS,AC_ALLOW_CREDENTIALS,AC_MAX_AGE"
+                - name: AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_NAME
+                  value: "Access-Control-Allow-Origin"
+                - name: AC_ALLOW_ORIGIN_FILTER_RESPONSE_HEADER_VALUE
+                  value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_ORIGIN}"
+                - name: AC_ALLOW_METHODS_FILTER_RESPONSE_HEADER_NAME
+                  value: "Access-Control-Allow-Methods"
+                - name: AC_ALLOW_METHODS_FILTER_RESPONSE_HEADER_VALUE
+                  value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_METHODS}"
+                - name: AC_ALLOW_HEADERS_FILTER_RESPONSE_HEADER_NAME
+                  value: "Access-Control-Allow-Headers"
+                - name: AC_ALLOW_HEADERS_FILTER_RESPONSE_HEADER_VALUE
+                  value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_HEADERS}"
+                - name: AC_ALLOW_CREDENTIALS_FILTER_RESPONSE_HEADER_NAME
+                  value: "Access-Control-Allow-Credentials"
+                - name: AC_ALLOW_CREDENTIALS_FILTER_RESPONSE_HEADER_VALUE
+                  value: "${KIE_SERVER_ACCESS_CONTROL_ALLOW_CREDENTIALS}"
+                - name: AC_MAX_AGE_FILTER_RESPONSE_HEADER_NAME
+                  value: "Access-Control-Max-Age"
+                - name: AC_MAX_AGE_FILTER_RESPONSE_HEADER_VALUE
+                  value: "${KIE_SERVER_ACCESS_CONTROL_MAX_AGE}"

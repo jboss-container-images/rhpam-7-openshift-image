@@ -1,6 +1,6 @@
 # Red Hat Process Automation Manager 7 - Standalone Dashbuilder OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[Red Hat Process Automation Manager Dashbuilder 7.13 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[Red Hat Process Automation Manager Dashbuilder 7.14 container image]
 
 # License
 

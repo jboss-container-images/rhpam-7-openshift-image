@@ -32,7 +32,7 @@ The drivers images are based on the supported configurations for Red Hat Process
 | PosgtgreSQL | 10.1, 11.5, 10.1 Enterprise, 11.6 Enterprise   | postgresql-42.2.5.jar           |
 | Sybase      | 16.0                                           | jconn4-16.0_PL05.jar            |
 
-For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM713).
+For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM714).
 
 
 ## Extension Images
@@ -84,7 +84,7 @@ it as a point of start and any issue or wrong configuration can lead on issues w
 These extension images were designed to be used with RHPAM images but can be used with any other image since it supports
 s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information.
 
-We provide an external database [application template](../../rhpam713-kieserver-externaldb.yaml) ready to use the extension images.
+We provide an external database [application template](../../rhpam714-kieserver-externaldb.yaml) ready to use the extension images.
 
 To deploy it using any of the extension images, follow the steps below:
 
@@ -99,26 +99,26 @@ Note that, by default all application templates and imagestreams are installed u
 - verify if the external-db template is available on the **openshift** namespace:
 
   ```bash
-    oc get templates -n openshift | grep rhpam713-kieserver-externaldb
+    oc get templates -n openshift | grep rhpam714-kieserver-externaldb
   ```
 
 - if it does not return the template, you will need to install the template on OpenShift, the recommended namespace
 to install it is **openshift** but feel free to install it on the preferred namespace.
 
    ```bash
-     oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam713-kieserver-externaldb.yaml
+     oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam714-kieserver-externaldb.yaml
    ```
 
-- verify if the RHPAM 7.13 imagestreams are available:
+- verify if the RHPAM 7.14 imagestreams are available:
 
   ```bash
-    oc get imagestream -n openshift | grep rhpam | grep 7.13
+    oc get imagestream -n openshift | grep rhpam | grep 7.14
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
 
   ```bash
-    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam713-image-streams.yaml
+    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam714-image-streams.yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
@@ -192,7 +192,7 @@ To create a new app using a extension image, you can go through the OpenShift we
 create it using command line:
 
 ```bash
-$ oc new-app rhpam713-kieserver-externaldb \
+$ oc new-app rhpam714-kieserver-externaldb \
   -p MAVEN_REPO_URL=http://some.mave.repo \
   -p IMAGE_STREAM_NAMESPACE=rhpam-externaldb \
   -p CREDENTIALS_SECRET=rhpam-credentials \
