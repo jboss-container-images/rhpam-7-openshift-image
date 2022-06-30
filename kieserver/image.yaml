@@ -1,20 +1,20 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-kieserver-rhel8"
-description: "Red Hat Process Automation Manager Kie Server 7.13 container image"
+description: "IBM Business Automation Manager Open Editions Kie Server 7.13 container image"
 version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
     value: "rhpam-7-kieserver-rhel8-container"
   - name: "io.k8s.description"
-    value: "Platform for running Red Hat Process Automation Manager KIE server"
+    value: "Platform for running IBM Business Automation Manager Open Editions KIE server"
   - name: "io.k8s.display-name"
-    value: "Red Hat Process Automation Manager KIE server 7.13"
+    value: "IBM Business Automation Manager Open Editions KIE server 7.13"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
-    value: "builder,javaee,eap,eap7,rhpam,rhpam7"
+    value: "builder,javaee,eap,eap7,rhpam,rhpam7,bamoe"
   - name: "io.openshift.s2i.scripts-url"
     value: "image:///usr/local/s2i"
 envs:

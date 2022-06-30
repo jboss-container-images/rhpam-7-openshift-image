@@ -1,4 +1,4 @@
-## Red Hat Process Automation Manager SmartRouter Extension Example
+## IBM Business Automation Manager Open Editions SmartRouter Extension Example
 
 Note: this is the development branch, the target images might not be available here, instead you can look at the [release branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/router-ext)
 

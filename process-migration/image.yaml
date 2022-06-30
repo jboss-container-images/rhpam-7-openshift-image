@@ -1,20 +1,20 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-process-migration-rhel8"
-description: "Red Hat Process Automation Manager Process Migration 7.13 container image"
+description: "IBM Business Automation Manager Open Editions Process Migration 7.13 container image"
 version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
     value: "rhpam-7-process-migration-rhel8-container"
   - name: "io.k8s.description"
-    value: "Platform for running Red Hat Process Automation Manager Process Migration"
+    value: "Platform for running IBM Business Automation Manager Open Editions Process Migration"
   - name: "io.k8s.display-name"
     value: "Red Hat Process Automation Manager Process Migration 7.13"
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "io.openshift.tags"
-    value: "javaee,rhpam,rhpam7,quarkus"
+    value: "javaee,rhpam,rhpam7,quarkus,bamoe"
 envs:
   - name: "SCRIPT_DEBUG"
     example: "true"

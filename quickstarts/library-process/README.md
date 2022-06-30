@@ -1,4 +1,4 @@
-## Red Hat Process Automation Manager Kie Server Quickstart
+## IBM Business Automation Manager Open Editions Kie Server Quickstart
 
 Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/library-process)
 

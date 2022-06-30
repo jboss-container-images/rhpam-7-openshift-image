@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: rhpam713-image-streams
   annotations:
-    description: ImageStream definitions for Red Hat Process Automation Manager 7.13
+    description: ImageStream definitions for IBM Business Automation Manager Open Editions 7.13
     openshift.io/provider-display-name: Red Hat, Inc.
 items:
   - kind: ImageStream

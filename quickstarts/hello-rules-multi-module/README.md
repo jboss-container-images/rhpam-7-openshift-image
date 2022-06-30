@@ -1,4 +1,4 @@
-## Red Hat Process Automation Manager KIE Server decisions Quickstart - Multi module
+## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart - Multi module
 
 This quickstart is intended to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
 

@@ -1,7 +1,7 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-smartrouter-rhel8"
-description: "Red Hat Process Automation Manager Smart Router 7.13 container image"
+description: "IBM Business Automation Manager Open Editions Smart Router 7.13 container image"
 version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
@@ -14,7 +14,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "9000:http"
   - name: "io.openshift.tags"
-    value: "javaee,rhpam,rhpam7"
+    value: "javaee,rhpam,rhpam7,bamoe"
 envs:
   - name: "SCRIPT_DEBUG"
     example: "true"

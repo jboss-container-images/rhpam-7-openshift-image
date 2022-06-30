@@ -1,6 +1,6 @@
 # JBoss KIE JDBC Driver Extension Images
 
-This repo provides an easy way to build your own JDBC extension driver images to use within Red Hat Process Automation Manager images
+This repo provides an easy way to build your own JDBC extension driver images to use within IBM Business Automation Manager Open Editions images
 on OpenShift.
 
 ## About the extension image
@@ -19,7 +19,7 @@ It adds a extra layer on top of the base image which contains:
 - the install.sh script which is responsible to configure the JBoss module: [install.sh](modules/kie-custom-jdbc-driver/added/install.sh)
 
 
-The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
+The drivers images are based on the supported configurations for IBM Business Automation Manager Open Editions, which are:
 
 
 | Database    | DB Version                                     | JDBC Driver jar/version         |

@@ -1,7 +1,7 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-businesscentral-monitoring-rhel8"
-description: "Red Hat Business Central Monitoring 7.13 OpenShift container image"
+description: "IBM Business Automation Manager Open Editions Business Central Monitoring 7.13 OpenShift container image"
 version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
@@ -14,7 +14,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
-    value: "javaee,eap,eap7,rhpam,rhpam7"
+    value: "javaee,eap,eap7,rhpam,rhpam7,bamoe"
 envs:
   - name: "CONFIG_ADJUSTMENT_MODE"
     value: "xml"
