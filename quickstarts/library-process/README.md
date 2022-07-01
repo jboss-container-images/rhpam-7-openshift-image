@@ -1,8 +1,8 @@
 ## IBM Business Automation Manager Open Editions Kie Server Quickstart
 
-Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/library-process)
+Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/library-process)
 
-This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intend to be used with the [IBM BAMOE Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
 
 ## How to use it?
 
@@ -18,7 +18,7 @@ $ oc login https://<your_openshift_address>:<port>
 $ oc new-project rhpam-kieserver
 ```
 
-Make sure you have the RHPAM template installed in your OpenShift Instance:
+Make sure you have the IBM BAMOE template installed in your OpenShift Instance:
 ```bash
 $ oc get template rhpam713-prod-immutable-kieserver -n openshift
 Error from server (NotFound): templates.template.openshift.io "rhpam713-prod-immutable-kieserver" not found

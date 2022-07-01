@@ -6,7 +6,7 @@ version: "7.13.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "rhpam-7-controller-rhel8-container"
+    value: "ibm-bamoe-7-controller-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Standalone Controller"
   - name: "io.k8s.display-name"

@@ -1,8 +1,8 @@
 ## IBM Business Automation Manager Open Editions SmartRouter Extension Example
 
-Note: this is the development branch, the target images might not be available here, instead you can look at the [release branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/router-ext)
+Note: this is the development branch, the target images might not be available here, instead you can look at the [release branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/router-ext)
 
-Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/smartrouter) image.
+Use this quick start guide with the [IBM BAMOE SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
@@ -137,7 +137,7 @@ INFO: KieServerRouter started on :9000 at Tue Sep 01 20:23:08 UTC 2020
 Smart Router image.
 
 
-## Deploying the custom image on OpenShift using RHPAM Operator.
+## Deploying the custom image on OpenShift using IBM BAMOE Operator.
 
 For this tutorial, I'll be using the CodeReady Containers.
 For instructions about installing CodeReady Containers, see [Install OpenShift on a laptop with CodeReady Containers](https://cloud.redhat.com/openshift/install/crc/installer-provisioned?intcmp=7013a000002CtetAAC)

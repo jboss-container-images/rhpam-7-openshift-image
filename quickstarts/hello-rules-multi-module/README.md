@@ -1,6 +1,6 @@
 ## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart - Multi module
 
-This quickstart is intended to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
 
 ## How to use it?
 
@@ -21,7 +21,7 @@ Now using project "rhpam" on server "https://ocp-main.mycloud.com:8443".
 ```
 
 
-Make sure you have the RHPAM template installed in your OpenShift Instance:
+Make sure you have the IBM BAMOE template installed in your OpenShift Instance:
 ```bash
 $ oc get template rhdm713-prod-immutable-kieserver -n openshift
 Error from server (NotFound): templates "rhdm713-prod-immutable-kieserver" not found
@@ -39,7 +39,7 @@ $ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-
 $ oc new-app example-app-secret -p SECRET_NAME=decisioncentral-app-secret
 ```
 
-Before proceed, make sure you have the RHPAM imagestreams available under the 'openshift' namespace.
+Before proceed, make sure you have the IBM BAMOE imagestreams available under the 'openshift' namespace.
 ```bash
 $ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 7.13
 Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
@@ -78,7 +78,7 @@ $ oc new-app rhdm713-prod-immutable-kieserver \
 ```
 
 
-Now you can deploy the [hellorules-client](hellorules-client) in the same or another project and test RHPAM KIE Server container.
+Now you can deploy the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
 
 To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog, 
 if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 
