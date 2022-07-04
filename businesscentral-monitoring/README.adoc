@@ -1,4 +1,4 @@
-# IBM Business Automation Manager Open Editions 7 - Business Central Monitoring OpenShift container image
+# IBM Business Automation Manager Open Editions 8.0 - Business Central Monitoring OpenShift container image
 
 NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/businesscentral-monitoring[Red Hat Business Central Monitoring 7.13 container image]
 
