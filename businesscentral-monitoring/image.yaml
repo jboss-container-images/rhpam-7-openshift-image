@@ -8,7 +8,7 @@ labels:
   - name: "com.redhat.component"
     value: "ibm-bamoe-7-businesscentral-monitoring-rhel8-container"
   - name: "io.k8s.description"
-    value: "Platform for running IBM Business Automation Manager Open Editions Business Central Monitoring"
+    value: "Platform for running IBM Business Central Monitoring"
   - name: "io.k8s.display-name"
     value: "IBM Business Central Monitoring 7.13"
   - name: "io.openshift.expose-services"
