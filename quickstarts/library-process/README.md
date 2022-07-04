@@ -46,7 +46,7 @@ Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-r
 
  If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam713-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/ibm-bamoe8-image-streams..yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information

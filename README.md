@@ -1,7 +1,7 @@
 # IBM Business Automation Manager Open Editions 8 OpenShift images
 
 This repository contains all the image descriptors and files necessary to build the IBM BAMOE images.
-It also includes the application templates, however they are deprecated in 7.13. Using the Red Hat Business Automation Operator is recommended.
+It also includes the application templates, however they are deprecated in 8.0. Using the Red Hat Business Automation Operator is recommended.
 
 
 ### Repo structure:
@@ -35,7 +35,7 @@ Inside each image directory you will find the following files:
 On the root directory you can also find the two files:
 
  - [example-app-secret-template.yaml](example-app-secret-template.yaml): Contains a https certificate to be used as example where https is required.
- - [rhpam-image-streams.yaml](rhpam713-image-streams.yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
+ - [ibm-bamoe-image-streams.yaml](ibm-bamoe8-image-streams..yaml): imagestreams definitions, file used to install the product image streams on OpenShift, this files contains the image stream name and the registry the image will be pulled of.
 
 
 This repo depends directly on 5 repositories, which are:
@@ -113,7 +113,7 @@ With this Makefile you can:
 
 #### Generate Application Templates docs
 
-The scripts needed to generate the adocs can be found [here](https://github.com/jboss-container-images/jboss-kie-modules/tree/main/tools/gen-template-doc).
+The scripts needed to generate the adocs can be found [here](https://github.com/jboss-container-images/jboss-kie-modules/tree/7.13.x-blue/tools/gen-template-doc).
 To generate the adocs using the current branch use:
 
 ```bash

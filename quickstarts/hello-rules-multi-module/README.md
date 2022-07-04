@@ -41,7 +41,7 @@ $ oc new-app example-app-secret -p SECRET_NAME=decisioncentral-app-secret
 
 Before proceed, make sure you have the IBM BAMOE imagestreams available under the 'openshift' namespace.
 ```bash
-$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 7.13
+$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 8.0
 Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
 ```
 If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:

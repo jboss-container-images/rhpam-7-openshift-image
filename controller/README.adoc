@@ -1,6 +1,6 @@
 # IBM Business Automation Manager Open Editions 8 - Standalone Controller OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[IBM Business Automation Manager Open Editions Standalone Controller 7.13 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[IBM Business Automation Manager Open Editions Standalone Controller 8.0 container image]
 
 # License
 

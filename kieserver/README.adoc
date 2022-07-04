@@ -1,6 +1,6 @@
 # IBM Business Automation Manager Open Editions 7 - Kie Server OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/kieserver[IBM Business Automation Manager Open Editions Execution Server 7.13 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/kieserver[IBM Business Automation Manager Open Editions Execution Server 8.0 container image]
 
 # License
 

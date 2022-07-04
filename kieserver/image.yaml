@@ -1,8 +1,8 @@
 schema_version: 1
 
 name: "rhpam-7/rhpam-kieserver-rhel8"
-description: "IBM Kie Server 7.13 container image"
-version: "7.13.0"
+description: "IBM Kie Server 8.0 container image"
+version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
@@ -10,7 +10,7 @@ labels:
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions KIE server"
   - name: "io.k8s.display-name"
-    value: "IBM KIE server 7.13"
+    value: "IBM KIE server 8.0"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"

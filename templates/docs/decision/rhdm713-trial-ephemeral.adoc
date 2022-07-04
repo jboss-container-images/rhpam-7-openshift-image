@@ -9,7 +9,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Application template for an ephemeral authoring and testing environment for decision, for Red Hat Process Automation Manager 7.13 - Deprecated
+Application template for an ephemeral authoring and testing environment for decision, for Red Hat Process Automation Manager 8.0 - Deprecated
 
 toc::[]
 

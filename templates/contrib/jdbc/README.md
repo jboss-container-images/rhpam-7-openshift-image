@@ -111,16 +111,16 @@ to install it is **openshift** but feel free to install it on the preferred name
      oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam713-kieserver-externaldb.yaml
    ```
 
-- verify if the IBM BAMOE 7.13 imagestreams are available:
+- verify if the IBM BAMOE 8.0 imagestreams are available:
 
   ```bash
-    oc get imagestream -n openshift | grep rhpam | grep 7.13
+    oc get imagestream -n openshift | grep rhpam | grep 8.0
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
 
   ```bash
-    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam713-image-streams.yaml
+    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/8.0.x-blue/ibm-bamoe8-image-streams..yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
