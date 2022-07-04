@@ -1,4 +1,4 @@
-# IBM Business Automation Manager Open Editions 7 - Standalone Dashbuilder OpenShift container image
+# IBM Business Automation Manager Open Editions 8 - Standalone Dashbuilder OpenShift container image
 
 NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[IBM Business Automation Manager Open Editions Dashbuilder 7.13 container image]
 
