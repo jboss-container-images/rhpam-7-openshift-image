@@ -10,7 +10,7 @@ labels:
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Standalone Controller"
   - name: "io.k8s.display-name"
-    value: "IBM Standalone Controller 7.13"
+    value: "IBM Standalone Controller 8.0"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"

@@ -40,7 +40,7 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 Before proceed, make sure you have the RHDM imagestreams available under the 'openshift' namespace.
 
 ```bash
-$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 7.13
+$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 8.0
 Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
 ```
 
