@@ -6,7 +6,7 @@ version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-7-dashbuilder-rhel8-container"
+    value: "ibm-bamoe-8-dashbuilder-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Standalone Dashbuilder"
   - name: "io.k8s.display-name"
@@ -14,7 +14,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
-    value: "javaee,eap,eap7,rhpam,rhpam7,dashbuilder,bamoe"
+    value: "javaee,eap,eap7,rhpam8,dashbuilder,ibm-bamoe"
 envs:
   - name: "CONFIG_ADJUSTMENT_MODE"
     value: "xml"
@@ -112,7 +112,7 @@ modules:
       version: "7.4-latest"
     - name: jboss.container.eap.setup
     - name: dynamic-resources
-    - name: rhpam-7-dashbuilder
+    - name: rhpam-8-dashbuilder
     - name: jboss.container.jolokia.bash
     # TODO move the standalone.conf from cd.jolokia module to another place.
     - name: jboss.eap.cd.jolokia

@@ -6,7 +6,7 @@ version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-7-kieserver-rhel8-container"
+    value: "ibm-bamoe-8-kieserver-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions KIE server"
   - name: "io.k8s.display-name"
@@ -14,7 +14,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
-    value: "builder,javaee,eap,eap7,rhpam,rhpam7,bamoe"
+    value: "builder,javaee,eap,eap7,rhpam8,ibm-bamoe"
   - name: "io.openshift.s2i.scripts-url"
     value: "image:///usr/local/s2i"
 envs:
@@ -304,7 +304,7 @@ modules:
     - name: eap-74-latest
       version: "7.4-latest"
     - name: jboss.container.eap.setup
-    - name: rhpam-7-kieserver
+    - name: rhpam-8-kieserver
     - name: jboss.container.maven.36.bash
       version: "3.6"
     - name: jboss.container.maven.default.bash
