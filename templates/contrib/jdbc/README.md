@@ -120,7 +120,7 @@ to install it is **openshift** but feel free to install it on the preferred name
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
 
   ```bash
-    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/8.0.x-blue/ibm-bamoe8-image-streams..yaml
+    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.13.x-blue/ibm-bamoe8-image-streams.yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)

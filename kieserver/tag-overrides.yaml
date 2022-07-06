@@ -31,4 +31,4 @@ modules:
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: rhpam-8.0.0.GA
+        ref: bamoe-8.0.0.GA

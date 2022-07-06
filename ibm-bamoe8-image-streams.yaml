@@ -1,23 +1,23 @@
 kind: ImageStreamList
 apiVersion: v1
 metadata:
-  name: ibm-bamoe8-image-streams.
+  name: ibm-bamoe8-image-streams
   annotations:
     description: ImageStream definitions for IBM Business Automation Manager Open Editions 8.0
-    openshift.io/provider-display-name: Red Hat, Inc.
+    openshift.io/provider-display-name: IBM, Inc.
 items:
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-businesscentral-rhel8
+      name: bamoe-businesscentral-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Business Central 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Business Central 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Business Central image.
+            description: IBM Process Automation Manager 8.0 - Business Central image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -26,19 +26,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-businesscentral-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-businesscentral-monitoring-rhel8
+      name: bamoe-businesscentral-monitoring-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Business Central Monitoring 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Business Central Monitoring 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Business Central Monitoring image.
+            description: IBM Process Automation Manager 8.0 - Business Central Monitoring image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -47,19 +47,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-businesscentral-monitoring-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-monitoring-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-controller-rhel8
+      name: bamoe-controller-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Standalone Controller 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Standalone Controller 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Standalone Controller image.
+            description: IBM Process Automation Manager 8.0 - Standalone Controller image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -68,19 +68,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-controller-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-controller-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-dashbuilder-rhel8
+      name: bamoe-dashbuilder-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Dashbuilder 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Dashbuilder 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Standalone Dashbuilder image.
+            description: IBM Process Automation Manager 8.0 - Standalone Dashbuilder image.
             iconClass: icon-jboss
             tags: ibm-bamoe,dashbuilder
             supports: ibm-bamoe:8.0
@@ -89,19 +89,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-dashbuilder-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-dashbuilder-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-kieserver-rhel8
+      name: bamoe-kieserver-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager KIE Server 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager KIE Server 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - KIE Server image.
+            description: IBM Process Automation Manager 8.0 - KIE Server image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -110,19 +110,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-kieserver-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-kieserver-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-smartrouter-rhel8
+      name: bamoe-smartrouter-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Smart Router 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Smart Router 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Smart Router image.
+            description: IBM Process Automation Manager 8.0 - Smart Router image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -131,19 +131,19 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.0
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: rhpam-process-migration-rhel8
+      name: bamoe-process-migration-rhel8
       annotations:
-        openshift.io/display-name: Red Hat Process Automation Manager Process Migration 8.0
-        openshift.io/provider-display-name: Red Hat, Inc.
+        openshift.io/display-name: IBM Process Automation Manager Process Migration 8.0
+        openshift.io/provider-display-name: IBM, Inc.
     spec:
       tags:
         - name: '8.0.0'
           annotations:
-            description: Red Hat Process Automation Manager 8.0 - Process Migration image.
+            description: IBM Process Automation Manager 8.0 - Process Migration image.
             iconClass: icon-jboss
             tags: ibm-bamoe
             supports: ibm-bamoe:8.0
@@ -152,4 +152,4 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.redhat.io/rhpam-7/rhpam-process-migration-rhel8:8.0.0
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-process-migration-rhel8:8.0.0

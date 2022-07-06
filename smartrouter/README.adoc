@@ -1,6 +1,6 @@
-# IBM Business Automation Manager Open Editions 7 - Smart Router OpenShift container image
+# IBM Business Automation Manager Open Editions 8 - Smart Router OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/smartrouter[Red Hat Process Automation Manager Smart Router 8.0 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/7.13.x-blue/smartrouter[RIBM Business Automation Manager Open Editions Smart Router 8.0 container image]
 
 # License
 
