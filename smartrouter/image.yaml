@@ -5,7 +5,7 @@ description: "IBM Smart Router 8.0 container image"
 version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-  - name: "com.ibm.component"
+  - name: "com.redhat.component"
     value: "ibm-bamoe-8-smartrouter-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Process Automation Manager Smart Router"

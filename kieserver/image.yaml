@@ -5,7 +5,7 @@ description: "IBM Kie Server 8.0 container image"
 version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-  - name: "com.ibm.component"
+  - name: "com.redhat.component"
     value: "ibm-bamoe-8-kieserver-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions KIE server"
