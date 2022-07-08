@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  validate-application-templates:
+  validate-application-imagestreams:
     docker:
     - image: circleci/buildpack-deps
     steps:
@@ -18,14 +18,6 @@ jobs:
         name: Print the openshift-validator-tool version
         command: |
           ./openshift-template-validator-linux-amd64 --version
-    - run:
-        name: Verify the RHPAM Process templates
-        command: |
-          ./openshift-template-validator-linux-amd64 validate -d templates/process
-    - run:
-        name: Verify the RHPAM Decisions templates
-        command: |
-          ./openshift-template-validator-linux-amd64 validate -d templates/decision
     - run:
         name: Verify IBM BAMOE imagestream
         command: |
@@ -75,5 +67,5 @@ jobs:
 workflows:
   build:
     jobs:
-      - validate-application-templates
+      - validate-application-imagestreams
       - validate-cekit-image-yaml-files

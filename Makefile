@@ -27,8 +27,3 @@ endif
 .PHONY: list-images
 list-images:
 	@for image in ${IMAGES} ; do echo $$image ; done
-
-
-.PHONY: generate_adocs
-generate_adocs:
-	bash scripts/generate-adocs.sh ${branch}

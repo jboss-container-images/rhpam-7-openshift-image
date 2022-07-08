@@ -81,53 +81,26 @@ Events:  <none>
 ```
 
 With the config-map created, you can now proceed with the container configuration. In this example there is only one KIE
-Server running. the steps are different depending on whether you use the `operator` or `application` templates to deploy
-the product.
+Server running.
 
-### Application Templates method:
-
-When using the `application templates` or an already running IBM BAMOE instance, with the config map created, mount it as
-a `volume` on the desired Deployment Config:
-
-```bash
-$ oc set volumes dc/myapp-kieserver --add  \
-    --configmap-name=postconfigure \
-    --mount-path=/opt/eap/extensions \
-    --default-mode=0555
-```
-
-Note: If the target *dc* is other than `myapp-kieserver` remember to update it to fit your needs. This change will make
-the running KIE Server be redeployed, after it starts again you should see a message similar to:
-
-```bash
-******  RUNNING ADDITIONAL CONFIGURATIONS WITH JBOSS-CLI - ADDING EXTRA ELYTRON USERS TO KIE FS REALM **********
-trying to execute /opt/eap/bin/jboss-cli.sh --file=/opt/eap/extensions/add-users.cli
-...
-some jboss logging output
-...
-The batch executed successfully
-15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: JBoss EAP 7.4.1.GA (WildFly Core 15.0.4.Final-redhat-00001) stopped in 40ms
-END - users added
-```
-
-### Operator method
+### Operator setup and usage
 
 To install the operator please follow the steps described in
-this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.12/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
+this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
 . After the operator installed and ready to use, you need to edit the `kieconfig-<current-version>`, in this
-case, `7.13.0`. With the operator already running in the current namespace, follow the steps below:
+case, `8.0.0`. With the operator already running in the current namespace, follow the steps below:
 
 - Create the [config-map](#creating-the-config-map) in the current namespace as described above.
-- Edit the `kieconfigs-7.13.0` config map, you can use either the OCP Web UI or the command line tool, in this example
+- Edit the `kieconfigs-8.0.0` config map, you can use either the OCP Web UI or the command line tool, in this example
   we'll use the command line tool:
 
   ```bash
-  $ oc edit cm kieconfigs-7.13.0
+  $ oc edit cm kieconfigs-8.0.0
   ```
 
 In this case, as we are going to update the KIE Server deployment, you need to update the `servers` section of the
 common.yaml content. If it was for `Business Central, Monitoring or Decision Central`, then the `console` section needs
-to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.13.0-dashbuilder` needs to be edited.
+to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-8.0.0-dashbuilder` needs to be edited.
 
 First, let's locate where is the `servers` section.
 
