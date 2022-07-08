@@ -376,7 +376,7 @@ def update_cekit_jdbc_extension_images(version, confirm):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='RHPAM Version Manager')
+    parser = argparse.ArgumentParser(description='IBM BAMOE Version Manager')
     parser.add_argument('-v', dest='t_version', help='update everything to the next version')
     parser.add_argument('--confirm', default=False, action='store_true', help='if not set, script will not update the '
                                                                               'rhpam modules. (Dry run)')

@@ -1,6 +1,6 @@
-# Red Hat Process Automation Manager 7 - Standalone Controller OpenShift container image
+# IBM Business Automation Manager Open Editions 8 - Standalone Controller OpenShift container image
 
-NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/main/controller[Red Hat Process Automation Manager Standalone Controller 7.13 container image]
+NOTE: Extends link:https://github.com/jboss-container-images/rhpam-7-image/tree/7.13.x-blue/controller[IBM Business Automation Manager Open Editions Standalone Controller 8.0 container image]
 
 # License
 

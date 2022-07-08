@@ -5,13 +5,12 @@ Container images based on JBoss EAP.
 
 The steps described on this quickstart will work on the following container images:
 
-- RHPAM KIE Server
-- RHDM KIE Server
+- IBM BAMOE KIE Server
 - Business Central
 - Business Central Monitoring
 - Decision Central
 - Dashbuilder
-- RHPAM/DM Controller
+- IBM BAMOE Controller
 
 Note: This procedure can be applied to any kind of post configure actions.
 
@@ -87,7 +86,7 @@ the product.
 
 ### Application Templates method:
 
-When using the `application templates` or an already running RHPAM instance, with the config map created, mount it as
+When using the `application templates` or an already running IBM BAMOE instance, with the config map created, mount it as
 a `volume` on the desired Deployment Config:
 
 ```bash
@@ -156,11 +155,11 @@ kind: KieApp
 metadata:
   name: rhpam-trial
   annotations:
-    consoleName: rhpam-trial
-    consoleTitle: PAM Trial
-    consoleDesc: Deploys a PAM Trial environment
+    consoleName: ibm-bamoe-trial
+    consoleTitle: IBM BAMOE Trial
+    consoleDesc: Deploys a IBM BAMOE Trial environment
 spec:
-  environment: rhpam-trial
+  environment: ibm-bamoe-trial
 ```
 
 Depending on the environment it could take a while until the volume is mounted and the pod started. After the KIE Server

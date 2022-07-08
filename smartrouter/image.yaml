@@ -1,20 +1,20 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam-smartrouter-rhel8"
-description: "Red Hat Process Automation Manager Smart Router 7.13 container image"
-version: "7.13.0"
+name: "ibm-bamoe/bamoe-smartrouter-rhel8"
+description: "IBM Smart Router 8.0 container image"
+version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-  - name: "com.redhat.component"
-    value: "rhpam-7-smartrouter-rhel8-container"
+  - name: "com.ibm.component"
+    value: "ibm-bamoe-8-smartrouter-rhel8-container"
   - name: "io.k8s.description"
-    value: "Platform for running Red Hat Process Automation Manager Smart Router"
+    value: "Platform for running IBM Business Automation Manager Open Editions Process Automation Manager Smart Router"
   - name: "io.k8s.display-name"
-    value: "Red Hat Process Automation Manager Smart Router 7.13"
+    value: "IBM Smart Router 8.0"
   - name: "io.openshift.expose-services"
     value: "9000:http"
   - name: "io.openshift.tags"
-    value: "javaee,rhpam,rhpam7"
+    value: "javaee,rhpam7,ibm-bamoe"
 envs:
   - name: "SCRIPT_DEBUG"
     example: "true"
@@ -105,7 +105,7 @@ modules:
     - name: jboss.container.openjdk.jdk
       version: "11"
     - name: dynamic-resources
-    - name: rhpam-7-smartrouter
+    - name: ibm-bamoe-8-smartrouter
     - name: jboss.container.util.logging.bash
     - name: os-eap-python
       version: "3.6"
@@ -124,4 +124,4 @@ osbs:
 run:
   user: 185
   cmd:
-    - "/opt/rhpam-smartrouter/openshift-launch.sh"
+    - "/opt/ibm-bamoe-smartrouter/openshift-launch.sh"

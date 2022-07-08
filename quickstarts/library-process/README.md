@@ -1,12 +1,12 @@
-## Red Hat Process Automation Manager Kie Server Quickstart
+## IBM Business Automation Manager Open Editions Kie Server Quickstart
 
-Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/library-process)
+Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/library-process)
 
-This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intend to be used with the [IBM BAMOE Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/kieserver) image.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/main/templates/rhpam713-prod-immutable-kieserver.yaml)
+To deploy the Library Process demo you can use the [rhpam713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.x-blue/templates/rhpam713-prod-immutable-kieserver.yaml)
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -15,10 +15,10 @@ $ oc login https://<your_openshift_address>:<port>
 ```
 
 ```bash
-$ oc new-project rhpam-kieserver
+$ oc new-project ibm-bamoe-kieserver
 ```
 
-Make sure you have the RHPAM template installed in your OpenShift Instance:
+Make sure you have the IBM BAMOE template installed in your OpenShift Instance:
 ```bash
 $ oc get template rhpam713-prod-immutable-kieserver -n openshift
 Error from server (NotFound): templates.template.openshift.io "rhpam713-prod-immutable-kieserver" not found
@@ -27,7 +27,7 @@ Error from server (NotFound): templates.template.openshift.io "rhpam713-prod-imm
 If you don't have it yet, just install it:
 
 ```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam713-prod-immutable-kieserver.yaml -n openshift
+oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.13.x-blue/templates/rhpam713-prod-immutable-kieserver.yaml -n openshift
 template.template.openshift.io "rhpam713-prod-immutable-kieserver" created
 ```
 
@@ -40,13 +40,13 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 Before proceed, make sure you have the RHDM imagestreams available under the 'openshift' namespace.
 
 ```bash
-$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 7.13
+$ oc get imagestream ibm-bamoe-kieserver-rhel8 -n openshift | grep 8.0
 Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
 ```
 
  If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:
  ```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam713-image-streams.yaml -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/ibm-bamoe8-image-streams..yaml -n openshift
 ```
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information

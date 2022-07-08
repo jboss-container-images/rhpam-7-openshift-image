@@ -1,20 +1,20 @@
 schema_version: 1
 
-name: "rhpam-7/rhpam-dashbuilder-rhel8"
-description: "Red Hat Process Automation Manager Standalone Dashbuilder 7.13 container image"
-version: "7.13.0"
+name: "ibm-bamoe/bamoe-dashbuilder-rhel8"
+description: "IBM Standalone Dashbuilder 8.0 container image"
+version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-  - name: "com.redhat.component"
-    value: "rhpam-7-dashbuilder-rhel8-container"
+  - name: "com.ibm.component"
+    value: "ibm-bamoe-8-dashbuilder-rhel8-container"
   - name: "io.k8s.description"
-    value: "Platform for running Red Hat Process Automation Manager Standalone Dashbuilder"
+    value: "Platform for running IBM Business Automation Manager Open Editions Standalone Dashbuilder"
   - name: "io.k8s.display-name"
-    value: "Red Hat Process Automation Manager Standalone Dashbuilder 7.13"
+    value: "IBM Standalone Dashbuilder 8.0"
   - name: "io.openshift.expose-services"
     value: "8080:http,8443:https"
   - name: "io.openshift.tags"
-    value: "javaee,eap,eap7,rhpam,rhpam7,dashbuilder"
+    value: "javaee,eap,eap7,rhpam8,dashbuilder,ibm-bamoe"
 envs:
   - name: "CONFIG_ADJUSTMENT_MODE"
     value: "xml"
@@ -112,7 +112,7 @@ modules:
       version: "7.4-latest"
     - name: jboss.container.eap.setup
     - name: dynamic-resources
-    - name: rhpam-7-dashbuilder
+    - name: ibm-bamoe-8-dashbuilder
     - name: jboss.container.jolokia.bash
     # TODO move the standalone.conf from cd.jolokia module to another place.
     - name: jboss.eap.cd.jolokia

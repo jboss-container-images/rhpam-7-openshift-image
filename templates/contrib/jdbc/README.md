@@ -1,6 +1,6 @@
 # JBoss KIE JDBC Driver Extension Images
 
-This repo provides an easy way to build your own JDBC extension driver images to use within Red Hat Process Automation Manager images
+This repo provides an easy way to build your own JDBC extension driver images to use within IBM Business Automation Manager Open Editions images
 on OpenShift.
 
 ## About the extension image
@@ -19,7 +19,7 @@ It adds a extra layer on top of the base image which contains:
 - the install.sh script which is responsible to configure the JBoss module: [install.sh](modules/kie-custom-jdbc-driver/added/install.sh)
 
 
-The drivers images are based on the supported configurations for Red Hat Process Automation Manager, which are:
+The drivers images are based on the supported configurations for IBM Business Automation Manager Open Editions, which are:
 
 
 | Database    | DB Version                                     | JDBC Driver jar/version         |
@@ -32,7 +32,9 @@ The drivers images are based on the supported configurations for Red Hat Process
 | PosgtgreSQL | 10.1, 11.5, 10.1 Enterprise, 11.6 Enterprise   | postgresql-42.2.5.jar           |
 | Sybase      | 16.0                                           | jconn4-16.0_PL05.jar            |
 
-For more information, please visit the RHPAM [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM713).
+
+# TODO update it after the compatibility matrix is published
+For more information, please visit the IBM BAMOE [compatibility matrix](https://access.redhat.com/articles/3405381#RHPAM713).
 
 
 ## Extension Images
@@ -109,16 +111,16 @@ to install it is **openshift** but feel free to install it on the preferred name
      oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam713-kieserver-externaldb.yaml
    ```
 
-- verify if the RHPAM 7.13 imagestreams are available:
+- verify if the IBM BAMOE 8.0 imagestreams are available:
 
   ```bash
-    oc get imagestream -n openshift | grep rhpam | grep 7.13
+    oc get imagestream -n openshift | grep rhpam | grep 8.0
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
 
   ```bash
-    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhpam713-image-streams.yaml
+    oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.13.x-blue/ibm-bamoe8-image-streams.yaml
   ```
 
 The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)

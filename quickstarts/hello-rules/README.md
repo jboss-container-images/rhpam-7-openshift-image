@@ -1,8 +1,8 @@
-## Red Hat Process Automation Manager KIE Server decisions Quickstart
+## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart
 
-Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x/quickstarts/hello-rules)
+Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/hello-rules)
 
-This quickstart is intended to be used with the [RHPAM KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
 
 ## How to use it?
 
@@ -24,7 +24,7 @@ $ oc new-project rhpam
 Now using project "rhpam" on server "https://ocp.mycloud.com:8443".
 ```
 
-Make sure you have the RHPAM template installed in your OpenShift Instance:
+Make sure you have the IBM BAMOE template installed in your OpenShift Instance:
 ```bash
 $ oc get template rhdm713-prod-immutable-kieserver -n openshift
 Error from server (NotFound): templates "rhdm713-prod-immutable-kieserver" not found
@@ -43,10 +43,10 @@ $ oc new-app example-app-secret -p SECRET_NAME=businesscentral-app-secret
 ```
 
 
-Before proceed, make sure you have the RHPAM imagestreams available under the 'openshift' namespace.
+Before proceed, make sure you have the IBM BAMOE imagestreams available under the 'openshift' namespace.
 
  ```bash
-$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 7.13
+$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 8.0
 Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
 ```
 
@@ -80,7 +80,7 @@ $ oc new-app rhdm713-prod-immutable-kieserver \
 -p IMAGE_STREAM_NAMESPACE=openshift
 ```
 
-Now you can deploy the [hellorules-client](hellorules-client) in the same or another project and test RHPAM KIE Server container.
+Now you can deploy the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
 
 To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should be available in the OpenShift Catalog, 
 if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 
@@ -162,7 +162,7 @@ $ cd quickstarts/hello-rules
 $ mvn clean install
 ```
 
-After the KIE Server and Active MQ are ready and running, execute the following command which will execute the RHPAM decision
+After the KIE Server and Active MQ are ready and running, execute the following command which will execute the IBM BAMOE decision
 through JMS client:
 
 ```bash

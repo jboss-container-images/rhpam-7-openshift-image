@@ -27,9 +27,9 @@ jobs:
         command: |
           ./openshift-template-validator-linux-amd64 validate -d templates/decision
     - run:
-        name: Verify the RHPAM imagestream
+        name: Verify IBM BAMOE imagestream
         command: |
-          ./openshift-template-validator-linux-amd64 validate --file rhpam713-image-streams.yaml
+          ./openshift-template-validator-linux-amd64 validate --file ibm-bamoe8-image-streams.yaml
 
   validate-cekit-image-yaml-files:
     docker:
