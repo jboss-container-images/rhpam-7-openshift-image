@@ -4,8 +4,9 @@ This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://g
 
 ## How to use it?
 
-To deploy the Hello Rules demo you can use the [rhdm713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/main/templates/rhdm713-prod-immutable-kieserver.yaml)
+To deploy the Hello Rules demo you need a working IBM BAMOE environment .
 
+Before proceeding with the IBM BAMOE environment setup, it is better to create a new project on OpenShift where we will create all the resources needed.
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
@@ -16,69 +17,31 @@ $ oc login https://<your_openshift_address>:<port>
 Create a new project, i.e.:
 
 ```bash
-$ oc new-project rhpam
-Now using project "rhpam" on server "https://ocp-main.mycloud.com:8443".
+$ oc new-project ibm-bamoe
+Now using project "ibm-bamoe" on server "https://ocp-main.mycloud.com:8443".
 ```
-
-
-Make sure you have the IBM BAMOE template installed in your OpenShift Instance:
-```bash
-$ oc get template rhdm713-prod-immutable-kieserver -n openshift
-Error from server (NotFound): templates "rhdm713-prod-immutable-kieserver" not found
-```
-If you don't have it yet, just install it:
-
-```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhdm713-prod-immutable-kieserver.yaml -n openshift
-template "rhdm713-prod-immutable-kieserver" created
-```
-
-For this template, we also need to install the secrets, which contain the certificates to configure https:
-```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/example-app-secret-template.yaml
-$ oc new-app example-app-secret -p SECRET_NAME=decisioncentral-app-secret
-```
-
-Before proceed, make sure you have the IBM BAMOE imagestreams available under the 'openshift' namespace.
-```bash
-$ oc get imagestream rhpam-kieserver-rhel8 -n openshift | grep 8.0
-Error from server (NotFound): imagestreams.image.openshift.io "rhpam-kieserver-rhel8" not found
-```
-If the `rhpam-kieserver-rhel8` is not found, install it under the 'openshift' namespace:
-
-```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/rhdm713-image-streams.yaml -n openshift
-```
-
-Deploy the `credentials secret` provided as example:
-
-```bash
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/example-credentials.yaml
-secret/rhpam-credentials created
-```
-
-Default credential is `adminUser/RedHat`.
 
 Note that, to pull the images the OpenShift must be able to pull images from registry.redhat.io, for more information
 please take a look [here](https://access.redhat.com/RegistryAuthentication)
 
-At this moment we are ready to instantiate the kieserver app:
+To create the IBM BAMOE environment on your OpenShift instance you need to install Business Automation Operator.
+For instructions about installing Business Automation Operator, see [the product documentation](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator#operator-subscribe-proc_openshift-operator) step.
 
+Then access the wizard installer, instructions available [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator#operator-environment-deploy-assy_openshift-operator)
 
-```bash
-$ oc new-app rhdm713-prod-immutable-kieserver \
--p KIE_SERVER_HTTPS_SECRET=decisioncentral-app-secret \
--p CREDENTIALS_SECRET=rhpam-credentials \
--p KIE_SERVER_CONTAINER_DEPLOYMENT=hellorules=org.openshift.quickstarts:rhpam-kieserver-decisions:1.6.0-SNAPSHOT \
--p ARTIFACT_DIR=hellorules/target,hellorules-model/target \
--p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=main \
--p CONTEXT_DIR=quickstarts/hello-rules-multi-module \
--p IMAGE_STREAM_NAMESPACE=openshift
+If you view the generated YAML source for the installation, the source should be similar to the following example:
+
+```yaml
+apiVersion: app.kiegroup.org/v2
+kind: KieApp
+metadata:
+   name: hello-rules-quickstart
+spec:
+   environment: rhpam-production-immutable
+...
 ```
 
-
-Now you can deploy the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
+When the KieApp gets ready, you can go ahead deploying  the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
 
 To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog, 
 if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 

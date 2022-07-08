@@ -83,38 +83,21 @@ it as a point of start and any issue or wrong configuration can lead on issues w
 
 ## How to use the extension images
 
-These extension images were designed to be used with RHPAM images but can be used with any other image since it supports
+These extension images were designed to be used with IBM BAMOE images but can be used with any other image since it supports
 s2i builds, see this [link](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.2/html/red_hat_jboss_enterprise_application_platform_for_openshift/configuring_eap_openshift_image#Build-Extensions-Project-Artifacts) for more information.
-
-We provide an external database [application template](../../rhpam713-kieserver-externaldb.yaml) ready to use the extension images.
 
 To deploy it using any of the extension images, follow the steps below:
 
 - create a new namespace:
 
   ```bash
-    oc new-project rhpam-externaldb
+    oc new-project ibm-bamoe-externaldb
   ```
-
-Note that, by default all application templates and imagestreams are installed under the **openshift** namespace.
-
-- verify if the external-db template is available on the **openshift** namespace:
-
-  ```bash
-    oc get templates -n openshift | grep rhpam713-kieserver-externaldb
-  ```
-
-- if it does not return the template, you will need to install the template on OpenShift, the recommended namespace
-to install it is **openshift** but feel free to install it on the preferred namespace.
-
-   ```bash
-     oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/templates/rhpam713-kieserver-externaldb.yaml
-   ```
 
 - verify if the IBM BAMOE 8.0 imagestreams are available:
 
   ```bash
-    oc get imagestream -n openshift | grep rhpam | grep 8.0
+    oc get imagestream -n openshift | grep bamoe | grep 8.0
   ```
 
 - if the command above does not return any result the imagestreams must be installed, to do this execute the following command:
@@ -122,10 +105,6 @@ to install it is **openshift** but feel free to install it on the preferred name
   ```bash
     oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/7.13.x-blue/ibm-bamoe8-image-streams.yaml
   ```
-
-The externaldb template requires a secret containing ssl certificates, we provide [this certificate](../../../example-app-secret-template.yaml)
-as example, please do not use this in production.
-
 
 After you build your extension image you can:
 
@@ -174,43 +153,14 @@ After you build your extension image you can:
 
 
 ### Let's install
+In order to create a Kie Server deployment using  your own JDBC extension driver images you can use the Business Automation Operator, the OpenShift web console and the wizard installer.
 
-```bash
-oc create -f https://raw.githubusercontent.com/jboss-container-images/rhpam-7-openshift-image/main/example-app-secret-template.yaml
-oc new-app example-app-secret
-```
+All the steps needed are documented [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator#operator-deploy-kieserver-proc_openshift-operator) 
+and you have to pay attention to steps 13 and 17.
 
-Optional, if you are going to use one of the ready extension images (mysql, mariadb or postgresql) import
-[this](extension-image-streams.yaml) imagestream:
+Note: if you are going to use one of the ready extension images (mysql, mariadb or postgresql) at step 17 you can use
+[this](extension-image-streams.yaml) imagestream file.
 
-```bash
-oc create -f extension-image-streams.yaml
-```
-
-At this point we are ready to create a Kie Server deployment using the extension driver:
-Note that, the driver name can be found in the respective install-{DB}. properties file, i.e. [mariadb](modules/kie-custom-jdbc-driver/added/install-mariadb.properties)
-
-To create a new app using a extension image, you can go through the OpenShift web console and fill all the needed fields or
-create it using command line:
-
-```bash
-$ oc new-app rhpam713-kieserver-externaldb \
-  -p MAVEN_REPO_URL=http://some.mave.repo \
-  -p IMAGE_STREAM_NAMESPACE=rhpam-externaldb \
-  -p CREDENTIALS_SECRET=rhpam-credentials \
-  -p KIE_SERVER_EXTERNALDB_DIALECT=org.jbpm.persistence.jpa.hibernate.DisabledFollowOnLockOracle10gDialect \
-  -p KIE_SERVER_EXTERNALDB_JNDI=java:jboss/datasources/jbpmDS \
-  -p KIE_SERVER_EXTERNALDB_URL=jdbc:oracle:thin:@<ORACLE_DB_ADDRESS>:1521:bpms \
-  -p KIE_SERVER_EXTERNALDB_USER=<USERNAME> \
-  -p KIE_SERVER_EXTERNALDB_PWD=<PASSWORD> \
-  -p KIE_SERVER_EXTERNALDB_DRIVER=oracle \
-  -p KIE_SERVER_EXTERNALDB_CONNECTION_CHECKER=org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker \
-  -p KIE_SERVER_EXTERNALDB_EXCEPTION_SORTER=org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter  \
-  -p EXTENSIONS_IMAGE=jboss-kie-oracle-extension-openshift-image:12cR1 \
-  -p EXTENSIONS_IMAGE_NAMESPACE=rhpam-externaldb \
-  -p KIE_SERVER_HTTPS_SECRET=businesscentral-app-secret
-```
-
-Remember to update the parameters according your needs.
+At this point we are ready to create a Kie Server deployment using the extension driver and the Operator, simply creating a new KieApp with the configuration that you will build following the instructions in the documentation using the wizard installer. 
 
 If you find any issue feel free to drop an email to bsig-cloud@redhat.com or fill an [issue](https://issues.jboss.org/projects/RHPAM)

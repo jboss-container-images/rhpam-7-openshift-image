@@ -55,12 +55,6 @@ def get_current_imagestream_filename():
         return name
 
 
-def get_current_application_templates():
-    templates = []
-    for template in glob.glob("templates/rhpam*.yaml"):
-        templates.append(template)
-    return templates
-
 
 def get_updated_rhpam_prefix(version):
     return "rhpam{0}".format(get_shortened_version(version).replace(".", ""))
@@ -175,7 +169,7 @@ def update_imagestreams(version, confirm):
     :param confirm: if true will save the changes otherwise will print the proposed changes
     """
 
-    print("Updating application templates to version {0}".format(version))
+    print("Updating application imagestreams to version {0}".format(version))
 
     current_imagestream_name = get_current_imagestream_filename()
 
@@ -294,49 +288,6 @@ def update_quickstarts_readme(version, confirm):
         print("Skipping {0}".format(readmes))
 
 
-def update_application_templates(version, confirm):
-    """
-    Update the rhpam application templates to the given version.
-    :param version: version to set into the module
-    :param confirm: if true will save the changes otherwise will print the proposed changes
-    """
-
-    print("Updating application templates to version {0}".format(version))
-
-    for template in get_current_application_templates():
-        try:
-            with open(template) as tmpl:
-                # replace all occurrences of shortened version first
-                plain = SHORTENED_VERSION_REGEX.sub(get_shortened_version(version), tmpl.read())
-                # then update all full version everywhere
-                plain = VERSION_REGEX.sub(version, plain)
-                plain = RHPAM_PREFIX_REGEX.sub(get_updated_rhpam_prefix(version), plain)
-                data = yaml_loader().load(plain)
-                template_updated_name = RHPAM_PREFIX_REGEX.sub(get_updated_rhpam_prefix(version),
-                                                               data['metadata']['name'])
-
-                data['metadata']['name'] = template_updated_name
-                data['labels']['template'] = template_updated_name
-
-                if not confirm:
-                    print("Applied changes on template {0} -> {1}.yaml: \n".format(tmpl, template_updated_name))
-                    print(data)
-                    print("\n----------------------------------\n")
-
-            if confirm:
-                with open(template, 'w') as tmpl:
-                    yaml_loader().dump(data, tmpl)
-
-                template_updated_name_with_extension = os.path.join("templates/", template_updated_name + ".yaml")
-                print("  --> Application Template file will renamed from {0} to {1}".
-                      format(template, template_updated_name_with_extension))
-
-                os.renames(template, template_updated_name_with_extension)
-
-        except TypeError:
-            raise
-
-
 def update_cekit_jdbc_extension_images(version, confirm):
     """
     Update the rhpam cekit jdbc extension image to the given version.
@@ -344,7 +295,7 @@ def update_cekit_jdbc_extension_images(version, confirm):
     :param confirm: if true will save the changes otherwise will print the proposed changes
     """
 
-    print("Updating CeKot JDBC extension image to version {0}".format(version))
+    print("Updating CeKit JDBC extension image to version {0}".format(version))
 
     #files_2_update = ['templates/contrib/jdbc/README.md', 'templates/contrib/jdbc/cekit/image.yaml',
 #                      'templates/contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
@@ -388,6 +339,8 @@ if __name__ == "__main__":
 
     else:
         # validate if the provided version is valid.
+
+
         # e.g. 7.15.0
         pattern = "d.d{2}.d"
 
@@ -400,7 +353,6 @@ if __name__ == "__main__":
             update_main_readme(args.t_version, args.confirm)
             update_circleci_files(args.t_version, args.confirm)
             update_quickstarts_readme(args.t_version, args.confirm)
-            update_application_templates(args.t_version, args.confirm)
             update_cekit_jdbc_extension_images(args.t_version, args.confirm)
 
         else:
