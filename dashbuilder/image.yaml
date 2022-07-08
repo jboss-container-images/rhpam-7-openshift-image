@@ -6,7 +6,7 @@ version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-8-dashbuilder-rhel8-container"
+    value: "rhpam-7-dashbuilder-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Standalone Dashbuilder"
   - name: "io.k8s.display-name"

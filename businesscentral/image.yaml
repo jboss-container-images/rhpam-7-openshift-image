@@ -6,7 +6,7 @@ version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-8-businesscentral-rhel8-container"
+    value: "rhpam-7-businesscentral-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Central"
   - name: "io.k8s.display-name"
