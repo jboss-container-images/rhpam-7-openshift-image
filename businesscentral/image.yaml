@@ -5,7 +5,7 @@ description: "IBM Business Central 8.0 OpenShift container image"
 version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
-  - name: "com.ibm.component"
+  - name: "com.redhat.component"
     value: "ibm-bamoe-8-businesscentral-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Central"
