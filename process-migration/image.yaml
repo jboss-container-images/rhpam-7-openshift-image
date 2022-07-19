@@ -6,7 +6,7 @@ version: "8.0.0"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "rhpam-7-process-migration-rhel8-container"
+    value: "ibm-bamoe-process-migration-rhel8-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Process Migration"
   - name: "io.k8s.display-name"
@@ -67,8 +67,8 @@ osbs:
   configuration:
     container_file: container.yaml
   repository:
-    name: containers/rhpam-7-process-migration
-    branch: rhba-7-rhel-8
+    name: containers/ibm-bamoe-process-migration
+    branch: ibm-bamoe-rhel-8
 run:
   user: 185
   cmd:
