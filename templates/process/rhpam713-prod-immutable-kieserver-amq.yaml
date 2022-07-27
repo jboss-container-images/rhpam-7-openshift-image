@@ -229,7 +229,6 @@ parameters:
     name: KIE_SERVER_CPU_REQUEST
     value: '750m'
     required: true
-
   - displayName: Disable KIE Server Management
     description: "Disable management api and don't allow KIE containers to be deployed/undeployed or started/stopped. (Sets the property org.kie.server.mgmt.api.disabled to true)"
     name: KIE_SERVER_MGMT_DISABLED
@@ -347,7 +346,7 @@ parameters:
     description: "AMQ Broker Image"
     name: AMQ_BROKER_IMAGESTREAM_NAME
     required: true
-    value: amq-broker:7.8
+    value: amq-broker:7.9
   - displayName: AMQ ImageStream Namespace
     description: Namespace in which the ImageStreams for Red Hat AMQ images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift".
     name: AMQ_IMAGE_STREAM_NAMESPACE
