@@ -1,0 +1,14 @@
+schema_version: 1
+
+name: "kiegroup/jboss-kie-mysql-extension-openshift-image"
+version: "8.0.12"
+
+labels:
+  - name: "io.openshift.tags"
+    value: "mysql-jdbc-driver"
+  - name: "io.k8s.display-name"
+    value: "JBoss KIE custom mysql jdbc extension image"
+  - name: "database.type"
+    value: "mysql"
+  - name: "jdbc.driver.module"
+    value: "com.mysql"
