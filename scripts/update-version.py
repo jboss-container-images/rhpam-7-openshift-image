@@ -2,10 +2,10 @@
 # This script will to help to manage rhpam components modules version, it will update all needed files
 # Example of usage:
 #   # move the current version to the next one or rcX
-#   python3 scripts/update-version.py -v 7.15.1 --confirm
+#   python3 scripts/update-version.py -v 8.0.1 --confirm
 #
 #   # to only see the proposed changes (dry run):
-#   python3 scripts/update-version.py -v 7.15.1
+#   python3 scripts/update-version.py -v 8.0.1
 #
 # Version pattern is: X.YY.Z
 # Dependencies:
@@ -24,14 +24,13 @@ IMAGES_DIR = {"businesscentral", "businesscentral-monitoring",
               "controller", "dashbuilder", "kieserver",
               "process-migration", "smartrouter"}
 
-# e.g. 7.16.0
-VERSION_REGEX = re.compile(r'\b7[.](?:[0-3][0-8])[.]\d\b')
-# e.g. 7.16
-SHORTENED_VERSION_REGEX = re.compile(r'\b7[.](?:[0-3][0-8])\b|7[.](?:[0-3][0-8])')
+# e.g. 8.0.1
+VERSION_REGEX = re.compile(r'\b8[.]\d[.]\d\b')
+# e.g. 8.0
+SHORTENED_VERSION_REGEX = re.compile(r'\b8[.]\d[.]\b')
 # 000 is just a place holder, yaml suffix will be appended when needed
 IMAGESTREAM = "rhpam000-image-streams"
-RHPAM_PREFIX_REGEX = re.compile(r'rhpam\d{3}\b')
-NO_DOTS_VERSION = re.compile(r'7\d{2}')
+RHPAM_PREFIX_REGEX = re.compile(r'ibm-bamoe8')
 
 
 def yaml_loader():
@@ -47,17 +46,16 @@ def yaml_loader():
 
 
 def get_shortened_version(version):
-    return '.'.join([str(elem) for elem in str(version).split(".")[0:2]])
+    return '.'.join([str(elem) for elem in str(version).split(".")[0:1]])
 
 
 def get_current_imagestream_filename():
-    for name in glob.glob('rhpam???-image-streams.yaml'):
+    for name in glob.glob('ibm-bamoe8-image-streams.yaml'):
         return name
 
 
-
 def get_updated_rhpam_prefix(version):
-    return "rhpam{0}".format(get_shortened_version(version).replace(".", ""))
+    return "ibm-bamoe{0}".format(get_shortened_version(version).replace(".", ""))
 
 
 def get_updated_no_dotes_version(version):
@@ -106,7 +104,7 @@ def update_image_tag_overrides(version, confirm):
     :param confirm: if true will save the changes otherwise will print the proposed changes
     """
 
-    version_regex = re.compile(r'\b\d[.]\d{2}[.]\d.GA')
+    version_regex = re.compile(r'\b\d[.]\d[.]\d.GA')
 
     tag_o = []
     for fg in IMAGES_DIR:
@@ -194,9 +192,9 @@ def update_imagestreams(version, confirm):
                 yaml_loader().dump(data, imgstr)
 
             # rename imagestream file
-            print("  --> Imagestream file will renamed from {0} to {1}.yaml".format(current_imagestream_name,
-                                                                                    rhpam_imagestream_updated_name))
-            os.renames(current_imagestream_name, rhpam_imagestream_updated_name + ".yaml")
+#             print("  --> Imagestream file will renamed from {0} to {1}.yaml".format(current_imagestream_name,
+#                                                                                     rhpam_imagestream_updated_name))
+#             os.renames(current_imagestream_name, rhpam_imagestream_updated_name + ".yaml")
 
     except TypeError:
         raise
@@ -240,7 +238,7 @@ def update_circleci_files(version, confirm):
 
     try:
         with open(circleci_config_file) as circ:
-            # replace all occurrences of shortened version first - needs to be together, no points, e.g.: 712
+            # replace all occurrences of shortened version first - needs to be together, no points, e.g.: 800
             plain = RHPAM_PREFIX_REGEX.sub(get_updated_rhpam_prefix(version), circ.read())
 
             if not confirm:
@@ -341,8 +339,8 @@ if __name__ == "__main__":
         # validate if the provided version is valid.
 
 
-        # e.g. 7.15.0
-        pattern = "d.d{2}.d"
+        # e.g. 8.0.1
+        pattern = "d.d.d"
 
         if VERSION_REGEX.match(args.t_version):
             print("Version will be updated to {0}".format(args.t_version))

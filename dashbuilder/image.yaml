@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "ibm-bamoe/bamoe-dashbuilder-rhel8"
 description: "IBM Standalone Dashbuilder 8.0 container image"
-version: "8.0.0"
+version: "8.0.1"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
