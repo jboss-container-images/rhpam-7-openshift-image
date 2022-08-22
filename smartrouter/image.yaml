@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam-smartrouter-rhel8"
 description: "Red Hat Process Automation Manager Smart Router 7.13 container image"
-version: "7.13.0"
+version: "7.13.1"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
