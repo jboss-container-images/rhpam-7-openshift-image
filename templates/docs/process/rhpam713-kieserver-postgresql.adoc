@@ -40,7 +40,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_POSTGRESQL_PWD` | `RHPAM_PASSWORD` | KIE Server PostgreSQL database password. | -- | False
 |`KIE_SERVER_POSTGRESQL_DB` | `RHPAM_DATABASE` | KIE Server PostgreSQL database name. | rhpam7 | False
 |`POSTGRESQL_IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStream for the PostgreSQL image is installed. The ImageStream is already installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | False
-|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "10". | 10 | False
+|`POSTGRESQL_IMAGE_STREAM_TAG` | -- | The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "12". | 12 | False
 |`POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | `POSTGRESQL_MAX_PREPARED_TRANSACTIONS` | Allows the PostgreSQL to handle XA transactions. | 100 | True
 |`DB_VOLUME_CAPACITY` | -- | Size of persistent storage for the database volume. | 1Gi | True
 |`KIE_SERVER_POSTGRESQL_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE Server PostgreSQL Hibernate dialect. | org.hibernate.dialect.PostgreSQLDialect | True
@@ -77,7 +77,11 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`AUTH_LDAP_BIND_CREDENTIAL` | `AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | Password | False
 |`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | `AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | true | False
 |`AUTH_LDAP_BASE_CTX_DN` | `AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | ou=users,ou=example,ou=com | False
-|`AUTH_LDAP_BASE_FILTER` | `AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | (uid={0}) | False
+|`AUTH_LDAP_BASE_FILTER` | `AUTH_LDAP_BASE_FILTER` | Legacy LDAP search filter used to locate the context of the user to authenticate. The input username or userDN
+obtained from the login module callback is substituted into the filter anywhere a {0} expression is used.
+A common example for the search filter is (uid={0}).
+For Elytron based subsystem this property should be configured only with the search filter parameter, without
+any search expression. Example  (uid={0}) became just uid. | uid | False
 |`AUTH_LDAP_RECURSIVE_SEARCH` | `AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | true | False
 |`AUTH_LDAP_SEARCH_TIME_LIMIT` | `AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | 10000 | False
 |`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | `AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | memberOf | False
@@ -316,7 +320,11 @@ Http Get on http://localhost:8080/services/rest/server/healthcheck
 |`AUTH_LDAP_BIND_CREDENTIAL` | LDAP Credentials used for authentication. | `${AUTH_LDAP_BIND_CREDENTIAL}`
 |`AUTH_LDAP_ALLOW_EMPTY_PASSWORDS` | Does this realm support blank password direct verification? Blank password attempt will be rejected otherwise. Boolean flag, defaults to false. | `${AUTH_LDAP_ALLOW_EMPTY_PASSWORDS}`
 |`AUTH_LDAP_BASE_CTX_DN` | LDAP Base DN of the top-level context to begin the user search. | `${AUTH_LDAP_BASE_CTX_DN}`
-|`AUTH_LDAP_BASE_FILTER` | LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}). | `${AUTH_LDAP_BASE_FILTER}`
+|`AUTH_LDAP_BASE_FILTER` | Legacy LDAP search filter used to locate the context of the user to authenticate. The input username or userDN
+obtained from the login module callback is substituted into the filter anywhere a {0} expression is used.
+A common example for the search filter is (uid={0}).
+For Elytron based subsystem this property should be configured only with the search filter parameter, without
+any search expression. Example  (uid={0}) became just uid. | `${AUTH_LDAP_BASE_FILTER}`
 |`AUTH_LDAP_RECURSIVE_SEARCH` | Indicates if the user queries are recursive. | `${AUTH_LDAP_RECURSIVE_SEARCH}`
 |`AUTH_LDAP_SEARCH_TIME_LIMIT` | The timeout in milliseconds for user or role searches. | `${AUTH_LDAP_SEARCH_TIME_LIMIT}`
 |`AUTH_LDAP_ROLE_ATTRIBUTE_ID` | Name of the attribute containing the user roles. | `${AUTH_LDAP_ROLE_ATTRIBUTE_ID}`
