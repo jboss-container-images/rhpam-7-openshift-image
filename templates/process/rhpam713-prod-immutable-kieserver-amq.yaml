@@ -60,9 +60,9 @@ parameters:
     value: "openshift"
     required: false
   - displayName: PostgreSQL ImageStream Tag
-    description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "10".
+    description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "13".
     name: POSTGRESQL_IMAGE_STREAM_TAG
-    value: "10"
+    value: "13"
     required: false
   - displayName: KIE Server PostgreSQL Database User
     description: KIE Server PostgreSQL database user name
