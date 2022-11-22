@@ -108,9 +108,9 @@ parameters:
     value: "openshift"
     required: false
   - displayName: PostgreSQL ImageStream Tag
-    description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "12".
+    description: The PostgreSQL image version, which is intended to correspond to the PostgreSQL version. Default is "13".
     name: POSTGRESQL_IMAGE_STREAM_TAG
-    value: "12"
+    value: "13"
     required: false
   - displayName: PostgreSQL Database max prepared connections
     description: Allows the PostgreSQL to handle XA transactions.
