@@ -3,7 +3,7 @@ schema_version: 1
 name: "ibm-bamoe/bamoe-process-migration-rhel8"
 description: "IBM Process Migration 8.0 container image"
 version: "8.0.1"
-from: "registry.redhat.io/ubi8/ubi-minimal:latest"
+from: "registry.redhat.io/ubi8/ubi-minimal:8.6"
 labels:
   - name: "com.redhat.component"
     value: "ibm-bamoe-process-migration-rhel8-container"
