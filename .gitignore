@@ -18,6 +18,7 @@ hs_err_pid*
 .mtj.tmp/
 my*.json
 my*.yaml
+my*.yml
 .project
 .settings/
 target
