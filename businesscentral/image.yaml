@@ -171,8 +171,8 @@ modules:
       version: "7.4-latest"
     - name: jboss.container.eap.setup
     - name: ibm-bamoe-8-businesscentral
-    - name: jboss.container.maven.36.bash
-      version: "3.6"
+    - name: jboss.container.maven.38.bash
+      version: "3.8"
     - name: jboss.container.maven.default.bash
     - name: jboss.container.jolokia.bash
     - name: jboss.eap.cd.jolokia
