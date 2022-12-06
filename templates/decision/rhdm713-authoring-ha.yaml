@@ -399,9 +399,14 @@ parameters:
     example: "ou=users,ou=example,ou=com"
     required: false
   - displayName: LDAP Base Search filter
-    description: LDAP search filter used to locate the context of the user to authenticate. The input username or userDN obtained from the login module callback is substituted into the filter anywhere a {0} expression is used. A common example for the search filter is (uid={0}).
+    description: |-
+      Legacy LDAP search filter used to locate the context of the user to authenticate. The input username or userDN
+      obtained from the login module callback is substituted into the filter anywhere a {0} expression is used.
+      A common example for the search filter is (uid={0}).
+      For Elytron based subsystem this property should be configured only with the search filter parameter, without
+      any search expression. Example  (uid={0}) became just uid.
     name: AUTH_LDAP_BASE_FILTER
-    example: "(uid={0})"
+    example: "uid"
     required: false
   - displayName: LDAP User resursive search
     description: Indicates if the user queries are recursive.
