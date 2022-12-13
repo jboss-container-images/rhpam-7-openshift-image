@@ -26,11 +26,11 @@ IMAGES_DIR = {"businesscentral", "businesscentral-monitoring",
 
 # e.g. 8.0.1
 VERSION_REGEX = re.compile(r'\b8[.]\d[.]\d\b')
-# e.g. 8.0
-SHORTENED_VERSION_REGEX = re.compile(r'\b8[.]\d[.]\b')
-# 000 is just a place holder, yaml suffix will be appended when needed
-IMAGESTREAM = "rhpam000-image-streams"
-RHPAM_PREFIX_REGEX = re.compile(r'ibm-bamoe8')
+# e.g. 8
+SHORTENED_VERSION_REGEX = re.compile(r'\b8')
+# 0 is just a place holder, yaml suffix will be appended when needed
+IMAGESTREAM = "ibm-bamoe0-image-streams"
+RHPAM_PREFIX_REGEX = re.compile(r'ibm-bamoe0')
 
 
 def yaml_loader():
@@ -46,7 +46,7 @@ def yaml_loader():
 
 
 def get_shortened_version(version):
-    return '.'.join([str(elem) for elem in str(version).split(".")[0:1]])
+    return str(version).split(".")[0]
 
 
 def get_current_imagestream_filename():
@@ -55,11 +55,8 @@ def get_current_imagestream_filename():
 
 
 def get_updated_rhpam_prefix(version):
-    return "ibm-bamoe{0}".format(get_shortened_version(version).replace(".", ""))
+    return "ibm-bamoe{0}".format(get_shortened_version(version))
 
-
-def get_updated_no_dotes_version(version):
-    return "{0}".format(get_shortened_version(version).replace(".", ""))
 
 
 def update_image_descriptors(version, confirm):
@@ -295,11 +292,11 @@ def update_cekit_jdbc_extension_images(version, confirm):
 
     print("Updating CeKit JDBC extension image to version {0}".format(version))
 
-    #files_2_update = ['templates/contrib/jdbc/README.md', 'templates/contrib/jdbc/cekit/image.yaml',
-#                      'templates/contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
-    files_2_update = ['templates/contrib/jdbc/README.md']
+    files_2_update = ['templates/contrib/jdbc/README.md', 'templates/contrib/jdbc/cekit/image.yaml',
+                      'templates/contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
 
     for file in files_2_update:
+        print(files_2_update)
         try:
             with open(file) as f:
                 print("Updating CeKit JDBC extension image file {0} to version {1}".format(file, version))
@@ -308,17 +305,17 @@ def update_cekit_jdbc_extension_images(version, confirm):
                 plain = SHORTENED_VERSION_REGEX.sub(get_shortened_version(version), f.read())
                 # then update all full version everywhere
                 plain = VERSION_REGEX.sub(version, plain)
-                plain = NO_DOTS_VERSION.sub(get_updated_no_dotes_version(version), plain)
+                #plain = NO_DOTS_VERSION.sub(get_updated_no_dotes_version(version), plain)
 
                 if not confirm:
                     print("Suggested changes on file {0} to version {1} \n".format(f.name, version))
                     print(plain)
                     print("\n----------------------------------\n")
 
-            if confirm:
-                with open(file, 'w') as f:
-                    print("Applied changes on file {0} to version {1} \n".format(f.name, version))
-                    f.write(plain)
+                if confirm:
+                    with open(file, 'w') as f:
+                        print("Applied changes on file {0} to version {1} \n".format(f.name, version))
+                        f.write(plain)
 
         except TypeError:
             raise
@@ -337,8 +334,6 @@ if __name__ == "__main__":
 
     else:
         # validate if the provided version is valid.
-
-
         # e.g. 8.0.1
         pattern = "d.d.d"
 
