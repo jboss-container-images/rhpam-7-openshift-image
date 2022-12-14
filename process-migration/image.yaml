@@ -3,7 +3,7 @@ schema_version: 1
 name: "ibm-bamoe/bamoe-process-migration-rhel8"
 description: "IBM Process Migration 8.0 container image"
 version: "8.0.2"
-from: "registry.redhat.io/ubi8/ubi-minimal:8.6"
+from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
     value: "ibm-bamoe-process-migration-rhel8-container"
@@ -58,6 +58,7 @@ modules:
     - name: ibm-bamoe-8-process-migration
     - name: jboss.container.util.logging.bash
     - name: jboss-kie-process-migration
+    - name: jboss.kie.pkg-update
 packages:
   manager: microdnf
   content_sets_file: content_sets.yml
