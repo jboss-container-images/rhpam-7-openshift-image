@@ -3,7 +3,7 @@ schema_version: 1
 name: "ibm-bamoe/bamoe-controller-rhel8"
 description: "IBM Standalone Controller 8.0 container image"
 version: "8.0.2"
-from: "registry.redhat.io/ubi8/ubi-minimal:8.6"
+from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
     value: "ibm-bamoe-controller-rhel8-container"
@@ -132,6 +132,7 @@ modules:
     - name: jboss-kie-common
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-controller
+    - name: jboss.kie.pkg-update
 packages:
   content_sets_file: content_sets.yml
   manager: microdnf
