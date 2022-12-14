@@ -147,6 +147,7 @@ modules:
       version: "7.4-kie"
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-dashbuilder
+    - name: jboss.kie.pkg-update
 packages:
   manager: microdnf
   content_sets_file: content_sets.yml

@@ -132,6 +132,7 @@ modules:
     - name: jboss-kie-common
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-controller
+    - name: jboss.kie.pkg-update
 packages:
   content_sets_file: content_sets.yml
   manager: microdnf
