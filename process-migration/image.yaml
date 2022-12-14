@@ -58,6 +58,7 @@ modules:
     - name: rhpam-7-process-migration
     - name: jboss.container.util.logging.bash
     - name: jboss-kie-process-migration
+    - name: jboss.kie.pkg-update
 packages:
   manager: microdnf
   content_sets_file: content_sets.yml
