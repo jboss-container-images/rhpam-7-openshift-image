@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "ibm-bamoe/bamoe-businesscentral-monitoring-rhel8"
 description: "IBM Business Central Monitoring 8.0 OpenShift container image"
-version: "8.0.2"
+version: "8.0.3"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"

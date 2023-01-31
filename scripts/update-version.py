@@ -292,8 +292,8 @@ def update_cekit_jdbc_extension_images(version, confirm):
 
     print("Updating CeKit JDBC extension image to version {0}".format(version))
 
-    files_2_update = ['templates/contrib/jdbc/README.md', 'templates/contrib/jdbc/cekit/image.yaml',
-                      'templates/contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
+    files_2_update = ['contrib/jdbc/README.md', 'contrib/jdbc/cekit/image.yaml',
+                      'contrib/jdbc/cekit/modules/kie-custom-jdbc-driver/base-module.yaml']
 
     for file in files_2_update:
         print(files_2_update)
