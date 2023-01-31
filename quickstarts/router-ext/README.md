@@ -18,13 +18,13 @@ $ mvn clean package
 
 The build process will generate the following jar: `target/router-ext-0.0.1-SNAPSHOT.jar` 
 
-After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.2` image 
+After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3` image 
 and customize it, to include the recently built Smart Router extension.
 
 If you don't have the Smart Router image on your local registry, pull it:
 
 ```bash
-$ docker pull registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.2
+$ docker pull registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3
 ```
 
 Create a directory for building the custom Smart Router Image. For this example I'll be using the tmp directory.
@@ -38,7 +38,7 @@ $ cd /tmp/smartrouter
 To extract the `openshift-launch.sh` file from the official Smart Router image, enter the following command:
 
 ```bash
-$ docker run --rm registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.2 \
+$ docker run --rm registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3 \
     cat /opt/rhpam-smartrouter/openshift-launch.sh > openshift-launch.sh
 ```
 
@@ -63,7 +63,7 @@ Next, build the custom Smart Router image.
 Create a file called Dockerfile with the following content:
 
 ```bash
-from registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.2
+from registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3
 
 RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
 COPY openshift-launch.sh  /opt/rhpam-smartrouter/openshift-launch.sh
@@ -84,7 +84,7 @@ Now, build the image:
 $ docker build -t my-smartrouter-ext:1.0 .
 docker build -t my-smartrouter-ext:1.0 .
 Sending build context to Docker daemon   12.8kB
-Step 1/8 : from registry.redhat.io/ibm-bamoe/rhpam-smartrouter-rhel8:8.0.2
+Step 1/8 : from registry.redhat.io/ibm-bamoe/rhpam-smartrouter-rhel8:8.0.3
  ---> 1822bf9d5565
 Step 2/8 : RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
  ---> Using cache
