@@ -1,8 +1,7 @@
 ## IBM Business Automation Manager Open Editions SmartRouter Extension Example
 
-Note: this is the development branch, the target images might not be available here, instead you can look at the [release branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/router-ext)
 
-Use this quick start guide with the [IBM BAMOE SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/smartrouter) image.
+Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
@@ -139,10 +138,10 @@ Smart Router image.
 
 ## Deploying the custom image on OpenShift using IBM BAMOE Operator.
 
-For this tutorial, I'll be using the CodeReady Containers.
-For instructions about installing CodeReady Containers, see [Install OpenShift on a laptop with CodeReady Containers](https://cloud.redhat.com/openshift/install/crc/installer-provisioned?intcmp=7013a000002CtetAAC)
+For this tutorial, we will be using OpenShift Local.
+For instructions about installing CodeReady Containers, see [Install OpenShift on a laptop](https://console.redhat.com/openshift/create/local)
 
-Start CRC and log in, when CRC starts the credentials are printed in the logs, for example:
+Start OpenShift Local and log in, when it starts the credentials are printed in the logs, for example:
 
 ```bash
 $ crc start
@@ -194,11 +193,11 @@ $ crc console --credentials
 ```
 
 After logging in, select the project that you created (rhpam-smartrouter) and install Business Automation Operator in this namespace.
-For instructions about installing Business Automation Operator, see [the product documentation](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.8/html/deploying_a_red_hat_process_automation_manager_environment_on_red_hat_openshift_container_platform_using_operators/operator-con#operator-subscribe-proc) step.
+For instructions about installing Business Automation Operator, see [the product documentation](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html-single/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/index#operator-con_openshift-operator) step.
 
-Then access the wizard installer, instructions available [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.8/html/deploying_a_red_hat_process_automation_manager_environment_on_red_hat_openshift_container_platform_using_operators/operator-con#operator-deploy-start-proc)
+Then access the wizard installer, instructions available [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html-single/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/index#operator-deploy-start-proc_openshift-operator).
 
-To configure the Environment with Smart Router follow the steps described in this [section](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.8/html/deploying_a_red_hat_process_automation_manager_environment_on_red_hat_openshift_container_platform_using_operators/operator-con#operator-deploy-smartrouter-proc).
+To configure the Environment with Smart Router follow the steps described in this [section](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html-single/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/index#operator-deploy-smartrouter-proc_openshift-operator).
 To use a custom Smart Router image, fill the following fields in the wizard installer:
 
 ```bash

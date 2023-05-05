@@ -13,7 +13,7 @@
 	<artifactId>rhpam-kieserver-decisions-model</artifactId>
 	<packaging>jar</packaging>
 
-	<name>OpenShift Quickstarts: RHPAM KIE Server: Multi Module Decisions Model</name>
+	<name>OpenShift Quickstarts: RHPAM KIE Server: Multi Module Decisions Model (hellorules-model)</name>
 	<description>A simple example application demonstrating the use of a business rule.</description>
 
 	<licenses>

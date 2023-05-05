@@ -32,6 +32,8 @@ SHORTENED_VERSION_REGEX = re.compile(r'\b8')
 IMAGESTREAM = "ibm-bamoe0-image-streams"
 RHPAM_PREFIX_REGEX = re.compile(r'ibm-bamoe0')
 
+# TODO add option to update the version in the quickstarts as well update the tag for each README.
+
 
 def yaml_loader():
     """

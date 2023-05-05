@@ -1,6 +1,6 @@
 ## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart - Multi module
 
-This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/kieserver) image.
 
 ## How to use it?
 
@@ -43,8 +43,8 @@ spec:
 
 When the KieApp gets ready, you can go ahead deploying  the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
 
-To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog, 
-if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 
+To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog,
+if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template.
 
 You might be required to import the EAP 7.3 imagestream as well:
 ```bash

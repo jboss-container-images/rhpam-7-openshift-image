@@ -1,8 +1,8 @@
 ## IBM Business Automation Manager Open Editions Kie Server Quickstart
 
-Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/library-process)
+This quickstart is intended to be used with the [IBM BAMOE Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/kieserver) image.
 
-This quickstart is intend to be used with the [IBM BAMOE Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/kieserver) image.
+## How to use it?
 
 ## How to use it?
 
@@ -43,8 +43,8 @@ spec:
 
 When your KieApp will be ready and running you can deploy the [library-client](library-client) in the same or another project and test IBM BAMOE Kie Server container.
 
-To deploy the library-process client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog, 
-if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 
+To deploy the library-process client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should available in the OpenShift Catalog,
+if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template.
 
 You might be required to import the EAP 7.3 imagestream as well:
 ```bash
