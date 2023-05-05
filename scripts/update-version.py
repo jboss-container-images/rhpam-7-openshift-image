@@ -33,6 +33,8 @@ IMAGESTREAM = "rhpam000-image-streams"
 RHPAM_PREFIX_REGEX = re.compile(r'rhpam\d{3}\b')
 NO_DOTS_VERSION = re.compile(r'7\d{2}')
 
+# TODO add option to update the version in the quickstarts as well update the tag for each README.
+
 
 def yaml_loader():
     """

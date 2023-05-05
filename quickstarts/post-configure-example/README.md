@@ -6,12 +6,10 @@ Container images based on JBoss EAP.
 The steps described on this quickstart will work on the following container images:
 
 - RHPAM KIE Server
-- RHDM KIE Server
 - Business Central
 - Business Central Monitoring
-- Decision Central
 - Dashbuilder
-- RHPAM/DM Controller
+- RHPAM Controller
 
 Note: This procedure can be applied to any kind of post configure actions.
 
@@ -107,28 +105,28 @@ trying to execute /opt/eap/bin/jboss-cli.sh --file=/opt/eap/extensions/add-users
 some jboss logging output
 ...
 The batch executed successfully
-15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: JBoss EAP 7.4.1.GA (WildFly Core 15.0.4.Final-redhat-00001) stopped in 40ms
+15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0025: JBoss EAP 7.4.10.GA (WildFly Core 15.0.25.Final-redhat-00001) stopped in 40ms
 END - users added
 ```
 
 ### Operator method
 
 To install the operator please follow the steps described in
-this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.12/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
+this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
 . After the operator installed and ready to use, you need to edit the `kieconfig-<current-version>`, in this
-case, `7.13.0`. With the operator already running in the current namespace, follow the steps below:
+case, `7.13.3`. With the operator already running in the current namespace, follow the steps below:
 
 - Create the [config-map](#creating-the-config-map) in the current namespace as described above.
-- Edit the `kieconfigs-7.13.0` config map, you can use either the OCP Web UI or the command line tool, in this example
+- Edit the `kieconfigs-7.13.3` config map, you can use either the OCP Web UI or the command line tool, in this example
   we'll use the command line tool:
 
   ```bash
-  $ oc edit cm kieconfigs-7.13.0
+  $ oc edit cm kieconfigs-7.13.3
   ```
 
 In this case, as we are going to update the KIE Server deployment, you need to update the `servers` section of the
 common.yaml content. If it was for `Business Central, Monitoring or Decision Central`, then the `console` section needs
-to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.13.0-dashbuilder` needs to be edited.
+to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.13.3-dashbuilder` needs to be edited.
 
 First, let's locate where is the `servers` section.
 
@@ -173,7 +171,7 @@ trying to execute /opt/eap/bin/jboss-cli.sh --file=/opt/eap/extensions/add-users
 some jboss logging output
 ...
 The batch executed successfully
-15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: JBoss EAP 7.4.1.GA (WildFly Core 15.0.4.Final-redhat-00001) stopped in 40ms
+15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0025: JBoss EAP 7.4.10.GA (WildFly Core 15.0.25.Final-redhat-00001) stopped in 40ms
 END - users added
 ```
 
