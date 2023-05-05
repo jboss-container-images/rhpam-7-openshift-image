@@ -6,12 +6,10 @@ Container images based on JBoss EAP.
 The steps described on this quickstart will work on the following container images:
 
 - RHPAM KIE Server
-- RHDM KIE Server
 - Business Central
 - Business Central Monitoring
-- Decision Central
 - Dashbuilder
-- RHPAM/DM Controller
+- RHPAM Controller
 
 Note: This procedure can be applied to any kind of post configure actions.
 
@@ -107,7 +105,7 @@ trying to execute /opt/eap/bin/jboss-cli.sh --file=/opt/eap/extensions/add-users
 some jboss logging output
 ...
 The batch executed successfully
-15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: JBoss EAP 7.4.1.GA (WildFly Core 15.0.4.Final-redhat-00001) stopped in 40ms
+15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0025: JBoss EAP 7.4.10.GA (WildFly Core 15.0.25.Final-redhat-00001) stopped in 40ms
 END - users added
 ```
 
@@ -173,7 +171,7 @@ trying to execute /opt/eap/bin/jboss-cli.sh --file=/opt/eap/extensions/add-users
 some jboss logging output
 ...
 The batch executed successfully
-15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: JBoss EAP 7.4.1.GA (WildFly Core 15.0.4.Final-redhat-00001) stopped in 40ms
+15:33:07,651 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0025: JBoss EAP 7.4.10.GA (WildFly Core 15.0.25.Final-redhat-00001) stopped in 40ms
 END - users added
 ```
 
