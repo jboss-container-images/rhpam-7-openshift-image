@@ -1,7 +1,7 @@
 ## IBM Business Automation Manager Open Editions SmartRouter Extension Example
 
 
-Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/smartrouter) image.
+Use this quick start guide with the [IBM BAMOE SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this

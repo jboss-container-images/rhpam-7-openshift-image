@@ -4,8 +4,6 @@ This quickstart is intended to be used with the [IBM BAMOE Kie Server](https://g
 
 ## How to use it?
 
-## How to use it?
-
 To deploy the Library Process demo you need IBM BAMOE environment.
 
 To deploy it on your OpenShift instance, just execute the following commands:
