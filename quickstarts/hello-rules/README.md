@@ -1,8 +1,6 @@
 ## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart
 
-Note that, this is the development branch, the target images might not be available here, instead you can look at the [released branch](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.x-blue/quickstarts/hello-rules)
-
-This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/main/kieserver) image.
+This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/kieserver) image.
 
 ## How to use it?
 
@@ -46,8 +44,8 @@ spec:
 
 When your KieApp will be ready and running, you can go ahead deploying the [hellorules-client](hellorules-client) in the same or another project and test IBM BAMOE KIE Server container.
 
-To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should be available in the OpenShift Catalog, 
-if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template. 
+To deploy the hello rules client you can use the **eap73-basic-s2i** template and specify the above quickstart to be deployed. It should be available in the OpenShift Catalog,
+if not, follow the steps described [here](https://github.com/jboss-container-images/jboss-eap-7-openshift-image/blob/eap73/README.adoc) to install the missing template.
 
 You might be required to import the EAP 7.3 imagestream as well:
 
@@ -90,7 +88,7 @@ by using the *hello-rules* quickstart and this client to interact with Active MQ
 
 Before proceed, clone this repository.
 Follow the steps described before to:
- - install the KieApp using the *Enable JMS Integration* setting as described in the  Business Automation Operator documentation [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator#operator-deploy-kieserver-proc_openshift-operator) at step 13.
+- install the KieApp using the *Enable JMS Integration* setting as described in the  Business Automation Operator documentation [here](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator#operator-deploy-kieserver-proc_openshift-operator) at step 13.
 
 After properly configuring the Active-MQ pre requisites, you have to wait the KieApp gets ready before continuing.
 
