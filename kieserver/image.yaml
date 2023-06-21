@@ -2,7 +2,7 @@ schema_version: 1
 
 name: "rhpam-7/rhpam-kieserver-rhel8"
 description: "Red Hat Process Automation Manager Kie Server 7.13 container image"
-version: "7.13.3"
+version: "7.13.4"
 from: "registry.redhat.io/ubi8/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
