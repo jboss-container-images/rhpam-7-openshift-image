@@ -1,6 +1,6 @@
 ## IBM Business Automation Manager Open Editions KIE Server decisions Quickstart - Multi module
 
-This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3.GA/kieserver) image.
+This quickstart is intended to be used with the [IBM BAMOE KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3-1.GA/kieserver) image.
 
 ## How to use it?
 
