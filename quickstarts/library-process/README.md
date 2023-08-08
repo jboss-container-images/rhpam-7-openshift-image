@@ -1,10 +1,10 @@
 ## Red Hat Process Automation Manager Kie Server Quickstart
 
-This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3.GA/kieserver) image.
+This quickstart is intend to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3-1.GA/kieserver) image.
 
 ## How to use it?
 
-To deploy the Library Process demo you can use the [rhpam713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3.GA/templates/process/rhpam713-prod-immutable-kieserver.yaml) application template.
+To deploy the Library Process demo you can use the [rhpam713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3-1.GA/templates/process/rhpam713-prod-immutable-kieserver.yaml) application template.
 
 To deploy it on your OpenShift instance, just execute the following commands:
 

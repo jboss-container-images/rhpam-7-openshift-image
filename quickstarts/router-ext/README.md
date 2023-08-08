@@ -1,6 +1,6 @@
 ## Red Hat Process Automation Manager SmartRouter Extension Example
 
-Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3.GA/smartrouter) image.
+Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3-1.GA/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
@@ -40,7 +40,7 @@ $ docker run --rm registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.3 \
     cat /opt/rhpam-smartrouter/openshift-launch.sh > openshift-launch.sh
 ```
 
-Check the file content, it should be the same as [this file](https://github.com/jboss-container-images/jboss-kie-modules/blob/rhpam-7.13.3.GA/jboss-kie-smartrouter/added/openshift-launch.sh).
+Check the file content, it should be the same as [this file](https://github.com/jboss-container-images/jboss-kie-modules/blob/rhpam-7.13.3-1.GA/jboss-kie-smartrouter/added/openshift-launch.sh).
 Edit the file. In the last line of the file, change the `exec` instruction from:
 
 ```bash

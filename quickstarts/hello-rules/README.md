@@ -1,12 +1,12 @@
 ## Red Hat Process Automation Manager KIE Server decisions Quickstart
 
-This quickstart is intended to be used with the [RHPAM KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3.GA/kieserver) image.
+This quickstart is intended to be used with the [RHPAM KIE Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3-1.GA/kieserver) image.
 
 ## How to use it?
 
 The template below will be used for this quickstart:
 
-[rhdm713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3.GA/templates/decision/rhdm713-prod-immutable-kieserver.yaml) application template.
+[rhdm713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3-1.GA/templates/decision/rhdm713-prod-immutable-kieserver.yaml) application template.
 
 To deploy it on your OpenShift instance, just execute the following commands:
 
