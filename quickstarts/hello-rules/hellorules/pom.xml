@@ -21,17 +21,6 @@
 		</license>
 	</licenses>
 
-<<<<<<< HEAD
-	<properties>
-		<jaxb-api.version>2.3.0.redhat-1</jaxb-api.version>
-		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<!-- Explicitly declaring the source encoding eliminates the following
-			message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-			resources, i.e. build is platform dependent! -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-=======
   <properties>
     <jaxb-api.version>2.3.0.redhat-1</jaxb-api.version>
     <maven.compiler.version>3.8.0</maven.compiler.version>
@@ -44,7 +33,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>11</maven.compiler.release>
   </properties>
->>>>>>> 97834b7 (RHPAM-4682)
 
 	<dependencyManagement>
 		<dependencies>
