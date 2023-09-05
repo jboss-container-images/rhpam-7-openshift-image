@@ -1,10 +1,10 @@
 ## Red Hat Process Automation Manager KIE Server decisions Quickstart - Multi module
 
-This quickstart is intended to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3-1.GA/kieserver) image.
+This quickstart is intended to be used with the [RHPAM Kie Server](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.3.GA/kieserver) image.
 
 ## How to use it?
 
-To deploy the Hello Rules demo you can use the [rhdm713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3-1.GA/templates/decision/rhdm713-prod-immutable-kieserver.yaml) application template.
+To deploy the Hello Rules demo you can use the [rhdm713-prod-immutable-kieserver](https://github.com/jboss-container-images/rhpam-7-openshift-image/blob/7.13.3.GA/templates/decision/rhdm713-prod-immutable-kieserver.yaml) application template.
 
 
 To deploy it on your OpenShift instance, just execute the following commands:
@@ -72,7 +72,7 @@ $ oc new-app rhdm713-prod-immutable-kieserver \
 -p KIE_SERVER_CONTAINER_DEPLOYMENT=hellorules=org.openshift.quickstarts:rhpam-kieserver-decisions:1.6.0-SNAPSHOT \
 -p ARTIFACT_DIR=hellorules/target,hellorules-model/target \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=7.13.3.GA \
+-p SOURCE_REPOSITORY_REF=7.13.4.GA \
 -p CONTEXT_DIR=quickstarts/hello-rules-multi-module \
 -p IMAGE_STREAM_NAMESPACE=openshift
 ```
@@ -94,7 +94,7 @@ To do so, execute the following commands:
 ```bash
 $ oc new-app eap73-basic-s2i \
 -p SOURCE_REPOSITORY_URL=https://github.com/jboss-container-images/rhpam-7-openshift-image.git \
--p SOURCE_REPOSITORY_REF=7.13.3.GA \
+-p SOURCE_REPOSITORY_REF=7.13.4.GA \
 -p CONTEXT_DIR=quickstarts/hello-rules
 ```
 
