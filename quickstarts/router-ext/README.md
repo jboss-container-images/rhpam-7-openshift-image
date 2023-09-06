@@ -1,6 +1,6 @@
 ## Red Hat Process Automation Manager SmartRouter Extension Example
 
-Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.4.GA/smartrouter) image.
+Use this quick start guide with the [RHPAM SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/7.13.5.GA/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
@@ -16,13 +16,13 @@ $ mvn clean package
 
 The build process will generate the following jar: `target/router-ext-0.0.1-SNAPSHOT.jar` 
 
-After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4` image 
+After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.5` image 
 and customize it, to include the recently built Smart Router extension.
 
 If you don't have the Smart Router image on your local registry, pull it:
 
 ```bash
-$ docker pull registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4
+$ docker pull registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.5
 ```
 
 Create a directory for building the custom Smart Router Image. For this example I'll be using the tmp directory.
@@ -36,11 +36,11 @@ $ cd /tmp/smartrouter
 To extract the `openshift-launch.sh` file from the official Smart Router image, enter the following command:
 
 ```bash
-$ docker run --rm registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4 \
+$ docker run --rm registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.5 \
     cat /opt/rhpam-smartrouter/openshift-launch.sh > openshift-launch.sh
 ```
 
-Check the file content, it should be the same as [this file](https://github.com/jboss-container-images/jboss-kie-modules/blob/rhpam-7.13.4.GA/jboss-kie-smartrouter/added/openshift-launch.sh).
+Check the file content, it should be the same as [this file](https://github.com/jboss-container-images/jboss-kie-modules/blob/rhpam-7.13.5.GA/jboss-kie-smartrouter/added/openshift-launch.sh).
 Edit the file. In the last line of the file, change the `exec` instruction from:
 
 ```bash
@@ -61,7 +61,7 @@ Next, build the custom Smart Router image.
 Create a file called Dockerfile with the following content:
 
 ```bash
-from registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4
+from registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.5
 
 RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
 COPY openshift-launch.sh  /opt/rhpam-smartrouter/openshift-launch.sh
@@ -82,7 +82,7 @@ Now, build the image:
 $ docker build -t my-smartrouter-ext:1.0 .
 docker build -t my-smartrouter-ext:1.0 .
 Sending build context to Docker daemon   12.8kB
-Step 1/8 : from registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4
+Step 1/8 : from registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.5
  ---> 1822bf9d5565
 Step 2/8 : RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
  ---> Using cache
