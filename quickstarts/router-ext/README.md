@@ -36,7 +36,7 @@ $ cd /tmp/smartrouter
 To extract the `openshift-launch.sh` file from the official Smart Router image, enter the following command:
 
 ```bash
-$ docker run --rm registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:7.13.4 \
+$ docker run --rm registry.redhat.io/rhpam-7/rhpam-smartrouter-rhel8:``.4 \
     cat /opt/rhpam-smartrouter/openshift-launch.sh > openshift-launch.sh
 ```
 

@@ -27,7 +27,7 @@
 #     bash check-image-version.sh rhpam-dashbuilder-rhel8 7.67.0.Final-redhat-00005
 #
 # There is a need to have the PROD_VERSION environment variable set as well, it is needed to correctly unzip the
-# Smart Router component. On CI it is set, e.g. to 7.13.3, for local tests this needs to be set as well.
+# Smart Router component. On CI it is set, e.g. to 7.13.4, for local tests this needs to be set as well.
 # The PROD_VERSION is also needed to correctly build the Container Image's name to query the version information.
 #
 # Exit codes:
