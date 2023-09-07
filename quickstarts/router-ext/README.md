@@ -1,7 +1,7 @@
 ## IBM Business Automation Manager Open Editions SmartRouter Extension Example
 
 
-Use this quick start guide with the [IBM BAMOE SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.3-1.GA/smartrouter) image.
+Use this quick start guide with the [IBM BAMOE SmartRouter](https://github.com/jboss-container-images/rhpam-7-openshift-image/tree/8.0.4.GA/smartrouter) image.
 
 The SmartRouter extension is used to extend the Smart Router functionality to make it to adapt the routing to your needs.
 This example provides a very simple custom Kie Container resolver based on the Kie Container version and how you can add this
@@ -17,13 +17,13 @@ $ mvn clean package
 
 The build process will generate the following jar: `target/router-ext-0.0.1-SNAPSHOT.jar` 
 
-After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3` image 
+After building the Smart Router extension, you can prepare the environment to extend the `registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.4` image 
 and customize it, to include the recently built Smart Router extension.
 
 If you don't have the Smart Router image on your local registry, pull it:
 
 ```bash
-$ docker pull registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3
+$ docker pull registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.4
 ```
 
 Create a directory for building the custom Smart Router Image. For this example I'll be using the tmp directory.
@@ -37,7 +37,7 @@ $ cd /tmp/smartrouter
 To extract the `openshift-launch.sh` file from the official Smart Router image, enter the following command:
 
 ```bash
-$ docker run --rm registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3 \
+$ docker run --rm registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.4 \
     cat /opt/rhpam-smartrouter/openshift-launch.sh > openshift-launch.sh
 ```
 
@@ -62,7 +62,7 @@ Next, build the custom Smart Router image.
 Create a file called Dockerfile with the following content:
 
 ```bash
-from registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.3
+from registry.redhat.io/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.4
 
 RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
 COPY openshift-launch.sh  /opt/rhpam-smartrouter/openshift-launch.sh
@@ -83,7 +83,7 @@ Now, build the image:
 $ docker build -t my-smartrouter-ext:1.0 .
 docker build -t my-smartrouter-ext:1.0 .
 Sending build context to Docker daemon   12.8kB
-Step 1/8 : from registry.redhat.io/ibm-bamoe/rhpam-smartrouter-rhel8:8.0.3
+Step 1/8 : from registry.redhat.io/ibm-bamoe/rhpam-smartrouter-rhel8:8.0.4
  ---> 1822bf9d5565
 Step 2/8 : RUN rm -rfv /opt/rhpam-smartrouter/openshift-launch.sh
  ---> Using cache
