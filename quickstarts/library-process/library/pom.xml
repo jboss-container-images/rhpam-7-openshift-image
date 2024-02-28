@@ -17,7 +17,7 @@
 	<properties>
 		<jaxb-api.version>2.3.0.redhat-1</jaxb-api.version>
 		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<ba-platform-bom.version>7.13.4.redhat-00005</ba-platform-bom.version>
+		<ba-platform-bom.version>7.13.5.redhat-00001</ba-platform-bom.version>
 		<org.jboss.bom.version>7.4.12.GA</org.jboss.bom.version>
 		<slf4j-simple.version>1.7.22.redhat-2</slf4j-simple.version>
 		<junit.version>4.13.1</junit.version>

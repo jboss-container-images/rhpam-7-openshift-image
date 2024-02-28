@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.kie.server</groupId>
             <artifactId>kie-server-router-proxy</artifactId>
-            <version>7.67.0.Final-redhat-00028</version>
+            <version>7.67.0.Final-redhat-00029</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
