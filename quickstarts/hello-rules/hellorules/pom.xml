@@ -25,7 +25,7 @@
     <jaxb-api.version>2.3.0.redhat-1</jaxb-api.version>
     <maven.compiler.version>3.8.0</maven.compiler.version>
     <ba-platform-bom.version>7.13.5.redhat-00001</ba-platform-bom.version>
-    <org.jboss.bom.version>7.4.12.GA</org.jboss.bom.version>
+    <org.jboss.bom.version>7.4.14.GA</org.jboss.bom.version>
     <!-- Explicitly declaring the source encoding eliminates the following
       message: -->
     <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
