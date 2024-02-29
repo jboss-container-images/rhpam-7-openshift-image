@@ -11,15 +11,15 @@ modules:
     - name: cct_module
       git:
         url: https://github.com/jboss-openshift/cct_module.git
-        ref: 0.39.7
+        ref: 0.39.8
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_7413_CR1
+        ref: EAP_7414_CR2
     - name: jboss-eap-7-image
       git:
         url: https://github.com/jboss-container-images/jboss-eap-7-image.git
-        ref: EAP_7413_CR1
+        ref: EAP_7414_CR2
     - name: wildfly-cekit-modules
       git:
         url: https://github.com/wildfly/wildfly-cekit-modules.git
@@ -27,8 +27,8 @@ modules:
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
-        ref: 7.13.4.GA
+        ref: 7.13.5.GA
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: rhpam-7.13.4.GA
+        ref: rhpam-7.13.5.GA
