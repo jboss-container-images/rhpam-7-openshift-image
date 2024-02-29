@@ -114,19 +114,19 @@ END - users added
 To install the operator please follow the steps described in
 this [link](https://access.redhat.com/documentation/en-us/red_hat_process_automation_manager/7.13/html/deploying_red_hat_process_automation_manager_on_red_hat_openshift_container_platform/operator-con_openshift-operator)
 . After the operator installed and ready to use, you need to edit the `kieconfig-<current-version>`, in this
-case, `7.13.4`. With the operator already running in the current namespace, follow the steps below:
+case, `7.13.5`. With the operator already running in the current namespace, follow the steps below:
 
 - Create the [config-map](#creating-the-config-map) in the current namespace as described above.
-- Edit the `kieconfigs-7.13.4` config map, you can use either the OCP Web UI or the command line tool, in this example
+- Edit the `kieconfigs-7.13.5` config map, you can use either the OCP Web UI or the command line tool, in this example
   we'll use the command line tool:
 
   ```bash
-  $ oc edit cm kieconfigs-7.13.4
+  $ oc edit cm kieconfigs-7.13.5
   ```
 
 In this case, as we are going to update the KIE Server deployment, you need to update the `servers` section of the
 common.yaml content. If it was for `Business Central, Monitoring or Decision Central`, then the `console` section needs
-to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.13.4-dashbuilder` needs to be edited.
+to be updated. If it is the `Dashbuilder` then the configMap called `kieconfigs-7.13.5-dashbuilder` needs to be edited.
 
 First, let's locate where is the `servers` section.
 

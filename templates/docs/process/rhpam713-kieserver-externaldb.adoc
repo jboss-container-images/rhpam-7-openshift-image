@@ -34,7 +34,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`CREDENTIALS_SECRET` | -- | Secret containing the KIE_ADMIN_USER and KIE_ADMIN_PWD values | rhpam-credentials | True
 |`IMAGE_STREAM_NAMESPACE` | -- | Namespace in which the ImageStreams for Red Hat Process Automation Manager images are installed. These ImageStreams are normally installed in the openshift namespace. You need to modify this parameter only if you installed the ImageStream in a different namespace/project. Default is "openshift". | openshift | True
 |`KIE_SERVER_IMAGE_STREAM_NAME` | -- | The name of the image stream to use for KIE Server. Default is "rhpam-kieserver-rhel8". | rhpam-kieserver-rhel8 | True
-|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.13.4". | 7.13.4 | True
+|`IMAGE_STREAM_TAG` | -- | A named pointer to an image in an image stream. Default is "7.13.5". | 7.13.5 | True
 |`KIE_SERVER_PERSISTENCE_SCHEMA` | `KIE_SERVER_PERSISTENCE_SCHEMA` | Hibernate persistence schema. | bd.schema | False
 |`KIE_SERVER_EXTERNALDB_DIALECT` | `KIE_SERVER_PERSISTENCE_DIALECT` | KIE Server external database Hibernate dialect. | org.hibernate.dialect.MySQL57Dialect | True
 |`KIE_SERVER_EXTERNALDB_SERVICE_HOST` | `RHPAM_SERVICE_HOST` | Sets the datasource service host. Use this if you want to use the predefined mysql or postgresql datasource properties. Leave blank if the KIE_SERVER_EXTERNALDB_URL parameter is set. | 10.10.10.1 | False
@@ -53,7 +53,7 @@ https://docs.okd.io/latest/architecture/core_concepts/templates.html#parameters[
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION` | `RHPAM_BACKGROUND_VALIDATION` | Sets the sql validation method to background-validation, if set to false the validate-on-match method will be used. | true | False
 |`KIE_SERVER_EXTERNALDB_BACKGROUND_VALIDATION_MILLIS` | `RHPAM_VALIDATION_MILLIS` | Defines the interval for the background-validation check for the jdbc connections. | 10000 | False
 |`KIE_SERVER_EXTERNALDB_DRIVER_TYPE` | `RHPAM_DRIVER_TYPE` | KIE Server external database driver type, applicable only for DB2, possible values are 4 (default) or 2. | 4 | False
-|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:7.13.4. | custom-driver-extension:7.13.4 | True
+|`EXTENSIONS_IMAGE` | -- | ImageStreamTag definition for the image containing the drivers and configuration. For example, custom-driver-image:7.13.5. | custom-driver-extension:7.13.5 | True
 |`EXTENSIONS_IMAGE_NAMESPACE` | -- | Namespace within which the ImageStream definition for the image containing the drivers and configuration is located. | openshift | True
 |`EXTENSIONS_INSTALL_DIR` | -- | Full path to the directory within the extensions image where the extensions are located (e.g. install.sh, modules/, etc.). | `/extensions` | True
 |`KIE_SERVER_MODE` | `KIE_SERVER_MODE` | The KIE Server mode. Valid values are 'DEVELOPMENT' or 'PRODUCTION'. In production mode, you can not deploy SNAPSHOT versions of artifacts on the KIE Server and can not change the version of an artifact in an existing container. (Sets the org.kie.server.mode system property). | `PRODUCTION` | False
@@ -158,7 +158,7 @@ for more information.
 |=============
 | S2I image  | link | Build output | BuildTriggers and Settings
 
-|rhpam-kieserver-rhel8:7.13.4 |  link:../../../kieserver/image.yaml[`rhpam-7/rhpam-kieserver-rhel8`] | `${APPLICATION_NAME}-kieserver:latest` | ImageChange, ImageChange, ConfigChange
+|rhpam-kieserver-rhel8:7.13.5 |  link:../../../kieserver/image.yaml[`rhpam-7/rhpam-kieserver-rhel8`] | `${APPLICATION_NAME}-kieserver:latest` | ImageChange, ImageChange, ConfigChange
 |=============
 
 

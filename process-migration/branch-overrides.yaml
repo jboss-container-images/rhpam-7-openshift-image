@@ -10,7 +10,7 @@ modules:
     - name: cct_module
       git:
         url: https://github.com/jboss-openshift/cct_module.git
-        ref: 0.39.7
+        ref: 0.39.8
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
