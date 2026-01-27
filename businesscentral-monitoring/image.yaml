@@ -3,7 +3,7 @@ schema_version: 1
 name: "ibm-bamoe/bamoe-businesscentral-monitoring-rhel8"
 description: "IBM Business Central Monitoring 8.0 OpenShift container image"
 version: "8.0.8"
-from: "registry.redhat.io/ubi8/ubi-minimal:latest"
+from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
     value: "ibm-bamoe-businesscentral-monitoring-rhel8-container"
@@ -147,8 +147,6 @@ modules:
       version: "7.4-kie"
     - name: os-eap-txnrecovery.run
       version: "python3"
-    - name: os-eap-python
-      version: "3.6"
     - name: jboss-kie-common
     - name: jboss-kie-wildfly-common
     - name: jboss-kie-workbench
@@ -158,6 +156,7 @@ packages:
   manager: microdnf
   install:
     - git
+    - python3.12
 osbs:
   configuration:
     container_file: container.yaml
