@@ -1,7 +1,7 @@
 ---
 schema_version: 1
 name: "kie-custom-jdbc-driver"
-version: "8.0.8"
+version: "8.0.9"
 envs:
 - name: "DRIVER_DIR"
   value: "${DRIVER_DIR}"
