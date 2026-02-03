@@ -69,7 +69,7 @@ osbs:
     container_file: container.yaml
   repository:
     name: containers/ibm-bamoe-process-migration
-    branch: ibm-bamoe-rhel-8
+    branch: ibm-bamoe-rhel-9
 run:
   user: 185
   cmd:

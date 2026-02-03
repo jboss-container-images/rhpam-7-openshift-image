@@ -142,7 +142,7 @@ osbs:
   extra_dir: osbs-extra
   repository:
     name: containers/ibm-bamoe-controller
-    branch: ibm-bamoe-rhel-8
+    branch: ibm-bamoe-rhel-9
 run:
   user: 185
   cmd:

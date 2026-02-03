@@ -163,7 +163,7 @@ osbs:
   extra_dir: osbs-extra
   repository:
     name: containers/ibm-bamoe-businesscentral-monitoring
-    branch: ibm-bamoe-rhel-8
+    branch: ibm-bamoe-rhel-9
 run:
   user: 185
   cmd:
