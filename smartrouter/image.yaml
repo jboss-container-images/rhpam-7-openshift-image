@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "ibm-bamoe/bamoe-smartrouter-rhel8"
+name: "ibm-bamoe/bamoe-smartrouter-rhel9"
 description: "IBM Smart Router 8.0 container image"
-version: "8.0.8"
-from: "registry.redhat.io/ubi8/ubi-minimal:latest"
+version: "8.0.9"
+from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-smartrouter-rhel8-container"
+    value: "ibm-bamoe-smartrouter-rhel9-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Process Automation Manager Smart Router"
   - name: "io.k8s.display-name"
@@ -107,21 +107,21 @@ modules:
     - name: dynamic-resources
     - name: ibm-bamoe-8-smartrouter
     - name: jboss.container.util.logging.bash
-    - name: os-eap-python
-      version: "3.6"
     - name: jboss-kie-common
     - name: jboss-kie-smartrouter
     - name: jboss.kie.pkg-update
 packages:
   content_sets_file: content_sets.yml
   manager: microdnf
+  install:
+    - python3.12
 osbs:
   configuration:
     container_file: container.yaml
   extra_dir: osbs-extra
   repository:
     name: containers/ibm-bamoe-smartrouter
-    branch: ibm-bamoe-rhel-8
+    branch: ibm-bamoe-rhel-9
 run:
   user: 185
   cmd:

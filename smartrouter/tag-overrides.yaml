@@ -15,12 +15,12 @@ modules:
     - name: jboss-eap-modules
       git:
         url: https://github.com/jboss-container-images/jboss-eap-modules.git
-        ref: EAP_7422_CR1
+        ref: EAP_7423_CR2_JBEAP_31370
     - name: rhpam-7-image
       git:
         url: https://github.com/jboss-container-images/rhpam-7-image.git
-        ref: 8.0.8.GA
+        ref: 8.0.9.GA
     - name: jboss-kie-modules
       git:
         url: https://github.com/jboss-container-images/jboss-kie-modules.git
-        ref: bamoe-8.0.8.GA
+        ref: bamoe-8.0.9.GA
