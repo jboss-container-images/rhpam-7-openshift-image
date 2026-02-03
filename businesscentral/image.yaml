@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "ibm-bamoe/bamoe-businesscentral-rhel8"
+name: "ibm-bamoe/bamoe-businesscentral-rhel9"
 description: "IBM Business Central 8.0 OpenShift container image"
 version: "8.0.8"
 from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-businesscentral-rhel8-container"
+    value: "ibm-bamoe-businesscentral-rhel9-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Central"
   - name: "io.k8s.display-name"

@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "ibm-bamoe/bamoe-process-migration-rhel8"
+name: "ibm-bamoe/bamoe-process-migration-rhel9"
 description: "IBM Process Migration 8.0 container image"
 version: "8.0.8"
 from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-process-migration-rhel8-container"
+    value: "ibm-bamoe-process-migration-rhel9-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Process Migration"
   - name: "io.k8s.display-name"

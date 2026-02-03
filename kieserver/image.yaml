@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "ibm-bamoe/bamoe-kieserver-rhel8"
+name: "ibm-bamoe/bamoe-kieserver-rhel9"
 description: "IBM Kie Server 8.0 container image"
 version: "8.0.8"
 from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-kieserver-rhel8-container"
+    value: "ibm-bamoe-kieserver-rhel9-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions KIE server"
   - name: "io.k8s.display-name"
