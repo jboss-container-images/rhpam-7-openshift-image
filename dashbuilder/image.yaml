@@ -1,12 +1,12 @@
 schema_version: 1
 
-name: "ibm-bamoe/bamoe-dashbuilder-rhel8"
+name: "ibm-bamoe/bamoe-dashbuilder-rhel9"
 description: "IBM Standalone Dashbuilder 8.0 container image"
 version: "8.0.8"
-from: "registry.redhat.io/ubi8/ubi-minimal:latest"
+from: "registry.redhat.io/ubi9/ubi-minimal:latest"
 labels:
   - name: "com.redhat.component"
-    value: "ibm-bamoe-dashbuilder-rhel8-container"
+    value: "ibm-bamoe-dashbuilder-rhel9-container"
   - name: "io.k8s.description"
     value: "Platform for running IBM Business Automation Manager Open Editions Standalone Dashbuilder"
   - name: "io.k8s.display-name"
@@ -157,7 +157,7 @@ osbs:
   extra_dir: osbs-extra
   repository:
     name: containers/ibm-bamoe-dashbuilder
-    branch: ibm-bamoe-rhel-8
+    branch: ibm-bamoe-rhel-9
 run:
   user: 185
   cmd:

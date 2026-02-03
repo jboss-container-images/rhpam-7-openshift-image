@@ -12,5 +12,5 @@
 # likely this will be x86_64 and ppc64le initially.
 ---
 x86_64:
-- rhel-8-for-x86_64-baseos-rpms
-- rhel-8-for-x86_64-appstream-rpms
+- rhel-9-for-x86_64-baseos-rpms
+- rhel-9-for-x86_64-appstream-rpms

@@ -24,7 +24,7 @@
 # Usage:
 # bash check-image-version.sh $COMPONENT_IMAGE $KIE_VERSION
 # e.g.:
-#     bash check-image-version.sh bamoe-dashbuilder-rhel8 7.67.0.Final-redhat-00005
+#     bash check-image-version.sh bamoe-dashbuilder-rhel9 7.67.0.Final-redhat-00005
 #
 # There is a need to have the PROD_VERSION environment variable set as well, it is needed to correctly unzip the
 # Smart Router component. On CI it is set, e.g. to 7.13.3, for local tests this needs to be set as well.
@@ -51,19 +51,19 @@ check_version() {
     fi
 
     case ${component} in
-        bamoe-dashbuilder-rhel8|bamoe-kieserver-rhel8|bamoe-controller-rhel8|bamoe-businesscentral-monitoring-rhel8)
+        bamoe-dashbuilder-rhel9|bamoe-kieserver-rhel9|bamoe-controller-rhel9|bamoe-businesscentral-monitoring-rhel9)
             result=$(${CONTAINER_ENGINE} run -it ibm-bamoe/${component}:${PROD_VERSION} cat /deployments/ROOT.war/META-INF/MANIFEST.MF | grep "Implementation-Version" | cut -d: -f2 | tr -d '[:space:]')
             test_version "${result}" "${component}" "${kie_version}"
             ;;
-        bamoe-smartrouter-rhel8)
+        bamoe-smartrouter-rhel9)
             result=$(${CONTAINER_ENGINE} run -it ibm-bamoe/${component}:${PROD_VERSION} sh -c 'jar xf /opt/ibm-bamoe-smartrouter/bamoe-'"${PROD_VERSION}"'-smart-router.jar && cat META-INF/MANIFEST.MF' | grep "Implementation-Version" | cut -d: -f2 | tr -d '[:space:]')
             test_version "${result}" "${component}" "${kie_version}"
             ;;
-        bamoe-businesscentral-rhel8)
+        bamoe-businesscentral-rhel9)
             result=$(${CONTAINER_ENGINE} run -it ibm-bamoe/${component}:${PROD_VERSION} cat /deployments/ROOT.war/META-INF/build.metadata | grep "build.version=" | cut -d= -f2 | tr -d '[:space:]')
             test_version "${result}" "${component}" "${kie_version}"
             ;;
-        bamoe-process-migration-rhel8)
+        bamoe-process-migration-rhel9)
             result=$(${CONTAINER_ENGINE} run -it ibm-bamoe/${component}:${PROD_VERSION} sh -c 'jar xf /opt/ibm-bamoe-process-migration/quarkus-app/quarkus-run.jar && cat META-INF/MANIFEST.MF' | grep "Implementation-Version" | cut -d: -f2 | tr -d '[:space:]')
             test_version "${result}" "${component}" "${kie_version}"
             ;;
