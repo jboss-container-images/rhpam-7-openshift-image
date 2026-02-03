@@ -9,7 +9,7 @@ items:
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-businesscentral-rhel8
+      name: bamoe-businesscentral-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Business Central 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -26,11 +26,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-businesscentral-monitoring-rhel8
+      name: bamoe-businesscentral-monitoring-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Business Central Monitoring 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -47,11 +47,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-monitoring-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-businesscentral-monitoring-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-controller-rhel8
+      name: bamoe-controller-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Standalone Controller 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -68,11 +68,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-controller-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-controller-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-dashbuilder-rhel8
+      name: bamoe-dashbuilder-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Dashbuilder 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -89,11 +89,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-dashbuilder-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-dashbuilder-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-kieserver-rhel8
+      name: bamoe-kieserver-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager KIE Server 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -110,11 +110,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-kieserver-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-kieserver-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-smartrouter-rhel8
+      name: bamoe-smartrouter-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Smart Router 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -131,11 +131,11 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-smartrouter-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-smartrouter-rhel9:8.0.8
   - kind: ImageStream
     apiVersion: v1
     metadata:
-      name: bamoe-process-migration-rhel8
+      name: bamoe-process-migration-rhel9
       annotations:
         openshift.io/display-name: IBM Process Automation Manager Process Migration 8.0
         openshift.io/provider-display-name: IBM, Inc.
@@ -152,4 +152,4 @@ items:
             type: Local
           from:
             kind: DockerImage
-            name: registry.connect.redhat.com/ibm-bamoe/bamoe-process-migration-rhel8:8.0.8
+            name: registry.connect.redhat.com/ibm-bamoe/bamoe-process-migration-rhel9:8.0.8
