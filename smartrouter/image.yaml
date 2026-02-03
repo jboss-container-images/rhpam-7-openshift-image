@@ -113,7 +113,7 @@ modules:
 packages:
   content_sets_file: content_sets.yml
   manager: microdnf
-  sinstall:
+  install:
     - python3.12
 osbs:
   configuration:
