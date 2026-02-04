@@ -9,7 +9,7 @@ schema_version: 1
 #                      --overrides-file artifact-overrides.yaml
 
 artifacts:
-  - name: jboss-eap-7.4.23.GA-JBEAP-30487-image-builder-maven-repository.zip
-    url: https://download.eng.bos.redhat.com/devel/candidates/middleware/eap/JBEAP-7.4.23.GA-CR2/jboss-eap-7.4.23.GA-JBEAP-30487-image-builder-maven-repository.zip
-    md5: ad241f94dd8389d8804a3c3ab4ab30c1
+  - name: jbeap-30487.zip
+    url: https://download.eng.pnq.redhat.com/released/JBoss-middleware/eap7/7.4.23/patches/jbeap-30487.zip
+    md5: db5c1bd8e6df2bd273affccd8c63719a
 
