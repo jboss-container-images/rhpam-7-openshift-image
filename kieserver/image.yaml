@@ -363,4 +363,5 @@ osbs:
 run:
   user: 185
   cmd:
+    - "alternatives --set python /usr/bin/python3"
     - "/opt/eap/bin/openshift-launch.sh"
