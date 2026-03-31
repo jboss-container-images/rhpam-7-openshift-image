@@ -334,7 +334,7 @@ modules:
     - name: jboss.container.wildfly.launch.keycloak
     - name: jboss.container.wildfly.launch.tracing
     - name: os-eap7-sso-adapters
-      version: "7.5.0-kie"
+      version: "7.6.12-kie"
     - name: jboss.container.wildfly.launch.deployment-scanner
     - name: jboss.container.wildfly.launch.extensions
     - name: openshift-layer
@@ -363,4 +363,5 @@ osbs:
 run:
   user: 185
   cmd:
+    - "alternatives --set python /usr/bin/python3"
     - "/opt/eap/bin/openshift-launch.sh"
