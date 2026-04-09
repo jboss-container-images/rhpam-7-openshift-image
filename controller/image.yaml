@@ -134,8 +134,6 @@ modules:
 packages:
   content_sets_file: content_sets.yml
   manager: microdnf
-  install:
-    - python3.12
 osbs:
   configuration:
     container_file: container.yaml
@@ -146,5 +144,4 @@ osbs:
 run:
   user: 185
   cmd:
-    - "alternatives --set python /usr/bin/python3"
     - "/opt/eap/bin/openshift-launch.sh"
