@@ -156,7 +156,7 @@ modules:
         ref: 0.18.x
     - name: rhpam-7-image
       git:
-        url: https://github.com/jboss-container-images/rhpam-7-image.git
+        url: /home/ranand/kie/rhpam-7-image/.git
         ref: main
     - name: jboss-kie-modules
       git:
@@ -217,7 +217,6 @@ packages:
   manager: microdnf
   install:
     - git
-    - python3.12
 osbs:
   configuration:
     container_file: container.yaml
@@ -228,5 +227,4 @@ osbs:
 run:
   user: 185
   cmd:
-    - "alternatives --set python /usr/bin/python3"
     - "/opt/eap/bin/openshift-launch.sh"

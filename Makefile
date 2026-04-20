@@ -1,7 +1,7 @@
-BUILD_ENGINE := docker
+BUILD_ENGINE := podman
 .DEFAULT_GOAL := all
 # List of all images
-IMAGES=businesscentral businesscentral-monitoring controller dashbuilder kieserver process-migration smartrouter
+IMAGES=businesscentral
 OVERRIDES := branch-overrides.yaml
 
 # Build and test all images
@@ -9,7 +9,7 @@ OVERRIDES := branch-overrides.yaml
 # start to build and test the images
 all:  _all
 _all:
-	@for f in $(shell make list-images); do make image image_name=$${f}; done
+	@for f in ${IMAGES}; do make image image_name=$${f}; done
 
 .PHONY: image
 image_name=
