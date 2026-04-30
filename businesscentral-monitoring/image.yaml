@@ -71,6 +71,8 @@ envs:
   - name: "WORKBENCH_MAX_METASPACE_SIZE"
     example: "512"
     description: "The maximum metaspace for the Business Central Monitoring, it will set the GC_MAX_METASPACE_SIZE, its default value is 1024mb."
+  - name: PATH
+    value: $JAVA_HOME/bin:$PATH
 ports:
   - value: 8080
   - value: 8443

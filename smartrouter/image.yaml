@@ -80,6 +80,8 @@ envs:
   - name: "LOGGER_CATEGORIES"
     example: "org.kie=FINE,org.apache=INFO,org.eclipse=INFO"
     description: "fully qualified logger name with log level, in multiple separated by comma"
+  - name: PATH
+    value: $JAVA_HOME/bin:$PATH
 ports:
   - value: 9000
 modules:

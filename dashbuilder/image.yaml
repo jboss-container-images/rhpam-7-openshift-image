@@ -73,7 +73,8 @@ envs:
   - name: "KIESERVER_SERVER_TEMPLATES"
     example: "server_template_1,serverTemplate2"
     description: "Configures the KIE Server Server Template prefix. For multi serverTemplate, use comma separated values. Dashes will be replaced by underscore on environment variable names. The valid values for this prefix are: ${serverTemplatePrefix}_LOCATION, ${serverTemplatePrefix}_USER, ${serverTemplatePrefix}_PASSWORD, ${serverTemplatePrefix}_TOKEN and ${datasetPrefix}_REPLACE_QUERY. For more information about these properties please take a look on https://docs.jboss.org/jbpm/release/7.45.0.Final/jbpm-docs/html_single/#_kie_server_integration"
-
+  - name: PATH
+    value: $JAVA_HOME/bin:$PATH
 ports:
   - value: 8080
   - value: 8443
